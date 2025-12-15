@@ -1,0 +1,173 @@
+```html
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>회의록 | 2025.12.15 스마트랜드3 앱 활동 개편 논의</title>
+  <style>
+    :root{
+      --text:#111827; --muted:#6b7280; --line:#e5e7eb; --bg:#ffffff; --chip:#f3f4f6;
+      --accent:#2563eb;
+    }
+    body{margin:0; background:var(--bg); color:var(--text); font:14px/1.6 system-ui,-apple-system,"Segoe UI","Noto Sans KR",Arial,sans-serif;}
+    .wrap{max-width:980px; margin:0 auto; padding:28px 18px 60px;}
+    h1{font-size:20px; margin:0 0 10px;}
+    h2{font-size:16px; margin:28px 0 10px; padding-top:8px; border-top:1px solid var(--line);}
+    h3{font-size:14px; margin:16px 0 8px;}
+    .meta{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 18px;}
+    .chip{background:var(--chip); border:1px solid var(--line); border-radius:999px; padding:6px 10px; color:var(--muted);}
+    .card{border:1px solid var(--line); border-radius:12px; padding:14px 14px; margin:10px 0; }
+    ul{margin:6px 0 0 18px;}
+    li{margin:4px 0;}
+    .note{color:var(--muted);}
+    .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; background:#f8fafc; border:1px solid var(--line); padding:1px 6px; border-radius:6px;}
+    .divider{height:1px; background:var(--line); margin:18px 0;}
+    a{color:var(--accent); text-decoration:none;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>회의록: 스마트랜드 3(랜드3/스토리펀) 앱 활동 개편 방향 논의</h1>
+
+    <div class="meta">
+      <span class="chip"><strong>일시</strong> 2025.12.15(월) 16:13 ~ (약 90분)</span>
+      <span class="chip"><strong>참석</strong> 정현, 김은주</span>
+      <span class="chip"><strong>목적</strong> 랜드3/스토리펀 앱 활동 개선 방향(튜닝 vs 재설계) 및 단기 산출물/일정 합의</span>
+    </div>
+
+    <h2>1. 배경 및 현황 공유</h2>
+    <div class="card">
+      <h3>1) 로드맵/순서 재확인</h3>
+      <ul>
+        <li>스마트랜드 1·2 → 파닉스펀 → 랜드3(및 스토리펀) 순으로 판매/운영되는 흐름을 재확인.</li>
+        <li>파닉스펀이 랜드3/스토리펀 이후 개발되며 “중간 삽입” 구조가 되었고, 이로 인해 랜드3/스토리펀의 역할(스피킹/리딩/학습전환)이 모호해짐.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>2) 현재 활동 구성/형태(요약)</h3>
+      <ul>
+        <li>교재는 스피킹 지향으로 출발했으나, 현장/판매 관점에서는 <strong>리딩+스피킹 통합형</strong>으로의 재정의 필요성이 제기됨.</li>
+        <li>Day1~Day5 구조(주제탐색→단어→문장→역할→체험/마무리)는 유지 가치가 있으나, 활동 내용/난이도/학습성 측면에서 재정렬 필요.</li>
+      </ul>
+      <p class="note">※ 본 회의에서는 “구조(프레임)”은 유지 가능하나 “활동 설계(판떼기)”는 재설계가 필요하다는 쪽으로 논의가 수렴.</p>
+    </div>
+
+    <h2>2. 핵심 문제 정의</h2>
+    <div class="card">
+      <h3>A) “리딩이 안 된다”는 문제의 실체</h3>
+      <ul>
+        <li>현재 앱 활동은 그림-문장 의미 연결(이미지화)과 ‘읽기/말하기’의 자연스러운 결합이 약함.</li>
+        <li>일부 활동은 게임성 중심(문장/그림 불일치 포함)이라 리딩 활동으로 설명/설득이 어렵다는 현장 피드백.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>B) 단어 구성의 편중</h3>
+      <ul>
+        <li>Content words 중심으로 노출되어 <strong>Site words(기능어/빈출어)</strong>의 반복·자동화가 부족.</li>
+        <li>패턴 문장 기반 스토리북의 강점을 앱이 충분히 살리지 못함.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>C) Day5(마무리) 경험의 약점</h3>
+      <ul>
+        <li>“꾸미기·놀이”로 끝나는 인상이 강해 학습 성취 확인/평가형 랩업/학부모에게 보여줄 결과물이 약함.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>D) 6~7세 타깃 적합성(집중/선호) 문제</h3>
+      <ul>
+        <li>코로나 이후 디지털 경험이 높아져 UX 기대치가 상승했으며, 대기/전환이 길면 이탈이 큼.</li>
+        <li>특히 남아는 꾸미기·색칠 중심 요소에 거부감이 크다는 현장 관찰.</li>
+      </ul>
+    </div>
+
+    <h2>3. 방향성 논의: 튜닝 vs 재설계</h2>
+    <div class="card">
+      <h3>논의 결론(정리)</h3>
+      <ul>
+        <li>표면적으로는 “몇 개 활동 추가/수정”처럼 보였으나, 실질 니즈는 <strong>부분 튜닝이 아닌 ‘설계도(판떼기) 재설계’</strong>에 가까움.</li>
+        <li>단기(현실적 범위) 개선과 중기(학습전환형 재설계)를 분리해 접근 필요.</li>
+      </ul>
+      <p class="note">핵심 지향점: 불필요한 꾸미기/대기 최소화, 완수(Complete) 경험 강화, 학습·평가형 비중 확대, 마무리 성취 강화.</p>
+    </div>
+
+    <h2>4. 주요 아이디어(회의 중 도출)</h2>
+    <div class="card">
+      <h3>1) 리딩/스피킹 통합형(연상 기반) 활동</h3>
+      <ul>
+        <li>스토리 학습 후 <span class="kbd">그림만 보고 문장 떠올려 말하기</span> → <span class="kbd">정답 문장 제시</span> → <span class="kbd">문장 스크램블 재구성(드래그)</span> → <span class="kbd">읽기/녹음</span> 흐름 제안.</li>
+        <li>의미 회상(말하기)과 형태 재구성(읽기)을 연결하여 “학습전환” 체감 강화.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>2) Picture Fun 고도화</h3>
+      <ul>
+        <li>단순 감각형을 넘어서 소리-단어 찾기, 그림-단어 매칭(콘센트레이션류) 등 인지/학습형 요소 강화 필요.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>3) Day5(Weekly) = 평가형 랩업</h3>
+      <ul>
+        <li>단어: 소리-그림/글자 매칭, 누락 그림 맞추기 등</li>
+        <li>문장: 듣고 단어 배열/조합, 읽기·녹음(저연령 고려)</li>
+        <li>결과: “이번 권 마무리 성취”를 학부모에게 보여줄 수 있는 형태 강화</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>4) AI 큐레이션의 전략적 가치</h3>
+      <ul>
+        <li>현장 반응이 매우 긍정적(아이 혼자 진행 니즈 해결).</li>
+        <li>다만 개인화 학습은 신중(커리큘럼 준수/완주 우선) — “커리큘럼을 잘 따라왔는지” 확인 중심으로.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>5) 포트폴리오/녹음 중심 결과물</h3>
+      <ul>
+        <li>꾸미기 중심의 Book Report보다 <strong>아이 음성 기록 + 결과물 저장(마이 포트폴리오)</strong> 형태가 설득력 있을 수 있음.</li>
+        <li>저연령 STT/발음 판정은 오차가 크므로, 정답판정보다 “녹음-재생-재미요소(변형재생 등)” 중심이 현실적.</li>
+      </ul>
+    </div>
+
+    <h2>5. 리스크 및 이슈</h2>
+    <div class="card">
+      <ul>
+        <li><strong>범위 오해:</strong> “컨버팅/이미지 교체” 수준으로 인식된 부분이 있어, 재설계 필요성을 재정렬해야 함.</li>
+        <li><strong>리소스 부족:</strong> 유아 상품/UX 전문 기획 역량 및 시간이 부족. 내부/외부 전문가 협업 필요.</li>
+        <li><strong>기간 압박:</strong> 외주(왈라비) 프로세스 상 단기 산출물(설계도 초안) 기한이 촉박.</li>
+      </ul>
+    </div>
+
+    <h2>6. 결정사항</h2>
+    <div class="card">
+      <ul>
+        <li><strong>단기 산출물:</strong> 12/19까지 “판떼기(설계도) 초안”을 우선 제공(코너명/흐름 중심, 상세는 후속).</li>
+        <li><strong>중기 방향:</strong> 랜드3/스토리펀은 부분 튜닝이 아니라 “학습전환형” 재설계 필요를 전제로 추진.</li>
+        <li><strong>활동 지향:</strong> 학습·평가형 비중 확대 + 마무리 성취 강화 + 불필요한 꾸미기/대기 최소화.</li>
+      </ul>
+    </div>
+
+    <h2>7. Action Items</h2>
+    <div class="card">
+      <ul>
+        <li><strong>(정현)</strong> 12/19까지 설계도 초안 작성: Day1~Day5 코너 재정의(간소화), Day5 평가/포트폴리오 랩업 컨셉 포함.</li>
+        <li><strong>(김은주)</strong> 왈라비 커뮤니케이션: “컨버팅”이 아닌 “판 갈이(재설계)” 필요성 재설득 및 12월 말 1권 샘플 납기 협상.</li>
+        <li><strong>(김은주)</strong> 내부 전문가(과거 랜드3 개발 경험자 등) 협업 섭외 및 미팅 세팅.</li>
+        <li><strong>(공동)</strong> 1권 샘플 대상 선정 + 목표 학습시간 가이드 재정의: <strong>15~20분(최대 20~30분)</strong> 범위로 논의.</li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+    <p class="note">문서: 회의록(HTML) / 작성일: 2025.12.15</p>
+  </div>
+</body>
+</html>
+```
