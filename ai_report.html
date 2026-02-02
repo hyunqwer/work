@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 학습 리포트 - 정재훈 회원님</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+        .report-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .status-green { color: #10b981; }
+        .bg-soft-blue { background-color: #f0f9ff; }
+        .bg-soft-green { background-color: #ecfdf5; }
+        .bg-soft-purple { background-color: #faf5ff; }
+        .star-rating { color: #fbbf24; }
+        .ai-label {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: #e2e8f0;
+            color: #475569;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-3xl mx-auto space-y-6">
+        
+        <!-- 1. 리포트 헤더 -->
+        <header class="report-card p-6 border-l-8 border-indigo-500">
+            <div class="flex justify-between items-start">
+                <div>
+                    <span class="text-indigo-600 font-bold text-sm uppercase tracking-wider">Listening Track Level 5A (20차시)</span>
+                    <h1 class="text-2xl font-bold mt-1"><span class="text-indigo-600">정재훈</span> 학생 학습 리포트</h1>
+                </div>
+                <div class="text-right text-sm text-slate-500">
+                    2023.10.01 ~ 2023.10.28
+                </div>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-2">
+                <span class="px-3 py-1 bg-slate-100 rounded-full text-xs text-slate-600">#일상 회화 듣기</span>
+                <span class="px-3 py-1 bg-slate-100 rounded-full text-xs text-slate-600">#문장 이해</span>
+                <span class="px-3 py-1 bg-slate-100 rounded-full text-xs text-slate-600">#어휘 확장</span>
+            </div>
+            <div class="mt-6 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+                <p class="text-indigo-900 font-medium">
+                    📌 이번 Track은 실생활 회화 이해력을 안정적으로 확장하는 단계입니다.
+                </p>
+            </div>
+        </header>
+
+        <!-- 2. 종합 요약 (Summary Card) -->
+        <section class="report-card p-6">
+            <h2 class="text-lg font-bold mb-4 flex items-center">
+                <span class="w-1.5 h-5 bg-indigo-500 rounded-full mr-2"></span>
+                한눈에 보는 종합 요약
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-4 border rounded-xl flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-slate-500">학습 안정도</p>
+                        <p class="text-xl font-bold status-green">🟢 매우 안정적</p>
+                    </div>
+                    <div class="text-4xl text-emerald-500 opacity-20 italic font-black">STABLE</div>
+                </div>
+                <div class="p-4 border rounded-xl flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-slate-500">학습 태도</p>
+                        <div class="star-rating text-xl tracking-widest">★★★★★</div>
+                    </div>
+                    <div class="text-4xl text-amber-500 opacity-20 italic font-black">GREAT</div>
+                </div>
+            </div>
+            <div class="mt-4 p-4 bg-slate-50 rounded-xl border border-dashed border-slate-300">
+                <p class="text-slate-700 leading-relaxed">
+                    현재 단계에서 요구되는 학습 목표를 안정적으로 달성하고 있으며, 지치지 않고 꾸준히 몰입하는 모습이 인상적입니다. 다음 단계로의 이행 준비가 매우 잘 되어 있습니다.
+                </p>
+            </div>
+        </section>
+
+        <!-- 3. 핵심 영역별 성취 분석 -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-bold px-2 flex items-center">
+                <span class="w-1.5 h-5 bg-indigo-500 rounded-full mr-2"></span>
+                핵심 영역별 성취 분석
+            </h2>
+            
+            <div class="grid grid-cols-1 gap-4">
+                <!-- 3-1. 어휘 -->
+                <div class="report-card p-5 border-t-4 border-emerald-400">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-slate-800">어휘 이해 및 활용</h3>
+                        <span class="ai-label bg-emerald-100 text-emerald-700">AI 판단: 안정 구간 진입</span>
+                    </div>
+                    <ul class="text-sm text-slate-600 space-y-2 list-disc list-inside">
+                        <li>낯선 어휘에 대한 대처력이 이전 Track 대비 향상되었습니다.</li>
+                        <li>새로운 단어를 읽고 의미를 연결하는 과정이 안정적으로 이루어지고 있습니다.</li>
+                    </ul>
+                </div>
+
+                <!-- 3-2. 상황/내용 -->
+                <div class="report-card p-5 border-t-4 border-sky-400">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-slate-800">상황 · 내용 이해력</h3>
+                        <span class="ai-label bg-sky-100 text-sky-700">AI 판단: 이야기 흐름 이해 우수</span>
+                    </div>
+                    <ul class="text-sm text-slate-600 space-y-2 list-disc list-inside">
+                        <li>Town helpers 주제를 중심으로 한 연속적 상황 전개를 잘 이해하였습니다.</li>
+                        <li>등장인물의 행동이 주변 상황에 미치는 영향을 흐름 속에서 파악합니다.</li>
+                    </ul>
+                </div>
+
+                <!-- 3-3. 문장 이해 -->
+                <div class="report-card p-5 border-t-4 border-indigo-400">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-slate-800">문장 이해 및 처리 방식</h3>
+                        <span class="ai-label bg-indigo-100 text-indigo-700">AI 판단: 문장 의미 처리 안정화</span>
+                    </div>
+                    <ul class="text-sm text-slate-600 space-y-2 list-disc list-inside">
+                        <li>문장을 의미 단위로 정확히 해석하려는 습관이 형성되었습니다.</li>
+                        <li>스스로 해결하는 문제에서도 오류 없이 처리하는 모습이 관찰되었습니다.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 언어 스킬 및 과제 수행 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <section class="report-card p-6">
+                <h2 class="font-bold mb-4 text-slate-800 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    언어 스킬 평가
+                </h2>
+                <div class="space-y-4 text-sm">
+                    <div>
+                        <p class="font-semibold text-emerald-600 mb-1">✓ 강점</p>
+                        <p class="text-slate-600">명사의 단수·복수 구분은 매우 안정적입니다.</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-amber-600 mb-1">△ 향후 집중</p>
+                        <p class="text-slate-600">동사 시제 및 조동사 활용은 다음 단계에서 추가 점검이 권장됩니다.</p>
+                    </div>
+                    <p class="text-xs bg-slate-100 p-2 rounded italic text-slate-500">AI 코멘트: 구조 이해는 형성되어 있으며, 적용 범위를 넓히는 단계입니다.</p>
+                </div>
+            </section>
+
+            <section class="report-card p-6">
+                <h2 class="font-bold mb-4 text-slate-800 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    과제 수행도
+                </h2>
+                <div class="flex flex-col items-center justify-center py-4">
+                    <p class="text-slate-600 text-sm mb-2">전 차시 과제를 꾸준히 완수하였습니다.</p>
+                    <div class="text-3xl font-bold text-indigo-600">완성도 100%</div>
+                    <div class="star-rating text-2xl mt-1">★★★★★</div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 5. 학습자 강점 및 제안 -->
+        <section class="report-card overflow-hidden">
+            <div class="bg-amber-50 p-6">
+                <h2 class="text-lg font-bold text-amber-900 flex items-center">
+                    <span class="mr-2">💡</span> 학습자 강점 분석
+                </h2>
+                <div class="mt-3 text-amber-800 text-sm leading-relaxed">
+                    재훈이는 복습 참여도가 매우 높고 학습 피드백을 즉각 반영하는 <strong>'수용적 성장형'</strong> 학습자입니다. 이전 학습 내용을 현재 학습과 연결하려는 전략이 잘 형성되어 있어 장기 학습 관점에서 매우 긍정적입니다.
+                </div>
+            </div>
+            <div class="p-6 bg-white space-y-4">
+                <div class="flex items-start">
+                    <div class="bg-indigo-100 p-2 rounded-lg mr-3">
+                        <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-sm">성장을 위한 제안</h3>
+                        <p class="text-sm text-slate-600 mt-1">Unit당 핵심 문장 1개 이상을 일상에서 직접 말해보기</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="bg-purple-100 p-2 rounded-lg mr-3">
+                        <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-sm">다음 Track 예고</h3>
+                        <p class="text-sm text-slate-600 mt-1">Reading Track: 문장 구성의 정확성 강화 및 독해 세부 요소 학습</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. 학부모 안내 메시지 -->
+        <section class="report-card p-8 bg-[#fffdf5] border border-amber-100 relative overflow-hidden">
+            <!-- 장식용 패턴 -->
+            <div class="absolute top-0 right-0 w-24 h-24 bg-amber-200 opacity-10 rounded-full -mr-12 -mt-12"></div>
+            
+            <div class="relative z-10">
+                <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center italic">
+                    <svg class="w-5 h-5 mr-2 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"></path><path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"></path></svg>
+                    학부모님께 전하는 응원 메시지
+                </h2>
+                <div class="space-y-4 text-slate-700 leading-relaxed text-sm md:text-base">
+                    <p>안녕하세요, 재훈이 부모님!</p>
+                    <p>
+                        재훈이는 이번 Track 학습을 통해 <span class="text-indigo-600 font-semibold">스스로 학습 분량과 성장을 인식하는 대견한 모습</span>을 보였습니다. 20차시라는 긴 과정을 꾸준히 성실하게 학습해 온 만큼, 앞으로의 학습도 안정적으로 이어질 것으로 기대됩니다.
+                    </p>
+                    <p>
+                        결과 점수보다도 재훈이가 매일 책상에 앉아 보여준 <strong>'과정의 가치'</strong>에 대해 가정에서도 충분한 칭찬과 격려 부탁드립니다. 그 격려가 재훈이에게 가장 큰 학습 동기가 됩니다.
+                    </p>
+                    <p class="text-right font-medium mt-6 text-slate-500 italic">
+                        감사합니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 내부 메타데이터 (비노출 권장이나 시안용으로 배치) -->
+        <footer class="mt-8 pt-6 border-t border-slate-200">
+            <div class="flex justify-between items-center text-[10px] text-slate-400">
+                <div>REPORT ID: TRK-20-JH-001</div>
+                <div>TYPE: TRACK_TOTAL_SUMMARY</div>
+                <div class="flex gap-2">
+                    <span class="px-1 border border-slate-200 rounded">AI_GENERATED</span>
+                    <span class="px-1 border border-slate-200 rounded">TEACHER_VERIFIED</span>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
