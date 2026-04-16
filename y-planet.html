@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Y플래닛 향후 운영 방향 보고</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        body {
+            font-family: 'Pretendard', sans-serif;
+            margin: 0;
+            overflow: hidden; /* Prevent scrolling */
+            background-color: #f3f4f6;
+        }
+        .slide-container {
+            display: flex;
+            transition: transform 0.4s ease-in-out;
+            height: 100vh;
+            width: 100vw;
+        }
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            padding: 4rem 6rem;
+            box-sizing: border-box;
+            background: white;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Typography */
+        .slide-title { font-size: 2.5rem; font-weight: 800; color: #1e3a8a; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 3px solid #e5e7eb; }
+        .slide-content { flex-grow: 1; font-size: 1.5rem; color: #374151; display: flex; flex-direction: column; justify-content: space-between;}
+        
+        /* Components */
+        .highlight-box {
+            background-color: #eff6ff; border-left: 6px solid #2563eb; padding: 1.5rem 2rem; font-weight: 700; color: #1e3a8a; font-size: 1.6rem; border-radius: 0 0.5rem 0.5rem 0; margin-top: auto;
+        }
+        .card { background: white; border: 1px solid #e5e7eb; border-radius: 1rem; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .ul-styled { list-style: none; padding-left: 0; }
+        .ul-styled li { position: relative; padding-left: 1.5em; margin-bottom: 1rem; line-height: 1.6; }
+        .ul-styled li::before { content: "•"; position: absolute; left: 0; color: #3b82f6; font-weight: bold; font-size: 1.5em; top: -0.2em; }
+        .sub-ul li { font-size: 0.9em; color: #6b7280; margin-bottom: 0.5rem; }
+        .sub-ul li::before { content: "-"; color: #9ca3af; }
+
+        /* Controls */
+        .controls { position: fixed; bottom: 2rem; right: 2rem; display: flex; gap: 1rem; z-index: 50; }
+        .btn { background: #ffffff; border: 1px solid #d1d5db; border-radius: 9999px; width: 3rem; height: 3rem; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: all 0.2s; color: #374151; font-weight: bold;}
+        .btn:hover { background: #f3f4f6; color: #2563eb; border-color: #2563eb;}
+        .progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: #2563eb; transition: width 0.3s; z-index: 50; }
+        .slide-number { position: fixed; bottom: 2rem; left: 2rem; font-size: 1.2rem; color: #9ca3af; font-weight: 600; z-index: 50; }
+    </style>
+</head>
+<body>
+
+    <div class="progress-bar" id="progressBar" style="width: 12.5%;"></div>
+    
+    <div class="slide-number" id="slideNumber">1 / 8</div>
+
+    <div class="controls">
+        <button class="btn" id="prevBtn" title="이전 슬라이드">◀</button>
+        <button class="btn" id="nextBtn" title="다음 슬라이드">▶</button>
+    </div>
+
+    <div class="slide-container" id="slideContainer">
+        
+        <!-- Slide 1: Cover -->
+        <div class="slide" style="justify-content: center; align-items: center; text-align: center; border: 12px solid #1e3a8a;">
+            <div class="mb-6 text-blue-600 font-bold text-2xl tracking-widest">상품기획본부 안건 보고</div>
+            <h1 class="text-6xl font-extrabold text-gray-900 mb-8 leading-tight">Y플래닛 향후 운영 방향 보고</h1>
+            <p class="text-3xl font-medium text-gray-600 mb-16">연 1억 운영비의 전략적 의미와 향후 운영 방향 검토</p>
+            <div class="text-xl text-gray-400 font-medium">2026. 04. 21 &nbsp;|&nbsp; 상품연구팀</div>
+        </div>
+
+        <!-- Slide 2: Exec Summary -->
+        <div class="slide">
+            <h2 class="slide-title">실무팀 추천안은 현행 유지 및 활용도 강화입니다</h2>
+            <div class="slide-content">
+                <div class="grid grid-cols-2 gap-12 mt-4">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-gray-200">현황 요약</h3>
+                        <ul class="ul-styled">
+                            <li>월 평균 약 <strong>5천 명</strong>이 이용 중인 서비스입니다.</li>
+                            <li>이용 회원은 비이용 회원 대비 유지기간이 <strong>더 길게 나타납니다.</strong></li>
+                            <li>반면 연간 <strong>약 1억 원</strong>의 운영비가 발생합니다.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-gray-200">실무팀 제안</h3>
+                        <ul class="ul-styled">
+                            <li><strong class="text-blue-700">우선안: 현행 유지 및 활용도 강화</strong></li>
+                            <li><strong>대안 검토:</strong> 전략비 판단이 어려울 경우 별도 운영 대안 검토</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    💡 오늘 요청드리는 핵심 판단은 Y플래닛 운영비 연 1억의 성격입니다.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Status -->
+        <div class="slide">
+            <h2 class="slide-title">직접 수익은 없지만, 실제 가치가 확인되는 서비스입니다</h2>
+            <div class="slide-content">
+                <div class="flex flex-col gap-10 mt-8">
+                    <div class="grid grid-cols-3 gap-6 text-center">
+                        <div class="card bg-gray-50 border-0">
+                            <div class="text-gray-500 font-bold mb-2">지속적 이용 현황</div>
+                            <div class="text-4xl font-extrabold text-blue-700">15% / 5,000명</div>
+                            <div class="text-lg mt-2 text-gray-600">전체 회원 이용 비중 / MAU 유지</div>
+                        </div>
+                        <div class="card bg-blue-50 border-0">
+                            <div class="text-blue-500 font-bold mb-2">평균 유지기간 차이</div>
+                            <div class="text-4xl font-extrabold text-blue-700">+1.4개월</div>
+                            <div class="text-lg mt-2 text-gray-600">비이용 회원 대비 더 오래 유지</div>
+                        </div>
+                        <div class="card bg-gray-50 border-0">
+                            <div class="text-gray-500 font-bold mb-2">25개월+ 장기 유지 비율</div>
+                            <div class="text-4xl font-extrabold text-blue-700">13.6% <span class="text-xl text-gray-400">vs 10.3%</span></div>
+                            <div class="text-lg mt-2 text-gray-600">이용 회원 우위 (+3.3%p)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box bg-gray-100 border-gray-500 text-gray-700">
+                    ✔️ Y플래닛은 직접 수익보다 회원 리텐션과 상품가치 측면에서 의미가 있는 서비스입니다.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Core Question -->
+        <div class="slide">
+            <h2 class="slide-title">줄여야 할 비용인지, 유지할 가치가 있는 비용인지 판단이 필요합니다</h2>
+            <div class="slide-content">
+                <div class="grid grid-cols-2 gap-10 mt-6 h-full">
+                    <div class="card border-t-8 border-t-gray-400 flex flex-col">
+                        <h3 class="text-2xl font-bold text-gray-700 text-center mb-8 bg-gray-100 py-3 rounded">절감 대상 비용으로 보는 경우</h3>
+                        <ul class="ul-styled text-xl flex-grow flex flex-col justify-center px-4">
+                            <li>직접 수익 창출 없음</li>
+                            <li>연 1억 원의 고정 운영비 부담</li>
+                            <li class="mt-4 text-gray-500 font-bold border-t pt-4">👉 비용 회수 또는 운영 전환 검토 필요</li>
+                        </ul>
+                    </div>
+                    <div class="card border-t-8 border-t-blue-600 flex flex-col relative overflow-hidden">
+                        <div class="absolute -right-4 -top-4 bg-blue-100 text-blue-800 px-8 py-2 font-bold transform rotate-45 text-sm">실무팀 관점</div>
+                        <h3 class="text-2xl font-bold text-blue-800 text-center mb-8 bg-blue-50 py-3 rounded">전략비로 보는 경우</h3>
+                        <ul class="ul-styled text-xl flex-grow flex flex-col justify-center px-4">
+                            <li>회원 학습 리텐션 방어에 기여</li>
+                            <li>핵심 상품 부가가치 강화</li>
+                            <li>채널 인센티브 및 활용도 확대 가능</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box mt-8">
+                    💡 Y플래닛 운영비는 단순 절감 대상 비용인지, 전략적으로 유지할 가치가 있는 비용인지 판단이 필요합니다.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Option 1 (Recommended) -->
+        <div class="slide">
+            <h2 class="slide-title border-b-0 pb-0">
+                <span class="inline-block bg-blue-600 text-white text-xl px-4 py-1 rounded-full mb-2 align-middle mr-3">우선안</span> 
+                현행 유지 및 활용도 강화
+            </h2>
+            <div class="slide-content border-t-3 border-gray-200 pt-6">
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-blue-800 mb-4 flex items-center"><span class="mr-2">🎯</span> 기본 방향</h3>
+                    <ul class="ul-styled bg-gray-50 p-6 rounded-lg">
+                        <li>Y플래닛은 현행 유지를 기본으로 함</li>
+                        <li>단순 존치가 아니라 <strong>더 잘 쓰는 방향</strong>으로 운영</li>
+                        <li>핵심 상품과의 연계 및 활용도 확대 추진
+                            <ul class="sub-ul mt-2">
+                                <li>예: YES멤버스 연계, 특정 상품/채널 인센티브 활용</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8 mb-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-700 mb-3 border-b pb-2">기대 효과</h3>
+                        <ul class="ul-styled text-lg">
+                            <li>기존 이용가치 및 리텐션 효과 유지</li>
+                            <li>핵심 상품 부가가치 강화</li>
+                            <li>현장 혼선 최소화</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-700 mb-3 border-b pb-2">한계점</h3>
+                        <ul class="ul-styled text-lg text-gray-600">
+                            <li>연간 약 1억 원 운영비 지속 발생</li>
+                            <li>직접 손익 개선은 제한적</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    ✔️ 실무팀은 '단순 유지'보다 '현행 유지 + 활용도 강화'를 우선안으로 제안합니다.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Enhancement details -->
+        <div class="slide">
+            <h2 class="slide-title">현행 유지 시, 더 전략적으로 활용할 필요가 있습니다</h2>
+            <div class="slide-content">
+                <div class="grid grid-cols-2 gap-10 mt-6 h-full">
+                    <div class="card bg-blue-50 border-blue-200">
+                        <h3 class="text-2xl font-bold text-blue-800 mb-6 pb-2 border-b border-blue-200">🚀 활용도 강화 방향</h3>
+                        <ul class="ul-styled text-xl space-y-4">
+                            <li>핵심 상품 패키지 가치 강화</li>
+                            <li>회원 혜택 구조와의 연계 및 채널 인센티브 수단으로 활용</li>
+                            <li>기존 이용 고객 만족도 지속 유지</li>
+                            <li>비용 효율화를 병행한 운영 구조 정비</li>
+                        </ul>
+                    </div>
+                    <div class="card bg-gray-50">
+                        <h3 class="text-2xl font-bold text-gray-700 mb-6 pb-2 border-b border-gray-200">⚙️ 함께 추진할 효율화 과제</h3>
+                        <ul class="ul-styled text-xl space-y-4">
+                            <li>클라우드 최적화 (불필요 자원 슬림화)</li>
+                            <li>유지보수 범위 최소화 협의</li>
+                            <li>추가 개발 우선순위 조정 (필수 건 한정)</li>
+                            <li>현장 영업/관리 활용 가이드 정비</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box mt-8">
+                    💡 전략비로 판단될 경우, 운영의 초점은 '유지 여부'가 아니라 '활용도 강화'에 있어야 합니다.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Alternatives -->
+        <div class="slide">
+            <h2 class="slide-title border-b-0 pb-0">
+                <span class="inline-block bg-gray-500 text-white text-xl px-4 py-1 rounded-full mb-2 align-middle mr-3">대안 검토</span>
+                전략비 판단이 어려울 경우, 운영 대안 검토가 필요합니다
+            </h2>
+            <div class="slide-content border-t-3 border-gray-200 pt-6">
+                
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-gray-700 mb-4 border-b pb-2">검토 가능한 대안 유형</h3>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="card border-l-4 border-l-purple-500 py-4">
+                            <strong class="text-xl text-purple-700 block mb-2">① 유상 전환</strong>
+                            <span class="text-gray-600">현행 서비스를 기반으로 비용 회수 구조 마련</span>
+                        </div>
+                        <div class="card border-l-4 border-l-orange-500 py-4">
+                            <strong class="text-xl text-orange-700 block mb-2">② 종료 / 대체서비스 전환</strong>
+                            <span class="text-gray-600">기존 서비스 종료 후 신규 서비스(AI 등)에 집중</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-6 rounded-lg mb-4">
+                    <h3 class="text-xl font-bold text-gray-700 mb-4">대안 검토 시 주요 고려사항 (선행 요건)</h3>
+                    <ul class="ul-styled text-lg grid grid-cols-2 gap-x-8">
+                        <li>현장 및 학부모 수용성 / 판매 논리</li>
+                        <li>운영 및 정산 체계 정비 필요</li>
+                        <li>대체서비스 준비 수준 및 공백 기간</li>
+                        <li>본사 정책 신뢰도 및 고객경험 영향</li>
+                        <li>시스템 개발 또는 전환 비용</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box bg-gray-100 border-gray-500 text-gray-700 mt-auto">
+                    ✔️ 전략비로 보기 어려운 경우에는 유지 외 운영 대안 검토가 필요합니다.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Final Decision -->
+        <div class="slide">
+            <h2 class="slide-title">최종 제안 및 의사결정 요청</h2>
+            <div class="slide-content">
+                <div class="flex flex-col gap-6">
+                    <div class="card border-2 border-blue-200 bg-blue-50">
+                        <h3 class="text-2xl font-bold text-blue-800 mb-3">1. 실무팀 제안</h3>
+                        <p class="text-xl font-bold mb-2">우선안: 현행 유지 및 활용도 강화</p>
+                        <p class="text-lg text-gray-700 ml-4 border-l-4 border-blue-300 pl-3">연 1억 운영비를 전략비로 판단할 경우, 기존 서비스는 유지하되 활용도를 높이는 방향으로 운영</p>
+                    </div>
+
+                    <div class="card bg-gray-50">
+                        <h3 class="text-2xl font-bold text-gray-700 mb-3">2. 대안 검토 방향</h3>
+                        <p class="text-lg text-gray-700 ml-4 border-l-4 border-gray-300 pl-3">전략비 판단이 어려울 경우, 비용 회수 또는 종료/대체서비스 전환 방향 검토</p>
+                    </div>
+
+                    <div class="card border-2 border-gray-800">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center"><span class="text-3xl mr-2">✅</span> 3. 의사결정 요청 사항</h3>
+                        <ul class="ul-styled text-xl font-bold text-gray-800 space-y-3">
+                            <li><span class="text-blue-600">[판단]</span> Y플래닛 운영비 연 1억 원을 전략비로 볼지</li>
+                            <li><span class="text-blue-600">[승인]</span> 전략비로 판단 시 현행 유지 및 활용도 강화 추진</li>
+                            <li><span class="text-blue-600">[승인]</span> 전략비 판단이 어려울 경우 운영 대안 검토 방향 승인</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlight-box text-center justify-center py-6 mt-6 bg-blue-800 text-white border-0 rounded">
+                    실무팀은 현행 유지 및 활용도 강화를 우선안으로 제안드리며,<br>그 전제로서 연 1억 운영비의 성격에 대한 판단을 요청드립니다.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('slideContainer');
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            const slideNumDisplay = document.getElementById('slideNumber');
+            
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function updateSlide() {
+                // Move container
+                container.style.transform = `translateX(-${currentSlide * 100}vw)`;
+                
+                // Update Progress bar
+                const progress = ((currentSlide + 1) / totalSlides) * 100;
+                progressBar.style.width = `${progress}%`;
+                
+                // Update text
+                slideNumDisplay.textContent = `${currentSlide + 1} / ${totalSlides}`;
+                
+                // Update button states
+                prevBtn.style.opacity = currentSlide === 0 ? '0.3' : '1';
+                prevBtn.style.cursor = currentSlide === 0 ? 'default' : 'pointer';
+                
+                nextBtn.style.opacity = currentSlide === totalSlides - 1 ? '0.3' : '1';
+                nextBtn.style.cursor = currentSlide === totalSlides - 1 ? 'default' : 'pointer';
+            }
+
+            function goNext() {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            }
+
+            function goPrev() {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            }
+
+            // Click Events
+            nextBtn.addEventListener('click', goNext);
+            prevBtn.addEventListener('click', goPrev);
+
+            // Keyboard Events
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                    goNext();
+                    e.preventDefault();
+                } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    goPrev();
+                    e.preventDefault();
+                }
+            });
+
+            // Init
+            updateSlide();
+        });
+    </script>
+</body>
+</html>
