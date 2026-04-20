@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Y-Planet 이용 현황 요약 보고</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Malgun Gothic", "Apple SD Gothic Neo", Arial, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px 60px;
+    }
+    .hero {
+      background: linear-gradient(135deg, #163a70, #2457a6);
+      color: #fff;
+      padding: 28px 32px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(22, 58, 112, 0.18);
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+      line-height: 1.25;
+    }
+    .hero p {
+      margin: 0;
+      font-size: 15px;
+      opacity: 0.92;
+    }
+    .section {
+      background: #fff;
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    }
+    .section h2 {
+      margin: 0 0 16px;
+      font-size: 22px;
+      color: #0f172a;
+      border-left: 6px solid #2457a6;
+      padding-left: 12px;
+    }
+    .section h3 {
+      margin: 24px 0 10px;
+      font-size: 17px;
+      color: #1e3a8a;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .card {
+      background: #f8fbff;
+      border: 1px solid #dbe7f7;
+      border-radius: 16px;
+      padding: 18px;
+    }
+    .card .label {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 8px;
+    }
+    .card .value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #163a70;
+      line-height: 1.2;
+    }
+    .card .sub {
+      margin-top: 6px;
+      font-size: 13px;
+      color: #475569;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    th, td {
+      border: 1px solid #dbe3ee;
+      padding: 10px 12px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    th {
+      background: #edf4ff;
+      color: #163a70;
+      font-weight: 700;
+    }
+    td:first-child, th:first-child {
+      text-align: left;
+    }
+    .note, .insight {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-top: 16px;
+    }
+    .insight {
+      background: #f7fbff;
+      border-color: #d9e8fb;
+    }
+    ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+    }
+    li { margin: 6px 0; }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .small {
+      font-size: 13px;
+      color: #64748b;
+    }
+    .footer {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #64748b;
+    }
+    @media (max-width: 960px) {
+      .grid, .two-col { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .wrap { padding: 18px 14px 40px; }
+      .grid, .two-col { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 26px; }
+      table { font-size: 13px; }
+      th, td { padding: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>와플 이용 현황 요약 보고</h1>
+      <p>BM별 이용 현황, 연령별 패턴, 센터 확산도, 상위 사용 센터를 기준으로 핵심 통계 결과와 시사점을 정리한 요약 보고서</p>
+      <p style="margin-top:10px; font-size:14px; opacity:0.9;">데이터 기준: 전체 회원 정보는 <strong>2026년 3월 31일 기준</strong>, Y-Planet 이용 여부는 <strong>2026년 3월 이용 로그 기준</strong></p>
+    </section>
+
+    <section class="section">
+      <h2>1. 핵심 요약</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="label">전체 회원</div>
+          <div class="value">27,487명</div>
+          <div class="sub">2026년 3월 31일 기준</div>
+        </div>
+        <div class="card">
+          <div class="label">전체 와플 이용 회원</div>
+          <div class="value">5,261명</div>
+          <div class="sub">전체 이용률 19.1%</div>
+        </div>
+        <div class="card">
+          <div class="label">초등 전체 회원</div>
+          <div class="value">22,288명</div>
+          <div class="sub">적용 대상 핵심 모수</div>
+        </div>
+        <div class="card">
+          <div class="label">초등 와플 이용 회원</div>
+          <div class="value">5,033명</div>
+          <div class="sub">초등 이용률 22.6%</div>
+        </div>
+      </div>
+      <div class="insight">
+        <strong>핵심 해석</strong>
+        <ul>
+          <li>Y-Planet은 미취학~초등 교재에 적용되는 서비스이므로, <strong>핵심 해석은 적용 대상 회원 기준</strong>으로 보는 것이 타당합니다.</li>
+          <li>다만 전체회원 대비 이용률 19.1% 역시 서비스 확산 수준을 보여주는 <strong>참고 지표</strong>로 함께 제시할 필요가 있습니다.</li>
+          <li>초등 기준 이용률은 22.6%이며, BM별로는 우영에서 가장 강하게 사용되고 있습니다.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>2. BM별 전체 회원 중 와플 이용회원 비율</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>BM</th>
+            <th>전체회원수</th>
+            <th>와플이용회원수</th>
+            <th>이용률</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>교실</td><td>8,041</td><td>1,124</td><td>14.0%</td></tr>
+          <tr><td>학원</td><td>8,831</td><td>1,175</td><td>13.3%</td></tr>
+          <tr><td>우영</td><td>10,615</td><td>2,962</td><td>27.9%</td></tr>
+          <tr><td><strong>총합계</strong></td><td><strong>27,487</strong></td><td><strong>5,261</strong></td><td><strong>19.1%</strong></td></tr>
+        </tbody>
+      </table>
+      <div class="note">
+        <strong>해석</strong><br/>
+        전체회원 기준으로도 우영의 이용률이 가장 높습니다. 다만 Y-Planet의 실제 적용 대상은 미취학~초등이므로, 이 표는 서비스의 전사 확산 수준을 보여주는 참고자료로 보고, 핵심 해석은 다음 표의 적용 대상 기준 수치로 보는 것이 적절합니다.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>3. 미취학~초등 전체 회원 중 와플 이용회원 비율</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>구분</th>
+            <th>전체회원</th>
+            <th>와플이용회원</th>
+            <th>이용률</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>교실(초등)</td><td>6,256</td><td>1,069</td><td>17.1%</td></tr>
+          <tr><td>학원(초등)</td><td>7,101</td><td>1,133</td><td>16.0%</td></tr>
+          <tr><td>우영(초등)</td><td>8,931</td><td>2,831</td><td>31.7%</td></tr>
+          <tr><td><strong>초등 전체</strong></td><td><strong>22,288</strong></td><td><strong>5,033</strong></td><td><strong>22.6%</strong></td></tr>
+        </tbody>
+      </table>
+      <div class="note">
+        <strong>해석</strong><br/>
+        Y-Planet은 미취학~초등 대상 서비스이므로, 본 보고의 핵심 판단 지표는 이 표의 수치입니다. 초등 전체 기준 이용률은 22.6%이며, BM별로는 우영이 31.7%로 가장 높고, 교실과 학원은 10%대 중반 수준입니다.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>4. BM별 연령별 와플 이용자 통계</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>연령/학년</th>
+            <th>이용률</th>
+            <th>해석</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>미취학</td><td>18.1%</td><td>도입은 되지만 폭발적이지는 않음</td></tr>
+          <tr><td>초1</td><td>32.2%</td><td>최고 수준의 활용 구간</td></tr>
+          <tr><td>초2</td><td>32.3%</td><td>최고 수준의 활용 구간</td></tr>
+          <tr><td>초3</td><td>28.5%</td><td>여전히 강한 활용 구간</td></tr>
+          <tr><td>초4</td><td>25.1%</td><td>활용 유지 구간</td></tr>
+          <tr><td>초5</td><td>18.7%</td><td>하락 시작</td></tr>
+          <tr><td>초6</td><td>13.7%</td><td>눈에 띄는 약화</td></tr>
+          <tr><td>중1</td><td>6.7%</td><td>중등 진입 후 급감</td></tr>
+          <tr><td>중2</td><td>3.0%</td><td>사실상 제한적 사용</td></tr>
+          <tr><td>중3</td><td>1.4%</td><td>거의 사용되지 않음</td></tr>
+        </tbody>
+      </table>
+      <div class="insight">
+        <strong>핵심 해석</strong>
+        <ul>
+          <li>와플의 강한 활용 구간은 <strong>초1~초4</strong>입니다.</li>
+          <li>초5부터 이용률이 눈에 띄게 떨어지며, 중등에서는 거의 활용되지 않습니다.</li>
+          <li>따라서 와플의 주 타깃은 ‘전 학년’이 아니라 <strong>초등 저·중학년 중심</strong>으로 보는 것이 현실적입니다.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>5. BM별 와플 사용 센터 수 / 미사용 센터 수</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>BM</th>
+            <th>전체 센터 수</th>
+            <th>와플 사용 센터 수</th>
+            <th>와플 미사용 센터 수</th>
+            <th>사용 센터 비중</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>교실</td><td>174</td><td>104</td><td>70</td><td>59.8%</td></tr>
+          <tr><td>IGSE</td><td>192</td><td>56</td><td>136</td><td>29.2%</td></tr>
+          <tr><td>숲</td><td>154</td><td>42</td><td>112</td><td>27.3%</td></tr>
+          <tr><td>우영</td><td>589</td><td>281</td><td>308</td><td>47.7%</td></tr>
+        </tbody>
+      </table>
+      <div class="note">
+        <strong>해석</strong><br/>
+        교실은 사용 센터 비중이 가장 높고, 우영은 사용 센터 수 자체가 가장 많습니다. 반면 IGSE와 숲은 미사용 센터가 훨씬 많아 일부 거점 중심 활용으로 보는 것이 적절합니다.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>6. 센터 분포 관점의 추가 해석</h2>
+      <div class="two-col">
+        <div class="card">
+          <div class="label">중앙값 기준 특징</div>
+          <div class="sub">
+            교실 중간값 5.3%, IGSE·숲·우영 중간값 0% 수준으로, 평균만 보면 실제 확산 정도를 과대해석할 수 있습니다.
+          </div>
+        </div>
+        <div class="card">
+          <div class="label">우영 사례</div>
+          <div class="sub">
+            우영은 589개 센터 중 281개 센터가 사용하지만, 308개 센터는 미사용입니다. 동시에 일부 상위 센터는 매우 높은 이용률을 보입니다.
+          </div>
+        </div>
+      </div>
+      <div class="insight">
+        <strong>핵심 해석</strong>
+        <ul>
+          <li>와플은 전체 센터가 고르게 쓰는 서비스가 아니라, <strong>일부 센터는 적극 활용하고 다수 센터는 거의 쓰지 않는 양극화 구조</strong>를 보입니다.</li>
+          <li>따라서 평균 이용률만으로 판단하기보다, <strong>상위 활용 센터의 사용 방식과 성공 요인</strong>을 추출하는 접근이 더 중요합니다.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>7. BM별 와플 사용자 Top 10</h2>
+
+      <h3>7-1. 교실 BM</h3>
+      <table>
+        <thead>
+          <tr><th>순위</th><th>센터명</th><th>와플사용회원</th><th>전체회원</th><th>이용률</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>교실서대문</td><td>50</td><td>96</td><td>52.1%</td></tr>
+          <tr><td>2</td><td>교실창원</td><td>50</td><td>168</td><td>29.8%</td></tr>
+          <tr><td>3</td><td>교실강서</td><td>48</td><td>128</td><td>37.5%</td></tr>
+          <tr><td>4</td><td>교실화성남양</td><td>41</td><td>78</td><td>52.6%</td></tr>
+          <tr><td>5</td><td>교실오산</td><td>39</td><td>119</td><td>32.8%</td></tr>
+          <tr><td>6</td><td>교실둔촌</td><td>39</td><td>214</td><td>18.2%</td></tr>
+          <tr><td>7</td><td>교실양천</td><td>36</td><td>83</td><td>43.4%</td></tr>
+          <tr><td>8</td><td>교실경기하남</td><td>34</td><td>71</td><td>47.9%</td></tr>
+          <tr><td>9</td><td>교실대구만촌중앙</td><td>31</td><td>83</td><td>37.3%</td></tr>
+          <tr><td>10</td><td>교실천안서부</td><td>30</td><td>97</td><td>30.9%</td></tr>
+        </tbody>
+      </table>
+
+      <h3>7-2. IGSE BM</h3>
+      <table>
+        <thead>
+          <tr><th>순위</th><th>센터명</th><th>와플사용회원</th><th>전체회원</th><th>이용률</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>IGSE태안</td><td>67</td><td>78</td><td>85.9%</td></tr>
+          <tr><td>2</td><td>IGSE유성서부</td><td>48</td><td>53</td><td>90.6%</td></tr>
+          <tr><td>3</td><td>IGSE춘천한숲시티</td><td>43</td><td>43</td><td>100.0%</td></tr>
+          <tr><td>4</td><td>IGSE서초</td><td>37</td><td>60</td><td>61.7%</td></tr>
+          <tr><td>5</td><td>IGSE미추홀용현</td><td>33</td><td>38</td><td>86.8%</td></tr>
+          <tr><td>6</td><td>IGSE부산동연산</td><td>30</td><td>43</td><td>69.8%</td></tr>
+          <tr><td>7</td><td>IGSE예미지</td><td>29</td><td>39</td><td>74.4%</td></tr>
+          <tr><td>8</td><td>IGSE김해진영</td><td>29</td><td>52</td><td>55.8%</td></tr>
+          <tr><td>9</td><td>IGSE시흥목감</td><td>26</td><td>28</td><td>92.9%</td></tr>
+          <tr><td>10</td><td>IGSE인제기린</td><td>25</td><td>27</td><td>92.6%</td></tr>
+        </tbody>
+      </table>
+
+      <h3>7-3. 숲 BM</h3>
+      <table>
+        <thead>
+          <tr><th>순위</th><th>센터명</th><th>와플사용회원</th><th>전체회원</th><th>이용률</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>숲천안신방</td><td>44</td><td>55</td><td>80.0%</td></tr>
+          <tr><td>2</td><td>숲대구평리</td><td>37</td><td>43</td><td>86.0%</td></tr>
+          <tr><td>3</td><td>숲대구신암</td><td>28</td><td>52</td><td>53.8%</td></tr>
+          <tr><td>4</td><td>숲목포백련</td><td>26</td><td>31</td><td>83.9%</td></tr>
+          <tr><td>5</td><td>숲대구칠성</td><td>25</td><td>30</td><td>83.3%</td></tr>
+          <tr><td>6</td><td>숲면목남부</td><td>24</td><td>26</td><td>92.3%</td></tr>
+          <tr><td>7</td><td>숲둔산동부</td><td>23</td><td>42</td><td>54.8%</td></tr>
+          <tr><td>8</td><td>숲제주외도</td><td>21</td><td>48</td><td>43.8%</td></tr>
+          <tr><td>9</td><td>숲천안신부</td><td>17</td><td>17</td><td>100.0%</td></tr>
+          <tr><td>10</td><td>숲부산좌동중앙</td><td>16</td><td>18</td><td>88.9%</td></tr>
+        </tbody>
+      </table>
+
+      <h3>7-4. 우영 BM</h3>
+      <table>
+        <thead>
+          <tr><th>순위</th><th>센터명</th><th>와플사용회원</th><th>전체회원</th><th>이용률</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>(H)부산온샘초</td><td>39</td><td>48</td><td>81.3%</td></tr>
+          <tr><td>2</td><td>(H)호매실모아미래도</td><td>38</td><td>38</td><td>100.0%</td></tr>
+          <tr><td>3</td><td>(H)구일영어교습소</td><td>37</td><td>47</td><td>78.7%</td></tr>
+          <tr><td>4</td><td>(H)시흥은계호반자이</td><td>37</td><td>48</td><td>77.1%</td></tr>
+          <tr><td>5</td><td>(H)누읍동</td><td>37</td><td>52</td><td>71.2%</td></tr>
+          <tr><td>6</td><td>(H)송도자이하버뷰</td><td>35</td><td>40</td><td>87.5%</td></tr>
+          <tr><td>7</td><td>(H)이천마장</td><td>35</td><td>41</td><td>85.4%</td></tr>
+          <tr><td>8</td><td>(H)증평</td><td>34</td><td>37</td><td>91.9%</td></tr>
+          <tr><td>9</td><td>(H)잠실장미</td><td>33</td><td>48</td><td>68.8%</td></tr>
+          <tr><td>10</td><td>(H)부산동일중앙</td><td>32</td><td>43</td><td>74.4%</td></tr>
+        </tbody>
+      </table>
+
+      <div class="insight">
+        <strong>핵심 해석</strong>
+        <ul>
+          <li>상위 사용 센터를 보면 일부 센터에서는 와플이 매우 강하게 정착되어 있습니다.</li>
+          <li>특히 IGSE, 숲, 우영의 상위 센터는 이용률 80~100% 수준이 다수 존재합니다.</li>
+          <li>이는 서비스 자체의 시장성이 전혀 없는 것이 아니라, <strong>활용 방식과 운영 방식에 따라 성과 차이가 크게 발생</strong>하고 있음을 시사합니다.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>8. 종합 해석 및 제언</h2>
+      <div class="two-col">
+        <div class="note">
+          <strong>종합 해석</strong>
+          <ul>
+            <li>와플은 우영에서 가장 잘 작동하고, 초등 저·중학년에서 가장 강합니다.</li>
+            <li>센터별 활용 편차가 매우 커서 평균 이용률만으로는 실제 현장 상황을 설명하기 어렵습니다.</li>
+            <li>현재 구조는 ‘전면 확산형’보다는 ‘일부 성공 센터 중심 활용형’에 가깝습니다.</li>
+            <li>따라서 본 보고서는 전체회원 대비 이용률은 참고자료로 보되, <strong>핵심 판단은 적용 대상 회원 기준 이용률</strong>을 중심으로 하는 것이 타당합니다.</li>
+          </ul>
+        </div>
+        <div class="note">
+          <strong>실행 제언</strong>
+          <ul>
+            <li>미사용 사유 조사와 함께, 상위 활용 센터의 실제 사용 방식을 우선 파악할 필요가 있습니다.</li>
+            <li>특히 우영·교실의 상위 센터 인터뷰를 통해 사용 목적, 운영 방식, 학부모 반응을 구조화하는 것이 중요합니다.</li>
+            <li>향후 리텐션 분석은 동일 센터 내 이용자/비이용자 비교까지 포함해야 설명력이 더 높아집니다.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer">※ 데이터 기준: 전체 회원 정보는 2026년 3월 31일 기준이며, Y-Planet 이용 여부는 2026년 3월 이용 로그 기준입니다. 본 문서는 전체회원 기준 지표와 적용 대상인 미취학~초등 회원 기준 지표를 함께 제시하되, 핵심 해석은 적용 대상 기준으로 정리하였습니다.</div>
+    </section>
+  </div>
+</body>
+</html>
