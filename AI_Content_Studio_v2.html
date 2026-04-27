@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Content Studio v2 — Yoon's English</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Pretendard', -apple-system, sans-serif; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+  .fade-in { animation: fadeIn 0.25s ease-out; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  .step-line { position:absolute; left:19px; top:40px; bottom:0; width:2px; background:#e5e7eb; z-index:0; }
+  .tag { display:inline-flex; align-items:center; font-size:10px; font-weight:700; font-family:monospace; padding:2px 8px; border-radius:4px; border:1px solid #e5e7eb; background:#f9fafb; color:#6b7280; }
+  .pill { display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; padding:3px 10px; border-radius:99px; }
+  .score-ring { position:relative; width:56px; height:56px; }
+  .score-ring svg { transform:rotate(-90deg); }
+  .score-ring .val { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; }
+  .rubric-bar { height:6px; border-radius:99px; background:#e5e7eb; overflow:hidden; }
+  .rubric-bar div { height:100%; border-radius:99px; transition: width 0.6s ease-out; }
+  .news-card { transition: all 0.15s; cursor:pointer; }
+  .news-card:hover { transform: translateY(-1px); }
+  .news-card.active { border-color:#6366f1 !important; box-shadow: 0 0 0 2px #6366f1; }
+  textarea { resize: none; }
+  select { appearance: none; }
+</style>
+</head>
+<body class="bg-slate-100 h-screen flex overflow-hidden text-slate-800">
+
+<!-- Toast -->
+<div id="toast" class="fixed top-5 right-5 bg-slate-800 text-white px-5 py-3 rounded-xl shadow-xl transform transition-all duration-300 -translate-y-20 opacity-0 z-50 flex items-center gap-3 text-sm font-medium">
+  <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 flex-shrink-0"></i>
+  <span id="toast-msg">저장되었습니다.</span>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="w-64 bg-white border-r border-slate-200 flex flex-col h-full z-10 flex-shrink-0">
+  <!-- Brand -->
+  <div class="px-5 py-4 border-b border-slate-100 flex items-center gap-3">
+    <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
+      <i data-lucide="sparkles" class="w-4 h-4 text-white"></i>
+    </div>
+    <div>
+      <p class="font-bold text-slate-800 text-sm leading-tight">AI Content Studio</p>
+      <p class="text-[10px] text-slate-400">윤선생 중등 영어 콘텐츠</p>
+    </div>
+  </div>
+
+  <!-- Module Meta -->
+  <div class="px-4 py-3 bg-indigo-50 border-b border-indigo-100 text-[11px]">
+    <div class="flex justify-between text-slate-500 mb-1">
+      <span class="font-semibold text-indigo-700">WIR-2026-05-01</span>
+      <span>2026년 5월 1주</span>
+    </div>
+    <div class="font-bold text-slate-700 truncate">Should Students Use AI for Homework?</div>
+    <div class="flex gap-1.5 mt-1.5">
+      <span class="pill bg-indigo-100 text-indigo-700">Technology & AI</span>
+      <span class="pill bg-slate-100 text-slate-600">Main Issue</span>
+    </div>
+  </div>
+
+  <!-- Steps -->
+  <div class="flex-1 overflow-y-auto py-4 px-3">
+    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 mb-3">Production Workflow</p>
+    <div id="stepper" class="space-y-1 relative">
+      <div class="step-line"></div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="px-4 py-3 border-t border-slate-100 bg-slate-50">
+    <div class="flex justify-between text-[11px] text-slate-500 mb-1.5">
+      <span class="font-semibold">전체 진행</span>
+      <span id="progress-label">1 / 8 완료</span>
+    </div>
+    <div class="h-1.5 bg-slate-200 rounded-full overflow-hidden">
+      <div id="progress-bar" class="h-full bg-indigo-500 rounded-full transition-all duration-500" style="width:12.5%"></div>
+    </div>
+    <p class="text-[10px] text-slate-400 mt-2">Editor: Harry · Auto-saved</p>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden bg-slate-50">
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 h-14 flex items-center justify-between px-6 flex-shrink-0">
+    <div class="flex items-center gap-3">
+      <h2 id="step-title" class="font-bold text-slate-800 text-base"></h2>
+      <span id="step-badge" class="pill bg-amber-100 text-amber-700 border border-amber-200">검토 중</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span id="next-hint" class="text-xs text-slate-400 hidden"></span>
+      <button id="btn-prev" class="px-3 py-1.5 text-xs font-semibold text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">← 이전</button>
+      <button id="btn-reject" class="hidden px-3 py-1.5 text-xs font-semibold text-red-600 bg-white border border-red-200 rounded-lg hover:bg-red-50 transition-colors flex items-center gap-1">
+        <i data-lucide="rotate-ccw" class="w-3 h-3"></i> 재작업
+      </button>
+      <button id="btn-approve" class="px-4 py-1.5 text-xs font-bold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-1.5 shadow-sm">
+        <i data-lucide="check" class="w-3.5 h-3.5"></i>
+        <span id="btn-approve-text">승인 및 다음 →</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Workspace -->
+  <div id="workspace" class="flex-1 overflow-y-auto p-5"></div>
+</main>
+
+<script>
+// ──────────────────────────────────────────────
+// DATA
+// ──────────────────────────────────────────────
+const STEPS = [
+  { id:1, title:"뉴스 후보 수집 · 선정",    icon:"newspaper",      nextLabel:"콘텐츠 설계 카드 작성" },
+  { id:2, title:"콘텐츠 설계 카드 매핑",    icon:"layout-template",nextLabel:"수준별 지문 생성" },
+  { id:3, title:"수준별 지문 생성",          icon:"file-text",      nextLabel:"어휘 · 구문 추출" },
+  { id:4, title:"어휘 · 구문 추출",          icon:"book-open",      nextLabel:"독해 문항 생성" },
+  { id:5, title:"독해 · 내신형 문항 생성",   icon:"help-circle",    nextLabel:"표현 과업 · AI 피드백 기준" },
+  { id:6, title:"표현 과업 · AI 피드백 기준",icon:"message-square", nextLabel:"교사 가이드 패키징" },
+  { id:7, title:"교사 가이드 · 최종 패키징", icon:"package",        nextLabel:"학습 데이터 대시보드" },
+  { id:8, title:"학습 데이터 환류 (Analytics)",icon:"bar-chart-2",  nextLabel:"완료" },
+];
+
+let currentStep = 1;
+let selectedNews = 1;
+let activeLevel = 'L2';
+
+const DATA = {
+  news: [
+    {
+      id:1, title:"Should Students Use AI for Homework?",
+      category:"Technology & AI", score:92, risk:"Low",
+      date:"2026.04.25", source:"BBC Education",
+      desc:"학생들의 AI 활용 가이드라인에 대한 학교들의 새로운 논의. 교육과정 적합성 최상.",
+      content:"Many students use AI tools when they do homework. AI can help students find ideas, check grammar, and understand difficult words. For example, a student can ask AI to explain a science article in easier English.\n\nHowever, some teachers worry about this trend. If students copy AI answers without thinking, they may not learn much. Homework is not just about getting the right answer. It is also about practicing, making mistakes, and learning from them.\n\nSome schools are now making new rules for AI use. They tell students when they can use AI and when they should work by themselves. Experts say AI can be helpful, but students should use it as a learning partner, not as a shortcut.",
+      rubric:[
+        {name:"교육과정 적합성",   score:18, max:20, reason:"세부정보·원인결과·논리관계 성취기준 직접 연결"},
+        {name:"중학생 적합성",     score:14, max:15, reason:"학생 실생활과 밀접한 AI 숙제 사용 주제"},
+        {name:"영어 학습 전환성",  score:18, max:20, reason:"찬반 구조 뚜렷, 내신형 문항 제작 용이"},
+        {name:"사고 확장성",       score:14, max:15, reason:"찬반 토론·의견 쓰기로 자연스럽게 확장"},
+        {name:"최신성·지속성 균형",score:9,  max:10, reason:"장기적 교육 이슈로 반복 활용 가능"},
+        {name:"수업·운영 활용성",  score:9,  max:10, reason:"관점이 명확, 교사 설명 부담 낮음"},
+        {name:"윤리·안전성",       score:10, max:10, reason:"편향·혐오 없음, 사실 명확"},
+      ]
+    },
+    {
+      id:2, title:"Teens Are Sleeping Less Than Ever — Here's Why",
+      category:"Health & Life", score:87, risk:"Low",
+      date:"2026.04.22", source:"CNN Health",
+      desc:"청소년 수면 부족과 스마트폰 사용 연관성 연구 결과. 통계 독해·원인결과 기능 최적.",
+      content:"A new study shows that teenagers today sleep much less than they did 20 years ago. Researchers found that most teens get only six hours of sleep on school nights. Doctors recommend eight to ten hours for this age group.\n\nExperts say smartphones are one of the biggest reasons. Many teens check their phones late at night, making it harder for their brains to rest. Blue light from screens also confuses the body's sleep signals.\n\nLess sleep leads to serious problems. Students who sleep fewer hours tend to have lower grades, poorer concentration, and more stress. Some schools are now pushing back their start times to help students sleep more. Whether this change will help remains to be seen.",
+      rubric:[
+        {name:"교육과정 적합성",   score:17, max:20, reason:"원인결과 구조, 통계 읽기 성취기준 연결"},
+        {name:"중학생 적합성",     score:15, max:15, reason:"학생 건강·생활과 직접 연결"},
+        {name:"영어 학습 전환성",  score:17, max:20, reason:"통계, 원인·결과 지문 제작 최적"},
+        {name:"사고 확장성",       score:13, max:15, reason:"학교 시작 시간 토론 가능"},
+        {name:"최신성·지속성 균형",score:9,  max:10, reason:"반복적으로 다룰 수 있는 장기 이슈"},
+        {name:"수업·운영 활용성",  score:9,  max:10, reason:"설문·그래프 읽기·의견 쓰기 가능"},
+        {name:"윤리·안전성",       score:10, max:10, reason:"안전한 주제, 학생 정서 무해"},
+      ]
+    },
+    {
+      id:3, title:"Can AI-Generated Art Win a Prize?",
+      category:"Culture & Media", score:88, risk:"Low",
+      date:"2026.04.20", source:"The Guardian",
+      desc:"AI 그림이 미술대회에서 수상한 사건. 찬반 구조·필자 의도 추론에 최적화.",
+      content:"An AI-generated image recently won first place in a prestigious art competition. The creator used an AI program to make the image. Many human artists were angry. They said it was unfair because AI did the work, not a real person.\n\nSupporters of AI art argue that using AI is just like using a new tool. Artists have always used new technologies. In their view, creativity is about the idea, not the method.\n\nCritics, however, say AI art threatens the livelihood of human artists. If anyone can create professional-looking art using AI, it may become harder for real artists to earn a living. This debate raises a deeper question: What does it mean to be creative in the age of AI?",
+      rubric:[
+        {name:"교육과정 적합성",   score:19, max:20, reason:"AI·창의성·윤리·의견 표현 성취기준 연결"},
+        {name:"중학생 적합성",     score:14, max:15, reason:"학생 관심도 높음, 배경지식 부담 낮음"},
+        {name:"영어 학습 전환성",  score:18, max:20, reason:"주장·근거, 찬반 구조, 어휘 학습 용이"},
+        {name:"사고 확장성",       score:15, max:15, reason:"찬반 토론에 매우 적합"},
+        {name:"최신성·지속성 균형",score:9,  max:10, reason:"AI 시대 장기 이슈"},
+        {name:"수업·운영 활용성",  score:9,  max:10, reason:"토론·쓰기·발표 활용 가능"},
+        {name:"윤리·안전성",       score:8,  max:10, reason:"저작권·창작 윤리 설명 필요"},
+      ]
+    }
+  ],
+
+  design: {
+    moduleId:"WIR-2026-05-01", week:"2026년 5월 1주", type:"Main Issue",
+    level:"Level 2 (Core)", structure:"찬반/쟁점형",
+    mainSkill:"주장과 근거 파악", outputTask:"3문장 의견 쓰기",
+    achievement:["9영01-04 (논리관계 파악)", "9영02-06 (의견 주장)"],
+    vocabCount:"6~8개", wordCount:"180~230 words", time:"25~30분"
+  },
+
+  passages: {
+    L1: {
+      name:"Level 1 (Foundation)", target:"중학교 1학년 / 기초",
+      words:104, targetRange:"120~160",
+      text:"Many students use AI tools when they do their homework. These tools are very fast and smart. AI can help students find good ideas for writing. It can also explain difficult words in an easy way. Because of this, learning becomes more fun.\n\nHowever, some teachers are worried. They think AI can be a problem. If students just copy the answers from AI, they will not learn anything. Students need to think by themselves to get smarter.\n\nAI is a helpful tool. But students must use it carefully. They should use AI to study better, not to finish homework quickly.",
+      params:["단문 및 단순 접속사(and, but, because) 사용","수동태 및 관계대명사 최소화","중등 1학년 핵심 어휘 위주","단순 정보 나열 및 명시적 대조 구조"]
+    },
+    L2: {
+      name:"Level 2 (Core)", target:"중학교 2~3학년 / 일반",
+      words:133, targetRange:"180~230",
+      text:"Many students use AI tools when they do homework. AI can help students find ideas, check grammar, and understand difficult words. For example, a student can ask AI to explain a science article in easier English.\n\nHowever, some teachers worry about this trend. If students copy AI answers without thinking, they may not learn much. Homework is not just about getting the right answer. It is also about practicing, making mistakes, and learning from them.\n\nSome schools are now making new rules for AI use. They tell students when they can use AI and when they should work by themselves. Experts say AI can be helpful, but students should use it as a learning partner, not as a shortcut.",
+      params:["단문·복문 균형 (if 조건문, to부정사 등)","원인-결과·비교-대조 명확히 (However, For example)","내신 포인트 삽입 (not A but B 구조)","중등 핵심 어휘 + 문맥 유추 가능 주제어"]
+    },
+    L3: {
+      name:"Level 3 (Challenge)", target:"중학교 2~3학년 상위",
+      words:172, targetRange:"250~320",
+      text:"As AI tools become increasingly common, many students are using them to complete their homework more efficiently. These advanced tools can suggest creative ideas, correct grammatical errors, and even translate complex texts into simpler language. For students who struggle with certain subjects, AI can provide valuable and immediate support.\n\nDespite these benefits, the growing use of AI raises an important educational question: are students using it to enhance their learning, or are they simply avoiding real effort? Many educators argue that homework is designed to help students practice problem-solving and develop critical thinking skills. If students simply copy AI-generated answers, they might finish their assignments faster, but they will ultimately learn less from the process.\n\nTo address this issue, some schools are establishing clear guidelines for AI use. Rather than banning the technology completely, they encourage students to interact with AI as a study partner. Ultimately, the real challenge is not whether students should use AI, but how they can utilize it responsibly to improve their own abilities.",
+      params:["복합 구문 (분사구문, 명사절, 양보 구문)","추상적 사고 및 필자 의도 유추 논거 포함","고등 기초 어휘 (efficiently, enhance, ultimately)","수사적 질문(rhetorical question) 포함"]
+    }
+  },
+
+  vocab: {
+    L1:[
+      {word:"smart",     meaning:"똑똑한",        ctx:"AI 도구의 긍정적 특징 설명"},
+      {word:"idea",      meaning:"아이디어, 생각", ctx:"find good ideas 덩어리 표현으로 지도"},
+      {word:"copy",      meaning:"베끼다",         ctx:"생각 없이 답을 가져온다는 의미"},
+      {word:"carefully", meaning:"조심스럽게",     ctx:"현명한 사용을 권장하는 맥락"},
+    ],
+    L2:[
+      {word:"tool",     meaning:"도구",              ctx:"학습 도구로서의 의미 (AI tools)"},
+      {word:"copy",     meaning:"베끼다",            ctx:"무단으로 가져오는 부정적 맥락"},
+      {word:"wisely",   meaning:"현명하게",          ctx:"글의 요지와 직결됨 (use wisely)"},
+      {word:"shortcut", meaning:"손쉬운 방법(지름길)",ctx:"노력을 피하는 수단—함축적 의미"},
+    ],
+    L3:[
+      {word:"efficiently",meaning:"효율적으로",   ctx:"숙제를 빨리 끝내는 장점 설명"},
+      {word:"enhance",    meaning:"향상시키다",   ctx:"학습 효과를 높인다는 긍정적 맥락"},
+      {word:"generate",   meaning:"생성하다",     ctx:"AI-generated answers (복합어 파악)"},
+      {word:"ultimately", meaning:"궁극적으로",   ctx:"결론·필자 핵심 주장을 이끄는 부사"},
+    ]
+  },
+
+  grammar:{
+    L1:{struct:"Because of this, + 결과 문장", ex:"Because of this, learning becomes more fun.", note:"원인과 결과를 가장 직관적으로 연결하는 표현입니다. 앞 문장의 사실로 인한 결과를 파악하도록 지도하세요."},
+    L2:{struct:"If + 주어 + 동사, 주어 + may/can ...", ex:"If students copy AI answers without thinking, they may not learn much.", note:"조건과 결과를 연결하는 구문입니다. 마지막 의견 쓰기 과업에서 이 구조를 모방해 쓰도록 유도하세요."},
+    L3:{struct:"Rather than + V-ing, S + V ...", ex:"Rather than banning the technology completely, they encourage students to interact with AI as a study partner.", note:"단순 부정이 아닌 '대안'을 제시할 때 쓰는 고급 구문입니다. 필자의 균형 잡힌 주장을 담고 있어 서술형 대비로 활용하기 좋습니다."},
+  },
+
+  questions:{
+    L1:[
+      {id:"L1Q1",cat:"Reading",type:"세부 정보 파악",q:"What can AI explain in an easy way?",choices:["a. Difficult words","b. How to play games","c. The school rules","d. Sports news"],ans:"a. Difficult words",tag:"R_DETAIL",diff:"하",ev:"It can also explain difficult words in an easy way.",ok:true},
+      {id:"L1Q2",cat:"Reading",type:"내용 일치·불일치",q:"Which is true about the text?",choices:["a. AI tools are very slow.","b. Teachers think AI is perfect.","c. Students must use AI carefully.","d. AI does homework for teachers."],ans:"c. Students must use AI carefully.",tag:"R_TRUEFALSE",diff:"하",ev:"마지막 문단: But students must use it carefully.",ok:true},
+      {id:"L1Q3",cat:"Exam",type:"제목 고르기",q:"What is the best title for this passage?",choices:["a. AI: A Good Tool, but Use It Well","b. Why We Must Stop Using Computers","c. The History of AI","d. How to Finish Homework Quickly"],ans:"a. AI: A Good Tool, but Use It Well",tag:"R_MAIN",diff:"중",ev:"전체가 AI 장단점과 조심스러운 사용을 당부함.",ok:true},
+    ],
+    L2:[
+      {id:"L2Q1",cat:"Reading",type:"주제·요지 파악",q:"What is the main idea of the passage?",choices:["a. AI is always dangerous for students.","b. Students should use AI wisely for learning.","c. Homework is not important anymore.","d. Teachers should stop giving homework."],ans:"b. Students should use AI wisely for learning.",tag:"R_MAIN",diff:"중",ev:"마지막 문단: AI can be helpful, but students should use it as a learning partner.",ok:true},
+      {id:"L2Q2",cat:"Reading",type:"원인·결과 파악",q:"Why do some teachers worry about AI use?",choices:["a. Because students may copy answers without thinking.","b. Because AI tools are too expensive.","c. Because AI cannot explain science.","d. Because students dislike technology."],ans:"a. Because students may copy answers without thinking.",tag:"R_LOGIC",diff:"중",ev:"두 번째 문단: If students copy AI answers without thinking, they may not learn much.",ok:true},
+      {id:"L2Q3",cat:"Exam",type:"문맥상 어휘 의미",q:"What does 'shortcut' mean in the passage?",choices:["a. A long learning process","b. A new school rule","c. An easy way to avoid real effort","d. A difficult English word"],ans:"c. An easy way to avoid real effort",tag:"R_IMPLICIT",diff:"상",ev:"shortcut은 '학습 과정 없이 답만 얻는 손쉬운 길'의 부정적 의미.",ok:true},
+    ],
+    L3:[
+      {id:"L3Q1",cat:"Reading",type:"주제·요지 파악",q:"What is the author's main argument?",choices:["a. Schools should ban AI completely.","b. AI tools will replace human teachers.","c. Students must use AI responsibly to truly improve.","d. Doing homework faster is the most important goal."],ans:"c. Students must use AI responsibly to truly improve.",tag:"R_MAIN",diff:"상",ev:"마지막 문장: how they can utilize it responsibly to improve their own abilities.",ok:true},
+      {id:"L3Q2",cat:"Reading",type:"문장 삽입",q:"Where does this sentence best fit?\n[ However, using these tools without critical thinking poses a significant risk. ]",choices:["a. Before paragraph 1","b. Between paragraph 1 and 2","c. Between paragraph 2 and 3","d. At the end"],ans:"b. Between paragraph 1 and 2",tag:"R_INSERT",diff:"상",ev:"1문단 긍정 효과 뒤, 2문단 우려 사이에 삽입.",ok:true},
+      {id:"L3Q3",cat:"Exam",type:"필자 의도",q:"Why does the author use the phrase 'avoiding real effort'?",choices:["a. To praise the speed of AI.","b. To criticize students who skip problem-solving.","c. To explain how texts are translated.","d. To support banning AI in schools."],ans:"b. To criticize students who skip problem-solving.",tag:"R_PURPOSE",diff:"상",ev:"노력을 회피한다는 것은 문제해결 능력 연습을 저해한다는 비판적 관점.",ok:true},
+    ]
+  },
+
+  output:{
+    L1:{task:"Do you think AI is good for homework? Write 1 sentence.",template:"I think AI is ____ because it helps me ____.",reasons:["smart","fast","find ideas","understand words"],prompt:"학생이 긍정/부정 입장을 명확히 정하고, 핵심 단어 1~2개를 사용해 1문장을 완성했는지 평가. 의미 전달에 지장 없는 사소한 문법 오류는 무시.",tags:["O_CLAIM_CLEAR","O_REASON_WEAK","L_SPELLING"],sample:"I think AI is smart because it helps me find ideas.",fb:{score:"Excellent ✦",good:"자신의 의견과 이유를 한 문장으로 잘 연결했습니다.",fix:"없음! 문장 구조를 완벽히 이해했습니다.",better:"I think AI is smart because it easily helps me find new ideas."}},
+    L2:{task:"Should students use AI for homework? Write 3 sentences.",template:"I think ____.\nOne reason is that ____.\nFor example, ____.",reasons:["AI can help students understand difficult ideas.","Students may copy answers without thinking.","Students should practice by themselves."],prompt:"학생의 주장(Claim)과 근거(Reason)가 논리적으로 연결되었는지 최우선 평가. 과잉 교정 피하고 핵심 오류 1개만 제안.",tags:["O_CLAIM_CLEAR","O_REASON_WEAK","L_VERB_FORM","O_LOGIC_WEAK"],sample:"I think students should use AI. One reason is that AI can help difficult words. For example, it explain English.",fb:{score:"Good ✧",good:"찬성 의견과 구체적 예시를 잘 제시했습니다.",fix:"'help difficult words'는 약간 어색해요. 'help students understand difficult words'로 수정해 보세요.",better:"AI can help students understand difficult words."}},
+    L3:{task:"Discuss the pros and cons of using AI for homework and state your position. Write 4~5 sentences.",template:"In my opinion, students should use AI ____.\nAI can be useful because ____.\nHowever, if students ____, they may ____.\nTherefore, schools should ____.",reasons:["provide valuable and immediate support","avoid real effort and critical thinking","interact with AI as a study partner","depend on it as a shortcut"],prompt:"양면적 관점(장단점) 모두 언급하며 논리 전개되는지 평가. However, While 등 양보 구문 포함 여부 확인.",tags:["O_CLAIM_CLEAR","O_LOGIC_OK","O_RESPECTFUL","L_STRUCTURE","S_BALANCED"],sample:"In my opinion, students should use AI carefully. AI can be useful because it provide fast support. However, if students copy answers, they may avoid real effort. Therefore, schools should make guidelines.",fb:{score:"Excellent ✦",good:"장점과 문제점을 모두 고려한 균형 잡힌 의견을 작성했습니다.",fix:"'it provide' → 'it provides'로 수 일치를 맞춰 보세요.",better:"...because it provides fast support."}}
+  },
+
+  guide:{
+    L1:{
+      summary:"AI 도구를 활용한 숙제의 장단점을 쉬운 단어로 설명합니다. 답을 그대로 베끼면 학습 효과가 없다는 것을 이해합니다.",
+      goals:["AI가 주는 도움 2가지 파악하기","세부 정보와 일치하는 내용 찾기","자신의 의견 1문장 완성하기"],
+      p10:"도입(2분): 번역기 써본 경험 묻기 → 핵심 어휘(smart, carefully) 확인 → 짧은 텍스트 요약",
+      p30:"어휘 학습(5분) → 문단별 내용 일치 게임(10분) → 문항 풀이(5분) → 의견 문장 만들기(10분)",
+      hw:"단어장 복습 및 지문 소리 내어 읽기",
+      wrong:[{q:"Q3. 제목 고르기",err:"선택지 c(역사) 선택",tip:"글 전체에서 반복되는 단어(tool, carefully)를 찾도록 지도"}],
+      report:"이번 주에는 「AI와 숙제」를 주제로 기초 영어 독해 학습을 진행했습니다. 학생은 AI 사용의 장단점을 쉽고 간결한 문장으로 읽으며 세부 정보를 파악하는 연습을 했습니다. 또한 배운 단어를 활용하여 자신의 생각을 한 문장으로 표현하는 기초 작문 훈련을 완료했습니다."
+    },
+    L2:{
+      summary:"AI를 숙제에 활용하는 트렌드 속에서 긍정적 측면과 무비판적 복사라는 우려점을 비교합니다. 쟁점형 구조 이해에 초점.",
+      goals:["AI 사용의 장점과 우려점을 대조하여 파악하기","If 조건절의 논리 구조 이해하기","템플릿으로 3문장 의견 쓰기"],
+      p10:"도입(2분): '학습 파트너' vs '지름길' 개념 질문 → 지문 훑어읽기(4분) → 요지 문항 풀이(4분)",
+      p30:"어휘(shortcut 등) 지도(5분) → 논리 관계 파악(10분) → 내신형 문항 풀이(7분) → 3문장 의견 쓰기(8분)",
+      hw:"전체 문항 풀이 → AI 피드백 O_REASON_WEAK 태그 확인 후 개별 코칭",
+      wrong:[{q:"Q1. 주제 파악",err:"AI is always dangerous 선택",tip:"마지막 문단에서 '현명한 사용 권장'을 확인하도록 지도"},{q:"의견 쓰기",err:"이유(because) 누락",tip:"문장틀 보며 '왜 그렇게 생각하는지' 꼭 채우도록 지도"}],
+      report:"이번 주에는 「Should Students Use AI for Homework?」를 주제로 내신형 독해 학습을 진행했습니다. 학생은 AI 사용의 긍정적·부정적 측면을 비교하며 글의 중심 논리를 파악하는 훈련을 했습니다. 나아가 영어로 3문장 이상의 논리적인 의견을 작성하며 비판적 사고력을 길렀습니다."
+    },
+    L3:{
+      summary:"AI 도구가 학습에 미치는 영향을 심도 있게 다룹니다. 문제 해결 능력을 저해할 수 있다는 교육적 우려와 가이드라인 필요성을 논증합니다.",
+      goals:["필자의 비판적 의도와 함축적 의미 파악하기","양보 구문을 활용한 문장 구조 이해하기","양면적 관점을 수용해 5문장 의견 쓰기"],
+      p10:"도입(2분): '진정한 노력의 회피' 키워드 제시 → 핵심 논거 문단 분석(5분) → 주제 문항 풀이(3분)",
+      p30:"고급 어휘(enhance 등) 문맥 추론(5분) → 주장-근거 구조 맵핑(10분) → 추론형 문항(5분) → 찬반 에세이(10분)",
+      hw:"찬반 입장 중 하나를 택해 추가 근거 2가지 찾아오기 (Debate Prep)",
+      wrong:[{q:"Q3. 필자 의도",err:"번역 과정 설명으로 오해",tip:"앞뒤 문맥(avoiding real effort)을 통해 비판적 뉘앙스를 파악하도록 고급 독해 스킬 지도"}],
+      report:"이번 주에는 「AI와 교육적 딜레마」를 주제로 심화 영어 독해 및 논술 학습을 진행했습니다. 학생은 고등 기초 수준의 어휘와 복합 구문이 포함된 지문을 읽고, 필자의 숨은 의도를 파악하는 고난도 추론 훈련을 마쳤습니다. 양면적 관점을 모두 반영한 훌륭한 영어 의견문을 작성했습니다."
+    }
+  }
+};
+
+// ──────────────────────────────────────────────
+// UTIL
+// ──────────────────────────────────────────────
+function toast(msg, type='ok') {
+  const el = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  el.querySelector('i').setAttribute('data-lucide', type==='ok' ? 'check-circle' : 'alert-circle');
+  el.querySelector('i').className = `w-4 h-4 flex-shrink-0 ${type==='ok'?'text-emerald-400':'text-red-400'}`;
+  lucide.createIcons({el});
+  el.classList.remove('-translate-y-20','opacity-0');
+  el.classList.add('translate-y-0','opacity-100');
+  setTimeout(()=>{ el.classList.add('-translate-y-20','opacity-0'); el.classList.remove('translate-y-0','opacity-100'); }, 2800);
+}
+
+function levelTabs(activeFn) {
+  return `<div class="flex gap-1 border-b border-slate-200 mb-0 flex-shrink-0">
+    ${['L1','L2','L3'].map(l=>`
+      <button onclick="${activeFn}('${l}')" class="px-5 py-2 text-xs font-bold rounded-t-lg border-b-2 transition-colors ${activeLevel===l ? 'border-indigo-500 text-indigo-700 bg-white' : 'border-transparent text-slate-400 hover:text-slate-600 hover:bg-white/50'}">
+        ${l==='L1'?'Level 1 · Foundation':l==='L2'?'Level 2 · Core':'Level 3 · Challenge'}
+      </button>`).join('')}
+  </div>`;
+}
+
+window.setLevel = function(l) { activeLevel=l; renderWorkspace(); };
+window.toggleApprove = function(btn) {
+  const on = btn.dataset.on === '1';
+  btn.dataset.on = on ? '0' : '1';
+  btn.className = `p-1.5 border rounded-lg transition-all ${on ? 'text-slate-400 bg-white border-slate-200 hover:border-indigo-300' : 'text-emerald-600 bg-emerald-50 border-emerald-200'}`;
+  btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="${on?'20 6 9 17 4 12':'20 6 9 17 4 12'}"></polyline></svg>`;
+  toast(on ? '승인을 취소했습니다.' : '문항을 승인했습니다.', on?'err':'ok');
+};
+
+// ──────────────────────────────────────────────
+// STEP RENDERERS
+// ──────────────────────────────────────────────
+
+function renderStep1() {
+  const news = DATA.news.find(n=>n.id===selectedNews)||DATA.news[0];
+  const total = news.rubric.reduce((a,r)=>a+r.score,0);
+  const circleR = 22; const circ = 2*Math.PI*circleR;
+  const dash = (total/100)*circ;
+  return `
+<div class="max-w-5xl mx-auto h-full flex flex-col gap-4">
+  <!-- Top row label -->
+  <div class="flex items-center justify-between flex-shrink-0">
+    <div>
+      <h3 class="font-bold text-slate-800">AI 주간 이슈 추천 & 평가</h3>
+      <p class="text-xs text-slate-400 mt-0.5">AI가 수집·평가한 후보 기사를 검토하고 학습 이슈를 최종 선정합니다.</p>
+    </div>
+    <span class="pill bg-indigo-100 text-indigo-700 border border-indigo-200 text-[11px]">
+      <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      AI 분석 완료 · 2026.04.25 09:00
+    </span>
+  </div>
+
+  <div class="flex gap-4 flex-1 min-h-0">
+    <!-- Left: news list -->
+    <div class="w-72 flex flex-col flex-shrink-0">
+      <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 px-1">후보 기사 (${DATA.news.length}건)</div>
+      <div class="space-y-2 overflow-y-auto flex-1">
+        ${DATA.news.map(n=>{
+          const sc = n.rubric.reduce((a,r)=>a+r.score,0);
+          const isActive = n.id===selectedNews;
+          return `<div onclick="window.selectNews(${n.id})" class="news-card bg-white rounded-xl border p-3.5 ${isActive?'active':' border-slate-200 hover:border-indigo-300'}">
+            <div class="flex justify-between items-start mb-2">
+              <span class="pill bg-slate-100 text-slate-600 text-[10px]">${n.category}</span>
+              <span class="font-black text-base ${sc>=85?'text-emerald-600':sc>=70?'text-amber-500':'text-red-500'}">${sc}</span>
+            </div>
+            <p class="text-xs font-bold text-slate-800 leading-snug mb-1 line-clamp-2">${n.title}</p>
+            <p class="text-[11px] text-slate-400 line-clamp-2 leading-tight">${n.desc}</p>
+            <div class="flex gap-1 mt-2">
+              <span class="pill bg-slate-50 text-slate-400 border border-slate-100 text-[10px]">${n.date}</span>
+              <span class="pill bg-slate-50 text-slate-400 border border-slate-100 text-[10px]">${n.source}</span>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+
+    <!-- Right: detail -->
+    <div class="flex-1 bg-white rounded-xl border border-slate-200 flex flex-col overflow-hidden shadow-sm">
+      <div class="px-5 py-4 border-b border-slate-100 flex-shrink-0">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="pill bg-indigo-100 text-indigo-700">${news.category}</span>
+              <span class="text-[11px] text-slate-400">${news.source} · ${news.date}</span>
+              ${news.risk==='Low' ? '<span class="pill bg-emerald-100 text-emerald-700">안전 ✓</span>' : '<span class="pill bg-red-100 text-red-600">민감성 주의</span>'}
+            </div>
+            <h2 class="font-bold text-slate-900 text-lg leading-snug">${news.title}</h2>
+          </div>
+          <!-- Score ring -->
+          <div class="score-ring flex-shrink-0">
+            <svg width="56" height="56" viewBox="0 0 56 56">
+              <circle cx="28" cy="28" r="${circleR}" fill="none" stroke="#e2e8f0" stroke-width="5"/>
+              <circle cx="28" cy="28" r="${circleR}" fill="none" stroke="${total>=85?'#10b981':total>=70?'#f59e0b':'#ef4444'}" stroke-width="5" stroke-dasharray="${dash} ${circ}" stroke-linecap="round"/>
+            </svg>
+            <div class="val text-slate-800">${total}</div>
+          </div>
+        </div>
+      </div>
+      <div class="flex-1 overflow-y-auto p-5 space-y-5">
+        <!-- Source brief -->
+        <div>
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">원문 요약 (Source Brief)</p>
+          <div class="bg-slate-50 border border-slate-100 rounded-lg p-4 text-[13px] text-slate-700 leading-relaxed whitespace-pre-line font-serif">${news.content}</div>
+        </div>
+        <!-- Rubric -->
+        <div>
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">AI 루브릭 평가 결과</p>
+          <div class="space-y-3">
+            ${news.rubric.map(r=>{
+              const pct = Math.round((r.score/r.max)*100);
+              const col = pct>=85?'bg-emerald-500':pct>=60?'bg-amber-400':'bg-red-400';
+              return `<div>
+                <div class="flex justify-between text-[11px] mb-1">
+                  <span class="font-semibold text-slate-700">${r.name}</span>
+                  <span class="font-bold ${pct>=85?'text-emerald-600':pct>=60?'text-amber-600':'text-red-500'}">${r.score}/${r.max}</span>
+                </div>
+                <div class="rubric-bar mb-1"><div class="${col}" style="width:${pct}%"></div></div>
+                <p class="text-[11px] text-slate-500 bg-slate-50 rounded px-2 py-1">${r.reason}</p>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+        <!-- 1차 제외 필터 결과 -->
+        <div class="bg-emerald-50 border border-emerald-100 rounded-lg p-4">
+          <p class="text-[10px] font-bold text-emerald-700 uppercase tracking-wider mb-2">✓ 1차 제외 필터 통과</p>
+          <div class="grid grid-cols-3 gap-1">
+            ${['출처 명확','정치적 중립','선정성 없음','혐오·차별 없음','전문성 적절','저작권 안전'].map(t=>`
+              <span class="text-[11px] bg-white border border-emerald-100 rounded px-2 py-1 text-emerald-700 flex items-center gap-1">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>${t}
+              </span>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+window.selectNews = function(id) { selectedNews=id; renderWorkspace(); };
+
+function renderStep2() {
+  const news = DATA.news.find(n=>n.id===selectedNews)||DATA.news[0];
+  const d = DATA.design;
+  return `
+<div class="max-w-4xl mx-auto flex flex-col gap-4 h-full">
+  <div class="flex-shrink-0">
+    <h3 class="font-bold text-slate-800">콘텐츠 설계 카드 매핑</h3>
+    <p class="text-xs text-slate-400 mt-0.5">선정된 뉴스를 교육과정 성취기준·학습 목표·평가 태그로 설계합니다.</p>
+  </div>
+  <!-- Source banner -->
+  <div class="bg-indigo-50 border border-indigo-100 rounded-xl px-5 py-3 flex items-center gap-3 flex-shrink-0">
+    <svg class="w-4 h-4 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+    <div class="flex-1 min-w-0">
+      <span class="text-[10px] font-bold text-indigo-400 uppercase">Selected Source</span>
+      <p class="font-bold text-slate-800 text-sm truncate">${news.title}</p>
+    </div>
+    <span class="pill bg-white text-indigo-600 border border-indigo-200 text-[11px]">${news.category} · ${news.rubric.reduce((a,r)=>a+r.score,0)}점</span>
+  </div>
+
+  <div class="flex gap-4 flex-1 min-h-0">
+    <!-- Main card -->
+    <div class="flex-1 bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
+      <div class="bg-slate-50 border-b border-slate-100 px-5 py-3 flex justify-between items-center flex-shrink-0">
+        <span class="font-bold text-slate-700 text-sm flex items-center gap-2">
+          <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Content Design Card
+        </span>
+        <span class="text-[10px] font-mono text-slate-400 bg-white border border-slate-100 px-2 py-1 rounded">${d.moduleId} · ${d.week}</span>
+      </div>
+      <div class="p-5 space-y-5 overflow-y-auto flex-1">
+        <!-- Meta grid -->
+        <div class="grid grid-cols-3 gap-3 text-[11px]">
+          ${[
+            {l:'콘텐츠 유형',v:d.type,c:'bg-slate-50'},
+            {l:'Target Level',v:d.level,c:'bg-indigo-50 text-indigo-800 border-indigo-100'},
+            {l:'텍스트 구조',v:d.structure,c:'bg-slate-50'},
+            {l:'예상 학습 시간',v:d.time,c:'bg-slate-50'},
+            {l:'목표 어휘 수',v:d.vocabCount,c:'bg-slate-50'},
+            {l:'지문 길이',v:d.wordCount,c:'bg-slate-50'},
+          ].map(m=>`<div class="border border-slate-100 rounded-lg p-2.5 ${m.c}">
+            <p class="text-[10px] text-slate-400 font-semibold uppercase mb-1">${m.l}</p>
+            <p class="font-bold text-slate-800">${m.v}</p>
+          </div>`).join('')}
+        </div>
+
+        <!-- Skills -->
+        <div class="grid grid-cols-2 gap-4 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+          <div>
+            <p class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider mb-2">Main Reading Skill</p>
+            <input value="${d.mainSkill}" class="w-full text-sm font-semibold p-2.5 border border-white bg-white rounded-lg outline-none focus:ring-2 focus:ring-indigo-400 shadow-sm"/>
+            <div class="flex gap-1 mt-2"><span class="tag">R_MAIN</span><span class="tag">R_LOGIC</span></div>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold text-purple-400 uppercase tracking-wider mb-2">Output Task</p>
+            <input value="${d.outputTask}" class="w-full text-sm font-semibold p-2.5 border border-white bg-white rounded-lg outline-none focus:ring-2 focus:ring-purple-400 shadow-sm"/>
+            <div class="flex gap-1 mt-2"><span class="tag">P_OPINION</span><span class="tag">P_SUMMARY</span></div>
+          </div>
+        </div>
+
+        <!-- Achievement standards -->
+        <div>
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">교육과정 성취기준</p>
+          <div class="flex flex-wrap gap-2">
+            ${d.achievement.map(a=>`<span class="pill bg-emerald-50 text-emerald-700 border border-emerald-100 text-[11px]">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>${a}
+              <button class="ml-1 opacity-50 hover:opacity-100">×</button>
+            </span>`).join('')}
+            <button class="pill border border-dashed border-slate-300 text-slate-400 hover:text-indigo-500 hover:border-indigo-300 text-[11px] transition-colors" onclick="toast('성취기준 검색창을 열었습니다.')">+ 추가</button>
+          </div>
+        </div>
+
+        <!-- Modular content flow -->
+        <div>
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">주간 모듈 구성 플로우</p>
+          <div class="flex gap-1 flex-wrap">
+            ${['Issue Opener','Key Question','Core Vocab','Reading Passage','Reading Check','Language Focus','Exam Practice','Output Task','AI Feedback'].map((s,i)=>`
+              <div class="flex items-center gap-1">
+                <span class="pill text-[10px] font-bold ${i<4?'bg-indigo-100 text-indigo-700':i<7?'bg-violet-100 text-violet-700':'bg-emerald-100 text-emerald-700'}">${s}</span>
+                ${i<8?'<svg class="w-3 h-3 text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>':''}
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QA sidebar -->
+    <div class="w-56 flex flex-col gap-3 flex-shrink-0">
+      <div class="bg-indigo-600 rounded-xl p-4 text-white text-xs">
+        <p class="font-bold mb-1 flex items-center gap-1">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          AI Design Note
+        </p>
+        <p class="text-indigo-200 leading-relaxed text-[11px]">해당 기사는 찬반 입장이 명확하여 <strong class="text-white">쟁점형(C형)</strong> 구조가 최적입니다. 2~3문단 내외의 L2 지문으로 내신형 문항 제작이 용이합니다.</p>
+      </div>
+      <div class="bg-white rounded-xl border border-slate-200 p-4 flex-1 shadow-sm">
+        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-3">설계 QA 체크리스트</p>
+        <div class="space-y-2.5">
+          ${['레벨(L2)에 적합한 텍스트 구조인가?','이해 영역 성취기준 1개 이상 포함?','표현 영역 과업이 명확한가?','메타데이터가 모두 입력되었는가?','안전성 필터 통과 여부 확인?'].map(t=>`
+            <label class="flex items-start gap-2 cursor-pointer group">
+              <input type="checkbox" class="w-3.5 h-3.5 mt-0.5 rounded border-slate-300 text-indigo-500 cursor-pointer">
+              <span class="text-[11px] text-slate-600 group-hover:text-slate-900 leading-tight">${t}</span>
+            </label>`).join('')}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+function renderStep3() {
+  const p = DATA.passages[activeLevel];
+  const inRange = p.words >= parseInt(p.targetRange) && p.words <= parseInt(p.targetRange.split('~')[1]);
+  return `
+<div class="max-w-4xl mx-auto flex flex-col gap-3 h-full">
+  <div class="flex-shrink-0">
+    <h3 class="font-bold text-slate-800">수준별 지문 생성 (Reading Passage)</h3>
+    <p class="text-xs text-slate-400 mt-0.5">설계 카드에 맞춰 3가지 레벨로 변환된 지문의 난이도와 구조를 검수합니다.</p>
+  </div>
+  ${levelTabs('setLevel')}
+  <div class="flex gap-4 flex-1 min-h-0 bg-white rounded-b-xl rounded-tr-xl border border-slate-200 border-t-0 shadow-sm p-5">
+    <!-- Passage editor -->
+    <div class="flex-1 flex flex-col">
+      <div class="bg-slate-50 border border-slate-200 rounded-t-lg px-4 py-2.5 flex items-center justify-between text-xs flex-shrink-0">
+        <div class="flex items-center gap-4">
+          <span class="font-semibold text-slate-600">${p.name}</span>
+          <span class="text-slate-400">Target: <strong>${p.target}</strong></span>
+          <span class="${inRange?'text-emerald-600':'text-amber-600'} font-bold">${p.words} words <span class="text-slate-400 font-normal">/ ${p.targetRange}</span></span>
+        </div>
+        <button onclick="toast('AI가 지문을 다시 생성합니다.')" class="flex items-center gap-1 text-indigo-600 hover:text-indigo-800 font-semibold bg-indigo-50 border border-indigo-100 px-3 py-1 rounded-lg transition-colors">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg> AI Rewrite
+        </button>
+      </div>
+      <textarea class="flex-1 w-full p-5 text-slate-800 text-sm leading-7 border-x border-b border-slate-200 rounded-b-lg outline-none focus:ring-2 focus:ring-indigo-400 font-serif bg-white shadow-inner">${p.text}</textarea>
+    </div>
+    <!-- Params + QA -->
+    <div class="w-60 flex flex-col gap-3 flex-shrink-0">
+      <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4">
+        <p class="text-[10px] font-bold text-indigo-500 uppercase tracking-wider mb-2.5">AI 생성 파라미터</p>
+        <ul class="space-y-2">
+          ${p.params.map(pr=>`<li class="flex items-start gap-2 text-[11px] text-indigo-900 bg-white/70 p-2 rounded border border-indigo-100">
+            <svg class="w-3 h-3 mt-0.5 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span class="leading-tight">${pr}</span>
+          </li>`).join('')}
+        </ul>
+      </div>
+      <div class="bg-white border border-slate-200 rounded-xl p-4 flex-1 shadow-sm">
+        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-3">${activeLevel} 검수 포인트</p>
+        <div class="space-y-2.5">
+          ${['원문 사실 왜곡·과장이 없는가?','목표 어휘 수준이 적절한가?','자연스러운 원어민 표현인가?','문항화 가능한 구조인가?','수준별 차별성이 명확한가?'].map(t=>`
+            <label class="flex items-start gap-2 cursor-pointer">
+              <input type="checkbox" class="w-3.5 h-3.5 mt-0.5 rounded border-slate-300 text-indigo-500">
+              <span class="text-[11px] text-slate-600 leading-tight">${t}</span>
+            </label>`).join('')}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+function renderStep4() {
+  const v = DATA.vocab[activeLevel];
+  const g = DATA.grammar[activeLevel];
+  return `
+<div class="max-w-4xl mx-auto flex flex-col gap-3 h-full">
+  <div class="flex-shrink-0">
+    <h3 class="font-bold text-slate-800">어휘 · 구문 추출 (Vocabulary & Language Focus)</h3>
+    <p class="text-xs text-slate-400 mt-0.5"><strong class="text-indigo-600">${activeLevel}</strong> 레벨 지문에서 AI가 추출한 핵심 어휘와 구문을 검수합니다.</p>
+  </div>
+  ${levelTabs('setLevel')}
+  <div class="flex gap-4 flex-1 min-h-0 bg-white rounded-b-xl rounded-tr-xl border border-slate-200 border-t-0 shadow-sm p-5">
+    <!-- Vocab list -->
+    <div class="w-72 border border-slate-200 rounded-xl flex flex-col overflow-hidden flex-shrink-0">
+      <div class="bg-slate-50 border-b border-slate-100 px-4 py-3 flex justify-between items-center">
+        <span class="font-bold text-slate-700 text-sm">핵심 어휘 (${v.length}개)</span>
+        <span class="pill bg-indigo-100 text-indigo-700 text-[10px]">AI 추출됨</span>
+      </div>
+      <ul class="divide-y divide-slate-50 overflow-y-auto flex-1">
+        ${v.map(vv=>`<li class="p-4 hover:bg-indigo-50/40 group transition-colors">
+          <div class="flex items-baseline justify-between mb-1.5">
+            <div class="flex items-baseline gap-2">
+              <span class="font-bold text-indigo-600 text-base">${vv.word}</span>
+              <span class="text-xs text-slate-600 font-semibold">${vv.meaning}</span>
+            </div>
+            <button class="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-slate-400 hover:text-indigo-500 border border-slate-200 rounded bg-white">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+          </div>
+          <p class="text-[11px] text-slate-500 bg-slate-50 rounded px-2 py-1 border border-slate-100">${vv.ctx}</p>
+        </li>`).join('')}
+      </ul>
+      <div class="p-3 bg-slate-50 border-t border-slate-100">
+        <button onclick="toast('어휘를 추가했습니다.')" class="w-full py-2 border border-dashed border-slate-300 rounded-lg text-slate-400 text-xs font-semibold hover:text-indigo-500 hover:border-indigo-300 transition-colors">+ 어휘 추가</button>
+      </div>
+    </div>
+    <!-- Grammar focus -->
+    <div class="flex-1 border border-slate-200 rounded-xl flex flex-col overflow-hidden">
+      <div class="bg-slate-50 border-b border-slate-100 px-4 py-3 flex items-center gap-2">
+        <span class="font-bold text-slate-700 text-sm">핵심 구문 (Language Focus)</span>
+      </div>
+      <div class="p-5 space-y-5 overflow-y-auto flex-1">
+        <div>
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Target Structure</p>
+          <div class="bg-indigo-600 text-white p-4 rounded-xl font-mono text-sm font-bold shadow-sm">${g.struct}</div>
+        </div>
+        <div>
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">지문 내 실제 예문</p>
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-800 leading-relaxed font-serif">"${g.ex}"</div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">교사 코칭 가이드</p>
+            <button onclick="toast('코칭 가이드를 재생성했습니다.')" class="text-[11px] text-indigo-500 hover:text-indigo-700 flex items-center gap-1 font-semibold">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg> 재생성
+            </button>
+          </div>
+          <textarea rows="4" class="w-full text-sm p-4 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-400 leading-relaxed text-slate-700 bg-slate-50">${g.note}</textarea>
+        </div>
+        <!-- Pattern practice -->
+        <div>
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Pattern Practice (빈칸 완성)</p>
+          <div class="bg-amber-50 border border-amber-100 rounded-xl p-4 font-mono text-sm text-amber-900">
+            ${g.ex.replace(/([A-Za-z]+ [A-Za-z]+ [A-Za-z]+)$/, '<span class="bg-amber-200 rounded px-1">______</span>')}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+function renderStep5() {
+  const qs = DATA.questions[activeLevel];
+  const readN = qs.filter(q=>q.cat==='Reading').length;
+  const examN = qs.filter(q=>q.cat==='Exam').length;
+  const lowN = qs.filter(q=>q.diff==='하').length;
+  const midN = qs.filter(q=>q.diff==='중').length;
+  const hiN = qs.filter(q=>q.diff==='상').length;
+  return `
+<div class="max-w-4xl mx-auto flex flex-col gap-3 h-full">
+  <div class="flex-shrink-0">
+    <h3 class="font-bold text-slate-800">독해 · 내신형 문항 생성 (QA)</h3>
+    <p class="text-xs text-slate-400 mt-0.5"><strong class="text-indigo-600">${activeLevel}</strong> 레벨 문항의 정오답 명확성과 근거를 검수합니다.</p>
+  </div>
+  ${levelTabs('setLevel')}
+  <div class="flex gap-4 flex-1 min-h-0 bg-white rounded-b-xl rounded-tr-xl border border-slate-200 border-t-0 shadow-sm p-5">
+    <!-- Questions -->
+    <div class="flex-1 flex flex-col gap-4 overflow-y-auto pr-2">
+      ${qs.map((q,i)=>`
+        <div class="border ${q.ok?'border-emerald-300 ring-1 ring-emerald-200':'border-slate-200'} rounded-xl p-5 bg-white shadow-sm relative">
+          <div class="absolute top-4 right-4 flex items-center gap-1.5">
+            <button onclick="toggleApprove(this)" data-on="${q.ok?'1':'0'}" class="p-1.5 border rounded-lg transition-all ${q.ok?'text-emerald-600 bg-emerald-50 border-emerald-200':'text-slate-400 bg-white border-slate-200 hover:border-indigo-300'}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </button>
+            <button class="p-1.5 text-slate-400 hover:text-indigo-500 bg-white border border-slate-200 rounded-lg">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+          </div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="pill ${q.cat==='Reading'?'bg-blue-100 text-blue-700':'bg-violet-100 text-violet-700'} text-[10px]">${q.type}</span>
+            <span class="tag">${q.tag}</span>
+            <span class="pill text-[10px] ${q.diff==='상'?'bg-red-100 text-red-600':q.diff==='중'?'bg-amber-100 text-amber-700':'bg-emerald-100 text-emerald-700'}">난이도 ${q.diff}</span>
+          </div>
+          <p class="font-semibold text-slate-900 text-sm mb-3 pr-20 leading-relaxed">
+            <span class="text-indigo-500 font-bold mr-1">Q${i+1}.</span>${q.q}
+          </p>
+          <div class="space-y-1.5 mb-4 ml-4">
+            ${q.choices.map(c=>{
+              const isAns = c===q.ans;
+              return `<div class="flex items-center gap-2 text-xs p-2 rounded-lg border ${isAns?'bg-indigo-50 border-indigo-200 text-indigo-900 font-semibold':'bg-slate-50 border-transparent text-slate-600'}">
+                ${isAns?'<svg class="w-3.5 h-3.5 text-indigo-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>':'<div class="w-3.5 h-3.5 flex-shrink-0"></div>'}
+                ${c}
+              </div>`;
+            }).join('')}
+          </div>
+          <div class="bg-slate-50 border border-slate-100 rounded-lg p-3 text-[11px] text-slate-600">
+            <span class="font-bold text-slate-700">📌 본문 근거:</span> ${q.ev}
+          </div>
+        </div>`).join('')}
+      <button onclick="toast('문항을 추가 생성합니다.')" class="w-full py-3.5 border-2 border-dashed border-slate-200 rounded-xl text-slate-400 text-xs font-semibold hover:bg-indigo-50 hover:text-indigo-500 hover:border-indigo-300 transition-colors">+ 선택 유형 추가 생성</button>
+    </div>
+    <!-- Stats -->
+    <div class="w-52 flex flex-col gap-3 flex-shrink-0">
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">구성 밸런스</p>
+        <div class="space-y-4">
+          ${[
+            {l:'이해형(Reading)',n:readN,t:qs.length,c:'bg-blue-500'},
+            {l:'내신형(Exam)',n:examN,t:qs.length,c:'bg-violet-500'},
+          ].map(s=>`<div>
+            <div class="flex justify-between text-[11px] mb-1 font-semibold">
+              <span class="text-slate-600">${s.l}</span><span class="text-slate-800">${s.n}문항</span>
+            </div>
+            <div class="rubric-bar"><div class="${s.c}" style="width:${Math.round(s.n/s.t*100)}%"></div></div>
+          </div>`).join('')}
+          <div class="pt-2 border-t border-slate-100">
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">난이도 분포</p>
+            <div class="flex h-3 rounded-full overflow-hidden gap-0.5">
+              <div class="bg-emerald-400 rounded-l-full" style="width:${Math.round(lowN/qs.length*100)}%" title="하"></div>
+              <div class="bg-amber-400" style="width:${Math.round(midN/qs.length*100)}%" title="중"></div>
+              <div class="bg-red-400 rounded-r-full flex-1" title="상"></div>
+            </div>
+            <div class="flex justify-between text-[10px] mt-1 font-bold">
+              <span class="text-emerald-600">하 ${lowN}</span><span class="text-amber-600">중 ${midN}</span><span class="text-red-500">상 ${hiN}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex-1">
+        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">문항 품질 QA</p>
+        <div class="space-y-2.5">
+          ${['정답이 단일하고 명확한가?','본문에서 근거를 찾을 수 있는가?','오답이 합리적으로 구성되었는가?','태그가 문항 의도와 일치하는가?'].map(t=>`
+            <label class="flex items-start gap-2 cursor-pointer">
+              <input type="checkbox" class="w-3.5 h-3.5 mt-0.5 rounded border-slate-300 text-indigo-500">
+              <span class="text-[11px] text-slate-600 leading-tight">${t}</span>
+            </label>`).join('')}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+function renderStep6() {
+  const o = DATA.output[activeLevel];
+  return `
+<div class="max-w-5xl mx-auto flex flex-col gap-3 h-full">
+  <div class="flex-shrink-0">
+    <h3 class="font-bold text-slate-800">표현 과업 · AI 피드백 기준 (Output Task & Rubric)</h3>
+    <p class="text-xs text-slate-400 mt-0.5"><strong class="text-indigo-600">${activeLevel}</strong> 학생에게 주어질 쓰기 과업과 AI 평가 루브릭을 점검합니다.</p>
+  </div>
+  ${levelTabs('setLevel')}
+  <div class="flex gap-4 flex-1 min-h-0 bg-white rounded-b-xl rounded-tr-xl border border-slate-200 border-t-0 shadow-sm p-5">
+    <!-- Task design -->
+    <div class="w-64 border border-slate-200 rounded-xl flex flex-col overflow-hidden flex-shrink-0">
+      <div class="bg-slate-50 border-b border-slate-100 px-4 py-3">
+        <span class="font-bold text-slate-700 text-sm">표현 과업 설계</span>
+      </div>
+      <div class="p-4 space-y-4 overflow-y-auto flex-1">
+        <div>
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">과업 질문</p>
+          <textarea rows="2" class="w-full text-xs p-2.5 border border-slate-200 rounded-lg bg-slate-50 outline-none focus:ring-2 focus:ring-indigo-400">${o.task}</textarea>
+        </div>
+        <div>
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">문장틀 (Template)</p>
+          <textarea rows="${activeLevel==='L3'?5:activeLevel==='L1'?2:3}" class="w-full text-xs p-2.5 border border-indigo-200 rounded-lg bg-indigo-50 outline-none font-mono text-indigo-700 leading-relaxed focus:ring-2 focus:ring-indigo-400">${o.template}</textarea>
+        </div>
+        <div>
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Reason Bank</p>
+          <ul class="space-y-1.5">
+            ${o.reasons.map(r=>`<li class="flex items-start gap-1.5 bg-slate-50 border border-slate-100 rounded-lg p-2 text-[11px] text-slate-700">
+              <svg class="w-3 h-3 mt-0.5 text-slate-300 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
+              ${r}
+            </li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- AI Rubric -->
+    <div class="w-72 border border-slate-200 rounded-xl flex flex-col overflow-hidden flex-shrink-0">
+      <div class="bg-slate-50 border-b border-slate-100 px-4 py-3 flex justify-between items-center">
+        <span class="font-bold text-slate-700 text-sm">AI 평가 루브릭</span>
+        <span class="pill bg-emerald-100 text-emerald-700 text-[10px]">System Prompt</span>
+      </div>
+      <div class="p-4 space-y-4 overflow-y-auto flex-1">
+        <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-3">
+          <div class="flex justify-between items-start mb-2">
+            <p class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">평가 지침</p>
+            <button onclick="toast('프롬프트 편집기를 열었습니다.')" class="text-[10px] text-emerald-600 hover:underline font-semibold">편집</button>
+          </div>
+          <p class="text-[11px] text-emerald-900 leading-relaxed bg-white/60 rounded p-2.5 border border-emerald-100">${o.prompt}</p>
+        </div>
+        <div>
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">진단 태그 (Analytics)</p>
+          <div class="flex flex-wrap gap-1.5">
+            ${o.tags.map(t=>`<span class="tag hover:bg-indigo-50 hover:border-indigo-200 cursor-pointer transition-colors">${t}</span>`).join('')}
+            <button onclick="toast('태그를 추가했습니다.')" class="tag border-dashed text-indigo-500 hover:bg-indigo-50 transition-colors">+ 추가</button>
+          </div>
+          <p class="text-[10px] text-slate-400 mt-2 leading-tight">* 위 태그는 교사 리포트 화면에서 취약점 분석 데이터로 분류됩니다.</p>
+        </div>
+      </div>
+    </div>
+    <!-- Feedback simulator -->
+    <div class="flex-1 border border-indigo-200 rounded-xl flex flex-col overflow-hidden ring-1 ring-indigo-100">
+      <div class="bg-indigo-50 border-b border-indigo-100 px-4 py-3 flex justify-between items-center flex-shrink-0">
+        <span class="font-bold text-indigo-800 text-sm flex items-center gap-2">
+          <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          AI 피드백 시뮬레이터
+        </span>
+        <span class="pill bg-indigo-200 text-indigo-800 text-[10px] font-bold">Test Mode</span>
+      </div>
+      <div class="p-4 flex-1 overflow-y-auto bg-slate-50/50">
+        <div class="mb-4">
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">가상 학생 답변</p>
+          <div class="p-3 bg-white border border-slate-200 rounded-lg text-xs text-slate-700 italic font-serif leading-relaxed">"${o.sample}"</div>
+        </div>
+        <div class="space-y-2.5">
+          ${[
+            {label:'Score', val:o.fb.score, color:'text-indigo-600', bg:'bg-indigo-50', border:'border-indigo-200'},
+            {label:'잘한 점', val:o.fb.good, color:'text-emerald-700', bg:'bg-emerald-50', border:'border-emerald-200'},
+            {label:'수정 제안', val:o.fb.fix, color:'text-amber-700', bg:'bg-amber-50', border:'border-amber-200'},
+            {label:'더 나은 표현', val:o.fb.better, color:'text-violet-700', bg:'bg-violet-50', border:'border-violet-200'},
+          ].map(fb=>`<div class="${fb.bg} border ${fb.border} rounded-xl p-3">
+            <p class="text-[10px] font-bold ${fb.color} uppercase tracking-wider mb-1.5">${fb.label}</p>
+            <p class="text-[12px] text-slate-800 leading-relaxed font-${fb.label==='더 나은 표현'?'mono':'sans'}">${fb.val}</p>
+          </div>`).join('')}
+        </div>
+        <button onclick="toast('다른 샘플로 테스트합니다.')" class="w-full mt-4 py-2 border border-indigo-200 rounded-lg text-indigo-600 text-xs font-semibold hover:bg-indigo-50 flex items-center justify-center gap-1.5 transition-colors bg-white">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg> 다른 샘플 테스트
+        </button>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+function renderStep7() {
+  const guide = DATA.guide[activeLevel];
+  return `
+<div class="max-w-5xl mx-auto flex flex-col gap-3 h-full">
+  <!-- Publish banner -->
+  <div class="bg-gradient-to-r from-indigo-600 to-violet-600 rounded-xl p-4 flex justify-between items-center flex-shrink-0 text-white shadow-md">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div>
+        <p class="font-bold">All QA Passed — Ready to Publish</p>
+        <p class="text-indigo-200 text-[11px]">모든 검수 단계가 완료되었습니다. 교사용 가이드를 확인하고 배포하세요.</p>
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <button onclick="toast('PDF를 다운로드합니다.')" class="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/30 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1.5">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>PDF 다운로드
+      </button>
+      <button onclick="toast('학생 앱으로 배포되었습니다! 🎉')" class="px-4 py-2 bg-white text-indigo-700 hover:bg-indigo-50 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 shadow-sm">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>학생 앱 배포
+      </button>
+    </div>
+  </div>
+
+  ${levelTabs('setLevel')}
+  <div class="flex gap-4 flex-1 min-h-0 bg-white rounded-b-xl rounded-tr-xl border border-slate-200 border-t-0 shadow-sm p-5">
+    <!-- Teacher guide -->
+    <div class="flex-1 flex flex-col gap-4 overflow-y-auto pr-1">
+      <!-- Summary & Goals -->
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-slate-50 border border-slate-100 rounded-xl p-4">
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">이슈 배경 요약</p>
+          <p class="text-xs text-slate-700 leading-relaxed">${guide.summary}</p>
+        </div>
+        <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4">
+          <p class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider mb-2">수업 목표</p>
+          <ul class="space-y-1.5">
+            ${guide.goals.map(g=>`<li class="flex items-start gap-1.5 text-xs text-indigo-900">
+              <svg class="w-3.5 h-3.5 text-indigo-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>${g}
+            </li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      <!-- Lesson plans -->
+      <div>
+        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">단계별 활용안</p>
+        <div class="space-y-2">
+          ${[
+            {icon:'⚡',label:'10분 퀵 수업',text:guide.p10,accent:'bg-slate-50 border-slate-200'},
+            {icon:'🎯',label:'30분 정규 수업',text:guide.p30,accent:'bg-indigo-50 border-indigo-100'},
+            {icon:'🏠',label:'숙제 과제',text:guide.hw,accent:'bg-slate-50 border-slate-200'},
+          ].map(lp=>`<div class="flex items-stretch border ${lp.accent} rounded-xl overflow-hidden">
+            <div class="${lp.accent} w-28 flex flex-col items-center justify-center p-3 border-r ${lp.accent} text-center">
+              <span class="text-xl mb-1">${lp.icon}</span>
+              <span class="text-[11px] font-bold text-slate-700 leading-tight">${lp.label}</span>
+            </div>
+            <div class="p-3 flex-1 flex items-center text-xs text-slate-700 leading-relaxed bg-white">${lp.text}</div>
+          </div>`).join('')}
+        </div>
+      </div>
+      <!-- Anticipated errors -->
+      <div>
+        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">예상 오답 & 지도 팁</p>
+        <div class="grid grid-cols-2 gap-3">
+          ${guide.wrong.map(w=>`<div class="bg-amber-50 border border-amber-100 rounded-xl p-3">
+            <p class="text-[11px] font-bold text-amber-700 mb-1">${w.q}</p>
+            <p class="text-[11px] text-slate-700 mb-2"><span class="text-red-500 font-bold">오류:</span> ${w.err}</p>
+            <p class="text-[11px] bg-white border border-amber-100 rounded-lg p-2 text-slate-600"><span class="text-emerald-600 font-bold">Tip:</span> ${w.tip}</p>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>
+    <!-- Right panel -->
+    <div class="w-56 flex flex-col gap-3 flex-shrink-0">
+      <!-- Parent report -->
+      <div class="bg-white border border-slate-200 rounded-xl flex flex-col overflow-hidden shadow-sm" style="height:55%">
+        <div class="bg-violet-50 border-b border-violet-100 px-3 py-2.5 flex justify-between items-center flex-shrink-0">
+          <span class="font-bold text-violet-800 text-xs">학부모 알림장</span>
+          <button onclick="toast('클립보드에 복사되었습니다.')" class="text-[10px] text-violet-500 hover:text-violet-700 font-semibold">복사</button>
+        </div>
+        <div class="p-3 flex-1 overflow-y-auto bg-violet-50/30">
+          <p class="text-[11px] text-slate-700 leading-relaxed">${guide.report}</p>
+        </div>
+      </div>
+      <!-- Module package -->
+      <div class="bg-slate-800 rounded-xl flex flex-col overflow-hidden flex-1 border border-slate-700">
+        <div class="bg-slate-900 px-3 py-2 flex items-center gap-1.5 border-b border-slate-700">
+          <div class="w-2 h-2 rounded-full bg-red-400"></div>
+          <div class="w-2 h-2 rounded-full bg-amber-400"></div>
+          <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+          <span class="text-[10px] text-slate-400 font-mono ml-2">Student App Preview</span>
+        </div>
+        <div class="p-3 flex-1 space-y-2">
+          <div class="bg-indigo-600 rounded-lg p-2.5 text-white">
+            <p class="text-[10px] font-bold text-indigo-200 mb-0.5">This Week's Issue</p>
+            <p class="text-[11px] font-bold leading-tight">Should Students Use AI for Homework?</p>
+          </div>
+          ${['📖 Issue Opener','🔑 Key Question','📚 Core Vocabulary','📄 Reading Passage','✏️ Reading Check','🎯 Output Task'].map((m,i)=>`
+            <div class="flex items-center gap-2 bg-slate-700/60 rounded-lg px-2.5 py-1.5">
+              <span class="text-[10px] text-slate-300">${m}</span>
+              ${i<3?'<div class="ml-auto w-1.5 h-1.5 rounded-full bg-emerald-400"></div>':'<div class="ml-auto w-1.5 h-1.5 rounded-full bg-slate-600"></div>'}
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+function renderStep8() {
+  return `
+<div class="max-w-5xl mx-auto flex flex-col gap-4 h-full">
+  <div class="flex items-center justify-between flex-shrink-0">
+    <div>
+      <h3 class="font-bold text-slate-800">학습 데이터 환류 (Analytics Dashboard)</h3>
+      <p class="text-xs text-slate-400 mt-0.5">배포 후 수집된 학생 학습 데이터를 분석해 다음 콘텐츠 선정에 반영합니다.</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="pill bg-emerald-100 text-emerald-700 border border-emerald-200 text-[11px]">Live Data · 실시간 업데이트</span>
+      <select class="text-xs border border-slate-200 rounded-lg px-3 py-1.5 bg-white outline-none text-slate-600 font-semibold">
+        <option>2026년 5월 1주</option><option>4월 4주</option><option>4월 3주</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- KPI row -->
+  <div class="grid grid-cols-5 gap-3 flex-shrink-0">
+    ${[
+      {icon:'👩‍🎓',label:'학습 완료',val:'247명',sub:'전체 284명 중',color:'bg-white'},
+      {icon:'⏱️',label:'평균 학습 시간',val:'22분',sub:'목표 25분 대비 88%',color:'bg-white'},
+      {icon:'✅',label:'독해 문항 정답률',val:'73%',sub:'L2 기준',color:'bg-white'},
+      {icon:'✍️',label:'의견 쓰기 완료율',val:'61%',sub:'전주 대비 +8%',color:'bg-white'},
+      {icon:'⭐',label:'교사 만족도',val:'4.4 / 5',sub:'응답 31명',color:'bg-white'},
+    ].map(k=>`<div class="${k.color} border border-slate-200 rounded-xl p-4 shadow-sm">
+      <span class="text-xl">${k.icon}</span>
+      <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wide mt-2 mb-0.5">${k.label}</p>
+      <p class="text-xl font-black text-slate-800">${k.val}</p>
+      <p class="text-[10px] text-slate-400">${k.sub}</p>
+    </div>`).join('')}
+  </div>
+
+  <div class="flex gap-4 flex-1 min-h-0">
+    <!-- Reading skill weakness -->
+    <div class="w-64 bg-white border border-slate-200 rounded-xl shadow-sm flex flex-col overflow-hidden flex-shrink-0">
+      <div class="bg-slate-50 border-b border-slate-100 px-4 py-3">
+        <p class="font-bold text-slate-700 text-sm">독해 기능별 정답률</p>
+        <p class="text-[10px] text-slate-400 mt-0.5">L2 레벨 기준 · 247명</p>
+      </div>
+      <div class="p-4 space-y-3 overflow-y-auto flex-1">
+        ${[
+          {skill:'세부 정보 파악',pct:84,c:'bg-emerald-500'},
+          {skill:'요지·주제 파악',pct:72,c:'bg-indigo-500'},
+          {skill:'원인·결과 파악',pct:68,c:'bg-amber-500'},
+          {skill:'어휘 문맥 의미',pct:59,c:'bg-amber-500'},
+          {skill:'추론·필자 의도',pct:43,c:'bg-red-500'},
+          {skill:'함축 의미 파악',pct:38,c:'bg-red-500'},
+        ].map(s=>`<div>
+          <div class="flex justify-between text-[11px] mb-1">
+            <span class="font-semibold text-slate-700">${s.skill}</span>
+            <span class="font-bold ${s.pct>=70?'text-emerald-600':s.pct>=55?'text-amber-600':'text-red-500'}">${s.pct}%</span>
+          </div>
+          <div class="rubric-bar"><div class="${s.c}" style="width:${s.pct}%"></div></div>
+        </div>`).join('')}
+        <div class="bg-red-50 border border-red-100 rounded-lg p-2.5 mt-3">
+          <p class="text-[10px] font-bold text-red-600 mb-1">⚠️ 취약 기능 감지</p>
+          <p class="text-[11px] text-red-700">추론·함축 의미 파악이 50% 미만입니다. 다음 주 콘텐츠에 해당 기능을 집중 배치하세요.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center: Student writing & vocabulary heatmap -->
+    <div class="flex-1 flex flex-col gap-3">
+      <!-- Writing quality distribution -->
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex-shrink-0">
+        <div class="flex justify-between items-center mb-3">
+          <p class="font-bold text-slate-700 text-sm">의견 쓰기 AI 피드백 분포</p>
+          <span class="pill bg-slate-100 text-slate-500 text-[10px]">L2 · 150명 제출</span>
+        </div>
+        <div class="flex gap-2 h-20">
+          ${[
+            {label:'Excellent',n:31,c:'bg-emerald-400'},
+            {label:'Good',n:67,c:'bg-indigo-400'},
+            {label:'Fair',n:38,c:'bg-amber-400'},
+            {label:'Needs Work',n:14,c:'bg-red-400'},
+          ].map(b=>{const h=Math.round((b.n/150)*100);return `<div class="flex-1 flex flex-col items-center justify-end gap-1">
+            <span class="text-[10px] font-bold text-slate-600">${b.n}</span>
+            <div class="${b.c} w-full rounded-t-lg" style="height:${h}%"></div>
+            <span class="text-[10px] text-slate-400 font-semibold">${b.label}</span>
+          </div>`;}).join('')}
+        </div>
+      </div>
+
+      <!-- Vocab miss heatmap -->
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex-1">
+        <div class="flex justify-between items-center mb-3">
+          <p class="font-bold text-slate-700 text-sm">어휘 오답 빈도 (개인 복습 추천 기준)</p>
+          <span class="pill bg-slate-100 text-slate-500 text-[10px]">오답률 높은 순</span>
+        </div>
+        <div class="grid grid-cols-4 gap-2">
+          ${[
+            {w:'shortcut',pct:62,c:'bg-red-100 text-red-700 border-red-200'},
+            {w:'efficiently',pct:57,c:'bg-red-100 text-red-700 border-red-200'},
+            {w:'enhance',pct:48,c:'bg-amber-100 text-amber-700 border-amber-200'},
+            {w:'ultimately',pct:44,c:'bg-amber-100 text-amber-700 border-amber-200'},
+            {w:'wisely',pct:32,c:'bg-amber-50 text-amber-600 border-amber-100'},
+            {w:'generate',pct:29,c:'bg-amber-50 text-amber-600 border-amber-100'},
+            {w:'tool',pct:14,c:'bg-slate-50 text-slate-500 border-slate-100'},
+            {w:'copy',pct:11,c:'bg-slate-50 text-slate-500 border-slate-100'},
+          ].map(v=>`<div class="border ${v.c} rounded-lg p-2 text-center">
+            <p class="font-bold text-sm">${v.w}</p>
+            <p class="text-[10px] font-bold">오답 ${v.pct}%</p>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Next week reco -->
+    <div class="w-56 flex flex-col gap-3 flex-shrink-0">
+      <!-- Next week reco -->
+      <div class="bg-indigo-600 rounded-xl p-4 text-white flex-1">
+        <p class="text-[10px] font-bold text-indigo-200 uppercase tracking-wider mb-3">AI 다음 주 콘텐츠 추천</p>
+        <div class="space-y-2.5">
+          ${[
+            {icon:'🎯',t:'독해 기능',v:'추론 · 함축 의미 집중'},
+            {icon:'📰',t:'추천 주제',v:'AI와 창의성 / 환경 정책'},
+            {icon:'📊',t:'권장 구조',v:'주장·근거형 (C형)'},
+            {icon:'📝',t:'표현 과업',v:'찬반 에세이 (L3 연계)'},
+          ].map(r=>`<div class="bg-white/10 rounded-xl p-2.5">
+            <p class="text-[10px] text-indigo-200 mb-0.5">${r.icon} ${r.t}</p>
+            <p class="text-xs font-bold text-white">${r.v}</p>
+          </div>`).join('')}
+        </div>
+      </div>
+      <!-- Teacher actions -->
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">교사 액션 필요</p>
+        <div class="space-y-2">
+          ${[
+            {t:'추론 취약 학생 14명 개별 코칭',c:'text-red-600 bg-red-50 border-red-100'},
+            {t:'어휘 shortcut 복습 카드 발송',c:'text-amber-700 bg-amber-50 border-amber-100'},
+            {t:'학부모 리포트 발송 (완료율 87%)',c:'text-slate-600 bg-slate-50 border-slate-100'},
+          ].map(a=>`<div class="text-[11px] ${a.c} border rounded-lg p-2 leading-tight font-medium">${a.t}</div>`).join('')}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+// ──────────────────────────────────────────────
+// NAVIGATION
+// ──────────────────────────────────────────────
+const RENDERERS = [null, renderStep1, renderStep2, renderStep3, renderStep4, renderStep5, renderStep6, renderStep7, renderStep8];
+
+function renderSidebar() {
+  const container = document.getElementById('stepper');
+  container.innerHTML = '<div class="step-line"></div>' + STEPS.map(s=>{
+    const done = s.id < currentStep;
+    const active = s.id === currentStep;
+    return `<button onclick="goStep(${s.id})" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-colors relative z-10 ${active?'bg-indigo-50 text-indigo-700':done?'text-slate-500 hover:bg-slate-50':'text-slate-400 hover:bg-slate-50'}">
+      <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-[11px] font-bold border ${active?'bg-indigo-600 text-white border-indigo-600':done?'bg-emerald-500 text-white border-emerald-500':'bg-white text-slate-400 border-slate-200'}">
+        ${done ? '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>' : s.id}
+      </div>
+      <span class="text-[11px] font-${active?'bold':'semibold'} leading-tight">${s.title}</span>
+    </button>`;
+  }).join('');
+}
+
+function renderHeader() {
+  const s = STEPS[currentStep-1];
+  document.getElementById('step-title').textContent = `${s.id}. ${s.title}`;
+  const badge = document.getElementById('step-badge');
+  const isLast = currentStep === 8;
+  badge.textContent = isLast ? '완료됨' : currentStep < 7 ? '검수 중' : '패키징';
+  badge.className = `pill text-[11px] border ${isLast?'bg-emerald-100 text-emerald-700 border-emerald-200':currentStep>=7?'bg-violet-100 text-violet-700 border-violet-200':'bg-amber-100 text-amber-700 border-amber-200'}`;
+  document.getElementById('btn-prev').disabled = currentStep===1;
+  const hint = document.getElementById('next-hint');
+  if (s.nextLabel && !isLast) { hint.textContent = `다음: ${s.nextLabel}`; hint.classList.remove('hidden'); }
+  else hint.classList.add('hidden');
+  document.getElementById('btn-approve-text').textContent = isLast ? '분석 완료 · 새 주차 시작' : `${s.nextLabel||'다음'} →`;
+  document.getElementById('progress-label').textContent = `${currentStep} / 8 완료`;
+  document.getElementById('progress-bar').style.width = `${(currentStep/8)*100}%`;
+  const btnReject = document.getElementById('btn-reject');
+  if(currentStep>=3 && currentStep<=6) btnReject.classList.remove('hidden');
+  else btnReject.classList.add('hidden');
+}
+
+function renderWorkspace() {
+  const ws = document.getElementById('workspace');
+  ws.innerHTML = `<div class="fade-in h-full">${RENDERERS[currentStep]()}</div>`;
+  lucide.createIcons();
+  renderSidebar();
+  renderHeader();
+}
+
+window.goStep = function(id) {
+  currentStep = id;
+  renderWorkspace();
+};
+
+document.getElementById('btn-approve').addEventListener('click', ()=>{
+  if(currentStep < 8) { currentStep++; renderWorkspace(); toast(`Step ${currentStep}로 이동했습니다.`); }
+  else toast('모든 단계 완료! 새 주차 콘텐츠 기획을 시작합니다. 🎉');
+});
+document.getElementById('btn-prev').addEventListener('click', ()=>{
+  if(currentStep > 1) { currentStep--; renderWorkspace(); }
+});
+document.getElementById('btn-reject').addEventListener('click', ()=>{
+  toast('재작업을 요청했습니다. AI가 재생성합니다.', 'err');
+});
+
+// Init
+renderWorkspace();
+</script>
+</body>
+</html>

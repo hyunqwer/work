@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>서비스 기획서 — AI Content Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --indigo: #4f46e5;
+  --indigo-d: #3730a3;
+  --indigo-l: #e0e7ff;
+  --violet: #7c3aed;
+  --slate: #1e293b;
+  --slate-m: #475569;
+  --slate-l: #94a3b8;
+  --slate-xl: #f1f5f9;
+  --emerald: #059669;
+  --amber: #d97706;
+  --red: #dc2626;
+}
+body {
+  font-family: 'Pretendard', -apple-system, sans-serif;
+  background: #e8eaf6;
+  display: flex; justify-content: center; align-items: flex-start;
+  min-height: 100vh; padding: 24px 16px;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.page {
+  width: 794px;
+  background: white;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.14);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── HEADER ── */
+.hdr {
+  background: linear-gradient(135deg, #312e81 0%, #4f46e5 55%, #7c3aed 100%);
+  padding: 32px 40px 28px;
+  position: relative;
+  overflow: hidden;
+}
+.hdr::after {
+  content:'';
+  position:absolute; top:-60px; right:-60px;
+  width:220px; height:220px;
+  border-radius:50%;
+  background: rgba(255,255,255,0.06);
+}
+.hdr::before {
+  content:'';
+  position:absolute; bottom:-80px; right:120px;
+  width:160px; height:160px;
+  border-radius:50%;
+  background: rgba(255,255,255,0.04);
+}
+.hdr-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:18px; }
+.badge-doc { font-size:10px; font-weight:700; color:rgba(255,255,255,0.6); letter-spacing:.08em; text-transform:uppercase; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); border-radius:99px; padding:4px 12px; display:inline-block; }
+.hdr-meta { text-align:right; font-size:10px; color:rgba(255,255,255,0.55); line-height:1.8; }
+.hdr h1 { font-size:28px; font-weight:900; color:#fff; letter-spacing:-.5px; line-height:1.15; margin-bottom:6px; position:relative; z-index:1; }
+.hdr h1 span { color:#a5b4fc; }
+.hdr-sub { font-size:13px; color:rgba(255,255,255,0.75); line-height:1.6; max-width:520px; position:relative; z-index:1; }
+.hdr-chips { display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; position:relative; z-index:1; }
+.chip { font-size:10px; font-weight:700; padding:4px 11px; border-radius:99px; border:1px solid rgba(255,255,255,0.25); color:rgba(255,255,255,0.85); background:rgba(255,255,255,0.1); letter-spacing:.02em; }
+.chip.hi { background:rgba(255,255,255,0.22); color:#fff; }
+
+/* ── LAYOUT ── */
+.body { padding: 28px 40px 32px; }
+.row { display:flex; gap:18px; margin-bottom:18px; }
+.col { flex:1; }
+.col-2 { flex:2; }
+
+/* ── SECTION LABEL ── */
+.sec-label {
+  font-size:9px; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
+  color: var(--indigo); margin-bottom:10px;
+  display:flex; align-items:center; gap:6px;
+}
+.sec-label::after { content:''; flex:1; height:1px; background:#e2e8f0; }
+
+/* ── CONCEPT BOX ── */
+.concept-box {
+  background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+  border:1px solid #c7d2fe; border-radius:10px;
+  padding:16px 20px;
+}
+.concept-quote {
+  font-size:14px; font-weight:700; color:var(--indigo-d); line-height:1.6;
+  border-left:3px solid var(--indigo); padding-left:14px; margin-bottom:10px;
+}
+.concept-desc { font-size:11px; color:var(--slate-m); line-height:1.7; }
+
+/* ── PROBLEM → SOLUTION ── */
+.ps-grid { display:grid; grid-template-columns:1fr 24px 1fr; gap:0; align-items:stretch; }
+.ps-box { padding:12px 14px; border-radius:8px; }
+.ps-box.prob { background:#fef2f2; border:1px solid #fecaca; }
+.ps-box.sol  { background:#eef2ff; border:1px solid #c7d2fe; }
+.ps-arrow { display:flex; align-items:center; justify-content:center; color:var(--slate-l); font-size:16px; }
+.ps-title { font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; margin-bottom:8px; }
+.ps-box.prob .ps-title { color:#b91c1c; }
+.ps-box.sol  .ps-title { color:var(--indigo-d); }
+.ps-items { list-style:none; }
+.ps-items li { font-size:10.5px; color:var(--slate); line-height:1.6; display:flex; gap:5px; margin-bottom:2px; }
+.ps-items li::before { flex-shrink:0; margin-top:1px; }
+.ps-box.prob .ps-items li::before { content:'✗'; color:#ef4444; font-weight:700; font-size:9px; margin-top:2px; }
+.ps-box.sol  .ps-items li::before { content:'✓'; color:var(--indigo); font-weight:700; font-size:9px; margin-top:2px; }
+
+/* ── PIPELINE ── */
+.pipeline { display:flex; align-items:stretch; gap:0; }
+.pipe-step { flex:1; position:relative; }
+.pipe-step + .pipe-step::before {
+  content:'›';
+  position:absolute; left:-8px; top:50%; transform:translateY(-50%);
+  color:var(--slate-l); font-size:14px; z-index:1;
+}
+.pipe-inner {
+  background:var(--slate-xl); border:1px solid #e2e8f0; border-radius:7px;
+  padding:8px 8px 8px; text-align:center;
+  height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+}
+.pipe-inner.active { background:#eef2ff; border-color:#c7d2fe; }
+.pipe-inner.done   { background:#ecfdf5; border-color:#a7f3d0; }
+.pipe-num { font-size:9px; font-weight:800; color:var(--slate-l); }
+.pipe-inner.active .pipe-num { color:var(--indigo); }
+.pipe-inner.done   .pipe-num { color:var(--emerald); }
+.pipe-icon { font-size:14px; line-height:1; }
+.pipe-label { font-size:9px; font-weight:700; color:var(--slate); line-height:1.3; }
+
+/* ── RUBRIC ── */
+.rubric-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.rubric-item { background:var(--slate-xl); border-radius:7px; padding:8px 10px; display:flex; align-items:center; gap:8px; }
+.rubric-bar-wrap { flex:1; }
+.rubric-name { font-size:9.5px; font-weight:700; color:var(--slate); margin-bottom:3px; }
+.rubric-bar { height:4px; background:#e2e8f0; border-radius:99px; overflow:hidden; }
+.rubric-fill { height:100%; border-radius:99px; }
+.rubric-score { font-size:11px; font-weight:800; color:var(--indigo); flex-shrink:0; }
+
+/* ── LEVEL TABLE ── */
+.level-table { width:100%; border-collapse:collapse; font-size:10px; }
+.level-table th { background:var(--slate); color:#fff; padding:7px 10px; text-align:left; font-size:9px; font-weight:700; letter-spacing:.04em; }
+.level-table th:first-child { border-radius:7px 0 0 0; }
+.level-table th:last-child { border-radius:0 7px 0 0; }
+.level-table td { padding:7px 10px; border-bottom:1px solid #f1f5f9; color:var(--slate-m); font-size:10px; vertical-align:top; line-height:1.5; }
+.level-table tr:hover td { background:#fafafa; }
+.level-table tr:last-child td { border-bottom:none; }
+.lv-badge { display:inline-block; font-size:9px; font-weight:800; padding:2px 8px; border-radius:99px; }
+.lv1 { background:#dcfce7; color:#166534; }
+.lv2 { background:#e0e7ff; color:#3730a3; }
+.lv3 { background:#fce7f3; color:#9d174d; }
+
+/* ── MODULE FLOW ── */
+.module-flow { display:flex; flex-wrap:wrap; gap:5px; }
+.mod { font-size:9px; font-weight:700; padding:4px 9px; border-radius:5px; display:flex; align-items:center; gap:3px; }
+.mod-r { background:#eef2ff; color:var(--indigo); border:1px solid #c7d2fe; }
+.mod-p { background:#f5f3ff; color:#6d28d9; border:1px solid #ddd6fe; }
+.mod-d { background:#ecfdf5; color:var(--emerald); border:1px solid #a7f3d0; }
+.mod-arrow { color:#cbd5e1; font-size:11px; display:flex; align-items:center; }
+
+/* ── KPI ── */
+.kpi-row { display:flex; gap:10px; }
+.kpi { flex:1; background:var(--slate-xl); border-radius:8px; padding:10px 12px; text-align:center; border:1px solid #e2e8f0; }
+.kpi-val { font-size:20px; font-weight:900; color:var(--slate); line-height:1; }
+.kpi-val span { font-size:11px; font-weight:700; color:var(--slate-m); }
+.kpi-label { font-size:9px; color:var(--slate-l); font-weight:600; margin-top:3px; }
+
+/* ── CONNECTOR STACK ── */
+.connector-list { display:flex; flex-direction:column; gap:5px; }
+.conn-item { display:flex; align-items:center; gap:8px; padding:6px 10px; border-radius:7px; background:var(--slate-xl); border:1px solid #e2e8f0; }
+.conn-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.conn-name { font-size:10px; font-weight:700; color:var(--slate); min-width:90px; }
+.conn-desc { font-size:9.5px; color:var(--slate-l); }
+.conn-status { margin-left:auto; font-size:8px; font-weight:700; padding:2px 7px; border-radius:99px; flex-shrink:0; }
+.st-live { background:#dcfce7; color:#166534; }
+.st-plan { background:#fef9c3; color:#854d0e; }
+.st-next { background:#e0e7ff; color:#3730a3; }
+
+/* ── POSITIONING ── */
+.pos-box { background:linear-gradient(135deg,#1e1b4b,#312e81); border-radius:10px; padding:16px 20px; color:white; }
+.pos-main { font-size:13px; font-weight:800; color:#a5b4fc; margin-bottom:8px; line-height:1.5; }
+.pos-sub { font-size:10.5px; color:rgba(255,255,255,0.65); line-height:1.7; }
+.pos-tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; }
+.pos-tag { font-size:9px; font-weight:700; padding:3px 10px; border-radius:99px; background:rgba(255,255,255,0.12); color:rgba(255,255,255,0.8); border:1px solid rgba(255,255,255,0.2); }
+
+/* ── DIVIDER ── */
+.divider { height:1px; background:#f1f5f9; margin:0 0 18px; }
+
+/* ── FOOTER ── */
+.ftr { background:var(--slate-xl); border-top:1px solid #e2e8f0; padding:10px 40px; display:flex; justify-content:space-between; align-items:center; }
+.ftr-l { font-size:9px; color:var(--slate-l); }
+.ftr-r { font-size:9px; color:var(--slate-l); }
+.ftr-r strong { color:var(--slate-m); }
+
+@media print {
+  body { background:white; padding:0; }
+  .page { box-shadow:none; border-radius:0; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ──── HEADER ──── -->
+  <div class="hdr">
+    <div class="hdr-top">
+      <div>
+        <div class="badge-doc">Service Planning Document · Internal</div>
+      </div>
+      <div class="hdr-meta">
+        작성자: 상품기획팀 · 윤선생<br>
+        버전: v2.0 · 2026.04.27<br>
+        상태: 내부 검토용
+      </div>
+    </div>
+    <h1>AI Content Studio<br><span>중등 영어 AI 주간 콘텐츠 제작 시스템</span></h1>
+    <p class="hdr-sub">
+      최신 뉴스를 2022 개정 영어과 교육과정 성취기준에 맞게 자동 변환하여,<br>
+      매주 독해 지문 · 문항 · 표현 과업 · 교사 가이드 · 학습 데이터를 한 번에 생산하는 AI 콘텐츠 파이프라인
+    </p>
+    <div class="hdr-chips">
+      <span class="chip hi">중등 영어</span>
+      <span class="chip">2022 개정 교육과정 기반</span>
+      <span class="chip">AI 자동화</span>
+      <span class="chip">주간 구독형</span>
+      <span class="chip">교사 · 학부모 · 학생 3-tier</span>
+    </div>
+  </div>
+
+  <!-- ──── BODY ──── -->
+  <div class="body">
+
+    <!-- ROW 1: 콘셉트 + 문제/해결 -->
+    <div class="row">
+      <div class="col">
+        <div class="sec-label">핵심 콘셉트</div>
+        <div class="concept-box">
+          <div class="concept-quote">
+            "뉴스로 읽고, 교육과정으로 배우고,<br>내신형으로 확인하고, AI 피드백으로 성장한다"
+          </div>
+          <p class="concept-desc">
+            뉴스는 <strong>소재</strong>이고 본체는 <strong>교육과정 기반 독해·사고·표현 훈련 시스템</strong>입니다.
+            AI가 뉴스 선정부터 콘텐츠 제작·배포·데이터 환류까지 전 과정을 자동화하여
+            편집자의 검수 부담을 최소화하고 콘텐츠 품질을 일관되게 유지합니다.
+          </p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="sec-label">Problem → Solution</div>
+        <div class="ps-grid">
+          <div class="ps-box prob">
+            <div class="ps-title">기존 문제점</div>
+            <ul class="ps-items">
+              <li><span>화제성 중심 뉴스 선정 → 교육과정 연계 부족</span></li>
+              <li><span>단발성 지문 공급 → 학습 자산 누적 안 됨</span></li>
+              <li><span>수준 미분화 → 학생별 적정 난이도 없음</span></li>
+              <li><span>교사 설명 부담 큼 → 현장 확산 한계</span></li>
+            </ul>
+          </div>
+          <div class="ps-arrow">›</div>
+          <div class="ps-box sol">
+            <div class="ps-title">AI Studio 해결책</div>
+            <ul class="ps-items">
+              <li><span>100점 루브릭으로 교육과정 적합 뉴스 자동 선정</span></li>
+              <li><span>메타데이터 DB 구축 → 콘텐츠 자산화</span></li>
+              <li><span>L1/L2/L3 수준별 지문 자동 생성</span></li>
+              <li><span>교사 가이드 · 학부모 알림장 자동 생성</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ROW 2: 8단계 파이프라인 -->
+    <div style="margin-bottom:18px;">
+      <div class="sec-label">8단계 AI 콘텐츠 제작 파이프라인</div>
+      <div class="pipeline">
+        <div class="pipe-step">
+          <div class="pipe-inner done">
+            <div class="pipe-num">01</div>
+            <div class="pipe-icon">📰</div>
+            <div class="pipe-label">뉴스 후보<br>수집 · 선정</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-inner done">
+            <div class="pipe-num">02</div>
+            <div class="pipe-icon">🗂</div>
+            <div class="pipe-label">설계 카드<br>매핑</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-inner active">
+            <div class="pipe-num">03</div>
+            <div class="pipe-icon">📄</div>
+            <div class="pipe-label">수준별<br>지문 생성</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-inner active">
+            <div class="pipe-num">04</div>
+            <div class="pipe-icon">📚</div>
+            <div class="pipe-label">어휘 · 구문<br>추출</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-inner active">
+            <div class="pipe-num">05</div>
+            <div class="pipe-icon">✏️</div>
+            <div class="pipe-label">독해 · 내신<br>문항 생성</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-inner active">
+            <div class="pipe-num">06</div>
+            <div class="pipe-icon">💬</div>
+            <div class="pipe-label">표현 과업<br>피드백 기준</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-inner">
+            <div class="pipe-num">07</div>
+            <div class="pipe-icon">📦</div>
+            <div class="pipe-label">교사 가이드<br>패키징</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-inner">
+            <div class="pipe-num">08</div>
+            <div class="pipe-icon">📊</div>
+            <div class="pipe-label">학습 데이터<br>환류</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; gap:12px; margin-top:7px; font-size:9px; color:var(--slate-l);">
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:2px;display:inline-block;"></span>AI 자동 완료</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:2px;display:inline-block;"></span>AI 생성 + 편집자 검수</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:2px;display:inline-block;"></span>편집자 검토 후 배포</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ROW 3: 뉴스 선정 루브릭 + 모듈 구성 -->
+    <div class="row">
+      <div class="col">
+        <div class="sec-label">뉴스 선정 루브릭 (100점)</div>
+        <div class="rubric-grid">
+          <div class="rubric-item">
+            <div class="rubric-bar-wrap">
+              <div class="rubric-name">교육과정 적합성</div>
+              <div class="rubric-bar"><div class="rubric-fill" style="width:100%;background:#4f46e5;"></div></div>
+            </div>
+            <div class="rubric-score">20</div>
+          </div>
+          <div class="rubric-item">
+            <div class="rubric-bar-wrap">
+              <div class="rubric-name">영어 학습 전환성</div>
+              <div class="rubric-bar"><div class="rubric-fill" style="width:100%;background:#4f46e5;"></div></div>
+            </div>
+            <div class="rubric-score">20</div>
+          </div>
+          <div class="rubric-item">
+            <div class="rubric-bar-wrap">
+              <div class="rubric-name">중학생 적합성</div>
+              <div class="rubric-bar"><div class="rubric-fill" style="width:75%;background:#7c3aed;"></div></div>
+            </div>
+            <div class="rubric-score">15</div>
+          </div>
+          <div class="rubric-item">
+            <div class="rubric-bar-wrap">
+              <div class="rubric-name">사고 확장성</div>
+              <div class="rubric-bar"><div class="rubric-fill" style="width:75%;background:#7c3aed;"></div></div>
+            </div>
+            <div class="rubric-score">15</div>
+          </div>
+          <div class="rubric-item">
+            <div class="rubric-bar-wrap">
+              <div class="rubric-name">최신성 · 지속성 균형</div>
+              <div class="rubric-bar"><div class="rubric-fill" style="width:50%;background:#0891b2;"></div></div>
+            </div>
+            <div class="rubric-score">10</div>
+          </div>
+          <div class="rubric-item">
+            <div class="rubric-bar-wrap">
+              <div class="rubric-name">수업 · 운영 활용성</div>
+              <div class="rubric-bar"><div class="rubric-fill" style="width:50%;background:#0891b2;"></div></div>
+            </div>
+            <div class="rubric-score">10</div>
+          </div>
+          <div class="rubric-item" style="grid-column:1/-1;">
+            <div class="rubric-bar-wrap">
+              <div class="rubric-name">윤리 · 안전성</div>
+              <div class="rubric-bar"><div class="rubric-fill" style="width:50%;background:#059669;"></div></div>
+            </div>
+            <div class="rubric-score">10</div>
+          </div>
+        </div>
+        <div style="margin-top:8px; font-size:9px; color:var(--slate-l);">
+          ※ 85점 이상 → 최우선 개발 / 윤리·안전성 5점 미만 → 총점 무관 즉시 제외
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="sec-label">Weekly Issue Module 구성 (10 Parts)</div>
+        <div class="module-flow">
+          <span class="mod mod-r">① Issue Opener</span>
+          <span class="mod-arrow">›</span>
+          <span class="mod mod-r">② Key Question</span>
+          <span class="mod-arrow">›</span>
+          <span class="mod mod-r">③ Core Vocabulary</span>
+          <span class="mod-arrow">›</span>
+          <span class="mod mod-r">④ Reading Passage</span>
+          <span class="mod-arrow">›</span>
+          <span class="mod mod-r">⑤ Reading Check</span>
+          <span class="mod-arrow">›</span>
+          <span class="mod mod-p">⑥ Language Focus</span>
+          <span class="mod-arrow">›</span>
+          <span class="mod mod-p">⑦ Exam Practice</span>
+          <span class="mod-arrow">›</span>
+          <span class="mod mod-p">⑧ Summary Task</span>
+          <span class="mod-arrow">›</span>
+          <span class="mod mod-d">⑨ Opinion Task</span>
+          <span class="mod-arrow">›</span>
+          <span class="mod mod-d">⑩ AI Feedback</span>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:8px;font-size:9px;">
+          <span style="color:#4f46e5;font-weight:700;">■ 이해 영역</span>
+          <span style="color:#7c3aed;font-weight:700;">■ 언어 · 내신</span>
+          <span style="color:#059669;font-weight:700;">■ 표현 · 데이터</span>
+        </div>
+
+        <div style="margin-top:14px;">
+          <div class="sec-label">3레벨 수준별 학습 구조</div>
+          <table class="level-table">
+            <thead>
+              <tr>
+                <th>레벨</th><th>대상</th><th>지문</th><th>핵심 기능</th><th>표현 과업</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="lv-badge lv1">L1 Foundation</span></td>
+                <td>중1~2 기초</td>
+                <td>120~160 words</td>
+                <td>세부정보 · 중심내용</td>
+                <td>1문장 의견</td>
+              </tr>
+              <tr>
+                <td><span class="lv-badge lv2">L2 Core</span></td>
+                <td>중2~3 일반</td>
+                <td>180~230 words</td>
+                <td>요지 · 논리관계</td>
+                <td>3문장 의견</td>
+              </tr>
+              <tr>
+                <td><span class="lv-badge lv3">L3 Challenge</span></td>
+                <td>중2~3 상위</td>
+                <td>250~320 words</td>
+                <td>추론 · 함축의미</td>
+                <td>4~5문장 에세이</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ROW 4: KPI + 커넥터 + 포지셔닝 -->
+    <div class="row">
+      <div class="col-2">
+        <div class="sec-label">핵심 성과 지표 (KPI 목표)</div>
+        <div class="kpi-row" style="margin-bottom:14px;">
+          <div class="kpi"><div class="kpi-val">85<span>점↑</span></div><div class="kpi-label">뉴스 평균 루브릭 점수</div></div>
+          <div class="kpi"><div class="kpi-val">3<span>개/주</span></div><div class="kpi-label">주간 콘텐츠 생산량</div></div>
+          <div class="kpi"><div class="kpi-val">70<span>%↑</span></div><div class="kpi-label">독해 문항 평균 정답률</div></div>
+          <div class="kpi"><div class="kpi-val">4.0<span>/5</span></div><div class="kpi-label">교사 만족도 목표</div></div>
+        </div>
+
+        <div class="sec-label">포지셔닝 전략</div>
+        <div class="pos-box">
+          <div class="pos-main">"학교별 내신 직전 대비"가 아닌<br>"내신형 독해 체질을 만드는 주간 훈련"</div>
+          <div class="pos-sub">기존 윤선생의 강점인 체계적 학습 설계와 반복 학습 DNA를 유지하면서,<br>최신성 · 내신 연결성 · 교사 활용성 · AI 개인화를 모두 담는 구독형 서비스</div>
+          <div class="pos-tags">
+            <span class="pos-tag">주간 구독</span>
+            <span class="pos-tag">교육과정 기반</span>
+            <span class="pos-tag">AI 개인화</span>
+            <span class="pos-tag">교사 코칭 연계</span>
+            <span class="pos-tag">학부모 리포트</span>
+            <span class="pos-tag">데이터 환류</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="sec-label">커넥터 구성 (기술 스택)</div>
+        <div class="connector-list">
+          <div class="conn-item">
+            <div class="conn-dot" style="background:#4f46e5;"></div>
+            <div class="conn-name">OpenAI GPT-4o</div>
+            <div class="conn-desc">지문 생성 · 문항 생성 · AI 피드백</div>
+            <span class="conn-status st-live">운영 중</span>
+          </div>
+          <div class="conn-item">
+            <div class="conn-dot" style="background:#0ea5e9;"></div>
+            <div class="conn-name">NewsAPI</div>
+            <div class="conn-desc">글로벌 뉴스 후보 자동 수집</div>
+            <span class="conn-status st-live">운영 중</span>
+          </div>
+          <div class="conn-item">
+            <div class="conn-dot" style="background:#f59e0b;"></div>
+            <div class="conn-name">Naver News API</div>
+            <div class="conn-desc">국내 이슈 수집 · 한국 맥락 보완</div>
+            <span class="conn-status st-plan">기획 중</span>
+          </div>
+          <div class="conn-item">
+            <div class="conn-dot" style="background:#f97316;"></div>
+            <div class="conn-name">Firebase Firestore</div>
+            <div class="conn-desc">학생 응답 · 학습 데이터 실시간 저장</div>
+            <span class="conn-status st-live">운영 중</span>
+          </div>
+          <div class="conn-item">
+            <div class="conn-dot" style="background:#10b981;"></div>
+            <div class="conn-name">Slack Webhook</div>
+            <div class="conn-desc">QA 승인 알림 · 재작업 요청 자동화</div>
+            <span class="conn-status st-next">다음 단계</span>
+          </div>
+          <div class="conn-item">
+            <div class="conn-dot" style="background:#8b5cf6;"></div>
+            <div class="conn-name">Google Drive</div>
+            <div class="conn-desc">완성 모듈 PDF 저장 · 버전 관리</div>
+            <span class="conn-status st-next">다음 단계</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /body -->
+
+  <!-- ──── FOOTER ──── -->
+  <div class="ftr">
+    <div class="ftr-l">AI Content Studio — 중등 영어 주간 콘텐츠 제작 시스템 · 윤선생 상품기획팀</div>
+    <div class="ftr-r">버전 <strong>v2.0</strong> · 2026.04.27 · Internal Review Only</div>
+  </div>
+
+</div>
+</body>
+</html>
