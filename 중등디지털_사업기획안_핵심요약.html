@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>교사 운영형 중등 영어 플랫폼 신사업 — 핵심 요약</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Malgun Gothic','Apple SD Gothic Neo',sans-serif;background:#F7F8FA;color:#222;line-height:1.6}
+  .page{max-width:900px;margin:0 auto;padding:2.5rem 2rem}
+  /* HEADER */
+  .header{background:#1B4F8A;border-radius:14px;padding:2rem 2.5rem;margin-bottom:2rem;color:#fff}
+  .header .badge{display:inline-block;font-size:11px;font-weight:700;background:rgba(255,255,255,.18);padding:3px 12px;border-radius:20px;letter-spacing:.05em;margin-bottom:.75rem}
+  .header h1{font-size:26px;font-weight:700;margin-bottom:.4rem;line-height:1.3}
+  .header .sub{font-size:14px;opacity:.75}
+  .quote{background:rgba(255,255,255,.13);border-left:3px solid rgba(255,255,255,.6);border-radius:0 8px 8px 0;padding:.85rem 1.2rem;margin-top:1.2rem;font-size:14px;line-height:1.65;font-weight:500}
+
+  /* SECTIONS */
+  .section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#888;margin:2rem 0 .8rem}
+
+  /* THREE WHY */
+  .three-why{display:grid;gap:10px;margin-bottom:2rem}
+  .why-item{display:grid;grid-template-columns:36px 1fr;gap:12px;align-items:start;padding:1rem 1.2rem;background:#fff;border:1px solid #E8ECF0;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .why-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:1px}
+  .n1{background:#E8F1FB;color:#1B4F8A}
+  .n2{background:#EBF6EE;color:#1E7E40}
+  .n3{background:#FFF4E0;color:#9A5F00}
+  .why-body{font-size:13.5px;color:#333;line-height:1.65}
+  .why-body b{font-weight:700;color:#111;display:block;margin-bottom:.2rem;font-size:14px}
+
+  /* COMPARE */
+  .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:2rem}
+  .compare-col{border-radius:12px;overflow:hidden;border:1px solid #E8ECF0}
+  .compare-head{padding:.65rem 1rem;font-size:12px;font-weight:700}
+  .ch-old{background:#F1F2F4;color:#666}
+  .ch-new{background:#1B4F8A;color:#fff}
+  .compare-row{padding:.55rem 1rem;font-size:13px;color:#444;border-top:1px solid #F0F2F4;line-height:1.5}
+  .compare-row.alt{background:#F8F9FB}
+
+  /* FLOW */
+  .flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:2rem}
+  .flow-box{background:#fff;border:1px solid #E8ECF0;border-radius:10px;padding:.5rem .9rem;font-size:13px;color:#333;line-height:1.45;text-align:center}
+  .flow-box span{display:block;font-size:11px;color:#999;margin-top:1px}
+  .flow-arrow{font-size:16px;color:#ccc}
+
+  /* MODULES */
+  .module-list{display:grid;gap:6px;margin-bottom:2rem}
+  .mod-row{display:grid;grid-template-columns:130px 1fr;gap:12px;align-items:start;padding:.75rem 1rem;background:#fff;border:1px solid #E8ECF0;border-radius:10px}
+  .mod-name{font-size:13px;font-weight:700;color:#1B4F8A}
+  .mod-desc{font-size:13px;color:#555;line-height:1.5}
+
+  /* QUOTE BOX */
+  .quote-box{border-left:3px solid #2E75B6;padding:.85rem 1.2rem;background:#EBF3FB;border-radius:0 10px 10px 0;margin-bottom:2rem;font-size:14px;color:#1B4F8A;line-height:1.65;font-weight:600}
+
+  /* TIMELINE */
+  .timeline{display:grid;gap:0;margin-bottom:2rem}
+  .tl-row{display:grid;grid-template-columns:100px 14px 1fr;gap:0 12px;align-items:start}
+  .tl-label{font-size:11px;color:#888;padding:.55rem 0;text-align:right}
+  .tl-line{display:flex;flex-direction:column;align-items:center}
+  .tl-dot{width:12px;height:12px;border-radius:50%;background:#2E75B6;border:2px solid #1B4F8A;margin-top:5px;flex-shrink:0}
+  .tl-dot.done{background:#2EAA5C;border-color:#1E7E40}
+  .tl-vert{flex:1;width:2px;background:#E8ECF0;min-height:26px}
+  .tl-content{padding:.4rem 0 .6rem;font-size:13px;color:#333;line-height:1.55}
+  .tl-content b{font-weight:700;color:#111}
+
+  /* RISKS */
+  .risk-list{display:grid;gap:6px;margin-bottom:2rem}
+  .risk-row{display:flex;gap:10px;align-items:start;padding:.7rem 1rem;background:#fff;border:1px solid #E8ECF0;border-radius:10px}
+  .risk-badge{flex-shrink:0;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;margin-top:1px}
+  .rb-high{background:#FDE8E8;color:#B33}
+  .rb-mid{background:#FFF2D9;color:#905}
+  .risk-txt{font-size:13px;color:#444;line-height:1.55}
+
+  /* DECISIONS */
+  .decision-list{display:grid;gap:6px;margin-bottom:2rem}
+  .dec-row{display:flex;gap:10px;align-items:start;padding:.7rem 1rem;background:#F0F5FF;border:1px solid #D0DFF5;border-radius:10px}
+  .dec-num{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:#2E75B6;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .dec-txt{font-size:13px;color:#1B3A5E;line-height:1.55}
+
+  /* FOOTER */
+  .footer-bar{background:#1B4F8A;border-radius:12px;padding:1.1rem 1.5rem;font-size:13px;color:rgba(255,255,255,.85);line-height:1.7;margin-bottom:.5rem}
+  .footer-bar b{font-weight:700;color:#fff}
+
+  .meta{font-size:11px;color:#AAA;text-align:center;margin-top:1rem}
+  @media(max-width:600px){
+    .compare-grid{grid-template-columns:1fr}
+    .flow{gap:5px}
+    .flow-arrow{display:none}
+    .page{padding:1.5rem 1rem}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="badge">중등 리빌딩 프로젝트 · 1차 초안</div>
+    <h1>교사 운영형 중등 영어 플랫폼 신사업</h1>
+    <div class="sub">윤선생 상품기획본부 · 2026.04 &nbsp;|&nbsp; 사업기획안 핵심 요약</div>
+    <div class="quote">"기존 중등 교재의 단순 디지털 전환이 아니라, 교사가 중학생 영어 독해·시험 훈련을 지속 운영할 수 있게 해주는 AI 기반 구독형 학습 서비스"</div>
+  </div>
+
+  <div class="section-label">핵심 논리 — 왜 · 누구에게 · 왜 먹히는가</div>
+  <div class="three-why">
+    <div class="why-item">
+      <div class="why-num n1">①</div>
+      <div class="why-body"><b>왜 이 사업을 해야 하는가</b>중등 영업지표 15년 연속 -15%, 회원 감소, 교재 재고 10년치. 단순 디지털화는 낡은 구조를 그대로 옮길 뿐이며, AI 기술 평준화로 지금이 혁신의 절호 기회다. 지금 하지 않으면 경쟁 격차가 더 빠르게 벌어진다.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-num n2">②</div>
+      <div class="why-body"><b>누구에게 무엇을 팔 것인가</b>원장·교사에게는 운영 효율 + 상담 경쟁력을, 학생에게는 시험 연계 맞춤 학습을, 학부모에게는 성적 향상 가시화를 판다. 학생 단독 앱이 아닌 B2B2C 구독형 서비스 구조.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-num n3">③</div>
+      <div class="why-body"><b>왜 이 구조가 먹히는가</b>윤선생이 가진 콘텐츠 자산·현장 네트워크를 활용하며, 무료 자료나 외부교재가 제공하지 못하는 통합 운영 시스템으로 경쟁한다. 교사의 존재가 핵심 자산이며, AI는 그 교사를 강화하는 엔진이다.</div>
+    </div>
+  </div>
+
+  <div class="section-label">기존 방식 vs 새 방식</div>
+  <div class="compare-grid">
+    <div class="compare-col">
+      <div class="compare-head ch-old">기존 방식</div>
+      <div class="compare-row">교재 한 권 단위 판매</div>
+      <div class="compare-row alt">ESL 다독형 리딩 중심</div>
+      <div class="compare-row">교사 수작업 운영</div>
+      <div class="compare-row alt">콘텐츠 판매 사업</div>
+      <div class="compare-row">교재 개정 주기 업데이트</div>
+    </div>
+    <div class="compare-col">
+      <div class="compare-head ch-new">새 방식</div>
+      <div class="compare-row">학생 1인당 월 구독</div>
+      <div class="compare-row alt">주제형 독해 + 시험연계 + AI 맞춤</div>
+      <div class="compare-row">AI 기반 교사 운영 콘솔</div>
+      <div class="compare-row alt">서비스 + 운영 시스템 판매</div>
+      <div class="compare-row">최신 트렌드 빠른 반영</div>
+    </div>
+  </div>
+
+  <div class="section-label">고객 구조 — B2B2C</div>
+  <div class="flow">
+    <div class="flow-box">원장 / 교사<span>구매결정권자</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box">학생 + 교사<span>핵심 사용자</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box">학부모<span>최종 설득 대상</span></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box">학생<span>최종 수혜자</span></div>
+  </div>
+
+  <div class="section-label">5개 핵심 모듈</div>
+  <div class="module-list">
+    <div class="mod-row"><div class="mod-name">📖 Core Reading</div><div class="mod-desc">수준별 짧은 독해 지문, Main Idea 훈련 — 독해력 기반 형성</div></div>
+    <div class="mod-row"><div class="mod-name">🌍 Topic Pack</div><div class="mod-desc">AI·환경·사회·진로·과학 등 주제별 세트, 읽기 + 사고 질문 + 표현 확장</div></div>
+    <div class="mod-row"><div class="mod-name">📝 Exam Link</div><div class="mod-desc">수능형·내신형 문항 패턴 반영, 빈출 주제·오답 포인트 해설</div></div>
+    <div class="mod-row"><div class="mod-name">🤖 AI Coach</div><div class="mod-desc">학습이력 기반 맞춤 추천, 취약 유형 반복 제안, 다음 학습 경로 제시</div></div>
+    <div class="mod-row"><div class="mod-name">🎓 Teacher Console</div><div class="mod-desc">학생별 현황 대시보드, 맞춤 과제 배정, 상담 코멘트 초안 자동 생성</div></div>
+  </div>
+
+  <div class="quote-box">"중학생인데도, 초등처럼 앉혀두면 학습이 굴러가고 — 교사에게는 실시간으로 학생별 관리 정보와 맞춤 처방이 자동 전달된다"<br><span style="font-size:12px;font-weight:400;color:#2E5FA8;margin-top:.4rem;display:block">현장이 반드시 반응할 결정적 한 방</span></div>
+
+  <div class="section-label">추진 로드맵</div>
+  <div class="timeline">
+    <div class="tl-row">
+      <div class="tl-label">1~2개월</div>
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-vert"></div></div>
+      <div class="tl-content"><b>기반 설계</b> — 학년별 프레임워크, MVP 기능 정의, 콘텐츠 원칙 수립</div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-label">2~3개월</div>
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-vert"></div></div>
+      <div class="tl-content"><b>콘텐츠 제작</b> — AI 기반 지문·문항 생산, 기존 원고 선별 재조합</div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-label">2~3개월</div>
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-vert"></div></div>
+      <div class="tl-content"><b>프로토타입</b> — 학생 화면, AI 추천 엔진, Teacher Console MVP 구현</div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-label">1~2개월</div>
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-vert"></div></div>
+      <div class="tl-content"><b>파일럿</b> — 선정 현장 베타 운영, 데이터 수집, 피드백 반영</div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-label">파일럿 후</div>
+      <div class="tl-line"><div class="tl-dot done"></div></div>
+      <div class="tl-content"><b>본 론칭</b> — 가격 확정, 전사 영업 확산</div>
+    </div>
+  </div>
+
+  <div class="section-label">주요 리스크</div>
+  <div class="risk-list">
+    <div class="risk-row"><span class="risk-badge rb-high">높음</span><div class="risk-txt">서비스가 "평범한 온라인 문제은행"처럼 보이면 첫인상에서 끝 — UX·데모에서 운영 시스템 강점 선제 시각화 필수</div></div>
+    <div class="risk-row"><span class="risk-badge rb-high">높음</span><div class="risk-txt">콘텐츠 품질 검수 부담 — AI 생산 + 검수 파이프라인 사전 구축 필요</div></div>
+    <div class="risk-row"><span class="risk-badge rb-mid">중간</span><div class="risk-txt">현장 디지털 전환 저항 — 파일럿 현장 선별, 교사 친화적 온보딩 설계</div></div>
+    <div class="risk-row"><span class="risk-badge rb-mid">중간</span><div class="risk-txt">기존 음원 수수료 BM과 충돌 — 병행 전환 로드맵 명확화 필요</div></div>
+  </div>
+
+  <div class="section-label">지금 확정이 필요한 의사결정</div>
+  <div class="decision-list">
+    <div class="dec-row"><div class="dec-num">1</div><div class="dec-txt">이 사업을 "교재 디지털화"가 아닌 "구독형 신규 서비스 사업"으로 공식 정의할 것인가?</div></div>
+    <div class="dec-row"><div class="dec-num">2</div><div class="dec-txt">첫 출시 MVP 범위 및 파일럿 일정 승인</div></div>
+    <div class="dec-row"><div class="dec-num">3</div><div class="dec-txt">기존 중등 BM과 신규 구독 BM의 병행 전환 로드맵 논의</div></div>
+    <div class="dec-row"><div class="dec-num">4</div><div class="dec-txt">콘텐츠·개발·기획 내부 리소스 배분 확정</div></div>
+  </div>
+
+  <div class="footer-bar"><b>이 프로젝트의 승패는</b> 기술이나 화면보다 "우리가 어떤 사업을 하려는가"를 선명하게 정의하는 데 달려 있습니다. 이 기획안은 그 정의를 위한 첫 번째 기준 문서입니다.</div>
+
+  <div class="meta">윤선생 상품기획본부 · 2026.04 · 내부 검토용 1차 초안</div>
+
+</div>
+</body>
+</html>
