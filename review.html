@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Speed English Master</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif; user-select: none; -webkit-user-select: none; }
+        .app-container { max-width: 480px; margin: 0 auto; height: 100vh; position: relative; overflow: hidden; background-color: #f3f4f6; }
+        .screen { display: none; height: 100%; flex-direction: column; }
+        .screen.active { display: flex; animation: fadeIn 0.3s ease-out; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        @keyframes pulse-ring { 0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); } 70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); } 100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); } }
+        
+        .btn-pop:active { transform: scale(0.95); }
+        .animate-pop { animation: pop 0.3s ease-out; }
+        .animate-shake { animation: shake 0.3s ease-out; }
+        .animate-mic { animation: pulse-ring 2s infinite; }
+        
+        .progress-bar-inner { transition: width 0.1s linear, background-color 0.3s; }
+        
+        /* Scrollbar hide for clean UI */
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Fill Blank Specific */
+        .blank-space { display: inline-block; min-width: 80px; border-bottom: 4px solid #a855f7; margin: 0 8px; text-align: center; color: #9333ea; font-weight: 800; line-height: 1; padding-bottom: 2px; }
+        .blank-space.filled { border-bottom-color: #22c55e; color: #16a34a; }
+        .blank-space.wrong { border-bottom-color: #ef4444; color: #dc2626; }
+    </style>
+</head>
+<body class="bg-gray-800 text-gray-800">
+
+<div class="app-container shadow-2xl bg-white flex flex-col">
+    
+    <!-- Screen 1: Main Menu -->
+    <div id="screen-main" class="screen active p-6 justify-center items-center bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+        <div class="text-center mb-10 animate-pop">
+            <i class="fas fa-bolt text-6xl text-yellow-300 mb-4"></i>
+            <h1 class="text-4xl font-extrabold tracking-tight">Speed Master</h1>
+            <p class="mt-2 text-indigo-100 font-medium">영단어 & 직독직해 타임어택!</p>
+        </div>
+        
+        <div class="w-full space-y-4">
+            <h2 class="text-lg font-bold text-indigo-200 mb-2">스토리 선택</h2>
+            <button onclick="selectStory('money')" class="btn-pop w-full bg-white text-indigo-600 rounded-2xl p-4 font-bold text-xl shadow-lg flex items-center justify-between">
+                <span><i class="fas fa-coins mr-3 text-yellow-500"></i>Unit 1: 화폐의 역사</span>
+                <i class="fas fa-chevron-right text-gray-300"></i>
+            </button>
+            <button onclick="selectStory('house')" class="btn-pop w-full bg-white text-indigo-600 rounded-2xl p-4 font-bold text-xl shadow-lg flex items-center justify-between">
+                <span><i class="fas fa-home mr-3 text-green-500"></i>Unit 2: 세계의 집</span>
+                <i class="fas fa-chevron-right text-gray-300"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Screen 2: Mode Selection -->
+    <div id="screen-mode" class="screen p-6 bg-gray-50 overflow-y-auto hide-scroll">
+        <button onclick="showScreen('screen-main')" class="self-start text-gray-500 p-2 -ml-2 mb-4 btn-pop">
+            <i class="fas fa-arrow-left text-xl"></i>
+        </button>
+        <h2 id="mode-title" class="text-3xl font-extrabold text-gray-800 mb-6 mt-2"></h2>
+        
+        <div class="space-y-4 mb-6">
+            <!-- Mode 1: Word Match -->
+            <button onclick="startWordGame()" class="btn-pop w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-2xl p-5 shadow-xl flex flex-col items-center relative overflow-hidden">
+                <i class="fas fa-stopwatch text-3xl mb-2 opacity-90"></i>
+                <span class="text-xl font-bold">스피드 단어 연결</span>
+                <span class="text-blue-100 text-xs mt-1">제한시간 내 뜻 매칭하기</span>
+                <div class="absolute -right-2 -bottom-2 opacity-10"><i class="fas fa-font text-6xl"></i></div>
+            </button>
+
+            <!-- Mode 2: Fill in the Blanks (NEW) -->
+            <button onclick="startFillGame()" class="btn-pop w-full bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-2xl p-5 shadow-xl flex flex-col items-center relative overflow-hidden">
+                <i class="fas fa-pen-nib text-3xl mb-2 opacity-90"></i>
+                <span class="text-xl font-bold">문장 빈칸 채우기</span>
+                <span class="text-purple-100 text-xs mt-1">해석을 보고 빈칸의 단어 찾기</span>
+                <div class="absolute -right-2 -bottom-2 opacity-10"><i class="fas fa-quote-right text-6xl"></i></div>
+            </button>
+
+            <!-- Mode 3: Chunk Assembly -->
+            <button onclick="startChunkGame()" class="btn-pop w-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-2xl p-5 shadow-xl flex flex-col items-center relative overflow-hidden">
+                <i class="fas fa-puzzle-piece text-3xl mb-2 opacity-90"></i>
+                <span class="text-xl font-bold">직독직해 청크 조립</span>
+                <span class="text-emerald-100 text-xs mt-1">의미 단위로 끊어 읽고 녹음하기</span>
+                <div class="absolute -right-2 -bottom-2 opacity-10"><i class="fas fa-align-left text-6xl"></i></div>
+            </button>
+        </div>
+        
+        <!-- Records -->
+        <div class="mt-auto bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <h3 class="text-sm font-bold text-gray-500 mb-2">최고 기록 <i class="fas fa-crown text-yellow-400"></i></h3>
+            <div class="flex justify-between text-sm mb-1">
+                <span class="text-gray-600">단어 연결:</span>
+                <span id="best-word" class="font-bold text-blue-600">-</span>
+            </div>
+            <div class="flex justify-between text-sm mb-1">
+                <span class="text-gray-600">빈칸 채우기:</span>
+                <span id="best-fill" class="font-bold text-purple-600">-</span>
+            </div>
+            <div class="flex justify-between text-sm">
+                <span class="text-gray-600">청크 조립:</span>
+                <span id="best-chunk" class="font-bold text-emerald-600">- 초</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screen 3: Word Game -->
+    <div id="screen-word" class="screen bg-white">
+        <div class="p-4 flex justify-between items-center border-b">
+            <div class="flex items-center text-blue-600 font-bold text-lg">
+                <i class="fas fa-star text-yellow-400 mr-2"></i> <span id="word-score">0</span>
+            </div>
+            <div id="word-combo" class="text-red-500 font-bold text-xl hidden transform scale-110">2 Combo!</div>
+            <button onclick="quitGame()" class="text-gray-400 p-2"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        <div class="w-full h-2 bg-gray-200">
+            <div id="word-timer-bar" class="progress-bar-inner h-full bg-green-500" style="width: 100%"></div>
+        </div>
+        <div class="flex-1 flex flex-col items-center p-6 justify-center">
+            <div class="text-gray-400 text-sm mb-4 font-bold"><span id="word-current-idx">1</span> / <span id="word-total-idx">10</span></div>
+            <div id="word-display" class="text-5xl font-extrabold text-gray-800 mb-10 text-center animate-pop">Word</div>
+            <div id="word-options" class="w-full grid grid-cols-2 gap-4"></div>
+        </div>
+    </div>
+
+    <!-- Screen 3.5: Fill Blank Game (NEW) -->
+    <div id="screen-fill" class="screen bg-white">
+        <div class="p-4 flex justify-between items-center border-b">
+            <div class="flex items-center text-purple-600 font-bold text-lg">
+                <i class="fas fa-star text-yellow-400 mr-2"></i> <span id="fill-score">0</span>
+            </div>
+            <div id="fill-combo" class="text-red-500 font-bold text-xl hidden transform scale-110">2 Combo!</div>
+            <button onclick="quitGame()" class="text-gray-400 p-2"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        <div class="w-full h-2 bg-gray-200">
+            <div id="fill-timer-bar" class="progress-bar-inner h-full bg-purple-500" style="width: 100%"></div>
+        </div>
+        <div class="flex-1 flex flex-col items-center p-6 justify-center">
+            <div class="text-gray-400 text-sm mb-4 font-bold"><span id="fill-current-idx">1</span> / <span id="fill-total-idx">3</span> 문장</div>
+            
+            <!-- Question Box -->
+            <div class="bg-purple-50 rounded-2xl p-5 w-full mb-8 shadow-inner border border-purple-100 flex flex-col justify-center min-h-[160px]">
+                <div id="fill-ko" class="text-gray-500 font-bold mb-4 text-center text-sm bg-white rounded-lg p-2 shadow-sm">그들은 돈이 없었기 때문에 물물교환을 했어요.</div>
+                <div id="fill-en" class="text-2xl font-extrabold text-gray-800 text-center leading-relaxed">
+                    <!-- Template injected by JS -->
+                </div>
+            </div>
+
+            <!-- Options Box -->
+            <div id="fill-options" class="w-full grid grid-cols-2 gap-4 mt-auto"></div>
+        </div>
+    </div>
+
+    <!-- Screen 4: Chunk Game (Updated 3-Step Process) -->
+    <div id="screen-chunk" class="screen bg-white">
+        <div class="p-4 flex justify-between items-center border-b">
+            <div class="flex items-center text-emerald-600 font-bold text-lg">
+                <i class="fas fa-stopwatch mr-2"></i> <span id="chunk-time">0.0</span>초
+            </div>
+            <div class="text-gray-400 font-bold"><span id="chunk-current-idx">1</span> / <span id="chunk-total-idx">3</span> 문장</div>
+            <button onclick="quitGame()" class="text-gray-400 p-2"><i class="fas fa-times text-xl"></i></button>
+        </div>
+
+        <div class="flex-1 flex flex-col p-6 overflow-y-auto hide-scroll relative">
+            
+            <!-- Phase 1: Voice (Read Aloud First) -->
+            <div id="chunk-phase-voice" class="flex flex-col items-center justify-center h-full hidden mt-10">
+                <div class="bg-blue-50 p-6 rounded-2xl mb-8 shadow-inner border border-blue-100 w-full">
+                    <p id="voice-full-en" class="text-2xl font-extrabold text-blue-700 leading-relaxed text-center"></p>
+                </div>
+                <div class="text-lg font-bold text-gray-700 mb-6 text-center">문장을 먼저 소리 내어 읽어보세요!</div>
+                <button id="btn-mic" onclick="startVoiceRecognition()" class="btn-pop w-24 h-24 bg-blue-500 text-white rounded-full flex items-center justify-center shadow-lg text-4xl mb-4 relative">
+                    <i class="fas fa-microphone z-10"></i>
+                    <div id="mic-ring" class="absolute w-full h-full rounded-full border-4 border-blue-400 hidden"></div>
+                </button>
+                <p id="voice-feedback" class="text-sm text-gray-500 font-bold h-6"></p>
+                <button onclick="startAssemblyPhase()" class="mt-8 text-gray-400 font-bold underline text-sm">건너뛰기 (조립으로 이동)</button>
+            </div>
+
+            <!-- Phase 2: Assembly -->
+            <div id="chunk-phase-assembly" class="flex flex-col h-full hidden">
+                <div class="mb-6">
+                    <div class="text-sm font-bold text-emerald-500 mb-2">현재 해석할 부분:</div>
+                    <div id="chunk-target-en" class="text-3xl font-extrabold text-center text-gray-800 py-4 animate-pop min-h-[80px]"></div>
+                    <div id="chunk-assembly" class="flex flex-col space-y-2 mt-4 mb-8"></div>
+                </div>
+                <div class="mt-auto">
+                    <div class="text-sm font-bold text-gray-400 mb-3 text-center">알맞은 뜻을 고르세요!</div>
+                    <div id="chunk-options" class="flex flex-col space-y-3"></div>
+                </div>
+            </div>
+
+            <!-- Phase 3: Review (Slashed & Translation) -->
+            <div id="chunk-phase-review" class="flex flex-col h-full hidden mt-4">
+                <div class="text-center text-emerald-500 font-bold text-xl mb-6 animate-pop">
+                    <i class="fas fa-check-circle mr-2"></i>조립 완성!
+                </div>
+                
+                <div class="bg-gray-50 p-5 rounded-2xl mb-6 shadow-sm border border-gray-200">
+                    <div class="text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">직독직해 구조</div>
+                    <p id="review-slashed-en" class="text-xl font-extrabold text-gray-800 leading-relaxed"></p>
+                </div>
+
+                <div class="bg-emerald-50 p-5 rounded-2xl mb-8 shadow-sm border border-emerald-100">
+                    <div class="text-xs font-bold text-emerald-500 mb-3 uppercase tracking-wider">해석 순서</div>
+                    <div id="review-ko-list" class="flex flex-col space-y-3"></div>
+                </div>
+
+                <button onclick="proceedToNextSentence()" class="mt-auto btn-pop w-full bg-emerald-600 text-white rounded-2xl p-5 shadow-xl font-bold text-xl flex justify-center items-center">
+                    다음 문장으로 <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Screen 5: Result -->
+    <div id="screen-result" class="screen p-6 justify-start items-center bg-gray-50 overflow-y-auto hide-scroll text-center pb-10">
+        <div id="result-icon" class="text-6xl text-yellow-400 mt-6 mb-4 animate-bounce"><i class="fas fa-trophy"></i></div>
+        <h2 class="text-3xl font-extrabold text-gray-800 mb-2">Game Clear!</h2>
+        <p id="result-desc" class="text-lg text-gray-600 mb-6">수고했어요!</p>
+        
+        <div class="bg-white rounded-2xl shadow-md p-6 w-full mb-4 border border-gray-100">
+            <div class="text-sm text-gray-500 font-bold mb-1">내 기록</div>
+            <div id="result-score" class="text-4xl font-extrabold text-blue-600 mb-2">1500점</div>
+        </div>
+
+        <div id="result-badges" class="w-full flex flex-wrap gap-2 mb-6 justify-center"></div>
+
+        <div id="result-wrong-words" class="w-full text-left bg-red-50 rounded-2xl p-4 mb-8 hidden border border-red-100">
+            <h3 class="font-bold text-red-600 mb-3"><i class="fas fa-book-open mr-2"></i>오답 노트 (다시 확인해요!)</h3>
+            <ul id="wrong-words-list" class="space-y-2"></ul>
+        </div>
+
+        <div class="flex space-x-4 w-full mt-auto">
+            <button onclick="showScreen('screen-mode')" class="flex-1 btn-pop bg-gray-200 text-gray-700 rounded-xl p-4 font-bold shadow">메뉴로</button>
+            <button onclick="retryGame()" class="flex-1 btn-pop bg-indigo-600 text-white rounded-xl p-4 font-bold shadow">다시 하기</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- DATABASE ---
+    const DB = {
+        money: {
+            title: "Unit 1: 화폐의 역사",
+            words: [
+                { en: "coin", ko: "동전" }, { en: "credit card", ko: "신용카드" },
+                { en: "shell", ko: "조개껍데기" }, { en: "count", ko: "수를 세다" },
+                { en: "trade", ko: "교환하다" }, { en: "pay", ko: "지불하다" },
+                { en: "bill", ko: "지폐" }, { en: "bead", ko: "구슬" },
+                { en: "thousands of", ko: "수천의" }, { en: "worth", ko: "~의 가치가 있는" },
+                { en: "payment", ko: "지불, 지급" }, { en: "ancient", ko: "고대의" },
+                { en: "a number of", ko: "다수의" }, { en: "look for", ko: "찾다" },
+                { en: "form", ko: "종류, 방식" }, { en: "instead of", ko: "~ 대신에" }
+            ],
+            fillBlanks: [
+                { ko: "그들은 돈이 없었기 때문에 물물교환을 했어요.", template: "They ___ because they had no money.", answer: "traded", distractors: ["counted", "paid", "blocked"] },
+                { ko: "그들은 구슬, 조개껍데기, 소금, 동물의 이빨을 돈으로 사용했어요.", template: "They used ___, shells, salt, and animal teeth as money.", answer: "beads", distractors: ["coins", "bills", "roofs"] },
+                { ko: "사람들은 동전과 지폐 대신에 그것들을 사용해요.", template: "People use them ___ coins and bills.", answer: "instead of", distractors: ["thousands of", "worth", "set up"] },
+                { ko: "각 지폐는 다수의 동전의 가치가 있었어요.", template: "Each bill was ___ a number of coins.", answer: "worth", distractors: ["ancient", "usually", "actually"] }
+            ],
+            sentences: [
+                { full: "They traded because they had no money.", ko_full: "그들은 돈이 없었기 때문에 물물교환을 했어요.", chunks: [{ en: "They traded", ko: "그들은 물물교환을 했어요", distractors: ["그들은 돈을 벌었어요", "그들은 물건을 샀어요"] }, { en: "because", ko: "왜냐하면 ~때문이에요", distractors: ["그래서", "하지만"] }, { en: "they had no money.", ko: "그들에게 돈이 없었기", distractors: ["그들에게 돈이 많았기", "그들이 부자였기"] }] },
+                { full: "They used beads, shells, salt, and animal teeth as money.", ko_full: "그들은 구슬, 조개껍데기, 소금, 동물의 이빨을 돈으로 사용했어요.", chunks: [{ en: "They used", ko: "그들은 사용했어요", distractors: ["그들은 버렸어요", "그들은 만들었어요"] }, { en: "beads, shells, salt, and animal teeth", ko: "구슬, 조개껍데기, 소금, 동물의 이빨을", distractors: ["동전, 지폐, 카드, 보석을", "돌, 나무, 모래, 나뭇잎을"] }, { en: "as money.", ko: "돈으로.", distractors: ["음식으로.", "장난감으로."] }] },
+                { full: "People use them instead of coins and bills.", ko_full: "사람들은 동전과 지폐 대신에 그것들을 사용해요.", chunks: [{ en: "People use them", ko: "사람들은 그것들을 사용해요", distractors: ["사람들은 그것들을 싫어해요", "사람들은 버려요"] }, { en: "instead of", ko: "~ 대신에", distractors: ["~ 와 함께", "~ 에 더하여"] }, { en: "coins and bills.", ko: "동전과 지폐.", distractors: ["신용카드와 스마트폰.", "금과 은."] }] }
+            ]
+        },
+        house: {
+            title: "Unit 2: 세계의 집",
+            words: [
+                { en: "space", ko: "공간" }, { en: "comfortable", ko: "편안한" },
+                { en: "roof", ko: "지붕" }, { en: "igloo", ko: "이글루" },
+                { en: "traditional", ko: "전통적인" }, { en: "north", ko: "북쪽의" },
+                { en: "bottom", ko: "바닥, 아랫부분" }, { en: "block", ko: "막다" },
+                { en: "set up", ko: "설치하다" }, { en: "actually", ko: "실제로" },
+                { en: "breeze", ko: "산들바람" }, { en: "take down", ko: "해체하다" },
+                { en: "during", ko: "~동안" }, { en: "shape", ko: "모양, 형태" },
+                { en: "usually", ko: "보통, 대개" }, { en: "front", ko: "앞면" }
+            ],
+            fillBlanks: [
+                { ko: "얼음이 바람을 막아주기 때문에 안을 따뜻하게 유지해요.", template: "The ice keeps the inside warm because it ___ the wind.", answer: "blocks", distractors: ["trades", "counts", "looks for"] },
+                { ko: "그것은 해체하고 다시 조립하기 쉬워요.", template: "It is easy to ___ and put back together.", answer: "take down", distractors: ["set up", "pay", "trade"] },
+                { ko: "보통 집 아랫부분에 동물들을 위한 공간이 있어요.", template: "There is ___ space at the bottom of the house for animals.", answer: "usually", distractors: ["actually", "comfortable", "ancient"] },
+                { ko: "이것은 전통적인 한국의 집(한옥)이에요.", template: "It is a ___ Korean house.", answer: "traditional", distractors: ["ancient", "comfortable", "north"] }
+            ],
+            sentences: [
+                { full: "The ice keeps the inside warm because it blocks the wind.", ko_full: "얼음이 바람을 막아주기 때문에 안을 따뜻하게 유지해요.", chunks: [{ en: "The ice", ko: "얼음이", distractors: ["눈이", "바람이"] }, { en: "keeps the inside warm", ko: "안을 따뜻하게 유지해요", distractors: ["밖을 춥게 유지해요", "안을 시원하게 해요"] }, { en: "because it blocks", ko: "그것이 막아주기 때문이에요", distractors: ["통과시키기 때문이에요", "부서지기 때문이에요"] }, { en: "the wind.", ko: "바람을.", distractors: ["비를.", "햇빛을."] }] },
+                { full: "It is easy to take down and put back together.", ko_full: "그것은 해체하고 다시 조립하기 쉬워요.", chunks: [{ en: "It is easy", ko: "그것은 쉬워요", distractors: ["그것은 어려워요", "그것은 무거워요"] }, { en: "to take down", ko: "해체하기", distractors: ["조립하기", "색칠하기"] }, { en: "and put back together.", ko: "그리고 다시 조립하기.", distractors: ["그리고 다시 버리기.", "그리고 부수기."] }] },
+                { full: "There is usually space at the bottom of the house for animals.", ko_full: "보통 집 아랫부분에 동물들을 위한 공간이 있어요.", chunks: [{ en: "There is usually space", ko: "보통 공간이 있어요", distractors: ["항상 공간이 없어요", "가끔 문이 있어요"] }, { en: "at the bottom of the house", ko: "집의 아랫부분에", distractors: ["집의 지붕에", "집의 앞면에"] }, { en: "for animals.", ko: "동물들을 위한.", distractors: ["사람들을 위한.", "식물들을 위한."] }] }
+            ]
+        }
+    };
+
+    // --- STATE ---
+    let currentStory = '';
+    let currentMode = '';
+    
+    // Shared Game State
+    let wrongWords = []; 
+    
+    // Word Game
+    let wordQueue = [], currentWordObj = null, wordScore = 0, wordCombo = 0, wordTimeLeft = 100, wordTimer = null, wordTotal = 0, wordCurrentIdx = 0, wordStartTime = 0;
+
+    // Fill Game
+    let fillQueue = [], currentFillObj = null, fillScore = 0, fillCombo = 0, fillTimeLeft = 100, fillTimer = null, fillTotal = 0, fillCurrentIdx = 0, fillStartTime = 0;
+
+    // Chunk Game
+    let chunkSentences = [], currentSentenceIdx = 0, currentChunkIdx = 0, chunkTimer = null, chunkStartTime = 0, chunkElapsed = 0;
+
+    // Web Speech API
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+    if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+    }
+
+    // Local Storage Records
+    let records = {
+        money: { word: 0, fill: 0, chunk: 999 },
+        house: { word: 0, fill: 0, chunk: 999 }
+    };
+
+    // --- UTILS ---
+    function shuffleArray(array) {
+        let arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    // --- NAVIGATION ---
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        clearTimers();
+    }
+
+    function selectStory(storyKey) {
+        currentStory = storyKey;
+        document.getElementById('mode-title').innerText = DB[storyKey].title;
+        
+        const recs = records[storyKey];
+        document.getElementById('best-word').innerText = recs.word > 0 ? `${recs.word}점` : '도전 전';
+        document.getElementById('best-fill').innerText = recs.fill > 0 ? `${recs.fill}점` : '도전 전';
+        document.getElementById('best-chunk').innerText = recs.chunk < 999 ? `${recs.chunk.toFixed(1)}초` : '도전 전';
+        
+        showScreen('screen-mode');
+    }
+
+    function quitGame() {
+        if(confirm("게임을 중단하고 메뉴로 돌아가시겠어요?")) {
+            showScreen('screen-mode');
+            if(recognition) recognition.stop();
+        }
+    }
+
+    function retryGame() {
+        if(currentMode === 'word') startWordGame();
+        else if(currentMode === 'fill') startFillGame();
+        else startChunkGame();
+    }
+
+    function clearTimers() {
+        if(wordTimer) clearInterval(wordTimer);
+        if(fillTimer) clearInterval(fillTimer);
+        if(chunkTimer) clearInterval(chunkTimer);
+    }
+
+    // ==============================================
+    // MODE 1: WORD GAME LOGIC
+    // ==============================================
+    function startWordGame() {
+        currentMode = 'word';
+        wordQueue = shuffleArray(DB[currentStory].words).slice(0, 10);
+        wordTotal = wordQueue.length;
+        wordCurrentIdx = 0; wordScore = 0; wordCombo = 0; wrongWords = []; wordStartTime = Date.now();
+        
+        document.getElementById('word-score').innerText = '0';
+        document.getElementById('word-total-idx').innerText = wordTotal;
+        document.getElementById('word-combo').classList.add('hidden');
+        
+        showScreen('screen-word');
+        nextWord();
+    }
+
+    function nextWord() {
+        if(wordCurrentIdx >= wordTotal) return endWordGame();
+        
+        currentWordObj = wordQueue[wordCurrentIdx++];
+        document.getElementById('word-current-idx').innerText = wordCurrentIdx;
+        
+        const display = document.getElementById('word-display');
+        display.innerText = currentWordObj.en;
+        display.classList.remove('animate-pop'); void display.offsetWidth; display.classList.add('animate-pop');
+
+        let distractors = shuffleArray(DB[currentStory].words.map(w=>w.ko).filter(m => m !== currentWordObj.ko)).slice(0, 3);
+        let options = shuffleArray([currentWordObj.ko, ...distractors]);
+
+        const optsContainer = document.getElementById('word-options');
+        optsContainer.innerHTML = '';
+        options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'btn-pop bg-gray-100 hover:bg-blue-50 text-gray-800 font-bold py-5 rounded-2xl shadow border-2 border-transparent transition-colors text-lg';
+            btn.innerText = opt;
+            btn.onclick = () => checkWordAnswer(btn, opt === currentWordObj.ko);
+            optsContainer.appendChild(btn);
+        });
+
+        wordTimeLeft = 100; updateWordTimerBar();
+        if(wordTimer) clearInterval(wordTimer);
+        wordTimer = setInterval(() => {
+            wordTimeLeft -= 1.5; updateWordTimerBar();
+            if(wordTimeLeft <= 0) {
+                if(!wrongWords.find(w => w.en === currentWordObj.en)) wrongWords.push(currentWordObj);
+                wordCombo = 0; document.getElementById('word-combo').classList.add('hidden');
+                nextWord(); 
+            }
+        }, 50);
+    }
+
+    function updateWordTimerBar() {
+        const bar = document.getElementById('word-timer-bar');
+        bar.style.width = Math.max(0, wordTimeLeft) + '%';
+        bar.style.backgroundColor = wordTimeLeft > 60 ? '#22c55e' : (wordTimeLeft > 30 ? '#eab308' : '#ef4444');
+    }
+
+    function checkWordAnswer(btn, isCorrect) {
+        clearInterval(wordTimer);
+        for(let b of document.getElementById('word-options').children) b.disabled = true;
+
+        if(isCorrect) {
+            btn.classList.replace('bg-gray-100', 'bg-blue-500'); btn.classList.replace('text-gray-800', 'text-white'); btn.classList.add('animate-pop');
+            wordCombo++;
+            wordScore += 100 + (wordCombo * 20) + Math.floor(wordTimeLeft);
+            document.getElementById('word-score').innerText = wordScore;
+            
+            if(wordCombo > 1) {
+                const c = document.getElementById('word-combo');
+                c.innerText = `${wordCombo} Combo!`; c.classList.remove('hidden', 'animate-pop'); void c.offsetWidth; c.classList.add('animate-pop');
+            }
+            setTimeout(nextWord, 400);
+        } else {
+            btn.classList.replace('bg-gray-100', 'bg-red-500'); btn.classList.replace('text-gray-800', 'text-white'); btn.classList.add('animate-shake');
+            if(!wrongWords.find(w => w.en === currentWordObj.en)) wrongWords.push(currentWordObj);
+            
+            for(let b of document.getElementById('word-options').children) {
+                if(b.innerText === currentWordObj.ko) b.classList.replace('bg-gray-100', 'bg-blue-200');
+            }
+            wordCombo = 0; document.getElementById('word-combo').classList.add('hidden');
+            setTimeout(nextWord, 800);
+        }
+    }
+
+    function endWordGame() {
+        clearTimers();
+        if(wordScore > records[currentStory].word) records[currentStory].word = wordScore;
+
+        let badges = [];
+        if (wrongWords.length === 0) badges.push({ icon: 'fa-crown', title: 'Perfect!', color: 'bg-yellow-400' });
+        if ((Date.now() - wordStartTime) / 1000 < 30) badges.push({ icon: 'fa-bolt', title: 'Speed Runner', color: 'bg-blue-500' });
+
+        showResult({ score: wordScore, unit: "점", desc: "단어 매스터 달성!", badges: badges, mistakes: wrongWords, theme: 'text-blue-600' });
+    }
+
+    // ==============================================
+    // MODE 2: FILL IN THE BLANK LOGIC (NEW)
+    // ==============================================
+    function startFillGame() {
+        currentMode = 'fill';
+        fillQueue = shuffleArray(DB[currentStory].fillBlanks);
+        fillTotal = fillQueue.length;
+        fillCurrentIdx = 0; fillScore = 0; fillCombo = 0; wrongWords = []; fillStartTime = Date.now();
+        
+        document.getElementById('fill-score').innerText = '0';
+        document.getElementById('fill-total-idx').innerText = fillTotal;
+        document.getElementById('fill-combo').classList.add('hidden');
+        
+        showScreen('screen-fill');
+        nextFillBlank();
+    }
+
+    function nextFillBlank() {
+        if(fillCurrentIdx >= fillTotal) return endFillGame();
+        
+        currentFillObj = fillQueue[fillCurrentIdx++];
+        document.getElementById('fill-current-idx').innerText = fillCurrentIdx;
+        
+        document.getElementById('fill-ko').innerText = currentFillObj.ko;
+        
+        // Render template with a placeholder span
+        const parts = currentFillObj.template.split("___");
+        const enDisplay = document.getElementById('fill-en');
+        enDisplay.innerHTML = `${parts[0]}<span id="blank-target" class="blank-space animate-pop">?</span>${parts[1]}`;
+
+        let options = shuffleArray([currentFillObj.answer, ...currentFillObj.distractors]);
+        const optsContainer = document.getElementById('fill-options');
+        optsContainer.innerHTML = '';
+        
+        options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'btn-pop bg-purple-50 hover:bg-purple-100 text-purple-900 font-extrabold py-5 rounded-2xl shadow border border-purple-200 transition-colors text-lg';
+            btn.innerText = opt;
+            btn.onclick = () => checkFillAnswer(btn, opt === currentFillObj.answer, opt);
+            optsContainer.appendChild(btn);
+        });
+
+        fillTimeLeft = 100; updateFillTimerBar();
+        if(fillTimer) clearInterval(fillTimer);
+        fillTimer = setInterval(() => {
+            fillTimeLeft -= 1.0; // Slightly slower than words to allow reading
+            updateFillTimerBar();
+            if(fillTimeLeft <= 0) {
+                if(!wrongWords.find(w => w.en === currentFillObj.answer)) wrongWords.push({ en: currentFillObj.answer, ko: currentFillObj.ko });
+                fillCombo = 0; document.getElementById('fill-combo').classList.add('hidden');
+                
+                const blank = document.getElementById('blank-target');
+                blank.innerText = currentFillObj.answer;
+                blank.classList.add('wrong');
+                setTimeout(nextFillBlank, 1200); 
+            }
+        }, 50);
+    }
+
+    function updateFillTimerBar() {
+        const bar = document.getElementById('fill-timer-bar');
+        bar.style.width = Math.max(0, fillTimeLeft) + '%';
+        bar.style.backgroundColor = fillTimeLeft > 60 ? '#a855f7' : (fillTimeLeft > 30 ? '#d946ef' : '#ef4444');
+    }
+
+    function checkFillAnswer(btn, isCorrect, selectedWord) {
+        clearInterval(fillTimer);
+        for(let b of document.getElementById('fill-options').children) b.disabled = true;
+        const blank = document.getElementById('blank-target');
+
+        if(isCorrect) {
+            btn.classList.replace('bg-purple-50', 'bg-purple-600'); btn.classList.replace('text-purple-900', 'text-white'); btn.classList.add('animate-pop');
+            blank.innerText = selectedWord;
+            blank.classList.add('filled', 'animate-pop');
+            
+            fillCombo++;
+            fillScore += 150 + (fillCombo * 30) + Math.floor(fillTimeLeft);
+            document.getElementById('fill-score').innerText = fillScore;
+            
+            if(fillCombo > 1) {
+                const c = document.getElementById('fill-combo');
+                c.innerText = `${fillCombo} Combo!`; c.classList.remove('hidden', 'animate-pop'); void c.offsetWidth; c.classList.add('animate-pop');
+            }
+            setTimeout(nextFillBlank, 800);
+        } else {
+            btn.classList.replace('bg-purple-50', 'bg-red-500'); btn.classList.replace('text-purple-900', 'text-white'); btn.classList.add('animate-shake');
+            blank.innerText = currentFillObj.answer;
+            blank.classList.add('wrong', 'animate-shake');
+            
+            if(!wrongWords.find(w => w.en === currentFillObj.answer)) wrongWords.push({ en: currentFillObj.answer, ko: currentFillObj.ko });
+            
+            fillCombo = 0; document.getElementById('fill-combo').classList.add('hidden');
+            setTimeout(nextFillBlank, 1500);
+        }
+    }
+
+    function endFillGame() {
+        clearTimers();
+        if(fillScore > records[currentStory].fill) records[currentStory].fill = fillScore;
+
+        let badges = [];
+        if (wrongWords.length === 0) badges.push({ icon: 'fa-crown', title: 'Perfect!', color: 'bg-yellow-400' });
+        if ((Date.now() - fillStartTime) / 1000 < 35) badges.push({ icon: 'fa-fire', title: 'Fast Thinker', color: 'bg-purple-500' });
+
+        showResult({ score: fillScore, unit: "점", desc: "문장 완성 달성!", badges: badges, mistakes: wrongWords, theme: 'text-purple-600' });
+    }
+
+    // ==============================================
+    // MODE 3: CHUNK GAME LOGIC
+    // ==============================================
+    function startChunkGame() {
+        currentMode = 'chunk';
+        chunkSentences = shuffleArray(JSON.parse(JSON.stringify(DB[currentStory].sentences))).slice(0, 3);
+        currentSentenceIdx = 0;
+        
+        document.getElementById('chunk-total-idx').innerText = chunkSentences.length;
+        
+        chunkStartTime = Date.now();
+        if(chunkTimer) clearInterval(chunkTimer);
+        chunkTimer = setInterval(() => {
+            chunkElapsed = (Date.now() - chunkStartTime) / 1000;
+            document.getElementById('chunk-time').innerText = chunkElapsed.toFixed(1);
+        }, 100);
+
+        showScreen('screen-chunk');
+        loadSentence();
+    }
+
+    function loadSentence() {
+        if(currentSentenceIdx >= chunkSentences.length) return endChunkGame();
+
+        document.getElementById('chunk-current-idx').innerText = currentSentenceIdx + 1;
+        const sentenceObj = chunkSentences[currentSentenceIdx];
+        
+        // Phase 1: Show Voice UI
+        document.getElementById('chunk-phase-voice').classList.remove('hidden');
+        document.getElementById('chunk-phase-assembly').classList.add('hidden');
+        document.getElementById('chunk-phase-review').classList.add('hidden');
+        
+        document.getElementById('voice-full-en').innerText = sentenceObj.full;
+        document.getElementById('voice-feedback').innerText = "";
+        
+        // Reset mic UI
+        stopMicAnim();
+    }
+
+    // Voice Phase Logic
+    function startVoiceRecognition() {
+        if (!recognition) {
+            document.getElementById('voice-feedback').innerText = "브라우저에서 음성 인식을 지원하지 않아요.";
+            setTimeout(startAssemblyPhase, 2000); return;
+        }
+
+        const micBtn = document.getElementById('btn-mic'), micRing = document.getElementById('mic-ring'), fb = document.getElementById('voice-feedback');
+        micRing.classList.remove('hidden'); micRing.classList.add('animate-mic');
+        micBtn.classList.replace('bg-blue-500', 'bg-red-500');
+        fb.innerText = "듣고 있어요...";
+
+        recognition.onresult = (event) => {
+            fb.innerHTML = `<span class="text-blue-500 font-bold"><i class="fas fa-check-circle"></i> Excellent! 멋지게 읽었어요!</span>`;
+            stopMicAnim(); setTimeout(startAssemblyPhase, 1500);
+        };
+        recognition.onerror = () => { fb.innerText = "잘 안 들려요. 조립으로 넘어갈게요."; stopMicAnim(); setTimeout(startAssemblyPhase, 1500); };
+        recognition.onend = stopMicAnim;
+        try { recognition.start(); } catch(e) {}
+    }
+
+    function stopMicAnim() {
+        document.getElementById('mic-ring').classList.add('hidden', 'animate-mic');
+        document.getElementById('btn-mic').classList.replace('bg-red-500', 'bg-blue-500');
+    }
+
+    // Phase 2: Assembly Logic
+    function startAssemblyPhase() {
+        if(recognition) try { recognition.stop(); } catch(e){}
+        
+        document.getElementById('chunk-phase-voice').classList.add('hidden');
+        document.getElementById('chunk-phase-assembly').classList.remove('hidden');
+        document.getElementById('chunk-phase-review').classList.add('hidden');
+
+        currentChunkIdx = 0;
+        document.getElementById('chunk-assembly').innerHTML = '';
+        loadNextChunk();
+    }
+
+    function loadNextChunk() {
+        const sentenceObj = chunkSentences[currentSentenceIdx];
+        
+        if(currentChunkIdx >= sentenceObj.chunks.length) {
+            return showChunkReview();
+        }
+
+        const chunkObj = sentenceObj.chunks[currentChunkIdx];
+        const targetEl = document.getElementById('chunk-target-en');
+        targetEl.innerText = chunkObj.en;
+        targetEl.classList.remove('animate-pop'); void targetEl.offsetWidth; targetEl.classList.add('animate-pop');
+
+        const optsContainer = document.getElementById('chunk-options');
+        optsContainer.innerHTML = '';
+        
+        shuffleArray([chunkObj.ko, ...chunkObj.distractors]).forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'btn-pop bg-white text-gray-700 font-bold py-4 px-6 rounded-xl shadow border border-gray-200 text-left w-full hover:border-emerald-400 transition-colors flex items-center justify-between';
+            btn.innerHTML = `<span>${opt}</span> <i class="fas fa-arrow-up text-gray-300"></i>`;
+            btn.onclick = () => checkChunkAnswer(btn, opt === chunkObj.ko, chunkObj);
+            optsContainer.appendChild(btn);
+        });
+    }
+
+    function checkChunkAnswer(btn, isCorrect, chunkObj) {
+        if(isCorrect) {
+            btn.classList.replace('border-gray-200', 'border-emerald-500'); btn.classList.add('bg-emerald-50', 'text-emerald-700');
+            
+            const assemblyArea = document.getElementById('chunk-assembly');
+            const assembled = document.createElement('div');
+            assembled.className = 'bg-emerald-100 border border-emerald-300 text-emerald-800 p-3 rounded-lg font-bold text-sm shadow-sm animate-pop flex flex-col';
+            assembled.innerHTML = `<span class="text-xs text-emerald-600 mb-1">${chunkObj.en}</span><span>${chunkObj.ko}</span>`;
+            assemblyArea.appendChild(assembled);
+
+            currentChunkIdx++;
+            for(let b of document.getElementById('chunk-options').children) b.disabled = true;
+            setTimeout(loadNextChunk, 200);
+        } else {
+            btn.classList.add('animate-shake', 'bg-red-50', 'text-red-600', 'border-red-300');
+            chunkStartTime -= 3000; 
+        }
+    }
+
+    // Phase 3: Review Logic
+    function showChunkReview() {
+        document.getElementById('chunk-phase-assembly').classList.add('hidden');
+        document.getElementById('chunk-phase-review').classList.remove('hidden');
+
+        const sentenceObj = chunkSentences[currentSentenceIdx];
+        
+        // Slashed English
+        const slashedHTML = sentenceObj.chunks.map(c => c.en).join(' <span class="text-emerald-400 mx-1">/</span> ');
+        document.getElementById('review-slashed-en').innerHTML = slashedHTML;
+
+        // Sequence Korean List
+        const koListContainer = document.getElementById('review-ko-list');
+        koListContainer.innerHTML = '';
+        sentenceObj.chunks.forEach((c, idx) => {
+            const item = document.createElement('div');
+            item.className = 'flex items-start animate-pop';
+            item.style.animationDelay = `${idx * 0.1}s`;
+            item.innerHTML = `
+                <div class="bg-emerald-200 text-emerald-700 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-3 mt-0.5 shrink-0">${idx + 1}</div>
+                <div>
+                    <div class="text-xs text-gray-500 font-semibold mb-0.5">${c.en}</div>
+                    <div class="text-sm font-extrabold text-gray-800">${c.ko}</div>
+                </div>
+            `;
+            koListContainer.appendChild(item);
+        });
+    }
+
+    function proceedToNextSentence() {
+        currentSentenceIdx++; loadSentence();
+    }
+
+    function endChunkGame() {
+        clearTimers();
+        if(chunkElapsed < records[currentStory].chunk) records[currentStory].chunk = chunkElapsed;
+        showResult({ score: chunkElapsed.toFixed(1), unit: "초", desc: "직독직해 마스터 달성!", badges: [], mistakes: [], theme: 'text-emerald-600' });
+    }
+
+    // ==============================================
+    // RESULT SCREEN
+    // ==============================================
+    function showResult(data) {
+        const scoreEl = document.getElementById('result-score');
+        scoreEl.innerText = data.score + data.unit;
+        scoreEl.className = `text-4xl font-extrabold mb-2 ${data.theme}`;
+        
+        document.getElementById('result-desc').innerText = data.desc;
+        
+        const badgesContainer = document.getElementById('result-badges');
+        badgesContainer.innerHTML = '';
+        if (data.badges && data.badges.length > 0) {
+            data.badges.forEach(b => {
+                const badgeEl = document.createElement('div');
+                badgeEl.className = `${b.color} text-white px-4 py-2 rounded-full font-bold text-sm shadow-md flex items-center animate-pop`;
+                badgeEl.innerHTML = `<i class="fas ${b.icon} mr-2"></i> ${b.title}`;
+                badgesContainer.appendChild(badgeEl);
+            });
+        }
+
+        const wrongWordsContainer = document.getElementById('result-wrong-words');
+        const wrongList = document.getElementById('wrong-words-list');
+        wrongList.innerHTML = '';
+        
+        if (data.mistakes && data.mistakes.length > 0) {
+            wrongWordsContainer.classList.remove('hidden');
+            data.mistakes.forEach(w => {
+                const li = document.createElement('li');
+                li.className = 'flex justify-between items-center bg-white p-3 rounded-lg shadow-sm border border-red-50';
+                li.innerHTML = `<span class="font-extrabold text-gray-800 w-1/2 break-words">${w.en}</span> <span class="text-sm text-gray-600 w-1/2 text-right break-words">${w.ko}</span>`;
+                wrongList.appendChild(li);
+            });
+        } else {
+            wrongWordsContainer.classList.add('hidden');
+        }
+
+        showScreen('screen-result');
+    }
+
+</script>
+</body>
+</html>
