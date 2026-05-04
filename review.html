@@ -179,7 +179,7 @@
                     <i class="fas fa-microphone z-10"></i>
                     <div id="mic-ring" class="absolute w-full h-full rounded-full border-4 border-blue-400 hidden"></div>
                 </button>
-                <p id="voice-feedback" class="text-sm text-gray-500 font-bold h-6"></p>
+                <p id="voice-feedback" class="text-sm text-gray-500 font-bold h-6 text-center"></p>
                 <button onclick="startAssemblyPhase()" class="mt-8 text-gray-400 font-bold underline text-sm">건너뛰기 (조립으로 이동)</button>
             </div>
 
@@ -318,6 +318,8 @@
     // Web Speech API
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let recognition = null;
+    let isRecording = false; // 마이크 상태를 체크하기 위한 변수 추가
+
     if (SpeechRecognition) {
         recognition = new SpeechRecognition();
         recognition.lang = 'en-US';
@@ -363,7 +365,10 @@
     function quitGame() {
         if(confirm("게임을 중단하고 메뉴로 돌아가시겠어요?")) {
             showScreen('screen-mode');
-            if(recognition) recognition.stop();
+            if(recognition && isRecording) {
+                recognition.stop();
+                stopMicAnim();
+            }
         }
     }
 
@@ -628,28 +633,52 @@
             setTimeout(startAssemblyPhase, 2000); return;
         }
 
+        // 이미 녹음 중일 때 버튼을 누르면 종료하도록 토글 로직 추가
+        if (isRecording) {
+            recognition.stop();
+            document.getElementById('voice-feedback').innerText = "종료 중...";
+            return;
+        }
+
         const micBtn = document.getElementById('btn-mic'), micRing = document.getElementById('mic-ring'), fb = document.getElementById('voice-feedback');
         micRing.classList.remove('hidden'); micRing.classList.add('animate-mic');
         micBtn.classList.replace('bg-blue-500', 'bg-red-500');
-        fb.innerText = "듣고 있어요...";
+        fb.innerText = "듣고 있어요... (완료하려면 다시 누르세요)";
+        isRecording = true;
 
         recognition.onresult = (event) => {
             fb.innerHTML = `<span class="text-blue-500 font-bold"><i class="fas fa-check-circle"></i> Excellent! 멋지게 읽었어요!</span>`;
             stopMicAnim(); setTimeout(startAssemblyPhase, 1500);
         };
         recognition.onerror = () => { fb.innerText = "잘 안 들려요. 조립으로 넘어갈게요."; stopMicAnim(); setTimeout(startAssemblyPhase, 1500); };
-        recognition.onend = stopMicAnim;
-        try { recognition.start(); } catch(e) {}
+        
+        // 사용자가 명시적으로 중지했거나 인식이 끝났을 때의 처리
+        recognition.onend = () => {
+            if (isRecording) {
+                stopMicAnim();
+            }
+        };
+
+        try { 
+            recognition.start(); 
+        } catch(e) {
+            isRecording = false;
+            stopMicAnim(); 
+        }
     }
 
     function stopMicAnim() {
+        isRecording = false;
         document.getElementById('mic-ring').classList.add('hidden', 'animate-mic');
         document.getElementById('btn-mic').classList.replace('bg-red-500', 'bg-blue-500');
     }
 
     // Phase 2: Assembly Logic
     function startAssemblyPhase() {
-        if(recognition) try { recognition.stop(); } catch(e){}
+        if(recognition && isRecording) {
+            try { recognition.stop(); } catch(e){}
+            stopMicAnim();
+        }
         
         document.getElementById('chunk-phase-voice').classList.add('hidden');
         document.getElementById('chunk-phase-assembly').classList.remove('hidden');
