@@ -36,7 +36,7 @@
 </head>
 <body class="bg-gray-800 text-gray-800">
 
-<div class="app-container shadow-2xl bg-white flex flex-col">
+<div class="app-container shadow-2xl bg-white flex flex-col relative">
     
     <!-- Screen 1: Main Menu -->
     <div id="screen-main" class="screen active p-6 justify-center items-center bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
@@ -68,15 +68,17 @@
         
         <div class="space-y-4 mb-6">
             <!-- Mode 1: Word Match -->
-            <button onclick="startWordGame()" class="btn-pop w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-2xl p-5 shadow-xl flex flex-col items-center relative overflow-hidden">
+            <button onclick="showWordDifficultyModal()" class="btn-pop w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-2xl p-5 shadow-xl flex flex-col items-center relative overflow-hidden">
+                <div id="badge-container-word" class="absolute top-3 right-3 flex gap-1 z-20"></div>
                 <i class="fas fa-stopwatch text-3xl mb-2 opacity-90"></i>
                 <span class="text-xl font-bold">스피드 단어 연결</span>
                 <span class="text-blue-100 text-xs mt-1">제한시간 내 뜻 매칭하기</span>
                 <div class="absolute -right-2 -bottom-2 opacity-10"><i class="fas fa-font text-6xl"></i></div>
             </button>
 
-            <!-- Mode 2: Fill in the Blanks (NEW) -->
+            <!-- Mode 2: Fill in the Blanks -->
             <button onclick="startFillGame()" class="btn-pop w-full bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-2xl p-5 shadow-xl flex flex-col items-center relative overflow-hidden">
+                <div id="badge-container-fill" class="absolute top-3 right-3 flex gap-1 z-20"></div>
                 <i class="fas fa-pen-nib text-3xl mb-2 opacity-90"></i>
                 <span class="text-xl font-bold">문장 빈칸 채우기</span>
                 <span class="text-purple-100 text-xs mt-1">해석을 보고 빈칸의 단어 찾기</span>
@@ -85,6 +87,7 @@
 
             <!-- Mode 3: Chunk Assembly -->
             <button onclick="startChunkGame()" class="btn-pop w-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-2xl p-5 shadow-xl flex flex-col items-center relative overflow-hidden">
+                <div id="badge-container-chunk" class="absolute top-3 right-3 flex gap-1 z-20"></div>
                 <i class="fas fa-puzzle-piece text-3xl mb-2 opacity-90"></i>
                 <span class="text-xl font-bold">직독직해 청크 조립</span>
                 <span class="text-emerald-100 text-xs mt-1">의미 단위로 끊어 읽고 녹음하기</span>
@@ -110,14 +113,36 @@
         </div>
     </div>
 
+    <!-- Difficulty Selection Modal (for Word Game) -->
+    <div id="modal-difficulty" class="absolute inset-0 bg-gray-900 bg-opacity-60 z-50 hidden flex flex-col items-center justify-center p-6 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl shadow-2xl p-6 w-full max-w-sm text-center animate-pop border-4 border-blue-100">
+            <h3 class="text-2xl font-extrabold text-gray-800 mb-2">난이도 선택</h3>
+            <p class="text-gray-500 mb-6 font-bold text-sm">자신에게 맞는 속도를 고르세요!</p>
+            <div class="space-y-3">
+                <button onclick="startWordGame('easy')" class="btn-pop w-full bg-green-50 text-green-700 border border-green-200 rounded-2xl p-5 font-extrabold text-xl flex items-center justify-between hover:bg-green-100">
+                    <span class="flex items-center"><i class="fas fa-leaf mr-3 text-2xl text-green-500"></i> Easy 모드</span>
+                    <span class="text-sm font-bold bg-green-200 text-green-800 px-2 py-1 rounded-lg">느리게</span>
+                </button>
+                <button onclick="startWordGame('hard')" class="btn-pop w-full bg-red-50 text-red-700 border border-red-200 rounded-2xl p-5 font-extrabold text-xl flex items-center justify-between hover:bg-red-100">
+                    <span class="flex items-center"><i class="fas fa-fire mr-3 text-2xl text-red-500"></i> Hard 모드</span>
+                    <span class="text-sm font-bold bg-red-200 text-red-800 px-2 py-1 rounded-lg">빠르게</span>
+                </button>
+            </div>
+            <button onclick="hideWordDifficultyModal()" class="mt-6 text-gray-400 font-bold underline p-2 text-sm">뒤로 가기</button>
+        </div>
+    </div>
+
     <!-- Screen 3: Word Game -->
     <div id="screen-word" class="screen bg-white">
-        <div class="p-4 flex justify-between items-center border-b">
+        <div class="p-4 flex justify-between items-center border-b bg-blue-50">
             <div class="flex items-center text-blue-600 font-bold text-lg">
                 <i class="fas fa-star text-yellow-400 mr-2"></i> <span id="word-score">0</span>
             </div>
             <div id="word-combo" class="text-red-500 font-bold text-xl hidden transform scale-110">2 Combo!</div>
-            <button onclick="quitGame()" class="text-gray-400 p-2"><i class="fas fa-times text-xl"></i></button>
+            <div class="flex items-center">
+                <span id="word-mode-badge" class="mr-3 text-xs font-bold px-2 py-1 rounded-lg"></span>
+                <button onclick="quitGame()" class="text-gray-400 p-2"><i class="fas fa-times text-xl"></i></button>
+            </div>
         </div>
         <div class="w-full h-2 bg-gray-200">
             <div id="word-timer-bar" class="progress-bar-inner h-full bg-green-500" style="width: 100%"></div>
@@ -129,7 +154,7 @@
         </div>
     </div>
 
-    <!-- Screen 3.5: Fill Blank Game (NEW) -->
+    <!-- Screen 3.5: Fill Blank Game -->
     <div id="screen-fill" class="screen bg-white">
         <div class="p-4 flex justify-between items-center border-b">
             <div class="flex items-center text-purple-600 font-bold text-lg">
@@ -138,26 +163,17 @@
             <div id="fill-combo" class="text-red-500 font-bold text-xl hidden transform scale-110">2 Combo!</div>
             <button onclick="quitGame()" class="text-gray-400 p-2"><i class="fas fa-times text-xl"></i></button>
         </div>
-        <div class="w-full h-2 bg-gray-200">
-            <div id="fill-timer-bar" class="progress-bar-inner h-full bg-purple-500" style="width: 100%"></div>
-        </div>
         <div class="flex-1 flex flex-col items-center p-6 justify-center">
             <div class="text-gray-400 text-sm mb-4 font-bold"><span id="fill-current-idx">1</span> / <span id="fill-total-idx">3</span> 문장</div>
-            
-            <!-- Question Box -->
             <div class="bg-purple-50 rounded-2xl p-5 w-full mb-8 shadow-inner border border-purple-100 flex flex-col justify-center min-h-[160px]">
-                <div id="fill-ko" class="text-gray-500 font-bold mb-4 text-center text-sm bg-white rounded-lg p-2 shadow-sm">그들은 돈이 없었기 때문에 물물교환을 했어요.</div>
-                <div id="fill-en" class="text-2xl font-extrabold text-gray-800 text-center leading-relaxed">
-                    <!-- Template injected by JS -->
-                </div>
+                <div id="fill-en" class="text-2xl font-extrabold text-gray-800 text-center leading-relaxed mb-6 mt-2"></div>
+                <div id="fill-ko" class="text-gray-500 font-bold text-center text-sm bg-white rounded-lg p-2 shadow-sm"></div>
             </div>
-
-            <!-- Options Box -->
             <div id="fill-options" class="w-full grid grid-cols-2 gap-4 mt-auto"></div>
         </div>
     </div>
 
-    <!-- Screen 4: Chunk Game (Updated 3-Step Process) -->
+    <!-- Screen 4: Chunk Game -->
     <div id="screen-chunk" class="screen bg-white">
         <div class="p-4 flex justify-between items-center border-b">
             <div class="flex items-center text-emerald-600 font-bold text-lg">
@@ -168,8 +184,6 @@
         </div>
 
         <div class="flex-1 flex flex-col p-6 overflow-y-auto hide-scroll relative">
-            
-            <!-- Phase 1: Voice (Read Aloud First) -->
             <div id="chunk-phase-voice" class="flex flex-col items-center justify-center h-full hidden mt-10">
                 <div class="bg-blue-50 p-6 rounded-2xl mb-8 shadow-inner border border-blue-100 w-full">
                     <p id="voice-full-en" class="text-2xl font-extrabold text-blue-700 leading-relaxed text-center"></p>
@@ -183,7 +197,6 @@
                 <button onclick="startAssemblyPhase()" class="mt-8 text-gray-400 font-bold underline text-sm">건너뛰기 (조립으로 이동)</button>
             </div>
 
-            <!-- Phase 2: Assembly -->
             <div id="chunk-phase-assembly" class="flex flex-col h-full hidden">
                 <div class="mb-6">
                     <div class="text-sm font-bold text-emerald-500 mb-2">현재 해석할 부분:</div>
@@ -196,27 +209,22 @@
                 </div>
             </div>
 
-            <!-- Phase 3: Review (Slashed & Translation) -->
             <div id="chunk-phase-review" class="flex flex-col h-full hidden mt-4">
                 <div class="text-center text-emerald-500 font-bold text-xl mb-6 animate-pop">
                     <i class="fas fa-check-circle mr-2"></i>조립 완성!
                 </div>
-                
                 <div class="bg-gray-50 p-5 rounded-2xl mb-6 shadow-sm border border-gray-200">
                     <div class="text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">직독직해 구조</div>
                     <p id="review-slashed-en" class="text-xl font-extrabold text-gray-800 leading-relaxed"></p>
                 </div>
-
                 <div class="bg-emerald-50 p-5 rounded-2xl mb-8 shadow-sm border border-emerald-100">
                     <div class="text-xs font-bold text-emerald-500 mb-3 uppercase tracking-wider">해석 순서</div>
                     <div id="review-ko-list" class="flex flex-col space-y-3"></div>
                 </div>
-
                 <button onclick="proceedToNextSentence()" class="mt-auto btn-pop w-full bg-emerald-600 text-white rounded-2xl p-5 shadow-xl font-bold text-xl flex justify-center items-center">
                     다음 문장으로 <i class="fas fa-arrow-right ml-2"></i>
                 </button>
             </div>
-
         </div>
     </div>
 
@@ -231,7 +239,12 @@
             <div id="result-score" class="text-4xl font-extrabold text-blue-600 mb-2">1500점</div>
         </div>
 
-        <div id="result-badges" class="w-full flex flex-wrap gap-2 mb-6 justify-center"></div>
+        <!-- Cheer Up Feedback Box -->
+        <div id="result-feedback-box" class="bg-blue-50 border border-blue-200 rounded-2xl p-5 w-full mb-6 shadow-inner hidden animate-pop">
+            <p id="result-feedback-text" class="text-blue-800 font-bold text-[15px] leading-relaxed"></p>
+        </div>
+
+        <div id="result-badges" class="w-full flex flex-col gap-3 mb-6 justify-center"></div>
 
         <div id="result-wrong-words" class="w-full text-left bg-red-50 rounded-2xl p-4 mb-8 hidden border border-red-100">
             <h3 class="font-bold text-red-600 mb-3"><i class="fas fa-book-open mr-2"></i>오답 노트 (다시 확인해요!)</h3>
@@ -239,7 +252,7 @@
         </div>
 
         <div class="flex space-x-4 w-full mt-auto">
-            <button onclick="showScreen('screen-mode')" class="flex-1 btn-pop bg-gray-200 text-gray-700 rounded-xl p-4 font-bold shadow">메뉴로</button>
+            <button onclick="goToMenu()" class="flex-1 btn-pop bg-gray-200 text-gray-700 rounded-xl p-4 font-bold shadow border border-gray-300">메뉴로</button>
             <button onclick="retryGame()" class="flex-1 btn-pop bg-indigo-600 text-white rounded-xl p-4 font-bold shadow">다시 하기</button>
         </div>
     </div>
@@ -308,6 +321,7 @@
     
     // Word Game
     let wordQueue = [], currentWordObj = null, wordScore = 0, wordCombo = 0, wordTimeLeft = 100, wordTimer = null, wordTotal = 0, wordCurrentIdx = 0, wordStartTime = 0;
+    let wordDifficulty = 'hard'; // 'easy' or 'hard'
 
     // Fill Game
     let fillQueue = [], currentFillObj = null, fillScore = 0, fillCombo = 0, fillTimeLeft = 100, fillTimer = null, fillTotal = 0, fillCurrentIdx = 0, fillStartTime = 0;
@@ -318,7 +332,8 @@
     // Web Speech API
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let recognition = null;
-    let isRecording = false; // 마이크 상태를 체크하기 위한 변수 추가
+    let isRecording = false; 
+    let hasVoiceResult = false; 
 
     if (SpeechRecognition) {
         recognition = new SpeechRecognition();
@@ -327,10 +342,10 @@
         recognition.maxAlternatives = 1;
     }
 
-    // Local Storage Records
+    // Local Storage Records (added badges arrays)
     let records = {
-        money: { word: 0, fill: 0, chunk: 999 },
-        house: { word: 0, fill: 0, chunk: 999 }
+        money: { word: 0, wordBadges: [], fill: 0, fillBadges: [], chunk: 999, chunkBadges: [] },
+        house: { word: 0, wordBadges: [], fill: 0, fillBadges: [], chunk: 999, chunkBadges: [] }
     };
 
     // --- UTILS ---
@@ -343,6 +358,15 @@
         return arr;
     }
 
+    function saveBadges(mode, newBadges) {
+        newBadges.forEach(nb => {
+            const existing = records[currentStory][mode + 'Badges'];
+            if (!existing.some(b => b.title === nb.title)) {
+                existing.push(nb);
+            }
+        });
+    }
+
     // --- NAVIGATION ---
     function showScreen(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -350,21 +374,48 @@
         clearTimers();
     }
 
-    function selectStory(storyKey) {
-        currentStory = storyKey;
-        document.getElementById('mode-title').innerText = DB[storyKey].title;
+    function updateMenuUI() {
+        if(!currentStory) return;
+        const recs = records[currentStory];
         
-        const recs = records[storyKey];
+        // Update Scores
         document.getElementById('best-word').innerText = recs.word > 0 ? `${recs.word}점` : '도전 전';
         document.getElementById('best-fill').innerText = recs.fill > 0 ? `${recs.fill}점` : '도전 전';
         document.getElementById('best-chunk').innerText = recs.chunk < 999 ? `${recs.chunk.toFixed(1)}초` : '도전 전';
         
+        // Render Badges on Menu Buttons
+        const renderMenuBadges = (mode) => {
+            const container = document.getElementById(`badge-container-${mode}`);
+            container.innerHTML = '';
+            recs[`${mode}Badges`].forEach(b => {
+                // 작은 원형 아이콘으로 렌더링
+                container.innerHTML += `
+                    <div class="${b.color} text-white text-[12px] w-7 h-7 rounded-full flex items-center justify-center shadow border-2 border-white animate-pop" title="${b.title}">
+                        <i class="fas ${b.icon}"></i>
+                    </div>`;
+            });
+        };
+        
+        renderMenuBadges('word');
+        renderMenuBadges('fill');
+        renderMenuBadges('chunk');
+    }
+
+    function selectStory(storyKey) {
+        currentStory = storyKey;
+        document.getElementById('mode-title').innerText = DB[storyKey].title;
+        updateMenuUI();
+        showScreen('screen-mode');
+    }
+
+    function goToMenu() {
+        updateMenuUI();
         showScreen('screen-mode');
     }
 
     function quitGame() {
         if(confirm("게임을 중단하고 메뉴로 돌아가시겠어요?")) {
-            showScreen('screen-mode');
+            goToMenu();
             if(recognition && isRecording) {
                 recognition.stop();
                 stopMicAnim();
@@ -373,7 +424,11 @@
     }
 
     function retryGame() {
-        if(currentMode === 'word') startWordGame();
+        if(currentMode === 'word') {
+            // 단어 게임의 경우 다시하기를 누르면 난이도를 다시 고르도록 유도
+            goToMenu();
+            showWordDifficultyModal();
+        }
         else if(currentMode === 'fill') startFillGame();
         else startChunkGame();
     }
@@ -387,7 +442,17 @@
     // ==============================================
     // MODE 1: WORD GAME LOGIC
     // ==============================================
-    function startWordGame() {
+    function showWordDifficultyModal() {
+        document.getElementById('modal-difficulty').classList.remove('hidden');
+    }
+
+    function hideWordDifficultyModal() {
+        document.getElementById('modal-difficulty').classList.add('hidden');
+    }
+
+    function startWordGame(difficulty) {
+        wordDifficulty = difficulty;
+        hideWordDifficultyModal();
         currentMode = 'word';
         wordQueue = shuffleArray(DB[currentStory].words).slice(0, 10);
         wordTotal = wordQueue.length;
@@ -397,6 +462,16 @@
         document.getElementById('word-total-idx').innerText = wordTotal;
         document.getElementById('word-combo').classList.add('hidden');
         
+        // UI Badge setup
+        const badgeObj = document.getElementById('word-mode-badge');
+        if (wordDifficulty === 'easy') {
+            badgeObj.innerText = 'EASY';
+            badgeObj.className = 'mr-3 text-xs font-bold px-2 py-1 rounded-lg bg-green-200 text-green-800';
+        } else {
+            badgeObj.innerText = 'HARD';
+            badgeObj.className = 'mr-3 text-xs font-bold px-2 py-1 rounded-lg bg-red-200 text-red-800';
+        }
+
         showScreen('screen-word');
         nextWord();
     }
@@ -427,7 +502,11 @@
         wordTimeLeft = 100; updateWordTimerBar();
         if(wordTimer) clearInterval(wordTimer);
         wordTimer = setInterval(() => {
-            wordTimeLeft -= 1.5; updateWordTimerBar();
+            // 난이도에 따른 타이머 감소 속도 차등 적용
+            let speed = wordDifficulty === 'easy' ? 0.6 : 1.5;
+            wordTimeLeft -= speed; 
+            updateWordTimerBar();
+            
             if(wordTimeLeft <= 0) {
                 if(!wrongWords.find(w => w.en === currentWordObj.en)) wrongWords.push(currentWordObj);
                 wordCombo = 0; document.getElementById('word-combo').classList.add('hidden');
@@ -474,14 +553,39 @@
         if(wordScore > records[currentStory].word) records[currentStory].word = wordScore;
 
         let badges = [];
-        if (wrongWords.length === 0) badges.push({ icon: 'fa-crown', title: 'Perfect!', color: 'bg-yellow-400' });
-        if ((Date.now() - wordStartTime) / 1000 < 30) badges.push({ icon: 'fa-bolt', title: 'Speed Runner', color: 'bg-blue-500' });
+        let isPerfect = wrongWords.length === 0;
+        let totalTime = (Date.now() - wordStartTime) / 1000;
+        
+        // Speed Runner는 Hard 모드에서만 수여
+        let isSpeedRunner = wordDifficulty === 'hard' && totalTime < 30;
 
-        showResult({ score: wordScore, unit: "점", desc: "단어 매스터 달성!", badges: badges, mistakes: wrongWords, theme: 'text-blue-600' });
+        if (isPerfect) badges.push({ icon: 'fa-crown', title: 'Perfect!', color: 'bg-yellow-400', msg: '와우, 실수 하나 없는 완벽한 실력! 넌 정말 대단해! 💯' });
+        if (isSpeedRunner) badges.push({ icon: 'fa-bolt', title: 'Speed Runner', color: 'bg-blue-500', msg: '번개처럼 빠른 스피드! 영어 두뇌가 쌩쌩 돌아가고 있어! 🚀' });
+
+        // 획득한 배지 저장 (메뉴 노출용)
+        saveBadges('word', badges);
+
+        // 피드백 멘트 설정
+        let feedbackMsg = "";
+        if (wordDifficulty === 'easy') {
+            feedbackMsg = "Easy 모드를 훌륭하게 해냈어요! 👍<br>이제 <b>Hard 모드에 도전해서</b> '스피드 러너' 배지까지 모두 모아볼까요?";
+        } else {
+            if (isPerfect && isSpeedRunner) {
+                feedbackMsg = "대단해요! Perfect와 Speed Runner 배지를 모두 모았어요! 👑✨<br>당신은 진정한 영어 마스터!";
+            } else if (isPerfect && !isSpeedRunner) {
+                feedbackMsg = "완벽하게 맞혔어요! 👏<br>조금만 더 빠르게 풀면 '스피드 러너' 배지도 받을 수 있어요.<br>다시 도전해볼까요? ⚡";
+            } else if (!isPerfect && isSpeedRunner) {
+                feedbackMsg = "엄청난 스피드! ⚡<br>이번엔 집중해서 오답 없이 '퍼펙트' 배지까지 2개 다 노려보세요! 💪";
+            } else {
+                feedbackMsg = "아쉽게 배지를 놓쳤네요. 🥲<br>다시 한 번 집중해서 퍼펙트와 스피드 러너 배지 <b>두 개 다 모아보세요!</b> 할 수 있어요! 🌟";
+            }
+        }
+
+        showResult({ score: wordScore, unit: "점", desc: "단어 매스터 달성!", badges: badges, mistakes: wrongWords, theme: 'text-blue-600', feedback: feedbackMsg });
     }
 
     // ==============================================
-    // MODE 2: FILL IN THE BLANK LOGIC (NEW)
+    // MODE 2: FILL IN THE BLANK LOGIC
     // ==============================================
     function startFillGame() {
         currentMode = 'fill';
@@ -505,7 +609,6 @@
         
         document.getElementById('fill-ko').innerText = currentFillObj.ko;
         
-        // Render template with a placeholder span
         const parts = currentFillObj.template.split("___");
         const enDisplay = document.getElementById('fill-en');
         enDisplay.innerHTML = `${parts[0]}<span id="blank-target" class="blank-space animate-pop">?</span>${parts[1]}`;
@@ -521,32 +624,9 @@
             btn.onclick = () => checkFillAnswer(btn, opt === currentFillObj.answer, opt);
             optsContainer.appendChild(btn);
         });
-
-        fillTimeLeft = 100; updateFillTimerBar();
-        if(fillTimer) clearInterval(fillTimer);
-        fillTimer = setInterval(() => {
-            fillTimeLeft -= 1.0; // Slightly slower than words to allow reading
-            updateFillTimerBar();
-            if(fillTimeLeft <= 0) {
-                if(!wrongWords.find(w => w.en === currentFillObj.answer)) wrongWords.push({ en: currentFillObj.answer, ko: currentFillObj.ko });
-                fillCombo = 0; document.getElementById('fill-combo').classList.add('hidden');
-                
-                const blank = document.getElementById('blank-target');
-                blank.innerText = currentFillObj.answer;
-                blank.classList.add('wrong');
-                setTimeout(nextFillBlank, 1200); 
-            }
-        }, 50);
-    }
-
-    function updateFillTimerBar() {
-        const bar = document.getElementById('fill-timer-bar');
-        bar.style.width = Math.max(0, fillTimeLeft) + '%';
-        bar.style.backgroundColor = fillTimeLeft > 60 ? '#a855f7' : (fillTimeLeft > 30 ? '#d946ef' : '#ef4444');
     }
 
     function checkFillAnswer(btn, isCorrect, selectedWord) {
-        clearInterval(fillTimer);
         for(let b of document.getElementById('fill-options').children) b.disabled = true;
         const blank = document.getElementById('blank-target');
 
@@ -556,7 +636,7 @@
             blank.classList.add('filled', 'animate-pop');
             
             fillCombo++;
-            fillScore += 150 + (fillCombo * 30) + Math.floor(fillTimeLeft);
+            fillScore += 150 + (fillCombo * 30);
             document.getElementById('fill-score').innerText = fillScore;
             
             if(fillCombo > 1) {
@@ -577,12 +657,14 @@
     }
 
     function endFillGame() {
-        clearTimers();
         if(fillScore > records[currentStory].fill) records[currentStory].fill = fillScore;
 
         let badges = [];
-        if (wrongWords.length === 0) badges.push({ icon: 'fa-crown', title: 'Perfect!', color: 'bg-yellow-400' });
-        if ((Date.now() - fillStartTime) / 1000 < 35) badges.push({ icon: 'fa-fire', title: 'Fast Thinker', color: 'bg-purple-500' });
+        if (wrongWords.length === 0) badges.push({ icon: 'fa-crown', title: 'Perfect!', color: 'bg-yellow-400', msg: '와우, 실수 하나 없는 완벽한 실력! 넌 정말 대단해! 💯' });
+        badges.push({ icon: 'fa-brain', title: 'Deep Thinker', color: 'bg-purple-500', msg: '끝까지 생각하는 힘! 넌 멋진 영어 탐정이야! 🔍' });
+
+        // 획득한 배지 저장
+        saveBadges('fill', badges);
 
         showResult({ score: fillScore, unit: "점", desc: "문장 완성 달성!", badges: badges, mistakes: wrongWords, theme: 'text-purple-600' });
     }
@@ -614,7 +696,6 @@
         document.getElementById('chunk-current-idx').innerText = currentSentenceIdx + 1;
         const sentenceObj = chunkSentences[currentSentenceIdx];
         
-        // Phase 1: Show Voice UI
         document.getElementById('chunk-phase-voice').classList.remove('hidden');
         document.getElementById('chunk-phase-assembly').classList.add('hidden');
         document.getElementById('chunk-phase-review').classList.add('hidden');
@@ -622,21 +703,18 @@
         document.getElementById('voice-full-en').innerText = sentenceObj.full;
         document.getElementById('voice-feedback').innerText = "";
         
-        // Reset mic UI
         stopMicAnim();
     }
 
-    // Voice Phase Logic
     function startVoiceRecognition() {
         if (!recognition) {
             document.getElementById('voice-feedback').innerText = "브라우저에서 음성 인식을 지원하지 않아요.";
             setTimeout(startAssemblyPhase, 2000); return;
         }
 
-        // 이미 녹음 중일 때 버튼을 누르면 종료하도록 토글 로직 추가
         if (isRecording) {
             recognition.stop();
-            document.getElementById('voice-feedback').innerText = "종료 중...";
+            document.getElementById('voice-feedback').innerText = "확인 중...";
             return;
         }
 
@@ -645,26 +723,36 @@
         micBtn.classList.replace('bg-blue-500', 'bg-red-500');
         fb.innerText = "듣고 있어요... (완료하려면 다시 누르세요)";
         isRecording = true;
+        hasVoiceResult = false;
 
         recognition.onresult = (event) => {
+            hasVoiceResult = true;
             fb.innerHTML = `<span class="text-blue-500 font-bold"><i class="fas fa-check-circle"></i> Excellent! 멋지게 읽었어요!</span>`;
             stopMicAnim(); setTimeout(startAssemblyPhase, 1500);
         };
-        recognition.onerror = () => { fb.innerText = "잘 안 들려요. 조립으로 넘어갈게요."; stopMicAnim(); setTimeout(startAssemblyPhase, 1500); };
         
-        // 사용자가 명시적으로 중지했거나 인식이 끝났을 때의 처리
+        recognition.onerror = (event) => { 
+            hasVoiceResult = true;
+            if (event.error === 'not-allowed') {
+                fb.innerText = "마이크 권한이 차단되었어요. 조립으로 이동할게요.";
+            } else {
+                fb.innerText = "잘 안 들려요. 조립으로 넘어갈게요."; 
+            }
+            stopMicAnim(); setTimeout(startAssemblyPhase, 1500); 
+        };
+        
         recognition.onend = () => {
             if (isRecording) {
                 stopMicAnim();
             }
+            if (!hasVoiceResult) {
+                hasVoiceResult = true;
+                fb.innerText = "녹음 완료! 조립으로 넘어갈게요.";
+                setTimeout(startAssemblyPhase, 1000);
+            }
         };
 
-        try { 
-            recognition.start(); 
-        } catch(e) {
-            isRecording = false;
-            stopMicAnim(); 
-        }
+        try { recognition.start(); } catch(e) { isRecording = false; stopMicAnim(); }
     }
 
     function stopMicAnim() {
@@ -673,7 +761,6 @@
         document.getElementById('btn-mic').classList.replace('bg-red-500', 'bg-blue-500');
     }
 
-    // Phase 2: Assembly Logic
     function startAssemblyPhase() {
         if(recognition && isRecording) {
             try { recognition.stop(); } catch(e){}
@@ -692,9 +779,7 @@
     function loadNextChunk() {
         const sentenceObj = chunkSentences[currentSentenceIdx];
         
-        if(currentChunkIdx >= sentenceObj.chunks.length) {
-            return showChunkReview();
-        }
+        if(currentChunkIdx >= sentenceObj.chunks.length) return showChunkReview();
 
         const chunkObj = sentenceObj.chunks[currentChunkIdx];
         const targetEl = document.getElementById('chunk-target-en');
@@ -732,18 +817,15 @@
         }
     }
 
-    // Phase 3: Review Logic
     function showChunkReview() {
         document.getElementById('chunk-phase-assembly').classList.add('hidden');
         document.getElementById('chunk-phase-review').classList.remove('hidden');
 
         const sentenceObj = chunkSentences[currentSentenceIdx];
         
-        // Slashed English
         const slashedHTML = sentenceObj.chunks.map(c => c.en).join(' <span class="text-emerald-400 mx-1">/</span> ');
         document.getElementById('review-slashed-en').innerHTML = slashedHTML;
 
-        // Sequence Korean List
         const koListContainer = document.getElementById('review-ko-list');
         koListContainer.innerHTML = '';
         sentenceObj.chunks.forEach((c, idx) => {
@@ -768,7 +850,16 @@
     function endChunkGame() {
         clearTimers();
         if(chunkElapsed < records[currentStory].chunk) records[currentStory].chunk = chunkElapsed;
-        showResult({ score: chunkElapsed.toFixed(1), unit: "초", desc: "직독직해 마스터 달성!", badges: [], mistakes: [], theme: 'text-emerald-600' });
+
+        let badges = [];
+        // 청크 모드에서도 보상을 주기 위해 'Fast Reader' 배지 추가
+        if (chunkElapsed < 30) {
+            badges.push({ icon: 'fa-tachometer-alt', title: 'Fast Reader', color: 'bg-emerald-500', msg: '막힘없이 술술 읽어냈어요! 최고! 📚' });
+        }
+        
+        saveBadges('chunk', badges);
+
+        showResult({ score: chunkElapsed.toFixed(1), unit: "초", desc: "직독직해 마스터 달성!", badges: badges, mistakes: [], theme: 'text-emerald-600' });
     }
 
     // ==============================================
@@ -781,13 +872,30 @@
         
         document.getElementById('result-desc').innerText = data.desc;
         
+        // 피드백 박스 처리 (단어 게임용)
+        const feedbackBox = document.getElementById('result-feedback-box');
+        const feedbackText = document.getElementById('result-feedback-text');
+        if (data.feedback) {
+            feedbackText.innerHTML = data.feedback;
+            feedbackBox.classList.remove('hidden');
+        } else {
+            feedbackBox.classList.add('hidden');
+        }
+
         const badgesContainer = document.getElementById('result-badges');
         badgesContainer.innerHTML = '';
         if (data.badges && data.badges.length > 0) {
-            data.badges.forEach(b => {
+            data.badges.forEach((b, index) => {
                 const badgeEl = document.createElement('div');
-                badgeEl.className = `${b.color} text-white px-4 py-2 rounded-full font-bold text-sm shadow-md flex items-center animate-pop`;
-                badgeEl.innerHTML = `<i class="fas ${b.icon} mr-2"></i> ${b.title}`;
+                badgeEl.className = `${b.color} text-white p-4 rounded-xl shadow-md flex items-center animate-pop text-left w-full`;
+                badgeEl.style.animationDelay = `${index * 0.15}s`;
+                badgeEl.innerHTML = `
+                    <div class="text-4xl mr-4 ml-1"><i class="fas ${b.icon}"></i></div>
+                    <div class="flex-1">
+                        <div class="font-extrabold text-lg mb-1">${b.title}</div>
+                        <div class="text-sm font-medium leading-snug opacity-95">${b.msg}</div>
+                    </div>
+                `;
                 badgesContainer.appendChild(badgeEl);
             });
         }
