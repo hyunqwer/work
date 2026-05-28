@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>리얼스피치 심사기준 및 현장 안내 초안</title>
+  <style>
+    :root {
+      --primary: #1f4e79;
+      --primary-light: #eaf3fb;
+      --accent: #f5a623;
+      --text: #222;
+      --muted: #666;
+      --border: #d8e2ec;
+      --bg: #f7f9fb;
+      --white: #fff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Noto Sans KR", "Apple SD Gothic Neo", Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.65;
+    }
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 36px 22px 64px;
+    }
+    header {
+      background: linear-gradient(135deg, #1f4e79, #2878b5);
+      color: white;
+      padding: 34px 36px;
+      border-radius: 22px;
+      box-shadow: 0 12px 28px rgba(31, 78, 121, 0.18);
+      margin-bottom: 28px;
+    }
+    header h1 {
+      margin: 0 0 10px;
+      font-size: 30px;
+      letter-spacing: -0.04em;
+    }
+    header p {
+      margin: 0;
+      font-size: 16px;
+      opacity: 0.92;
+    }
+    section {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px 30px;
+      margin: 20px 0;
+      box-shadow: 0 8px 20px rgba(28, 56, 86, 0.06);
+    }
+    h2 {
+      margin: 0 0 18px;
+      color: var(--primary);
+      font-size: 23px;
+      letter-spacing: -0.03em;
+      border-bottom: 2px solid var(--primary-light);
+      padding-bottom: 10px;
+    }
+    h3 {
+      margin: 24px 0 10px;
+      color: #163a59;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+    .lead {
+      background: var(--primary-light);
+      border-left: 5px solid var(--primary);
+      padding: 16px 18px;
+      border-radius: 12px;
+      margin: 14px 0 22px;
+    }
+    .lead strong { color: var(--primary); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 22px;
+      font-size: 14.5px;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 12px 13px;
+      vertical-align: top;
+    }
+    th {
+      background: #f0f6fb;
+      color: #173f60;
+      text-align: left;
+      font-weight: 700;
+    }
+    td.score {
+      width: 90px;
+      text-align: center;
+      font-weight: 700;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+    ul, ol { padding-left: 22px; margin: 8px 0 16px; }
+    li { margin: 6px 0; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 17px;
+      background: #fff;
+    }
+    .card h3 {
+      margin-top: 0;
+      font-size: 17px;
+    }
+    .tag {
+      display: inline-block;
+      background: #fff5df;
+      color: #835000;
+      border: 1px solid #f3d08b;
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .note {
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+    .faq-item {
+      border-top: 1px solid var(--border);
+      padding: 16px 0;
+    }
+    .faq-item:first-child { border-top: none; }
+    .q {
+      font-weight: 800;
+      color: #173f60;
+      margin-bottom: 6px;
+    }
+    .a {
+      margin: 0;
+    }
+    .highlight {
+      background: #fff8e8;
+      border: 1px solid #f0d69a;
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin: 16px 0;
+    }
+    .small-title {
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+    @media (max-width: 760px) {
+      .grid { grid-template-columns: 1fr; }
+      header, section { padding: 24px 20px; }
+      header h1 { font-size: 24px; }
+      table { font-size: 13.5px; }
+      th, td { padding: 10px 9px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>리얼스피치 심사기준 및 현장 안내 초안</h1>
+      <p>교사·학부모 안내, 세미나 설명, AI 1차 심사 루브릭 설계의 기초 문서</p>
+    </header>
+
+    <section>
+      <h2>1. 심사기준 초안</h2>
+      <div class="lead">
+        <strong>심사의 핵심 방향:</strong> 리얼스피치는 원고를 잘 쓰는 대회가 아니라, 준비한 내용을 자신의 말처럼 소화하여 청중에게 자신 있게 전달하는 발표 대회입니다. 
+        AI 활용, 원고 참고, 시각자료 활용 여부보다 중요한 것은 <strong>발표자가 얼마나 명확하고 자연스럽게, 자신감 있게 전달했는가</strong>입니다.
+      </div>
+
+      <h3>심사 항목 및 점수 배분안</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>심사 항목</th>
+            <th>배점</th>
+            <th>평가 관점</th>
+            <th>세부 확인 요소</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>유창성·발음·억양</strong></td>
+            <td class="score">30점</td>
+            <td>영어 말하기의 기본 완성도와 자연스러움</td>
+            <td>
+              발음이 명확한가, 단어와 문장이 알아듣기 쉬운가, 억양과 강세가 자연스러운가, 말의 흐름이 끊기지 않는가, 발표 속도가 지나치게 빠르거나 느리지 않은가
+            </td>
+          </tr>
+          <tr>
+            <td><strong>전달력·이해도</strong></td>
+            <td class="score">25점</td>
+            <td>듣는 사람이 내용을 쉽게 이해하고 따라갈 수 있는가</td>
+            <td>
+              핵심 메시지가 분명한가, 중요한 부분을 목소리와 속도로 강조하는가, 쉬운 주제는 진솔하게 전달하고 어려운 주제는 이해하기 쉽게 풀어내는가
+            </td>
+          </tr>
+          <tr>
+            <td><strong>자신감·표현 태도</strong></td>
+            <td class="score">20점</td>
+            <td>발표자로서의 안정감, 에너지, 무대 태도</td>
+            <td>
+              카메라 또는 청중을 향해 안정적으로 말하는가, 목소리가 또렷한가, 표정과 자세가 자연스러운가, 실수가 있어도 흔들리지 않고 이어가는가
+            </td>
+          </tr>
+          <tr>
+            <td><strong>발표 소화도·진정성</strong></td>
+            <td class="score">15점</td>
+            <td>원고를 단순히 읽는 것이 아니라 자기 이야기처럼 전달하는가</td>
+            <td>
+              원고나 메모를 참고하더라도 자연스럽게 말하는가, 외운 티나 읽는 티보다 자신의 생각을 전달하는 느낌이 있는가, 주제에 대한 몰입이 느껴지는가
+            </td>
+          </tr>
+          <tr>
+            <td><strong>내용 구성·창의성</strong></td>
+            <td class="score">10점</td>
+            <td>발표 내용의 기본 완성도와 흥미 요소</td>
+            <td>
+              주제가 분명한가, 시작-전개-마무리가 있는가, 자기 경험·관점·사례가 포함되어 있는가, 흥미로운 접근이 있는가
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="highlight">
+        <div class="small-title">점수 배분의 이유</div>
+        내용 구성과 문장 완성도는 AI, 교사, 음성 자료의 도움을 받을 수 있는 영역이므로 배점을 상대적으로 낮게 둡니다. 
+        대신 실제 발표 장면에서 드러나는 유창성, 전달력, 자신감, 발표 소화도를 더 중요하게 평가합니다.
+      </div>
+
+      <h3>시각자료·소품·원고 활용 기준</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>상황</th>
+            <th>심사 원칙</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>파워포인트, 사진, 화면자료 활용</td>
+            <td>자료를 사용했다는 사실만으로 가산점을 주지 않습니다. 자료가 발표 이해를 돕고, 발표자가 자연스럽게 활용했을 때 전달력 평가에 긍정적으로 반영합니다.</td>
+          </tr>
+          <tr>
+            <td>요리 도구, 작품, 악기 등 소품 활용</td>
+            <td>소품은 발표를 돕는 도구입니다. 소품 때문에 말이 지나치게 줄거나 시선과 흐름이 흐트러지면 오히려 전달력에 불리할 수 있습니다.</td>
+          </tr>
+          <tr>
+            <td>원고나 메모 참고</td>
+            <td>원고나 메모를 참고할 수는 있습니다. 다만 그대로 읽는 느낌보다, 내용을 충분히 이해하고 자신의 말처럼 자연스럽게 전달하는지가 중요합니다.</td>
+          </tr>
+          <tr>
+            <td>짧은 발표와 긴 발표 비교</td>
+            <td>발표 시간이 길다고 유리하지 않고, 짧다고 불리하지 않습니다. 정해진 시간 안에서 끝까지 집중력을 유지하고 핵심 메시지를 효과적으로 전달했는지를 봅니다.</td>
+          </tr>
+          <tr>
+            <td>쉬운 주제와 어려운 주제 비교</td>
+            <td>주제 난이도 자체가 순위를 결정하지 않습니다. 쉬운 주제는 진솔하고 설득력 있게, 어려운 주제는 명확하고 이해하기 쉽게 전달했는지를 평가합니다.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>2. 교사·학부모에게 소개할 모범 발표자 설명</h2>
+      <div class="lead">
+        <strong>모범 발표자는 ‘화려한 발표자’가 아니라, 자신의 메시지를 가장 잘 전달하는 발표자입니다.</strong>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <span class="tag">Fluency</span>
+          <h3>영어가 자연스럽게 들리는 발표자</h3>
+          <ul>
+            <li>단어와 문장을 또렷하게 발음합니다.</li>
+            <li>억양, 강세, 리듬이 자연스러워 듣기 편합니다.</li>
+            <li>중간에 실수가 있어도 당황하지 않고 흐름을 이어갑니다.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="tag">Delivery</span>
+          <h3>듣는 사람이 쉽게 이해하도록 말하는 발표자</h3>
+          <ul>
+            <li>핵심 메시지가 분명합니다.</li>
+            <li>중요한 부분을 목소리, 속도, 표정으로 강조합니다.</li>
+            <li>어려운 내용도 자기 수준에 맞게 풀어 설명합니다.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="tag">Confidence</span>
+          <h3>카메라 앞에서 안정감 있게 말하는 발표자</h3>
+          <ul>
+            <li>시선, 자세, 표정이 자연스럽습니다.</li>
+            <li>목소리에 힘이 있고 에너지가 느껴집니다.</li>
+            <li>외워서 말하든 참고해서 말하든 자신감 있게 전달합니다.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="tag">Authenticity</span>
+          <h3>자기 이야기처럼 소화한 발표자</h3>
+          <ul>
+            <li>원고를 읽는 느낌보다 자신의 생각을 말하는 느낌이 납니다.</li>
+            <li>주제에 대한 관심과 몰입이 느껴집니다.</li>
+            <li>자기 경험, 감정, 관점이 자연스럽게 드러납니다.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>현장 안내용 설명 문안</h3>
+      <div class="highlight">
+        리얼스피치에서 좋은 평가를 받는 발표는 단순히 긴 발표, 어려운 주제, 화려한 자료를 사용한 발표가 아닙니다. 
+        아이가 준비한 내용을 충분히 이해하고, 자신의 이야기처럼 자연스럽게 전달하며, 카메라 앞에서 자신감 있게 말하는 발표가 좋은 발표입니다. 
+        원고나 메모, 사진, PPT, 소품은 사용할 수 있지만, 그것들은 발표를 돕는 도구일 뿐입니다. 
+        가장 중요한 기준은 <strong>듣는 사람이 발표자의 메시지를 명확하게 이해하고, 발표자의 자신감과 진정성을 느낄 수 있는가</strong>입니다.
+      </div>
+
+      <p class="note">
+        ※ 세미나에서는 “잘 외운 발표”보다 “잘 전달한 발표”, “화려한 발표”보다 “자기 것으로 소화한 발표”라는 표현을 반복해서 안내하는 것이 좋습니다.
+      </p>
+    </section>
+
+    <section>
+      <h2>3. 교사·학부모 대상 FAQ</h2>
+
+      <h3>학부모가 자주 물을 수 있는 질문</h3>
+      <div class="faq-item">
+        <div class="q">Q1. 우리 아이가 발음이 조금 부족하면 수상하기 어려운가요?</div>
+        <p class="a">발음은 중요한 평가 요소이지만, 발음 하나만으로 결과가 결정되지는 않습니다. 발음의 명확성, 억양의 자연스러움, 말의 흐름, 전달력, 자신감, 발표 소화도를 종합적으로 평가합니다. 발음이 완벽하지 않아도 메시지를 또렷하고 자신감 있게 전달하면 좋은 평가를 받을 수 있습니다.</p>
+      </div>
+      <div class="faq-item">
+        <div class="q">Q2. 발표 시간이 길수록 유리한가요?</div>
+        <p class="a">그렇지 않습니다. 1분 발표와 2분 30초 발표 모두 정해진 시간 안에서 평가됩니다. 긴 발표는 끝까지 집중력과 완성도를 유지해야 하고, 짧은 발표는 짧은 시간 안에 핵심 메시지를 충분히 전달해야 합니다. 시간의 길이보다 발표의 밀도와 완성도가 중요합니다.</p>
+      </div>
+      <div class="faq-item">
+        <div class="q">Q3. PPT나 소품을 사용하면 더 높은 점수를 받을 수 있나요?</div>
+        <p class="a">자료나 소품을 사용했다는 이유만으로 가산점을 주지는 않습니다. PPT, 사진, 소품이 발표 내용을 더 잘 이해하게 만들고 발표자가 자연스럽게 활용했다면 전달력에 도움이 됩니다. 반대로 자료를 제대로 활용하지 못하거나 말하기 흐름을 방해하면 좋은 평가를 받기 어렵습니다.</p>
+      </div>
+      <div class="faq-item">
+        <div class="q">Q4. 원고를 보고 발표해도 되나요?</div>
+        <p class="a">원고나 메모를 참고할 수는 있습니다. 다만 원고를 그대로 읽는 느낌보다는 내용을 충분히 이해하고 자신의 말처럼 전달하는 것이 중요합니다. 가끔 메모를 확인하더라도 다시 카메라를 보고 자연스럽게 이어간다면 큰 문제가 되지 않습니다.</p>
+      </div>
+      <div class="faq-item">
+        <div class="q">Q5. 쉬운 주제로 진솔하게 말한 아이와 어려운 주제를 전문적으로 발표한 아이는 어떻게 비교하나요?</div>
+        <p class="a">주제의 난이도만으로 평가하지 않습니다. 쉬운 주제는 얼마나 진솔하고 설득력 있게 전달했는지, 어려운 주제는 얼마나 명확하고 이해하기 쉽게 설명했는지를 봅니다. 결국 심사의 핵심은 주제 자체가 아니라 발표자가 그 주제를 얼마나 잘 소화하고 전달했는가입니다.</p>
+      </div>
+
+      <h3>심사 기준 관련 핵심 질문</h3>
+      <div class="faq-item">
+        <div class="q">Q1. AI가 만든 원고를 활용해도 되나요?</div>
+        <p class="a">발표 준비 과정에서 다양한 도움을 받을 수 있습니다. 다만 심사에서는 원고 자체보다 그 내용을 발표자가 얼마나 자기 것으로 소화했는지를 봅니다. AI가 만든 문장을 그대로 읽는 발표보다, 자신의 경험과 생각을 담아 자연스럽게 전달하는 발표가 더 좋은 평가를 받습니다.</p>
+      </div>
+      <div class="faq-item">
+        <div class="q">Q2. 전달력은 어떻게 평가하나요?</div>
+        <p class="a">전달력은 단순히 글의 논리성을 보는 것이 아닙니다. 발표자가 핵심 메시지를 분명히 말하는지, 중요한 부분을 강조하는지, 듣는 사람이 쉽게 이해할 수 있도록 말의 속도와 흐름을 조절하는지를 봅니다.</p>
+      </div>
+      <div class="faq-item">
+        <div class="q">Q3. 자신감은 어떤 기준으로 보나요?</div>
+        <p class="a">자신감은 시선, 자세, 표정, 목소리의 크기와 안정감, 발표 흐름으로 판단합니다. 완벽하게 외우는 것보다 카메라 앞에서 안정적으로 말하고, 실수가 있어도 끝까지 자연스럽게 이어가는 태도가 중요합니다.</p>
+      </div>
+      <div class="faq-item">
+        <div class="q">Q4. 창의성은 어떻게 평가하나요?</div>
+        <p class="a">창의성은 완전히 새로운 내용을 만들어냈는지만 보는 항목이 아닙니다. 자기 경험, 자기 관점, 흥미로운 사례, 주제에 대한 독특한 접근이 있는지를 봅니다. 다만 창의성 배점은 전체 중 일부이며, 발표력과 전달력이 더 중요한 평가 요소입니다.</p>
+      </div>
+      <div class="faq-item">
+        <div class="q">Q5. 미국식 발음과 영국식 발음 중 어느 쪽이 유리한가요?</div>
+        <p class="a">특정 발음 체계가 무조건 유리하지 않습니다. 중요한 것은 어느 발음이든 듣는 사람이 명확히 이해할 수 있고, 억양과 강세가 자연스러우며, 전체 말하기 흐름이 안정적인가입니다. 대회에서는 특정 억양을 우대하기보다 명확성과 자연스러운 전달을 중심으로 평가합니다.</p>
+      </div>
+
+      <div class="highlight">
+        <div class="small-title">현장 커뮤니케이션 핵심 문장</div>
+        “리얼스피치는 원고를 잘 쓰는 대회가 아니라, 준비한 내용을 자기 것으로 소화해 자신 있게 전달하는 대회입니다. 
+        자료나 소품은 도구이며, 가장 중요한 것은 아이의 영어 말하기 유창성, 전달력, 자신감, 진정성입니다.”
+      </div>
+    </section>
+  </div>
+</body>
+</html>
