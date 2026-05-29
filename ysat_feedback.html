@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>학력평가 리포트 성적추이 개선 최종 제안</title>
+  <style>
+    :root {
+      --red: #ed1c24;
+      --dark: #111827;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --bg: #f5f6f8;
+      --card: #ffffff;
+      --soft-red: #fff1f2;
+      --gray: #9ca3af;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", Roboto, Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 48px 24px 72px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #151922 0%, #252b36 100%);
+      color: #fff;
+      border-radius: 24px;
+      padding: 40px 44px;
+      box-shadow: 0 12px 28px rgba(17, 24, 39, 0.16);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(237, 28, 36, 0.16);
+      color: #ffd8dc;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.25;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      margin: 16px 0 0;
+      color: #d1d5db;
+      font-size: 17px;
+    }
+
+    .section {
+      margin-top: 28px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 30px;
+      box-shadow: 0 8px 22px rgba(17, 24, 39, 0.06);
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      font-size: 23px;
+      letter-spacing: -0.03em;
+      color: var(--dark);
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      color: var(--dark);
+      letter-spacing: -0.02em;
+    }
+
+    .lead {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .highlight {
+      color: var(--red);
+      font-weight: 800;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .decision-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+      background: #fff;
+      min-height: 210px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--soft-red);
+      color: var(--red);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .decision-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      margin-top: 12px;
+    }
+
+    .table th,
+    .table td {
+      padding: 15px 16px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 15px;
+    }
+
+    .table th {
+      background: #f9fafb;
+      color: var(--dark);
+      font-weight: 800;
+    }
+
+    .table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .mockups {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .mock-card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+      padding: 20px;
+      min-height: 280px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mock-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: var(--red);
+    }
+
+    .mock-title {
+      font-weight: 900;
+      color: var(--dark);
+      margin-bottom: 4px;
+      font-size: 16px;
+    }
+
+    .mock-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .score {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--dark);
+      letter-spacing: -0.04em;
+    }
+
+    .score small {
+      display: block;
+      font-size: 14px;
+      color: var(--red);
+      margin-top: 2px;
+      letter-spacing: 0;
+    }
+
+    .timeline {
+      margin-top: 28px;
+      height: 54px;
+      position: relative;
+    }
+
+    .timeline .bar {
+      position: absolute;
+      top: 22px;
+      left: 10%;
+      right: 10%;
+      height: 3px;
+      background: var(--line);
+    }
+
+    .dot {
+      position: absolute;
+      top: 14px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      border: 3px solid var(--gray);
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    .dot.active {
+      background: var(--red);
+      border-color: var(--red);
+    }
+
+    .dot-label {
+      position: absolute;
+      top: 39px;
+      transform: translateX(-50%);
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .compare {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .compare-box {
+      flex: 1;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      background: #fafafa;
+    }
+
+    .compare-box strong {
+      display: block;
+      font-size: 22px;
+      color: var(--dark);
+    }
+
+    .compare-box span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .arrow {
+      color: var(--red);
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    .chart {
+      margin-top: 18px;
+      height: 150px;
+      position: relative;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(to top, rgba(237,28,36,0.08), rgba(237,28,36,0.00) 58%),
+        linear-gradient(to bottom, transparent 0, transparent 49%, rgba(229,231,235,0.8) 50%, transparent 51%);
+    }
+
+    .chart svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .chart-label {
+      position: absolute;
+      font-size: 12px;
+      color: var(--muted);
+      transform: translate(-50%, -100%);
+      white-space: nowrap;
+      font-weight: 700;
+    }
+
+    .chart-date {
+      position: absolute;
+      bottom: -24px;
+      font-size: 12px;
+      color: var(--muted);
+      transform: translateX(-50%);
+    }
+
+    .message {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: #f9fafb;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .principle {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 18px;
+      background: #fff;
+    }
+
+    .principle strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--dark);
+    }
+
+    .principle span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .final-box {
+      background: #111827;
+      color: #fff;
+      border-radius: 22px;
+      padding: 28px 30px;
+      margin-top: 28px;
+    }
+
+    .final-box h2 {
+      color: #fff;
+    }
+
+    .final-box p {
+      margin: 8px 0 0;
+      color: #d1d5db;
+      font-size: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .grid,
+      .mockups,
+      .principles {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 32px 26px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .section {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">학력평가 리포트 개선 제안</div>
+      <h1>성적추이는 하나의 그래프로 통일하지 말고,<br />응시 횟수에 따라 다르게 보여준다</h1>
+      <p>
+        1회 응시자는 ‘기준점’, 2회 응시자는 ‘직전 대비 비교’, 3회 이상 응시자는 ‘추이’로 해석해야
+        리포트의 의미가 자연스럽고 학부모 이해도가 높아집니다.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>1. 핵심 결론</h2>
+      <p class="lead">
+        막대그래프를 꺾은선그래프로 단순 교체하는 것보다,
+        <span class="highlight">응시 이력 개수에 따라 UI를 분기</span>하는 방식이 가장 적합합니다.
+      </p>
+
+      <div class="grid">
+        <div class="decision-card">
+          <div class="badge">1회 응시</div>
+          <h3>첫 평가 기준점</h3>
+          <p>추이가 없으므로 점 하나짜리 그래프 대신, 이번 결과가 향후 성장 비교의 기준점이라는 메시지를 제공합니다.</p>
+        </div>
+
+        <div class="decision-card">
+          <div class="badge">2회 응시</div>
+          <h3>직전 대비 변화</h3>
+          <p>아직 장기 추이는 아니므로 양 끝 점을 연결한 그래프보다, 지난 평가와 이번 평가의 변화량을 명확히 보여줍니다.</p>
+        </div>
+
+        <div class="decision-card">
+          <div class="badge">3회 이상 응시</div>
+          <h3>최근 평가 흐름</h3>
+          <p>실제 추이 해석이 가능하므로 꺾은선 그래프를 사용하고, 최근 점수와 변화량을 함께 강조합니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>2. 응시 횟수별 표시 방식</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>응시 이력</th>
+            <th>권장 UI</th>
+            <th>핵심 메시지</th>
+            <th>표현 포인트</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1회</strong></td>
+            <td>첫 평가 기준점 카드</td>
+            <td>“이번 결과가 앞으로의 성장을 비교하는 기준점입니다.”</td>
+            <td>미래 점수처럼 보이지 않도록 다음 평가 지점은 회색 원 또는 점선으로 처리</td>
+          </tr>
+          <tr>
+            <td><strong>2회</strong></td>
+            <td>직전 대비 비교 카드</td>
+            <td>“지난 평가 대비 몇 점 변화했습니다.”</td>
+            <td>두 점을 화면 양 끝에 붙이지 않고, 변화량·등급 변화 중심으로 표시</td>
+          </tr>
+          <tr>
+            <td><strong>3회 이상</strong></td>
+            <td>꺾은선 추이 그래프</td>
+            <td>“최근 평가 흐름과 성장 패턴을 확인할 수 있습니다.”</td>
+            <td>최근 결과를 가장 강조하고, 직전 대비 변화량 배지를 함께 제공</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>3. 화면 시안 요약</h2>
+      <div class="mockups">
+        <article class="mock-card">
+          <div class="mock-title">성적추이</div>
+          <div class="mock-sub">첫 평가 기준점</div>
+          <div class="score">450점 <small>3등급</small></div>
+
+          <div class="timeline">
+            <div class="bar"></div>
+            <div class="dot active" style="left: 18%;"></div>
+            <div class="dot-label" style="left: 18%;">이번 평가</div>
+            <div class="dot" style="left: 50%;"></div>
+            <div class="dot-label" style="left: 50%;">다음 평가</div>
+            <div class="dot" style="left: 82%;"></div>
+            <div class="dot-label" style="left: 82%;">이후 평가</div>
+          </div>
+
+          <div class="message">
+            이번 평가는 앞으로의 성장을 비교하는 기준점입니다. 다음 평가부터 이전 결과 대비 변화가 표시됩니다.
+          </div>
+        </article>
+
+        <article class="mock-card">
+          <div class="mock-title">성적추이</div>
+          <div class="mock-sub">직전 평가 대비 변화</div>
+          <div class="badge">직전 대비 +5점 · 등급 유지</div>
+
+          <div class="compare">
+            <div class="compare-box">
+              <span>24.9 평가</span>
+              <strong>670</strong>
+              <span>5등급</span>
+            </div>
+            <div class="arrow">→</div>
+            <div class="compare-box">
+              <span>25.2 평가</span>
+              <strong>675</strong>
+              <span>5등급</span>
+            </div>
+          </div>
+
+          <div class="message">
+            이전 평가와 비슷한 수준을 유지하며 점수가 소폭 향상되었습니다.
+          </div>
+        </article>
+
+        <article class="mock-card">
+          <div class="mock-title">성적추이</div>
+          <div class="mock-sub">최근 평가 흐름</div>
+          <div class="badge">직전 대비 +120점 · 5등급 → 4등급</div>
+
+          <div class="chart">
+            <svg viewBox="0 0 300 150" preserveAspectRatio="none" aria-hidden="true">
+              <polyline points="35,105 145,100 265,45" fill="none" stroke="#ed1c24" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="35" cy="105" r="6" fill="#ed1c24"/>
+              <circle cx="145" cy="100" r="6" fill="#ed1c24"/>
+              <circle cx="265" cy="45" r="7" fill="#ed1c24"/>
+            </svg>
+            <div class="chart-label" style="left: 12%; top: 102px;">670 · 5등급</div>
+            <div class="chart-label" style="left: 48%; top: 97px;">675 · 5등급</div>
+            <div class="chart-label" style="left: 88%; top: 42px;">795 · 4등급</div>
+            <div class="chart-date" style="left: 12%;">24.9</div>
+            <div class="chart-date" style="left: 48%;">25.2</div>
+            <div class="chart-date" style="left: 88%;">25.3</div>
+          </div>
+
+          <div class="message" style="margin-top: 36px;">
+            최근 평가에서 점수와 등급이 함께 상승했습니다.
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>4. 적용 원칙</h2>
+      <div class="principles">
+        <div class="principle">
+          <strong>최신 결과를 가장 강조</strong>
+          <span>과거 점수는 보조 정보로 낮추고, 현재 점수와 직전 대비 변화를 중심에 둡니다.</span>
+        </div>
+        <div class="principle">
+          <strong>변화량 배지 제공</strong>
+          <span>“+120점”, “등급 상승”, “유사 수준 유지”처럼 그래프 해석을 문장화합니다.</span>
+        </div>
+        <div class="principle">
+          <strong>등급 변화 함께 표시</strong>
+          <span>점수 변화만으로는 학부모가 해석하기 어렵기 때문에 등급 변화를 함께 보여줍니다.</span>
+        </div>
+        <div class="principle">
+          <strong>PDF에서는 최근 3~4회 중심</strong>
+          <span>장기 이력은 웹 리포트에서 제공하고, PDF는 핵심 흐름만 간결하게 보여줍니다.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-box">
+      <h2>최종 제안</h2>
+      <p>
+        성적추이는 ‘그래프 형태’보다 ‘해석 방식’이 중요합니다. 1회 응시는 기준점, 2회 응시는 비교,
+        3회 이상은 추이로 구분하면 어색한 화면을 줄이고, 학부모가 리포트의 의미를 더 쉽게 이해할 수 있습니다.
+      </p>
+      <p>
+        따라서 개발 방향은 <strong>단일 꺾은선 그래프 적용</strong>이 아니라
+        <strong>응시 횟수 기반 조건부 컴포넌트</strong>로 설계하는 것이 바람직합니다.
+      </p>
+    </section>
+  </main>
+</body>
+</html>
