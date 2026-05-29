@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>윤선생학력평가 10회 연속 응시자 샘플 성적추이</title>
+<style>
+  :root{
+    --red:#e9413e; --red-dark:#cf2f2c; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb;
+    --bg:#f6f7fb; --card:#ffffff; --soft:#fff4f4;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",Arial,sans-serif;}
+  .page{max-width:1160px;margin:0 auto;padding:36px 22px 64px;}
+  .hero{background:linear-gradient(135deg,#fff 0%,#fff7f7 100%);border:1px solid #f1d8d8;border-radius:26px;padding:32px 34px;box-shadow:0 16px 42px rgba(15,23,42,.08);}
+  .hero h1{margin:0 0 12px;font-size:30px;letter-spacing:-.04em;line-height:1.28}
+  .hero p{margin:0;color:#4b5563;line-height:1.7;font-size:15px}
+  .summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:20px 0 0}
+  .summary .item{background:#fff;border:1px solid #f1e3e3;border-radius:18px;padding:18px 18px;}
+  .summary span{display:block;color:#6b7280;font-size:13px;margin-bottom:8px}
+  .summary strong{display:block;font-size:24px;letter-spacing:-.03em}
+  .section-title{margin:34px 0 14px;display:flex;align-items:end;justify-content:space-between;gap:18px}
+  .section-title h2{margin:0;font-size:22px;letter-spacing:-.035em}
+  .section-title p{margin:0;color:#6b7280;font-size:13px;line-height:1.5;text-align:right}
+  .sample-grid{display:grid;grid-template-columns:1fr;gap:22px}
+  .sample-card{background:var(--card);border:1px solid #e9edf3;border-radius:24px;padding:24px;box-shadow:0 12px 28px rgba(15,23,42,.07);overflow:hidden}
+  .card-head{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;margin-bottom:10px}
+  .eyebrow{margin:0 0 6px;color:var(--red-dark);font-weight:800;font-size:14px;letter-spacing:-.02em}
+  .card-head h2{margin:0 0 7px;font-size:24px;letter-spacing:-.04em}
+  .note{margin:0;color:#596273;font-size:14px;line-height:1.55}
+  .kpi-box{min-width:220px;display:grid;grid-template-columns:auto 1fr;gap:7px 11px;align-items:center;background:#fafafa;border:1px solid #edf0f3;border-radius:18px;padding:14px 16px}
+  .kpi-box span{color:#7b8494;font-size:12px}
+  .kpi-box strong{font-size:14px;text-align:right;white-space:nowrap}
+  .kpi-box strong.red{color:var(--red-dark)}
+  .chart-wrap{margin:10px 0 14px;border-radius:22px;background:linear-gradient(180deg,#fff 0%,#fffafa 100%);border:1px solid #f2e8e8;padding:8px 8px 2px;overflow:auto}
+  .trend-svg{width:100%;min-width:720px;height:auto;display:block}
+  .grid{stroke:#eef1f5;stroke-width:1;stroke-dasharray:4 6}
+  .baseline{stroke:#dfe4ea;stroke-width:1}
+  .axis-label{fill:#a1a7b3;font-size:11px;text-anchor:start}
+  .x-label{fill:#818895;font-size:12px;text-anchor:end}
+  .line{stroke:var(--red);stroke-width:3.8;stroke-linecap:round;stroke-linejoin:round}
+  .dot{fill:var(--red);stroke:#fff;stroke-width:3;cursor:pointer}
+  .point-label text{text-anchor:middle;font-weight:700;paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}
+  .point-label .grade-level{fill:#8a93a3;font-size:12px;font-weight:700}
+  .point-label .grade-text{fill:var(--red-dark);font-size:13px;font-weight:900}
+  .point-label .score-text{fill:#2b3440;font-size:13px;font-weight:900}
+  .insight-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:8px}
+  .insight-grid div{background:#fbfcfe;border:1px solid #edf1f6;border-radius:16px;padding:13px 14px}
+  .insight-grid span{display:block;color:#6b7280;font-size:12px;margin-bottom:4px}
+  .insight-grid strong{font-size:18px;letter-spacing:-.02em}
+  .counsel{margin:14px 0 0;background:#fff7f7;border-left:4px solid var(--red);border-radius:14px;padding:13px 15px;color:#424b5a;line-height:1.65;font-size:14px}
+  .data-table-wrap{margin-top:12px}
+  .data-table-wrap summary{cursor:pointer;color:#6b7280;font-size:13px;font-weight:700}
+  .data-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+  .data-table th,.data-table td{padding:8px 10px;border-bottom:1px solid #eef1f5;text-align:center}
+  .data-table th{background:#f8fafc;color:#556070}
+  .footer-note{margin-top:24px;color:#6b7280;font-size:13px;line-height:1.7}
+  @media (max-width:860px){
+    .summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .card-head{display:block}
+    .kpi-box{margin-top:14px;min-width:0}
+    .section-title{display:block}
+    .section-title p{text-align:left;margin-top:8px}
+    .insight-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <h1>윤선생학력평가 10회 연속 응시자 샘플 성적추이</h1>
+      <p>10회차 응시자 중 1~10회차를 모두 응시한 회원을 대상으로, 초·중 학생 회원 중심의 대표 패턴 샘플을 선정해 성적추이 그래프로 구성했습니다. 회원번호는 보고서 공유를 고려해 마스킹했습니다.</p>
+      <div class="summary">
+        <div class="item"><span>10회 모두 응시</span><strong>359명</strong></div>
+        <div class="item"><span>초·중 학생 샘플 모집단</span><strong>313명</strong></div>
+        <div class="item"><span>선정 샘플</span><strong>6명</strong></div>
+        <div class="item"><span>그래프 축</span><strong>250~1000점</strong></div>
+      </div>
+    </section>
+
+    <div class="section-title">
+      <h2>대표 패턴별 샘플 그래프</h2>
+      <p>각 그래프는 동일한 점수축을 사용했습니다.<br/>원자료 기준: 회차·학년·등급·총점</p>
+    </div>
+
+    <div class="sample-grid">
+      
+    <section class="sample-card">
+      <div class="card-head">
+        <div>
+          <p class="eyebrow">샘플 A · 장기 우상향형</p>
+          <h2>성적추이</h2>
+          <p class="note">초등 고학년에서 중등까지 이어지며 총점이 지속적으로 상승한 대표 사례</p>
+        </div>
+        <div class="kpi-box">
+          <span>회원번호</span><strong>559****3</strong>
+          <span>1→10회</span><strong>470점 → 920점</strong>
+          <span>변화</span><strong class="red">+450점</strong>
+        </div>
+      </div>
+      <div class="chart-wrap">
+    <svg viewBox="0 0 780 360" role="img" aria-label="성적추이 그래프" class="trend-svg">
+      <defs>
+        <linearGradient id="grad-c1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ef4444" stop-opacity="0.24"/>
+          <stop offset="62%" stop-color="#ef4444" stop-opacity="0.07"/>
+          <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="shadow-c1" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#ef4444" flood-opacity="0.18"/>
+        </filter>
+      </defs>
+      <line x1="42" y1="291.3" x2="748" y2="291.3" class="grid"/><text x="12" y="295.3" class="axis-label">300</text><line x1="42" y1="232.7" x2="748" y2="232.7" class="grid"/><text x="12" y="236.7" class="axis-label">500</text><line x1="42" y1="174.0" x2="748" y2="174.0" class="grid"/><text x="12" y="178.0" class="axis-label">700</text><line x1="42" y1="115.3" x2="748" y2="115.3" class="grid"/><text x="12" y="119.3" class="axis-label">900</text>
+      <path d="M 42.0,306.0 L 42.0,241.5 L 120.4,228.3 L 198.9,213.6 L 277.3,203.3 L 355.8,196.0 L 434.2,176.9 L 512.7,174.0 L 591.1,144.7 L 669.6,132.9 L 748.0,109.5 L 748.0,306.0 Z" fill="url(#grad-c1)"/>
+      <polyline points="42.0,241.5 120.4,228.3 198.9,213.6 277.3,203.3 355.8,196.0 434.2,176.9 512.7,174.0 591.1,144.7 669.6,132.9 748.0,109.5" fill="none" class="line" filter="url(#shadow-c1)"/>
+      <circle cx="42.0" cy="241.5" r="5.2" class="dot"><title>1회차 · 초등 4 · 3등급 · 470점</title></circle><circle cx="120.4" cy="228.3" r="5.2" class="dot"><title>2회차 · 초등 5 · 3등급 · 515점</title></circle><circle cx="198.9" cy="213.6" r="5.2" class="dot"><title>3회차 · 초등 5 · 2등급 · 565점</title></circle><circle cx="277.3" cy="203.3" r="5.2" class="dot"><title>4회차 · 초등 6 · 3등급 · 600점</title></circle><circle cx="355.8" cy="196.0" r="5.2" class="dot"><title>5회차 · 초등 6 · 2등급 · 625점</title></circle><circle cx="434.2" cy="176.9" r="5.2" class="dot"><title>6회차 · 중등 1 · 2등급 · 690점</title></circle><circle cx="512.7" cy="174.0" r="5.2" class="dot"><title>7회차 · 중등 1 · 3등급 · 700점</title></circle><circle cx="591.1" cy="144.7" r="5.2" class="dot"><title>8회차 · 중등 2 · 2등급 · 800점</title></circle><circle cx="669.6" cy="132.9" r="5.2" class="dot"><title>9회차 · 중등 2 · 1등급 · 840점</title></circle><circle cx="748.0" cy="109.5" r="5.2" class="dot"><title>10회차 · 중등 3 · 1등급 · 920점</title></circle>
+      <g class="point-label" transform="translate(42.0,195.5)"><text y="0" class="grade-level">초등 4</text><text y="17" class="grade-text">3등급</text><text y="34" class="score-text">470</text></g><g class="point-label" transform="translate(120.4,177.3)"><text y="0" class="grade-level">초등 5</text><text y="17" class="grade-text">3등급</text><text y="34" class="score-text">515</text></g><g class="point-label" transform="translate(198.9,167.6)"><text y="0" class="grade-level">초등 5</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">565</text></g><g class="point-label" transform="translate(277.3,152.3)"><text y="0" class="grade-level">초등 6</text><text y="17" class="grade-text">3등급</text><text y="34" class="score-text">600</text></g><g class="point-label" transform="translate(355.8,150.0)"><text y="0" class="grade-level">초등 6</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">625</text></g><g class="point-label" transform="translate(434.2,125.9)"><text y="0" class="grade-level">중등 1</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">690</text></g><g class="point-label" transform="translate(512.7,128.0)"><text y="0" class="grade-level">중등 1</text><text y="17" class="grade-text">3등급</text><text y="34" class="score-text">700</text></g><g class="point-label" transform="translate(591.1,93.7)"><text y="0" class="grade-level">중등 2</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">800</text></g><g class="point-label" transform="translate(669.6,86.9)"><text y="0" class="grade-level">중등 2</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">840</text></g><g class="point-label" transform="translate(748.0,58.5)"><text y="0" class="grade-level">중등 3</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">920</text></g>
+      <line x1="42" y1="306" x2="748" y2="306" class="baseline"/>
+      <text x="42.0" y="340" class="x-label" transform="rotate(-42 42.0,340)">1회</text><text x="120.4" y="340" class="x-label" transform="rotate(-42 120.4,340)">2회</text><text x="198.9" y="340" class="x-label" transform="rotate(-42 198.9,340)">3회</text><text x="277.3" y="340" class="x-label" transform="rotate(-42 277.3,340)">4회</text><text x="355.8" y="340" class="x-label" transform="rotate(-42 355.8,340)">5회</text><text x="434.2" y="340" class="x-label" transform="rotate(-42 434.2,340)">6회</text><text x="512.7" y="340" class="x-label" transform="rotate(-42 512.7,340)">7회</text><text x="591.1" y="340" class="x-label" transform="rotate(-42 591.1,340)">8회</text><text x="669.6" y="340" class="x-label" transform="rotate(-42 669.6,340)">9회</text><text x="748.0" y="340" class="x-label" transform="rotate(-42 748.0,340)">10회</text>
+    </svg></div>
+      <div class="insight-grid">
+        <div><span>최근 3회 평균</span><strong>853.3점</strong></div>
+        <div><span>최저점 대비 10회차</span><strong>+450점</strong></div>
+        <div><span>상승 회차 수</span><strong>9/9회</strong></div>
+      </div>
+      <details class="data-table-wrap">
+        <summary>회차별 원자료 보기</summary>
+        <table class="data-table"><thead><tr><th>회차</th><th>학년</th><th>등급</th><th>총점</th></tr></thead><tbody><tr><td>1회</td><td>초등 4</td><td>3등급</td><td>470</td></tr><tr><td>2회</td><td>초등 5</td><td>3등급</td><td>515</td></tr><tr><td>3회</td><td>초등 5</td><td>2등급</td><td>565</td></tr><tr><td>4회</td><td>초등 6</td><td>3등급</td><td>600</td></tr><tr><td>5회</td><td>초등 6</td><td>2등급</td><td>625</td></tr><tr><td>6회</td><td>중등 1</td><td>2등급</td><td>690</td></tr><tr><td>7회</td><td>중등 1</td><td>3등급</td><td>700</td></tr><tr><td>8회</td><td>중등 2</td><td>2등급</td><td>800</td></tr><tr><td>9회</td><td>중등 2</td><td>1등급</td><td>840</td></tr><tr><td>10회</td><td>중등 3</td><td>1등급</td><td>920</td></tr></tbody></table>
+      </details>
+      <p class="counsel"><strong>해석 포인트</strong> 점수 상승과 학년 상승이 함께 나타나므로 장기 학습 지속의 의미를 보여주는 샘플로 적합합니다.</p>
+    </section>
+    <section class="sample-card">
+      <div class="card-head">
+        <div>
+          <p class="eyebrow">샘플 B · 평균 성장형</p>
+          <h2>성적추이</h2>
+          <p class="note">큰 급등락 없이 10회 동안 안정적으로 성장한 일반적인 장기 추적 사례</p>
+        </div>
+        <div class="kpi-box">
+          <span>회원번호</span><strong>564****9</strong>
+          <span>1→10회</span><strong>425점 → 725점</strong>
+          <span>변화</span><strong class="red">+300점</strong>
+        </div>
+      </div>
+      <div class="chart-wrap">
+    <svg viewBox="0 0 780 360" role="img" aria-label="성적추이 그래프" class="trend-svg">
+      <defs>
+        <linearGradient id="grad-c2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ef4444" stop-opacity="0.24"/>
+          <stop offset="62%" stop-color="#ef4444" stop-opacity="0.07"/>
+          <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="shadow-c2" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#ef4444" flood-opacity="0.18"/>
+        </filter>
+      </defs>
+      <line x1="42" y1="291.3" x2="748" y2="291.3" class="grid"/><text x="12" y="295.3" class="axis-label">300</text><line x1="42" y1="232.7" x2="748" y2="232.7" class="grid"/><text x="12" y="236.7" class="axis-label">500</text><line x1="42" y1="174.0" x2="748" y2="174.0" class="grid"/><text x="12" y="178.0" class="axis-label">700</text><line x1="42" y1="115.3" x2="748" y2="115.3" class="grid"/><text x="12" y="119.3" class="axis-label">900</text>
+      <path d="M 42.0,306.0 L 42.0,254.7 L 120.4,248.8 L 198.9,234.1 L 277.3,222.4 L 355.8,218.0 L 434.2,201.9 L 512.7,200.4 L 591.1,185.7 L 669.6,185.7 L 748.0,166.7 L 748.0,306.0 Z" fill="url(#grad-c2)"/>
+      <polyline points="42.0,254.7 120.4,248.8 198.9,234.1 277.3,222.4 355.8,218.0 434.2,201.9 512.7,200.4 591.1,185.7 669.6,185.7 748.0,166.7" fill="none" class="line" filter="url(#shadow-c2)"/>
+      <circle cx="42.0" cy="254.7" r="5.2" class="dot"><title>1회차 · 초등 1 · 2등급 · 425점</title></circle><circle cx="120.4" cy="248.8" r="5.2" class="dot"><title>2회차 · 초등 2 · 2등급 · 445점</title></circle><circle cx="198.9" cy="234.1" r="5.2" class="dot"><title>3회차 · 초등 2 · 1등급 · 495점</title></circle><circle cx="277.3" cy="222.4" r="5.2" class="dot"><title>4회차 · 초등 3 · 1등급 · 535점</title></circle><circle cx="355.8" cy="218.0" r="5.2" class="dot"><title>5회차 · 초등 3 · 1등급 · 550점</title></circle><circle cx="434.2" cy="201.9" r="5.2" class="dot"><title>6회차 · 초등 4 · 1등급 · 605점</title></circle><circle cx="512.7" cy="200.4" r="5.2" class="dot"><title>7회차 · 초등 4 · 1등급 · 610점</title></circle><circle cx="591.1" cy="185.7" r="5.2" class="dot"><title>8회차 · 초등 5 · 1등급 · 660점</title></circle><circle cx="669.6" cy="185.7" r="5.2" class="dot"><title>9회차 · 초등 5 · 1등급 · 660점</title></circle><circle cx="748.0" cy="166.7" r="5.2" class="dot"><title>10회차 · 초등 6 · 1등급 · 725점</title></circle>
+      <g class="point-label" transform="translate(42.0,208.7)"><text y="0" class="grade-level">초등 1</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">425</text></g><g class="point-label" transform="translate(120.4,197.8)"><text y="0" class="grade-level">초등 2</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">445</text></g><g class="point-label" transform="translate(198.9,188.1)"><text y="0" class="grade-level">초등 2</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">495</text></g><g class="point-label" transform="translate(277.3,171.4)"><text y="0" class="grade-level">초등 3</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">535</text></g><g class="point-label" transform="translate(355.8,172.0)"><text y="0" class="grade-level">초등 3</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">550</text></g><g class="point-label" transform="translate(434.2,150.9)"><text y="0" class="grade-level">초등 4</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">605</text></g><g class="point-label" transform="translate(512.7,154.4)"><text y="0" class="grade-level">초등 4</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">610</text></g><g class="point-label" transform="translate(591.1,134.7)"><text y="0" class="grade-level">초등 5</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">660</text></g><g class="point-label" transform="translate(669.6,139.7)"><text y="0" class="grade-level">초등 5</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">660</text></g><g class="point-label" transform="translate(748.0,115.7)"><text y="0" class="grade-level">초등 6</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">725</text></g>
+      <line x1="42" y1="306" x2="748" y2="306" class="baseline"/>
+      <text x="42.0" y="340" class="x-label" transform="rotate(-42 42.0,340)">1회</text><text x="120.4" y="340" class="x-label" transform="rotate(-42 120.4,340)">2회</text><text x="198.9" y="340" class="x-label" transform="rotate(-42 198.9,340)">3회</text><text x="277.3" y="340" class="x-label" transform="rotate(-42 277.3,340)">4회</text><text x="355.8" y="340" class="x-label" transform="rotate(-42 355.8,340)">5회</text><text x="434.2" y="340" class="x-label" transform="rotate(-42 434.2,340)">6회</text><text x="512.7" y="340" class="x-label" transform="rotate(-42 512.7,340)">7회</text><text x="591.1" y="340" class="x-label" transform="rotate(-42 591.1,340)">8회</text><text x="669.6" y="340" class="x-label" transform="rotate(-42 669.6,340)">9회</text><text x="748.0" y="340" class="x-label" transform="rotate(-42 748.0,340)">10회</text>
+    </svg></div>
+      <div class="insight-grid">
+        <div><span>최근 3회 평균</span><strong>681.7점</strong></div>
+        <div><span>최저점 대비 10회차</span><strong>+300점</strong></div>
+        <div><span>상승 회차 수</span><strong>8/9회</strong></div>
+      </div>
+      <details class="data-table-wrap">
+        <summary>회차별 원자료 보기</summary>
+        <table class="data-table"><thead><tr><th>회차</th><th>학년</th><th>등급</th><th>총점</th></tr></thead><tbody><tr><td>1회</td><td>초등 1</td><td>2등급</td><td>425</td></tr><tr><td>2회</td><td>초등 2</td><td>2등급</td><td>445</td></tr><tr><td>3회</td><td>초등 2</td><td>1등급</td><td>495</td></tr><tr><td>4회</td><td>초등 3</td><td>1등급</td><td>535</td></tr><tr><td>5회</td><td>초등 3</td><td>1등급</td><td>550</td></tr><tr><td>6회</td><td>초등 4</td><td>1등급</td><td>605</td></tr><tr><td>7회</td><td>초등 4</td><td>1등급</td><td>610</td></tr><tr><td>8회</td><td>초등 5</td><td>1등급</td><td>660</td></tr><tr><td>9회</td><td>초등 5</td><td>1등급</td><td>660</td></tr><tr><td>10회</td><td>초등 6</td><td>1등급</td><td>725</td></tr></tbody></table>
+      </details>
+      <p class="counsel"><strong>해석 포인트</strong> 점수 상승과 학년 상승이 함께 나타나므로 장기 학습 지속의 의미를 보여주는 샘플로 적합합니다.</p>
+    </section>
+    <section class="sample-card">
+      <div class="card-head">
+        <div>
+          <p class="eyebrow">샘플 C · 후반 도약형</p>
+          <h2>성적추이</h2>
+          <p class="note">중등 진입 전후로 상승 폭이 커지며 상위권으로 도약한 사례</p>
+        </div>
+        <div class="kpi-box">
+          <span>회원번호</span><strong>558****9</strong>
+          <span>1→10회</span><strong>505점 → 905점</strong>
+          <span>변화</span><strong class="red">+400점</strong>
+        </div>
+      </div>
+      <div class="chart-wrap">
+    <svg viewBox="0 0 780 360" role="img" aria-label="성적추이 그래프" class="trend-svg">
+      <defs>
+        <linearGradient id="grad-c3" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ef4444" stop-opacity="0.24"/>
+          <stop offset="62%" stop-color="#ef4444" stop-opacity="0.07"/>
+          <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="shadow-c3" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#ef4444" flood-opacity="0.18"/>
+        </filter>
+      </defs>
+      <line x1="42" y1="291.3" x2="748" y2="291.3" class="grid"/><text x="12" y="295.3" class="axis-label">300</text><line x1="42" y1="232.7" x2="748" y2="232.7" class="grid"/><text x="12" y="236.7" class="axis-label">500</text><line x1="42" y1="174.0" x2="748" y2="174.0" class="grid"/><text x="12" y="178.0" class="axis-label">700</text><line x1="42" y1="115.3" x2="748" y2="115.3" class="grid"/><text x="12" y="119.3" class="axis-label">900</text>
+      <path d="M 42.0,306.0 L 42.0,231.2 L 120.4,234.1 L 198.9,209.2 L 277.3,206.3 L 355.8,187.2 L 434.2,154.9 L 512.7,143.2 L 591.1,128.5 L 669.6,125.6 L 748.0,113.9 L 748.0,306.0 Z" fill="url(#grad-c3)"/>
+      <polyline points="42.0,231.2 120.4,234.1 198.9,209.2 277.3,206.3 355.8,187.2 434.2,154.9 512.7,143.2 591.1,128.5 669.6,125.6 748.0,113.9" fill="none" class="line" filter="url(#shadow-c3)"/>
+      <circle cx="42.0" cy="231.2" r="5.2" class="dot"><title>1회차 · 초등 4 · 2등급 · 505점</title></circle><circle cx="120.4" cy="234.1" r="5.2" class="dot"><title>2회차 · 초등 5 · 4등급 · 495점</title></circle><circle cx="198.9" cy="209.2" r="5.2" class="dot"><title>3회차 · 초등 5 · 2등급 · 580점</title></circle><circle cx="277.3" cy="206.3" r="5.2" class="dot"><title>4회차 · 초등 6 · 3등급 · 590점</title></circle><circle cx="355.8" cy="187.2" r="5.2" class="dot"><title>5회차 · 초등 6 · 2등급 · 655점</title></circle><circle cx="434.2" cy="154.9" r="5.2" class="dot"><title>6회차 · 중등 1 · 1등급 · 765점</title></circle><circle cx="512.7" cy="143.2" r="5.2" class="dot"><title>7회차 · 중등 1 · 1등급 · 805점</title></circle><circle cx="591.1" cy="128.5" r="5.2" class="dot"><title>8회차 · 중등 2 · 1등급 · 855점</title></circle><circle cx="669.6" cy="125.6" r="5.2" class="dot"><title>9회차 · 중등 2 · 1등급 · 865점</title></circle><circle cx="748.0" cy="113.9" r="5.2" class="dot"><title>10회차 · 중등 3 · 1등급 · 905점</title></circle>
+      <g class="point-label" transform="translate(42.0,185.2)"><text y="0" class="grade-level">초등 4</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">505</text></g><g class="point-label" transform="translate(120.4,183.1)"><text y="0" class="grade-level">초등 5</text><text y="17" class="grade-text">4등급</text><text y="34" class="score-text">495</text></g><g class="point-label" transform="translate(198.9,163.2)"><text y="0" class="grade-level">초등 5</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">580</text></g><g class="point-label" transform="translate(277.3,155.3)"><text y="0" class="grade-level">초등 6</text><text y="17" class="grade-text">3등급</text><text y="34" class="score-text">590</text></g><g class="point-label" transform="translate(355.8,141.2)"><text y="0" class="grade-level">초등 6</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">655</text></g><g class="point-label" transform="translate(434.2,103.9)"><text y="0" class="grade-level">중등 1</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">765</text></g><g class="point-label" transform="translate(512.7,97.2)"><text y="0" class="grade-level">중등 1</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">805</text></g><g class="point-label" transform="translate(591.1,77.5)"><text y="0" class="grade-level">중등 2</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">855</text></g><g class="point-label" transform="translate(669.6,79.6)"><text y="0" class="grade-level">중등 2</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">865</text></g><g class="point-label" transform="translate(748.0,62.9)"><text y="0" class="grade-level">중등 3</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">905</text></g>
+      <line x1="42" y1="306" x2="748" y2="306" class="baseline"/>
+      <text x="42.0" y="340" class="x-label" transform="rotate(-42 42.0,340)">1회</text><text x="120.4" y="340" class="x-label" transform="rotate(-42 120.4,340)">2회</text><text x="198.9" y="340" class="x-label" transform="rotate(-42 198.9,340)">3회</text><text x="277.3" y="340" class="x-label" transform="rotate(-42 277.3,340)">4회</text><text x="355.8" y="340" class="x-label" transform="rotate(-42 355.8,340)">5회</text><text x="434.2" y="340" class="x-label" transform="rotate(-42 434.2,340)">6회</text><text x="512.7" y="340" class="x-label" transform="rotate(-42 512.7,340)">7회</text><text x="591.1" y="340" class="x-label" transform="rotate(-42 591.1,340)">8회</text><text x="669.6" y="340" class="x-label" transform="rotate(-42 669.6,340)">9회</text><text x="748.0" y="340" class="x-label" transform="rotate(-42 748.0,340)">10회</text>
+    </svg></div>
+      <div class="insight-grid">
+        <div><span>최근 3회 평균</span><strong>875.0점</strong></div>
+        <div><span>최저점 대비 10회차</span><strong>+410점</strong></div>
+        <div><span>상승 회차 수</span><strong>8/9회</strong></div>
+      </div>
+      <details class="data-table-wrap">
+        <summary>회차별 원자료 보기</summary>
+        <table class="data-table"><thead><tr><th>회차</th><th>학년</th><th>등급</th><th>총점</th></tr></thead><tbody><tr><td>1회</td><td>초등 4</td><td>2등급</td><td>505</td></tr><tr><td>2회</td><td>초등 5</td><td>4등급</td><td>495</td></tr><tr><td>3회</td><td>초등 5</td><td>2등급</td><td>580</td></tr><tr><td>4회</td><td>초등 6</td><td>3등급</td><td>590</td></tr><tr><td>5회</td><td>초등 6</td><td>2등급</td><td>655</td></tr><tr><td>6회</td><td>중등 1</td><td>1등급</td><td>765</td></tr><tr><td>7회</td><td>중등 1</td><td>1등급</td><td>805</td></tr><tr><td>8회</td><td>중등 2</td><td>1등급</td><td>855</td></tr><tr><td>9회</td><td>중등 2</td><td>1등급</td><td>865</td></tr><tr><td>10회</td><td>중등 3</td><td>1등급</td><td>905</td></tr></tbody></table>
+      </details>
+      <p class="counsel"><strong>해석 포인트</strong> 후반부 상승 폭이 크므로 최근 학습 습관, 교재 단계 변화, 관리 강도 등을 함께 확인하면 우수 사례로 활용할 수 있습니다.</p>
+    </section>
+    <section class="sample-card">
+      <div class="card-head">
+        <div>
+          <p class="eyebrow">샘플 D · 하락 후 회복형</p>
+          <h2>성적추이</h2>
+          <p class="note">중간 회차에서 일시 하락이 있었으나 이후 빠르게 회복한 상담 활용 사례</p>
+        </div>
+        <div class="kpi-box">
+          <span>회원번호</span><strong>548****6</strong>
+          <span>1→10회</span><strong>525점 → 805점</strong>
+          <span>변화</span><strong class="red">+280점</strong>
+        </div>
+      </div>
+      <div class="chart-wrap">
+    <svg viewBox="0 0 780 360" role="img" aria-label="성적추이 그래프" class="trend-svg">
+      <defs>
+        <linearGradient id="grad-c4" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ef4444" stop-opacity="0.24"/>
+          <stop offset="62%" stop-color="#ef4444" stop-opacity="0.07"/>
+          <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="shadow-c4" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#ef4444" flood-opacity="0.18"/>
+        </filter>
+      </defs>
+      <line x1="42" y1="291.3" x2="748" y2="291.3" class="grid"/><text x="12" y="295.3" class="axis-label">300</text><line x1="42" y1="232.7" x2="748" y2="232.7" class="grid"/><text x="12" y="236.7" class="axis-label">500</text><line x1="42" y1="174.0" x2="748" y2="174.0" class="grid"/><text x="12" y="178.0" class="axis-label">700</text><line x1="42" y1="115.3" x2="748" y2="115.3" class="grid"/><text x="12" y="119.3" class="axis-label">900</text>
+      <path d="M 42.0,306.0 L 42.0,225.3 L 120.4,218.0 L 198.9,207.7 L 277.3,201.9 L 355.8,201.9 L 434.2,179.9 L 512.7,253.2 L 591.1,166.7 L 669.6,159.3 L 748.0,143.2 L 748.0,306.0 Z" fill="url(#grad-c4)"/>
+      <polyline points="42.0,225.3 120.4,218.0 198.9,207.7 277.3,201.9 355.8,201.9 434.2,179.9 512.7,253.2 591.1,166.7 669.6,159.3 748.0,143.2" fill="none" class="line" filter="url(#shadow-c4)"/>
+      <circle cx="42.0" cy="225.3" r="5.2" class="dot"><title>1회차 · 초등 3 · 1등급 · 525점</title></circle><circle cx="120.4" cy="218.0" r="5.2" class="dot"><title>2회차 · 초등 4 · 1등급 · 550점</title></circle><circle cx="198.9" cy="207.7" r="5.2" class="dot"><title>3회차 · 초등 4 · 1등급 · 585점</title></circle><circle cx="277.3" cy="201.9" r="5.2" class="dot"><title>4회차 · 초등 5 · 1등급 · 605점</title></circle><circle cx="355.8" cy="201.9" r="5.2" class="dot"><title>5회차 · 초등 5 · 2등급 · 605점</title></circle><circle cx="434.2" cy="179.9" r="5.2" class="dot"><title>6회차 · 초등 6 · 1등급 · 680점</title></circle><circle cx="512.7" cy="253.2" r="5.2" class="dot"><title>7회차 · 초등 6 · 5등급 · 430점</title></circle><circle cx="591.1" cy="166.7" r="5.2" class="dot"><title>8회차 · 중등 1 · 2등급 · 725점</title></circle><circle cx="669.6" cy="159.3" r="5.2" class="dot"><title>9회차 · 중등 1 · 2등급 · 750점</title></circle><circle cx="748.0" cy="143.2" r="5.2" class="dot"><title>10회차 · 중등 2 · 2등급 · 805점</title></circle>
+      <g class="point-label" transform="translate(42.0,179.3)"><text y="0" class="grade-level">초등 3</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">525</text></g><g class="point-label" transform="translate(120.4,167.0)"><text y="0" class="grade-level">초등 4</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">550</text></g><g class="point-label" transform="translate(198.9,161.7)"><text y="0" class="grade-level">초등 4</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">585</text></g><g class="point-label" transform="translate(277.3,150.9)"><text y="0" class="grade-level">초등 5</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">605</text></g><g class="point-label" transform="translate(355.8,155.9)"><text y="0" class="grade-level">초등 5</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">605</text></g><g class="point-label" transform="translate(434.2,128.9)"><text y="0" class="grade-level">초등 6</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">680</text></g><g class="point-label" transform="translate(512.7,207.2)"><text y="0" class="grade-level">초등 6</text><text y="17" class="grade-text">5등급</text><text y="34" class="score-text">430</text></g><g class="point-label" transform="translate(591.1,115.7)"><text y="0" class="grade-level">중등 1</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">725</text></g><g class="point-label" transform="translate(669.6,113.3)"><text y="0" class="grade-level">중등 1</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">750</text></g><g class="point-label" transform="translate(748.0,92.2)"><text y="0" class="grade-level">중등 2</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">805</text></g>
+      <line x1="42" y1="306" x2="748" y2="306" class="baseline"/>
+      <text x="42.0" y="340" class="x-label" transform="rotate(-42 42.0,340)">1회</text><text x="120.4" y="340" class="x-label" transform="rotate(-42 120.4,340)">2회</text><text x="198.9" y="340" class="x-label" transform="rotate(-42 198.9,340)">3회</text><text x="277.3" y="340" class="x-label" transform="rotate(-42 277.3,340)">4회</text><text x="355.8" y="340" class="x-label" transform="rotate(-42 355.8,340)">5회</text><text x="434.2" y="340" class="x-label" transform="rotate(-42 434.2,340)">6회</text><text x="512.7" y="340" class="x-label" transform="rotate(-42 512.7,340)">7회</text><text x="591.1" y="340" class="x-label" transform="rotate(-42 591.1,340)">8회</text><text x="669.6" y="340" class="x-label" transform="rotate(-42 669.6,340)">9회</text><text x="748.0" y="340" class="x-label" transform="rotate(-42 748.0,340)">10회</text>
+    </svg></div>
+      <div class="insight-grid">
+        <div><span>최근 3회 평균</span><strong>760.0점</strong></div>
+        <div><span>최저점 대비 10회차</span><strong>+375점</strong></div>
+        <div><span>상승 회차 수</span><strong>7/9회</strong></div>
+      </div>
+      <details class="data-table-wrap">
+        <summary>회차별 원자료 보기</summary>
+        <table class="data-table"><thead><tr><th>회차</th><th>학년</th><th>등급</th><th>총점</th></tr></thead><tbody><tr><td>1회</td><td>초등 3</td><td>1등급</td><td>525</td></tr><tr><td>2회</td><td>초등 4</td><td>1등급</td><td>550</td></tr><tr><td>3회</td><td>초등 4</td><td>1등급</td><td>585</td></tr><tr><td>4회</td><td>초등 5</td><td>1등급</td><td>605</td></tr><tr><td>5회</td><td>초등 5</td><td>2등급</td><td>605</td></tr><tr><td>6회</td><td>초등 6</td><td>1등급</td><td>680</td></tr><tr><td>7회</td><td>초등 6</td><td>5등급</td><td>430</td></tr><tr><td>8회</td><td>중등 1</td><td>2등급</td><td>725</td></tr><tr><td>9회</td><td>중등 1</td><td>2등급</td><td>750</td></tr><tr><td>10회</td><td>중등 2</td><td>2등급</td><td>805</td></tr></tbody></table>
+      </details>
+      <p class="counsel"><strong>해석 포인트</strong> 중간 회차의 일시 하락을 단순 실패로 보지 않고, 이후 회복 흐름을 함께 보여주면 학부모 상담에서 긍정적 성장 서사가 만들어집니다.</p>
+    </section>
+    <section class="sample-card">
+      <div class="card-head">
+        <div>
+          <p class="eyebrow">샘플 E · 변동 성장형</p>
+          <h2>성적추이</h2>
+          <p class="note">회차별 변동성은 크지만 장기적으로 성취 수준이 크게 상승한 사례</p>
+        </div>
+        <div class="kpi-box">
+          <span>회원번호</span><strong>544****7</strong>
+          <span>1→10회</span><strong>260점 → 790점</strong>
+          <span>변화</span><strong class="red">+530점</strong>
+        </div>
+      </div>
+      <div class="chart-wrap">
+    <svg viewBox="0 0 780 360" role="img" aria-label="성적추이 그래프" class="trend-svg">
+      <defs>
+        <linearGradient id="grad-c5" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ef4444" stop-opacity="0.24"/>
+          <stop offset="62%" stop-color="#ef4444" stop-opacity="0.07"/>
+          <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="shadow-c5" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#ef4444" flood-opacity="0.18"/>
+        </filter>
+      </defs>
+      <line x1="42" y1="291.3" x2="748" y2="291.3" class="grid"/><text x="12" y="295.3" class="axis-label">300</text><line x1="42" y1="232.7" x2="748" y2="232.7" class="grid"/><text x="12" y="236.7" class="axis-label">500</text><line x1="42" y1="174.0" x2="748" y2="174.0" class="grid"/><text x="12" y="178.0" class="axis-label">700</text><line x1="42" y1="115.3" x2="748" y2="115.3" class="grid"/><text x="12" y="119.3" class="axis-label">900</text>
+      <path d="M 42.0,306.0 L 42.0,303.1 L 120.4,194.5 L 198.9,198.9 L 277.3,181.3 L 355.8,193.1 L 434.2,165.2 L 512.7,147.6 L 591.1,165.2 L 669.6,132.9 L 748.0,147.6 L 748.0,306.0 Z" fill="url(#grad-c5)"/>
+      <polyline points="42.0,303.1 120.4,194.5 198.9,198.9 277.3,181.3 355.8,193.1 434.2,165.2 512.7,147.6 591.1,165.2 669.6,132.9 748.0,147.6" fill="none" class="line" filter="url(#shadow-c5)"/>
+      <circle cx="42.0" cy="303.1" r="5.2" class="dot"><title>1회차 · 초등 4 · 5등급 · 260점</title></circle><circle cx="120.4" cy="194.5" r="5.2" class="dot"><title>2회차 · 초등 5 · 1등급 · 630점</title></circle><circle cx="198.9" cy="198.9" r="5.2" class="dot"><title>3회차 · 초등 5 · 1등급 · 615점</title></circle><circle cx="277.3" cy="181.3" r="5.2" class="dot"><title>4회차 · 초등 6 · 1등급 · 675점</title></circle><circle cx="355.8" cy="193.1" r="5.2" class="dot"><title>5회차 · 초등 6 · 2등급 · 635점</title></circle><circle cx="434.2" cy="165.2" r="5.2" class="dot"><title>6회차 · 중등 1 · 2등급 · 730점</title></circle><circle cx="512.7" cy="147.6" r="5.2" class="dot"><title>7회차 · 중등 1 · 1등급 · 790점</title></circle><circle cx="591.1" cy="165.2" r="5.2" class="dot"><title>8회차 · 중등 2 · 3등급 · 730점</title></circle><circle cx="669.6" cy="132.9" r="5.2" class="dot"><title>9회차 · 중등 2 · 1등급 · 840점</title></circle><circle cx="748.0" cy="147.6" r="5.2" class="dot"><title>10회차 · 중등 3 · 3등급 · 790점</title></circle>
+      <g class="point-label" transform="translate(42.0,257.1)"><text y="0" class="grade-level">초등 4</text><text y="17" class="grade-text">5등급</text><text y="34" class="score-text">260</text></g><g class="point-label" transform="translate(120.4,143.5)"><text y="0" class="grade-level">초등 5</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">630</text></g><g class="point-label" transform="translate(198.9,152.9)"><text y="0" class="grade-level">초등 5</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">615</text></g><g class="point-label" transform="translate(277.3,130.3)"><text y="0" class="grade-level">초등 6</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">675</text></g><g class="point-label" transform="translate(355.8,147.1)"><text y="0" class="grade-level">초등 6</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">635</text></g><g class="point-label" transform="translate(434.2,114.2)"><text y="0" class="grade-level">중등 1</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">730</text></g><g class="point-label" transform="translate(512.7,101.6)"><text y="0" class="grade-level">중등 1</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">790</text></g><g class="point-label" transform="translate(591.1,114.2)"><text y="0" class="grade-level">중등 2</text><text y="17" class="grade-text">3등급</text><text y="34" class="score-text">730</text></g><g class="point-label" transform="translate(669.6,86.9)"><text y="0" class="grade-level">중등 2</text><text y="17" class="grade-text">1등급</text><text y="34" class="score-text">840</text></g><g class="point-label" transform="translate(748.0,96.6)"><text y="0" class="grade-level">중등 3</text><text y="17" class="grade-text">3등급</text><text y="34" class="score-text">790</text></g>
+      <line x1="42" y1="306" x2="748" y2="306" class="baseline"/>
+      <text x="42.0" y="340" class="x-label" transform="rotate(-42 42.0,340)">1회</text><text x="120.4" y="340" class="x-label" transform="rotate(-42 120.4,340)">2회</text><text x="198.9" y="340" class="x-label" transform="rotate(-42 198.9,340)">3회</text><text x="277.3" y="340" class="x-label" transform="rotate(-42 277.3,340)">4회</text><text x="355.8" y="340" class="x-label" transform="rotate(-42 355.8,340)">5회</text><text x="434.2" y="340" class="x-label" transform="rotate(-42 434.2,340)">6회</text><text x="512.7" y="340" class="x-label" transform="rotate(-42 512.7,340)">7회</text><text x="591.1" y="340" class="x-label" transform="rotate(-42 591.1,340)">8회</text><text x="669.6" y="340" class="x-label" transform="rotate(-42 669.6,340)">9회</text><text x="748.0" y="340" class="x-label" transform="rotate(-42 748.0,340)">10회</text>
+    </svg></div>
+      <div class="insight-grid">
+        <div><span>최근 3회 평균</span><strong>786.7점</strong></div>
+        <div><span>최저점 대비 10회차</span><strong>+530점</strong></div>
+        <div><span>상승 회차 수</span><strong>5/9회</strong></div>
+      </div>
+      <details class="data-table-wrap">
+        <summary>회차별 원자료 보기</summary>
+        <table class="data-table"><thead><tr><th>회차</th><th>학년</th><th>등급</th><th>총점</th></tr></thead><tbody><tr><td>1회</td><td>초등 4</td><td>5등급</td><td>260</td></tr><tr><td>2회</td><td>초등 5</td><td>1등급</td><td>630</td></tr><tr><td>3회</td><td>초등 5</td><td>1등급</td><td>615</td></tr><tr><td>4회</td><td>초등 6</td><td>1등급</td><td>675</td></tr><tr><td>5회</td><td>초등 6</td><td>2등급</td><td>635</td></tr><tr><td>6회</td><td>중등 1</td><td>2등급</td><td>730</td></tr><tr><td>7회</td><td>중등 1</td><td>1등급</td><td>790</td></tr><tr><td>8회</td><td>중등 2</td><td>3등급</td><td>730</td></tr><tr><td>9회</td><td>중등 2</td><td>1등급</td><td>840</td></tr><tr><td>10회</td><td>중등 3</td><td>3등급</td><td>790</td></tr></tbody></table>
+      </details>
+      <p class="counsel"><strong>해석 포인트</strong> 회차별 등락이 있으므로 특정 회차보다 장기 추세를 중심으로 설명하는 것이 적합합니다.</p>
+    </section>
+    <section class="sample-card">
+      <div class="card-head">
+        <div>
+          <p class="eyebrow">샘플 F · 꾸준 고도화형</p>
+          <h2>성적추이</h2>
+          <p class="note">초등 4학년부터 중등 3학년까지 점진적 향상이 분명한 사례</p>
+        </div>
+        <div class="kpi-box">
+          <span>회원번호</span><strong>565****9</strong>
+          <span>1→10회</span><strong>420점 → 840점</strong>
+          <span>변화</span><strong class="red">+420점</strong>
+        </div>
+      </div>
+      <div class="chart-wrap">
+    <svg viewBox="0 0 780 360" role="img" aria-label="성적추이 그래프" class="trend-svg">
+      <defs>
+        <linearGradient id="grad-c6" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ef4444" stop-opacity="0.24"/>
+          <stop offset="62%" stop-color="#ef4444" stop-opacity="0.07"/>
+          <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
+        </linearGradient>
+        <filter id="shadow-c6" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#ef4444" flood-opacity="0.18"/>
+        </filter>
+      </defs>
+      <line x1="42" y1="291.3" x2="748" y2="291.3" class="grid"/><text x="12" y="295.3" class="axis-label">300</text><line x1="42" y1="232.7" x2="748" y2="232.7" class="grid"/><text x="12" y="236.7" class="axis-label">500</text><line x1="42" y1="174.0" x2="748" y2="174.0" class="grid"/><text x="12" y="178.0" class="axis-label">700</text><line x1="42" y1="115.3" x2="748" y2="115.3" class="grid"/><text x="12" y="119.3" class="axis-label">900</text>
+      <path d="M 42.0,306.0 L 42.0,256.1 L 120.4,234.1 L 198.9,215.1 L 277.3,201.9 L 355.8,191.6 L 434.2,174.0 L 512.7,153.5 L 591.1,147.6 L 669.6,141.7 L 748.0,132.9 L 748.0,306.0 Z" fill="url(#grad-c6)"/>
+      <polyline points="42.0,256.1 120.4,234.1 198.9,215.1 277.3,201.9 355.8,191.6 434.2,174.0 512.7,153.5 591.1,147.6 669.6,141.7 748.0,132.9" fill="none" class="line" filter="url(#shadow-c6)"/>
+      <circle cx="42.0" cy="256.1" r="5.2" class="dot"><title>1회차 · 초등 4 · 4등급 · 420점</title></circle><circle cx="120.4" cy="234.1" r="5.2" class="dot"><title>2회차 · 초등 5 · 4등급 · 495점</title></circle><circle cx="198.9" cy="215.1" r="5.2" class="dot"><title>3회차 · 초등 5 · 3등급 · 560점</title></circle><circle cx="277.3" cy="201.9" r="5.2" class="dot"><title>4회차 · 초등 6 · 3등급 · 605점</title></circle><circle cx="355.8" cy="191.6" r="5.2" class="dot"><title>5회차 · 초등 6 · 2등급 · 640점</title></circle><circle cx="434.2" cy="174.0" r="5.2" class="dot"><title>6회차 · 중등 1 · 2등급 · 700점</title></circle><circle cx="512.7" cy="153.5" r="5.2" class="dot"><title>7회차 · 중등 1 · 2등급 · 770점</title></circle><circle cx="591.1" cy="147.6" r="5.2" class="dot"><title>8회차 · 중등 2 · 2등급 · 790점</title></circle><circle cx="669.6" cy="141.7" r="5.2" class="dot"><title>9회차 · 중등 2 · 2등급 · 810점</title></circle><circle cx="748.0" cy="132.9" r="5.2" class="dot"><title>10회차 · 중등 3 · 2등급 · 840점</title></circle>
+      <g class="point-label" transform="translate(42.0,210.1)"><text y="0" class="grade-level">초등 4</text><text y="17" class="grade-text">4등급</text><text y="34" class="score-text">420</text></g><g class="point-label" transform="translate(120.4,183.1)"><text y="0" class="grade-level">초등 5</text><text y="17" class="grade-text">4등급</text><text y="34" class="score-text">495</text></g><g class="point-label" transform="translate(198.9,169.1)"><text y="0" class="grade-level">초등 5</text><text y="17" class="grade-text">3등급</text><text y="34" class="score-text">560</text></g><g class="point-label" transform="translate(277.3,150.9)"><text y="0" class="grade-level">초등 6</text><text y="17" class="grade-text">3등급</text><text y="34" class="score-text">605</text></g><g class="point-label" transform="translate(355.8,145.6)"><text y="0" class="grade-level">초등 6</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">640</text></g><g class="point-label" transform="translate(434.2,123.0)"><text y="0" class="grade-level">중등 1</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">700</text></g><g class="point-label" transform="translate(512.7,107.5)"><text y="0" class="grade-level">중등 1</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">770</text></g><g class="point-label" transform="translate(591.1,96.6)"><text y="0" class="grade-level">중등 2</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">790</text></g><g class="point-label" transform="translate(669.6,95.7)"><text y="0" class="grade-level">중등 2</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">810</text></g><g class="point-label" transform="translate(748.0,81.9)"><text y="0" class="grade-level">중등 3</text><text y="17" class="grade-text">2등급</text><text y="34" class="score-text">840</text></g>
+      <line x1="42" y1="306" x2="748" y2="306" class="baseline"/>
+      <text x="42.0" y="340" class="x-label" transform="rotate(-42 42.0,340)">1회</text><text x="120.4" y="340" class="x-label" transform="rotate(-42 120.4,340)">2회</text><text x="198.9" y="340" class="x-label" transform="rotate(-42 198.9,340)">3회</text><text x="277.3" y="340" class="x-label" transform="rotate(-42 277.3,340)">4회</text><text x="355.8" y="340" class="x-label" transform="rotate(-42 355.8,340)">5회</text><text x="434.2" y="340" class="x-label" transform="rotate(-42 434.2,340)">6회</text><text x="512.7" y="340" class="x-label" transform="rotate(-42 512.7,340)">7회</text><text x="591.1" y="340" class="x-label" transform="rotate(-42 591.1,340)">8회</text><text x="669.6" y="340" class="x-label" transform="rotate(-42 669.6,340)">9회</text><text x="748.0" y="340" class="x-label" transform="rotate(-42 748.0,340)">10회</text>
+    </svg></div>
+      <div class="insight-grid">
+        <div><span>최근 3회 평균</span><strong>813.3점</strong></div>
+        <div><span>최저점 대비 10회차</span><strong>+420점</strong></div>
+        <div><span>상승 회차 수</span><strong>9/9회</strong></div>
+      </div>
+      <details class="data-table-wrap">
+        <summary>회차별 원자료 보기</summary>
+        <table class="data-table"><thead><tr><th>회차</th><th>학년</th><th>등급</th><th>총점</th></tr></thead><tbody><tr><td>1회</td><td>초등 4</td><td>4등급</td><td>420</td></tr><tr><td>2회</td><td>초등 5</td><td>4등급</td><td>495</td></tr><tr><td>3회</td><td>초등 5</td><td>3등급</td><td>560</td></tr><tr><td>4회</td><td>초등 6</td><td>3등급</td><td>605</td></tr><tr><td>5회</td><td>초등 6</td><td>2등급</td><td>640</td></tr><tr><td>6회</td><td>중등 1</td><td>2등급</td><td>700</td></tr><tr><td>7회</td><td>중등 1</td><td>2등급</td><td>770</td></tr><tr><td>8회</td><td>중등 2</td><td>2등급</td><td>790</td></tr><tr><td>9회</td><td>중등 2</td><td>2등급</td><td>810</td></tr><tr><td>10회</td><td>중등 3</td><td>2등급</td><td>840</td></tr></tbody></table>
+      </details>
+      <p class="counsel"><strong>해석 포인트</strong> 점수 상승과 학년 상승이 함께 나타나므로 장기 학습 지속의 의미를 보여주는 샘플로 적합합니다.</p>
+    </section>
+    </div>
+
+    <p class="footer-note">분석 기준: 동일 회원·동일 회차 중복 4건 제거 후, 1~10회차 모두 응시한 회원을 대상으로 산출했습니다. 본 HTML은 리포트 UI 검토용 샘플이므로, 실제 배포 시 회원 식별정보는 내부 정책에 따라 비식별 처리하는 것이 적절합니다.</p>
+  </main>
+</body>
+</html>
