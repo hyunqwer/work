@@ -1,0 +1,1884 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>윤선생 리얼스피치 2026 — 심사 도구 (내부 합의용)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#eef1f6; --bar:#0f172a; --tab-ink:#cbd5e1; --tab-on:#ffffff; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:'IBM Plex Sans KR',sans-serif;background:var(--bg);display:flex;flex-direction:column;min-height:100vh}
+  .topbar{background:var(--bar);color:#fff;padding:0 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+    box-shadow:0 2px 12px rgba(15,23,42,.18);position:sticky;top:0;z-index:50}
+  .topbar .brand{font-family:'Noto Serif KR',serif;font-weight:600;font-size:15px;padding:14px 0;margin-right:4px;letter-spacing:-.3px;white-space:nowrap}
+  .topbar .brand small{display:block;font-family:'IBM Plex Sans KR',sans-serif;font-weight:400;font-size:10.5px;
+    letter-spacing:2px;color:#7dd3c0;text-transform:uppercase;margin-bottom:2px}
+  .tabs{display:flex;gap:2px;align-items:stretch;flex-wrap:wrap}
+  .tab{appearance:none;border:none;background:transparent;cursor:pointer;font-family:inherit;font-size:13.5px;
+    font-weight:500;color:var(--tab-ink);padding:16px 16px 14px;border-bottom:3px solid transparent;transition:all .15s;white-space:nowrap}
+  .tab:hover{color:#fff}
+  .tab.on{color:var(--tab-on);border-bottom-color:#34d399;font-weight:600}
+  .tab .ic{margin-right:6px;opacity:.85}
+  .tab .step{font-size:10px;font-weight:700;background:rgba(255,255,255,.14);border-radius:3px;padding:1px 5px;margin-right:6px;vertical-align:middle}
+  .tab.on .step{background:#34d399;color:#063022}
+  .stage{flex:1;position:relative}
+  .pane{display:none;height:100%}
+  .pane.on{display:block}
+  .pane iframe{display:block;width:100%;height:calc(100vh - 53px);border:none;background:#fff}
+  @media (max-width:620px){
+    .topbar{gap:0;padding:0 10px}
+    .topbar .brand{font-size:12.5px;width:100%;padding:9px 0 0}
+    .tab{padding:11px 10px;font-size:12px;flex:1}
+    .tab .ic{display:none}
+    .pane iframe{height:calc(100vh - 108px)}
+  }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand"><small>RealSpeech 2026 · 내부 합의용</small>윤선생 리얼스피치 심사 도구</div>
+    <nav class="tabs">
+      <button class="tab on" data-pane="criteria"><span class="ic">📋</span>심사기준안</button>
+      <button class="tab" data-pane="round1"><span class="step">1차</span>채점지 · 선별</button>
+      <button class="tab" data-pane="round2"><span class="step">2차</span>채점지 · 최상위 선별</button>
+    </nav>
+  </div>
+  <div class="stage">
+    <div class="pane on" data-pane="criteria"><iframe title="심사기준안" srcdoc="<!DOCTYPE html>
+<html lang=&quot;ko&quot;>
+<head>
+  <meta charset=&quot;UTF-8&quot; />
+  <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; />
+  <title>윤선생 리얼스피치 2026 최종 심사기준안</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --surface-2: #f0f4fa;
+      --text: #1f2937;
+      --muted: #5b6472;
+      --line: #d9e1ec;
+      --primary: #1d4ed8;
+      --primary-soft: #dbeafe;
+      --accent: #0f766e;
+      --accent-soft: #ccfbf1;
+      --warn: #92400e;
+      --warn-soft: #fef3c7;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: &quot;Pretendard&quot;, &quot;Noto Sans KR&quot;, &quot;Apple SD Gothic Neo&quot;, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 55%, #0ea5e9 100%);
+      color: white;
+      border-radius: 28px;
+      padding: 40px 36px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: 34px;
+      line-height: 1.25;
+    }
+
+    .hero p {
+      margin: 0;
+      font-size: 17px;
+      opacity: 0.95;
+      max-width: 880px;
+    }
+
+    .top-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .toc {
+      position: sticky;
+      top: 20px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .toc h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+    }
+
+    .toc a {
+      display: block;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .toc a:hover {
+      background: var(--surface-2);
+      color: var(--primary);
+    }
+
+    .content {
+      display: grid;
+      gap: 22px;
+    }
+
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .section h2 {
+      margin: 0 0 14px;
+      font-size: 28px;
+      line-height: 1.3;
+    }
+
+    .section h3 {
+      margin: 26px 0 10px;
+      font-size: 22px;
+      line-height: 1.35;
+    }
+
+    .section h4 {
+      margin: 20px 0 8px;
+      font-size: 17px;
+    }
+
+    .section p,
+    .section li {
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .section ul {
+      margin: 8px 0 0 0;
+      padding-left: 20px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .pill {
+      background: var(--primary-soft);
+      color: var(--primary);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .pill.accent {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .note {
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--primary);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .warn {
+      background: var(--warn-soft);
+      border-left-color: #d97706;
+      color: #6b4f09;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 14px 14px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    th {
+      background: #eff6ff;
+      color: #1e3a8a;
+      font-weight: 800;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    .score-card {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .score-box {
+      background: var(--surface-2);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    .score-box strong {
+      display: inline-block;
+      margin-bottom: 8px;
+      font-size: 18px;
+      color: var(--primary);
+    }
+
+    .faq-item {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px 18px 16px;
+      background: #fff;
+      margin-top: 14px;
+    }
+
+    .faq-item h4 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      color: #0f172a;
+    }
+
+    .summary-box {
+      background: linear-gradient(135deg, #eff6ff, #f8fafc);
+      border: 1px solid #bfdbfe;
+      border-radius: 18px;
+      padding: 20px;
+      margin-top: 18px;
+    }
+
+    .footer-box {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: white;
+      border-radius: 22px;
+      padding: 28px;
+      margin-top: 22px;
+    }
+
+    .footer-box h3 {
+      margin-top: 0;
+      color: white;
+    }
+
+    .footer-box p {
+      color: rgba(255, 255, 255, 0.94);
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 980px) {
+      .top-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .toc {
+        position: static;
+      }
+
+      .score-card {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding: 28px 22px; }
+      .hero h1 { font-size: 28px; }
+      .section { padding: 20px; }
+      .section h2 { font-size: 24px; }
+      .section h3 { font-size: 20px; }
+      .score-card { grid-template-columns: 1fr; }
+      th, td { font-size: 13px; padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class=&quot;wrap&quot;>
+    <section class=&quot;hero&quot;>
+      <h1>윤선생 리얼스피치 2026 최종 심사기준안</h1>
+      <p>
+        리얼스피치는 단순히 어려운 영어를 많이 외워 말하는 대회가 아니라,
+        참가자가 자신의 수준에서 영어로 메시지를 자연스럽고 효과적으로 전달하는 발표 대회입니다.
+        아래 기준은 최종 심사기준, 영역별 상세 가이드, 발표 유형별 평가 원칙, 곤란한 사례 FAQ까지 포함한 운영용 HTML 버전입니다.
+      </p>
+      <div class=&quot;pill-row&quot;>
+        <span class=&quot;pill&quot;>최종 심사기준</span>
+        <span class=&quot;pill accent&quot;>상세 심사 가이드</span>
+        <span class=&quot;pill&quot;>발표 유형별 적용</span>
+        <span class=&quot;pill accent&quot;>FAQ 포함</span>
+      </div>
+    </section>
+
+    <div class=&quot;top-grid&quot;>
+      <aside class=&quot;toc&quot;>
+        <h2>목차</h2>
+        <a href=&quot;#philosophy&quot;>1. 심사 철학</a>
+        <a href=&quot;#criteria&quot;>2. 최종 심사 영역</a>
+        <a href=&quot;#lang&quot;>3. 언어 표현력</a>
+        <a href=&quot;#delivery&quot;>4. 전달 완성도</a>
+        <a href=&quot;#performance&quot;>5. 발표 수행력</a>
+        <a href=&quot;#types&quot;>6. 발표 유형별 평가 가이드</a>
+        <a href=&quot;#principles&quot;>7. 심사위원 공통 판단 원칙</a>
+        <a href=&quot;#faq&quot;>8. FAQ</a>
+        <a href=&quot;#sheet&quot;>9. 최종 심사표 예시</a>
+        <a href=&quot;#anchor&quot;>10. 부록. 학년군별 표현 수준 앵커</a>
+      </aside>
+
+      <main class=&quot;content&quot;>
+        <section class=&quot;section&quot; id=&quot;philosophy&quot;>
+          <h2>1. 심사 철학</h2>
+          <p>
+            리얼스피치는 단순히 어려운 영어 문장을 많이 외워 말하는 대회가 아니라,
+            참가자가 자신의 수준에서 영어로 메시지를 자연스럽고 효과적으로 전달하는 발표 대회이다.
+          </p>
+          <p>
+            따라서 심사에서는 영어 난이도, 원고 분량, 암기량만을 기준으로 평가하지 않는다.
+            발표자가 자신의 메시지를 얼마나 이해하고, 자기화하여, 청중에게 안정감 있게 전달하는지를 중심으로 평가한다.
+          </p>
+          <div class=&quot;summary-box&quot;>
+            <strong>심사 원칙</strong>
+            <ul>
+              <li>완벽한 영어보다 <strong>이해 가능한 영어</strong>를 중시한다.</li>
+              <li>어려운 표현보다 <strong>자연스러운 전달</strong>을 중시한다.</li>
+              <li>원고의 화려함보다 <strong>발표자의 소화 정도</strong>를 중시한다.</li>
+              <li>발표 주제의 유형보다 <strong>발표 목적에 맞는 전달 완성도</strong>를 중시한다.</li>
+              <li>정보형, 경험형, 주장형, 창의 스토리형 발표가 모두 공정하게 평가될 수 있도록 한다.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class=&quot;section&quot; id=&quot;criteria&quot;>
+          <h2>2. 최종 심사 영역</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>영역</th>
+                <th>평가 초점</th>
+                <th>핵심 질문</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Ⅰ. 언어 표현력</strong></td>
+                <td>발음, 억양, 유창성, 정확성, 언어적 이해 가능성</td>
+                <td>영어 메시지가 자연스럽고 명확하게 들리는가?</td>
+              </tr>
+              <tr>
+                <td><strong>Ⅱ. 전달 완성도</strong></td>
+                <td>내용 구조, 흐름, 자기화, 속도 조절, 멈춤, 강조</td>
+                <td>발표 내용을 충분히 소화하여 청중에게 자연스럽게 전달하는가?</td>
+              </tr>
+              <tr>
+                <td><strong>Ⅲ. 발표 수행력</strong></td>
+                <td>시선, 표정, 제스처, 자세, 자신감, 완수</td>
+                <td>발표자로서 안정감 있고 몰입감 있게 전달하는가?</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class=&quot;section&quot; id=&quot;lang&quot;>
+          <h2>3. 언어 표현력</h2>
+          <h3>3-1. 평가 정의</h3>
+          <p>
+            언어 표현력은 발표자의 영어 음성이 청중에게 얼마나 자연스럽고 명확하게 전달되는지를 평가하는 영역이다.
+            이 영역은 주로 음성 중심 평가이며 발음, 억양과 운율, 유창성, 의미 전달을 방해하지 않는 수준의 정확성,
+            그리고 전체적인 이해 가능성을 포함한다.
+          </p>
+          <div class=&quot;note&quot;>
+            이 영역은 문법 시험처럼 오류 개수를 세는 방식으로 평가하지 않는다.
+            핵심은 <strong>문법적으로 완벽한가</strong>가 아니라 <strong>청중이 의미를 이해할 수 있는가</strong>이다.
+            단, 여기서의 이해 가능성은 주로 <strong>발음·억양·문장 오류 등 언어 표현으로 인해 문장 의미가 들리고 이해되는가</strong>를 중심으로 본다.
+          </div>
+
+          <h3>3-2. 세부 평가 요소</h3>
+          <table>
+            <thead>
+              <tr><th>요소</th><th>평가 관점</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>발음</td><td>핵심 단어와 문장이 알아듣기 쉽게 발음되는가</td></tr>
+              <tr><td>억양·운율</td><td>의미 단위에 맞게 자연스럽게 말하는가</td></tr>
+              <tr><td>유창성</td><td>과도한 끊김이나 머뭇거림 없이 흐름이 유지되는가</td></tr>
+              <tr><td>정확성</td><td>어휘와 문장 오류가 의미 전달을 방해하지 않는가</td></tr>
+              <tr><td>언어적 이해 가능성</td><td>발음·억양·문장 오류로 인해 문장 의미가 들리고 이해되는가</td></tr>
+            </tbody>
+          </table>
+
+          <h3>3-3. 4점 척도</h3>
+          <div class=&quot;score-card&quot;>
+            <div class=&quot;score-box&quot;><strong>4점</strong><div>발음, 억양, 발화 흐름이 자연스럽고 안정적이며 메시지가 매우 명확하게 전달된다. 일부 사소한 오류가 있더라도 이해에 전혀 지장이 없다.</div></div>
+            <div class=&quot;score-box&quot;><strong>3점</strong><div>일부 부자연스러운 발음, 억양, 끊김 또는 오류가 있으나 전체적으로 메시지 이해에 큰 어려움이 없다.</div></div>
+            <div class=&quot;score-box&quot;><strong>2점</strong><div>발음, 억양, 끊김, 문장 오류 등이 다소 반복되어 청중이 내용을 이해하는 데 어려움이 있다.</div></div>
+            <div class=&quot;score-box&quot;><strong>1점</strong><div>발화 흐름이 매우 불안정하거나 발음·문장 오류가 많아 메시지 이해가 어렵다.</div></div>
+          </div>
+
+          <h3>3-4. 심사 시 유의사항</h3>
+          <ul>
+            <li>원어민과 같은 발음을 요구하지 않는다.</li>
+            <li>문법 오류가 있더라도 의미가 명확하면 큰 감점 요인으로 보지 않는다.</li>
+            <li>지나치게 빠르게 말하지만 이해가 어려운 발표는 높은 유창성으로 보지 않는다.</li>
+            <li>천천히 말하더라도 의미 단위가 명확하고 안정적이면 긍정적으로 평가할 수 있다.</li>
+            <li>영어 난이도가 높다는 이유만으로 높은 점수를 주지 않는다.</li>
+          </ul>
+        </section>
+
+        <section class=&quot;section&quot; id=&quot;delivery&quot;>
+          <h2>4. 전달 완성도</h2>
+          <h3>4-1. 평가 정의</h3>
+          <p>
+            전달 완성도는 발표자가 원고 내용을 얼마나 충분히 이해하고 자기화하여,
+            청중에게 자연스럽고 효과적으로 전달하는지를 평가하는 영역이다.
+          </p>
+          <p>
+            이 영역은 단순히 내용이 좋은가를 평가하는 것이 아니다.
+            정보형, 경험형, 주장형, 창의적 스토리형 등 발표 주제의 성격이 다르더라도,
+            해당 발표의 목적에 맞게 메시지가 얼마나 완성도 있게 전달되었는지를 본다.
+          </p>
+          <p>
+            특히 전달 완성도는 발표 내용에 <strong>발표자 자신의 생각·느낌·관점이 얼마나 담겨 있는지(자기화)</strong>를 주요하게 본다.
+            잘 정리된 글을 가져와 매끄럽게 읽어내는 것만으로는 전달 완성도가 높다고 보기 어렵다.
+            어떤 주제든 발표자가 그 내용을 자기 것으로 소화하여, 왜 이 주제를 골랐는지, 자신의 경험·생각과 어떻게 연결되는지,
+            그 내용을 어떻게 느끼고 받아들였는지가 발표에 드러날 때 전달 완성도를 높게 평가한다.
+            이는 의견·주장이 있는 발표에만 해당하는 것이 아니라, 정보형 발표를 포함한 모든 유형에 적용된다.
+          </p>
+
+          <h3>4-2. 내용 구조와 흐름</h3>
+          <p>
+            발표 내용이 청중이 따라가기 쉬운 구조로 전개되는지를 평가한다.
+            정보형 발표라면 설명 순서가 명확해야 하고, 경험형 발표라면 사건이나 감정의 흐름이 자연스러워야 한다.
+            주장형 발표라면 주장과 근거의 연결이 분명해야 하며, 창의적 스토리형 발표라면 이야기의 전개가 이해 가능해야 한다.
+          </p>
+          <ul>
+            <li>시작, 중간, 끝의 흐름이 있는가</li>
+            <li>핵심 메시지가 분명한가</li>
+            <li>내용이 중간에 갑자기 끊기거나 튀지 않는가</li>
+            <li>발표 유형에 맞는 전개 방식이 있는가</li>
+            <li>청중이 “무슨 말을 하고 싶은지” 이해할 수 있는가</li>
+          </ul>
+
+          <h3>4-3. 발표 소화도</h3>
+          <p>
+            발표 소화도는 발표자가 원고를 단순히 외워 말하는 것이 아니라, 내용을 충분히 이해하고 자기 말처럼 자연스럽게 전달하는지를 보는 항목이다.
+            심사위원은 학생의 내면 이해도를 직접 알 수 없으므로, 발표 장면에서 드러나는 관찰 가능한 특징을 중심으로 판단한다.
+          </p>
+          <div class=&quot;note&quot;>
+            발표 소화도가 높은 발표는 원고를 준비했더라도 <strong>의미 단위로 자연스럽게 말하고, 속도 조절·멈춤·강조가 내용과 잘 어울리며, 실수가 있어도 흐름을 깨지 않고 자연스럽게 회복하는 발표</strong>이다.
+            즉, 외운 문장을 꺼내는 느낌보다 발표자가 내용을 이해한 상태에서 자기 말처럼 전달하고 있다는 인상이 드러나야 한다.
+            심사위원은 “정말 외웠는가, 누가 써줬는가”를 추측하지 않고, 의미 단위 전달, 속도 조절, 멈춤, 강조, 실수 후 회복 여부를 중심으로 관찰한다.
+            시선 처리는 전달 완성도에서 중복 평가하지 않고, 발표 수행력 영역에서 별도로 판단한다.
+          </div>
+          <p>
+            나아가 발표 소화도는 발표자가 내용을 <strong>자기 것으로 만들었는지(자기화)</strong>를 함께 본다.
+            심사위원은 다음과 같이 <strong>관찰 가능한 신호</strong>로 자기화 여부를 판단한다.
+          </p>
+          <ul>
+            <li>왜 이 주제를 선택했는지, 자신과 어떤 관련이 있는지가 드러나는가</li>
+            <li>자신의 경험·예시·느낌·평가가 구체적으로 담겨 있는가</li>
+            <li>가져온 정보를 자기 언어로 다시 풀어 설명하는가(번역투·암기투가 아닌가)</li>
+            <li>학년 수준에 비해 부자연스럽게 어려운 어휘·문장을 그대로 읽는 느낌은 아닌가</li>
+          </ul>
+          <div class=&quot;note&quot;>
+            <strong>정보형 발표도 자기화를 본다.</strong> 의견이 어색한 정보 주제라도, 발표자가 그 주제를 고른 이유, 자신의 경험·관심과의 연결, 알게 된 점에 대한 자기 느낌 등이 드러나면 자기화로 인정한다.
+            반대로 “나는 ~라고 생각합니다” 같은 문장을 형식적으로 끼워 넣었더라도, 그 생각이 발표 내용과 자연스럽게 연결되지 않고 구체성이 없으면 자기화로 보지 않는다.
+            핵심은 의견 문장의 유무가 아니라, 발표 전체에 발표자 자신의 생각·관점이 자연스럽고 구체적으로 녹아 있는지이다.
+          </div>
+
+          <h3>4-4. 전달 조절</h3>
+          <p>
+            발표자가 내용에 맞게 말의 속도, 멈춤, 강조를 조절하는지를 평가한다.
+            전달 조절은 발표자가 내용을 얼마나 소화했는지를 보여주는 중요한 관찰 지표이다.
+          </p>
+          <ul>
+            <li>발표 속도가 지나치게 빠르거나 느리지 않은가</li>
+            <li>중요한 내용에서 적절히 멈추는가</li>
+            <li>핵심 단어나 문장을 자연스럽게 강조하는가</li>
+            <li>문장과 문장 사이의 연결이 매끄러운가</li>
+            <li>속도 조절, 멈춤, 강조가 내용과 어울리는가</li>
+          </ul>
+
+          <h3>4-5. 청중 이해 용이성</h3>
+          <p>
+            청중이 발표 내용을 편안하게 따라가고 이해할 수 있는지를 평가한다.
+            심사위원은 발표의 청중이라고 가정하고, 발표자가 자신의 메시지를 심사위원에게 명확히 전달하고 있는지를 본다.
+            단, 이 항목은 발음 자체의 명확성보다 <strong>내용 구조, 흐름, 핵심 메시지가 잘 조직되어 청중이 발표의 의미를 따라갈 수 있는가</strong>를 중심으로 판단한다.
+          </p>
+          <ul>
+            <li>발표의 핵심 메시지가 분명하게 남는가</li>
+            <li>청중이 큰 노력 없이 내용의 구조와 핵심 메시지를 따라갈 수 있는가</li>
+            <li>정보, 경험, 주장, 이야기의 목적이 잘 전달되는가</li>
+            <li>발표가 끝났을 때 무엇을 말했는지 설명할 수 있는가</li>
+            <li>어려운 표현을 사용하더라도 청중 이해를 돕는 방식으로 전달되는가</li>
+          </ul>
+
+          <h3>4-6. 4점 척도</h3>
+          <div class=&quot;score-card&quot;>
+            <div class=&quot;score-box&quot;><strong>4점</strong><div>구조·흐름이 명확하고, 내용을 충분히 소화하여 자기 말처럼 전달한다. 발표자 자신의 생각·느낌·관점이 자연스럽게 담겨 발표가 자기화되어 있다. 중요한 대목에서 속도를 늦추고, 핵심 앞에서 잠깐 멈추며, 중요한 말에 자연스럽게 힘을 준다. 그래서 청중이 메시지를 쉽게 이해한다.</div></div>
+            <div class=&quot;score-box&quot;><strong>3점</strong><div>전체 흐름은 안정적이고 핵심도 대체로 잡힌다. 자기 생각이 일부 드러나나, 군데군데 외운 티가 나거나 톤이 밋밋해지고, 멈춤·강조가 한두 곳에서 빠지거나 어긋난다. 그래도 듣는 데 큰 어려움은 없다.</div></div>
+            <div class=&quot;score-box&quot;><strong>2점</strong><div>흐름이 군데군데 튀거나, 한 문장씩 끊어 외워 말하는 느낌이 강하다. 가져온 글을 그대로 읽는 인상이 짙어 발표자 자신의 생각이 거의 드러나지 않는다. 어디가 중요한지 드러나지 않아(속도·멈춤·강조가 거의 없음) 메시지가 부분적으로만 전해진다.</div></div>
+            <div class=&quot;score-box&quot;><strong>1점</strong><div>이야기 순서나 핵심이 잡히지 않는다. 다음 문장을 떠올리느라 길게 멈추는 일이 잦고, 의미보다 외운 걸 뱉는 데 집중한 모습이 두드러져 무슨 말인지 잘 전해지지 않는다.</div></div>
+          </div>
+
+          <h3>4-7. 심사 시 유의사항</h3>
+          <ul>
+            <li>원고의 수준이나 문장 난이도만으로 판단하지 않는다.</li>
+            <li>창의적인 소재 자체보다 그 이야기를 얼마나 자연스럽게 전달했는지를 본다.</li>
+            <li>정보형 발표와 경험형 발표를 같은 방식으로 비교하지 않는다.</li>
+            <li>발표 유형별 목적에 맞게 전달이 완성되었는지를 본다.</li>
+            <li>짧은 발표라도 메시지가 분명하고 자연스럽게 전달되면 좋은 평가를 받을 수 있다.</li>
+            <li>긴 발표라도 청중 이해가 어렵거나 암기 느낌이 강하면 높은 평가를 받기 어렵다.</li>
+            <li>잘 정리된 글을 매끄럽게 읽기만 한 발표보다, 다소 서툴러도 자기 생각·경험이 담긴 발표를 전달 완성도에서 더 긍정적으로 본다.</li>
+            <li>자기화는 모든 유형에 적용하되, 정보형은 의견 표명이 아니라 주제 선택 이유·자기 경험과의 연결·알게 된 점에 대한 느낌으로 판단한다.</li>
+            <li>“나는 ~라고 생각합니다”처럼 형식적으로 끼워 넣은 의견은 가점 요인이 아니다. 생각이 발표 내용과 자연스럽게 연결되고 구체적인지를 본다.</li>
+          </ul>
+        </section>
+
+        <section class=&quot;section&quot; id=&quot;performance&quot;>
+          <h2>5. 발표 수행력</h2>
+          <h3>5-1. 평가 정의</h3>
+          <p>
+            발표 수행력은 발표자가 영상 속에서 발표자로서 얼마나 안정감 있고 몰입감 있게 전달하는지를 평가하는 영역이다.
+            이 영역은 발표자의 시각적 표현과 태도를 중심으로 본다.
+          </p>
+          <table>
+            <thead>
+              <tr><th>요소</th><th>평가 관점</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>시선 처리</td><td>카메라 또는 청중을 의식하며 안정적으로 시선을 유지하는가</td></tr>
+              <tr><td>표정</td><td>발표 내용에 어울리는 자연스러운 표정을 보이는가</td></tr>
+              <tr><td>제스처</td><td>발표 내용을 돕는 자연스러운 몸짓을 사용하는가</td></tr>
+              <tr><td>자세</td><td>지나치게 경직되거나 산만하지 않고 안정적인 자세를 유지하는가</td></tr>
+              <tr><td>자신감</td><td>목소리, 태도, 표정에서 발표 의지가 느껴지는가</td></tr>
+              <tr><td>발표 완수</td><td>중단 없이 끝까지 발표를 마무리하는가</td></tr>
+            </tbody>
+          </table>
+
+          <h3>5-2. 4점 척도</h3>
+          <div class=&quot;score-card&quot;>
+            <div class=&quot;score-box&quot;><strong>4점</strong><div>시선, 표정, 제스처, 자세가 자연스럽고 안정적이며 자신감 있게 발표를 완수한다. 발표자로서의 몰입감이 높다.</div></div>
+            <div class=&quot;score-box&quot;><strong>3점</strong><div>전반적으로 안정적인 태도로 발표하며, 일부 어색한 시선·표정·제스처가 있으나 발표 몰입을 크게 방해하지 않는다.</div></div>
+            <div class=&quot;score-box&quot;><strong>2점</strong><div>긴장으로 인해 시선, 표정, 자세, 제스처가 다소 제한적이며 발표 몰입이 약하다.</div></div>
+            <div class=&quot;score-box&quot;><strong>1점</strong><div>발표 태도가 매우 경직되거나 불안정하여 청중이 발표에 몰입하기 어렵다.</div></div>
+          </div>
+
+          <h3>5-3. 심사 시 유의사항</h3>
+          <ul>
+            <li>과장된 제스처를 좋은 발표로 보지 않는다.</li>
+            <li>제스처가 적더라도 시선과 자세가 안정적이면 긍정적으로 평가할 수 있다.</li>
+            <li>수줍음이 많은 학생이라도 끝까지 안정적으로 발표하면 좋은 평가를 받을 수 있다.</li>
+            <li>지나친 연출보다 발표 내용에 어울리는 자연스러운 수행을 중시한다.</li>
+            <li>영상 환경의 한계로 발생한 일부 시선 처리 문제는 과도하게 감점하지 않는다.</li>
+            <li>발표를 끝까지 마무리하지 못한 경우 발표 완수 측면에서 감점 사유가 된다. 제출된 녹화영상의 뒷부분이 잘려 발표가 마무리되지 않은 채 끝나는 경우도 발표가 완수되지 않은 것으로 보아 발표 수행력에서 감점할 수 있다.</li>
+          </ul>
+        </section>
+
+        <section class=&quot;section&quot; id=&quot;types&quot;>
+          <h2>6. 발표 유형별 평가 가이드</h2>
+          <p>
+            리얼스피치에는 다양한 유형의 발표가 제출될 수 있다.
+            심사위원은 발표 유형의 차이를 고려하되, 특정 유형이 유리하거나 불리해지지 않도록 발표 목적에 맞는 전달 완성도를 중심으로 평가한다.
+          </p>
+
+          <h3>6-1. 정보 설명형 발표</h3>
+          <p><strong>예시:</strong> 과학 개념 설명, 환경 문제 소개, 요리 방법 설명, 역사적 사건 소개, AI·기술 소개</p>
+          <ul>
+            <li>설명 순서가 명확한가</li>
+            <li>핵심 정보가 이해하기 쉽게 전달되는가</li>
+            <li>어려운 개념을 청중이 따라갈 수 있게 말하는가</li>
+            <li>중요한 부분에서 속도와 강조를 조절하는가</li>
+            <li>사실이나 절차가 크게 혼동되지 않는가</li>
+          </ul>
+          <div class=&quot;note&quot;>정보가 많다고 반드시 좋은 발표는 아니다. 청중이 이해할 수 있도록 구조화하여 전달하는지가 중요하다.</div>
+
+          <h3>6-2. 경험 공유형 발표</h3>
+          <p><strong>예시:</strong> 내가 좋아하는 과목, 기억에 남는 여행, 나의 꿈, 실패하거나 도전했던 경험, 가족·친구·학교생활 이야기</p>
+          <ul>
+            <li>자신의 생각이나 감정이 자연스럽게 드러나는가</li>
+            <li>경험의 흐름이 이해 가능하게 전달되는가</li>
+            <li>쉬운 표현이라도 자기 말처럼 말하는가</li>
+            <li>청중이 발표자의 메시지에 공감할 수 있는가</li>
+            <li>발표가 진솔하고 자연스럽게 느껴지는가</li>
+          </ul>
+          <div class=&quot;note&quot;>경험형 발표는 화려한 문장보다 자기화된 전달이 중요하다. 쉬운 문장을 사용하더라도 메시지가 분명하고 자연스럽다면 좋은 평가를 받을 수 있다.</div>
+
+          <h3>6-3. 주장·설득형 발표</h3>
+          <p><strong>예시:</strong> 스마트폰 사용에 대한 의견, 환경 보호를 해야 하는 이유, 학교생활 개선 제안, 내가 생각하는 좋은 친구, AI 활용에 대한 의견</p>
+          <ul>
+            <li>주장이 분명한가</li>
+            <li>근거나 예시가 자연스럽게 연결되는가</li>
+            <li>청중을 설득하려는 의도가 전달되는가</li>
+            <li>강조와 멈춤이 설득 포인트에 맞게 사용되는가</li>
+            <li>결론이 분명한가</li>
+          </ul>
+          <div class=&quot;note&quot;>주장의 수준보다 발표자의 생각이 일관성 있게 전달되는지를 본다.</div>
+
+          <h3>6-4. 창의적 스토리형 발표</h3>
+          <p><strong>예시:</strong> 상상 이야기, 미래의 나, 내가 만든 캐릭터 이야기, 판타지 상황 설명, 창작 스토리</p>
+          <ul>
+            <li>이야기의 흐름이 이해 가능한가</li>
+            <li>장면이나 사건 전개가 자연스럽게 이어지는가</li>
+            <li>이야기의 감정을 발표자가 직접 느끼며 전달하는가(슬픈 장면에서 톤이 가라앉고, 신나는 장면에서 표정이 살고, 반전에서 멈춤을 주는가)</li>
+            <li>이야기를 ‘읽는’ 느낌이 아니라 ‘들려주는’ 느낌으로, 발표자가 화자로서 이야기 안에 있는가</li>
+            <li>표정, 억양, 멈춤이 이야기 분위기와 어울리는가</li>
+            <li>청중이 이야기의 핵심을 따라갈 수 있는가</li>
+          </ul>
+          <div class=&quot;note&quot;>
+            <strong>창의 스토리형의 자기화는 ‘의견 표명’이 아니라 ‘이야기를 자기 것으로 소화했는가’로 본다.</strong>
+            지어낸 이야기라도 발표자가 그 감정을 느끼며 자기 식으로 들려주면 자기화된 것이고, 잘 쓰인 문장을 감정선과 무관하게 평탄히 읽어 내려가면 자기화가 약한 것이다.
+            창작 측면(소재·설정에 발표자다운 선택이나 자기가 좋아하는 것이 녹아 있는지)도 참고하되, 핵심은 전달에서의 자기화이다.
+            전하고 싶은 느낌·메시지가 드러나면 긍정 요소이나, 없다고 감점하지는 않는다.
+          </div>
+          <div class=&quot;note warn&quot;>창의성 자체를 별도 우열로 평가하지 않는다. 소재가 독특하다는 이유만으로 높은 점수를 주지 않으며, 평범한 소재라도 자연스럽고 몰입감 있게 전달하면 좋은 평가를 받을 수 있다.</div>
+        </section>
+
+        <section class=&quot;section&quot; id=&quot;principles&quot;>
+          <h2>7. 심사위원 공통 판단 원칙</h2>
+          <h3>7-1. 영어 난이도와 발표 완성도를 분리한다</h3>
+          <p>
+            어려운 어휘와 문장을 많이 사용한 발표가 반드시 더 우수한 것은 아니다.
+            반대로 쉬운 표현을 사용했다고 낮은 평가를 받아야 하는 것도 아니다.
+            중요한 것은 참가자의 수준에서 내용을 얼마나 자연스럽고 효과적으로 전달했는가이다.
+          </p>
+
+          <h3>7-2. 긴 발표가 항상 유리하지는 않다</h3>
+          <p>
+            2분 30초 발표가 1분 발표보다 자동으로 높은 점수를 받는 것은 아니다.
+            발표 시간이 길더라도 구조가 불안정하거나 암기 느낌이 강하면 높은 평가를 받기 어렵다.
+            반대로 1분 발표라도 메시지가 분명하고 자연스럽게 전달되면 좋은 평가를 받을 수 있다.
+          </p>
+
+          <h3>7-3. 창의성보다 자기화된 전달을 중시한다</h3>
+          <p>
+            창의적인 원고나 독특한 소재는 긍정적 요소가 될 수 있으나, 그 자체가 고득점의 근거가 되어서는 안 된다.
+            심사에서는 발표자가 내용을 이해하고 말하는가, 자기 말처럼 자연스럽게 전달하는가,
+            청중이 메시지를 이해할 수 있는가, 원고 수준과 발표 수행이 어울리는가를 더 중요하게 본다.
+          </p>
+
+          <h3>7-4. 문법 오류는 의미 전달 방해 여부를 중심으로 판단한다</h3>
+          <p>
+            문법이나 어휘 오류가 있더라도 의미 전달에 큰 지장이 없다면 과도하게 감점하지 않는다.
+            다만 오류가 반복되어 청중이 내용을 이해하기 어렵거나 핵심 메시지가 혼동된다면 언어 표현력에서 감점할 수 있다.
+          </p>
+
+          <h3>7-5. 단순 암기 여부를 직접 판단하지 않는다</h3>
+          <p>
+            심사위원은 학생이 실제로 원고를 직접 썼는지, 얼마나 외웠는지를 정확히 알 수 없다.
+            따라서 추측으로 평가하지 않고, 의미 단위 전달, 속도 조절·멈춤·강조, 기계적 암송 느낌, 실수 후 회복, 자연스러운 전달 여부 같은 관찰 가능한 요소를 기준으로 판단한다.
+            시선 처리는 발표 수행력 영역에서 별도로 판단하며, 전달 완성도에서 중복 감점하지 않는다.
+          </p>
+
+          <h3>7-6. 참가자 수준에 맞는 표현 적절성도 함께 본다</h3>
+          <p>
+            심사에서는 어려운 영어 자체를 가산점으로 보지 않는다.
+            그러나 참가자의 학년과 발달 수준에 비추어 표현 수준이 지나치게 낮아, 내용 전개와 표현의 폭이 과도하게 제한되는 경우에는 최고 수준 평가를 신중하게 판단한다.
+          </p>
+          <p>
+            즉, 심사에서는 영어 난이도 자체보다 <strong>참가자의 수준에 맞는 적절한 표현 선택과 전달 완성도</strong>를 함께 본다.
+            쉬운 영어를 사용했더라도 학년 수준에 맞게 메시지가 충분히 전개되고 자연스럽게 전달되면 좋은 평가를 받을 수 있지만,
+            지나치게 단순한 표현만 반복되어 발표의 밀도와 전개가 제한된다면 최고 수준 평가는 어렵다.
+          </p>
+        </section>
+
+        <section class=&quot;section&quot; id=&quot;faq&quot;>
+          <h2>8. 곤란한 사례별 FAQ</h2>
+
+          <div class=&quot;faq-item&quot;>
+            <h4>Q1. 어려운 단어와 문장을 많이 사용하여 2분 30초 동안 발표한 학생과, 쉬운 문장으로 1분 동안 자연스럽게 발표한 학생은 어떻게 비교하나요?</h4>
+            <p>
+              두 발표는 영어 난이도와 발표 완성도를 분리해서 평가해야 한다. 어려운 단어와 문장을 사용했더라도,
+              그 표현이 정확하고 자연스럽게 발화되어 의미 전달에 실제로 도움이 되는 경우에만 긍정적으로 볼 수 있다.
+              다만 어휘나 문장의 난이도 자체가 가산점이 되는 것은 아니다.
+              발표가 기계적이거나 암기 느낌이 강하고, 청중이 이해하기 어렵다면 높은 점수를 받기 어렵다.
+              반대로 쉬운 문장으로 1분 동안 발표했더라도 자기 생각이 분명하고 자연스럽게 전달되며
+              청중이 메시지를 쉽게 이해할 수 있다면 좋은 평가를 받을 수 있다.
+            </p>
+          </div>
+
+          <div class=&quot;faq-item&quot;>
+            <h4>Q2. 정보성 발표와 경험 이야기 발표는 어떻게 공정하게 비교하나요? 예를 들어, 과학 개념을 설명한 발표와 여행 경험을 이야기한 발표는 어떻게 보나요?</h4>
+            <p>
+              두 발표는 발표 목적이 다르므로, 같은 소재 기준으로 비교하지 않고 <strong>각 발표가 자기 목적에 맞게 얼마나 완성도 있게 전달되었는가</strong>를 중심으로 평가한다.
+            </p>
+            <p>
+              정보성 발표는 설명 구조, 핵심 정보의 명확성, 청중이 내용을 따라가기 쉬운 전달 방식이 중요하다.
+              반면 경험 이야기 발표는 경험의 흐름, 자기화된 표현, 생각이나 감정이 자연스럽게 전달되는지가 중요하다.
+            </p>
+            <p>
+              따라서 과학 설명 발표가 더 지적이거나, 여행 경험 발표가 더 감성적이라는 이유만으로 자동으로 높은 점수를 주지 않는다.
+              두 발표 모두 각자의 목적에 맞게 메시지를 얼마나 잘 전달했는지를 기준으로 평가한다.
+            </p>
+          </div>
+
+          <div class=&quot;faq-item&quot;>
+            <h4>Q3. 창의적인 스토리를 발표한 학생이 더 유리한가요?</h4>
+            <p>
+              반드시 그렇지 않다. 창의적인 소재는 발표를 흥미롭게 만들 수 있지만, 창의성 자체를 별도 우열 기준으로 평가하지 않는다.
+              중요한 것은 그 이야기를 청중이 이해할 수 있도록 자연스럽게 전달했는가이다.
+            </p>
+          </div>
+
+          <div class=&quot;faq-item&quot;>
+            <h4>Q4. 원고를 누가 써준 것 같은 발표는 어떻게 평가하나요?</h4>
+            <p>
+              심사위원은 원고 작성 과정이나 외부 도움 여부를 정확히 알 수 없다. 따라서 추측으로 감점해서는 안 된다.
+              대신 원고 수준에 비해 발표가 지나치게 부자연스러운가, 문장의 의미를 이해하지 못한 듯 기계적으로 말하는가,
+              속도 조절·멈춤·강조가 내용과 맞지 않는가, 실수 후 회복하지 못하는가, 청중에게 메시지가 자연스럽게 전달되는가를 기준으로 평가한다.
+            </p>
+          </div>
+
+          <div class=&quot;faq-item&quot;>
+            <h4>Q5. 발표 시간이 짧으면 불리한가요?</h4>
+            <p>
+              발표 시간이 규정 범위 안에 있다면 짧다는 이유만으로 낮은 점수를 주지 않는다.
+              짧은 발표라도 핵심 메시지가 분명하고 자연스럽고 안정적으로 전달되면 좋은 평가를 받을 수 있다.
+            </p>
+          </div>
+
+          <div class=&quot;faq-item&quot;>
+            <h4>Q6. 긴 발표는 더 높은 점수를 받아야 하나요?</h4>
+            <p>
+              아니다. 긴 발표는 더 많은 내용을 담을 수 있다는 장점이 있지만, 그만큼 구조와 전달 조절이 중요하다.
+              핵심 메시지가 불분명하거나, 문장이 길고 복잡하지만 청중 이해가 어렵거나, 속도 조절과 멈춤 조절 없이 계속 말하는 경우 높은 점수를 받기 어렵다.
+            </p>
+          </div>
+
+          <div class=&quot;faq-item&quot;>
+            <h4>Q7. 쉬운 영어를 사용한 발표도 높은 점수를 받을 수 있나요?</h4>
+            <p>
+              네, 받을 수 있다. 리얼스피치는 어려운 영어를 과시하는 대회가 아니라, 영어로 자신의 메시지를 전달하는 대회이다.
+              따라서 쉬운 문장을 사용하더라도 메시지가 분명하고, 자기 생각이나 경험이 자연스럽게 드러나며, 발음과 흐름이 안정적이고,
+              청중이 이해하기 쉽다면 좋은 평가를 받을 수 있다.
+            </p>
+            <p>
+              다만 여기서 중요한 것은 <strong>자기 학년과 발달 수준에 비추어 표현 수준이 적절한가</strong>이다.
+              예를 들어 중등 참가자가 초저 수준의 매우 짧고 단순한 문장만으로 발표하여 내용 전개와 표현의 폭이 지나치게 제한된다면,
+              단순히 유창하다는 이유만으로 최고 수준 평가를 받기는 어렵다.
+            </p>
+            <p>
+              반대로 중등 수준에 맞는 어휘와 문장을 사용하면서 다소 유창성이 떨어지더라도,
+              전체 메시지가 이해 가능하고 발표 목적에 맞게 전달된다면 더 균형 잡힌 발표로 평가될 수 있다.
+              즉, 심사에서는 어려운 영어 자체를 높게 평가하지는 않지만, <strong>참가자의 수준에 맞는 적절한 표현 선택과 전달 완성도</strong>는 함께 본다.
+            </p>
+            <p>
+              심사위원은 이런 판단을 할 때 문장 난이도만 따로 점수화하기보다, <strong>학년군별 표현 수준 앵커</strong>를 참고하여
+              해당 발표가 자기 수준에 맞는 언어로 충분한 내용을 전개하고 있는지 함께 살핀다.
+            </p>
+          </div>
+
+          <div class=&quot;faq-item&quot;>
+            <h4>Q8. 문법 오류가 있는 발표는 많이 감점해야 하나요?</h4>
+            <p>
+              문법 오류는 의미 전달을 방해하는 정도에 따라 판단한다. 사소한 오류가 있어도 청중이 내용을 이해하는 데 문제가 없다면 과도하게 감점하지 않는다.
+              그러나 오류가 반복되어 핵심 메시지가 혼동되거나 문장 의미를 이해하기 어렵다면 언어 표현력에서 감점할 수 있다.
+            </p>
+          </div>
+
+          <div class=&quot;faq-item&quot;>
+            <h4>Q9. 암기한 발표와 소화한 발표는 어떻게 구분하나요?</h4>
+            <p>
+              모든 발표는 어느 정도 준비와 암기를 포함할 수 있다. 중요한 것은 암기한 내용을 얼마나 자연스럽게 전달하느냐이다.
+              소화한 발표는 문장과 문장이 자연스럽게 이어지고, 의미 있는 단위로 끊어 말하며, 중요한 부분에서 속도와 강조를 조절하고,
+              실수가 있어도 자연스럽게 회복하며, 표정과 목소리가 내용과 어울리고, 청중에게 말하고 있다는 느낌이 있다.
+            </p>
+          </div>
+
+          <div class=&quot;faq-item&quot;>
+            <h4>Q10. 스크립트를 보면서 말하듯이 자연스럽게 읽는 경우와, 외워서 말하지만 버벅거리는 경우는 어떻게 평가하나요?</h4>
+            <p>
+              두 경우 모두 단순히 <strong>읽었는지, 외웠는지</strong>만으로 우열을 판단하지 않는다.
+              심사에서는 준비 방식보다 <strong>청중에게 얼마나 자연스럽고 이해 가능하게 전달되었는가</strong>를 본다.
+            </p>
+            <p>
+              스크립트를 보면서 말하듯이 자연스럽게 읽는 경우, 발음과 흐름이 안정적이고 메시지가 명확하게 전달된다면 언어 표현력과 전달 완성도에서 긍정적으로 평가할 수 있다.
+              다만 원고 의존이 분명하게 드러나고 청중에게 직접 전달하는 느낌이 약하다면, 발표 소화도와 발표 수행력에서는 최고 수준 평가를 받기 어렵다.
+            </p>
+            <p>
+              반대로 외워서 말하더라도 자주 멈추거나 버벅거려 흐름이 끊기고, 다음 문장을 떠올리느라 의미 전달이 약해진다면 높은 평가를 받기 어렵다.
+              즉, <strong>외웠다는 사실 자체가 가산점이 되지는 않으며</strong>, 준비한 내용을 얼마나 안정감 있게 자기 말처럼 전달했는지가 더 중요하다.
+            </p>
+          </div>
+
+          <div class=&quot;faq-item&quot;>
+            <h4>Q11. 소품을 사용한 발표는 더 유리한가요?</h4>
+            <p>
+              반드시 그렇지 않다. 소품은 발표 내용을 보조하는 요소일 뿐, 소품 사용 자체가 가산점의 근거가 되지는 않는다.
+              소품이 발표의 핵심 메시지를 더 잘 이해하도록 돕고, 발표 흐름과 자연스럽게 어울린다면 긍정적으로 볼 수 있다.
+              그러나 소품이 과도하여 발표 집중을 흐리거나, 발표자의 전달보다 연출 효과가 더 두드러지는 경우에는 높은 평가 요인이 되지 않는다.
+            </p>
+            <p>
+              즉, 심사에서는 소품의 화려함이 아니라 <strong>소품이 메시지 전달에 실제로 도움이 되었는가</strong>를 본다.
+            </p>
+          </div>
+
+          <div class=&quot;faq-item&quot;>
+            <h4>Q12. PPT나 시각자료를 사용한 발표는 더 높은 점수를 받아야 하나요?</h4>
+            <p>
+              아니다. PPT나 시각자료가 있다고 해서 자동으로 높은 점수를 주지 않는다. 시각자료는 발표 이해를 돕는 보조 수단일 뿐이며,
+              평가의 중심은 여전히 발표자의 언어 표현력, 전달 완성도, 발표 수행력에 있다.
+            </p>
+            <p>
+              PPT가 발표 구조를 더 명확하게 보여주거나, 정보 설명을 쉽게 이해하도록 돕는 경우에는 전달 완성도에 긍정적인 영향을 줄 수 있다.
+              그러나 자료가 지나치게 많거나 복잡하여 발표자의 설명을 대신하는 수준이 되면 오히려 발표 전달력을 판단하기 어려워질 수 있다.
+              따라서 심사에서는 <strong>자료의 유무</strong>보다 <strong>자료를 활용해 메시지를 얼마나 효과적으로 전달했는가</strong>를 본다.
+            </p>
+          </div>
+        </section>
+
+        <section class=&quot;section&quot; id=&quot;sheet&quot;>
+          <h2>9. 최종 심사표 예시</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>영역</th>
+                <th>평가 요소</th>
+                <th>점수</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Ⅰ. 언어 표현력</td>
+                <td>발음, 억양, 유창성, 정확성, 언어적 이해 가능성</td>
+                <td>1~4점</td>
+              </tr>
+              <tr>
+                <td>Ⅱ. 전달 완성도</td>
+                <td>내용 구조, 발표 소화도, 속도 조절, 멈춤, 강조, 구조적 이해 용이성</td>
+                <td>1~4점</td>
+              </tr>
+              <tr>
+                <td>Ⅲ. 발표 수행력</td>
+                <td>시선, 표정, 제스처, 자세, 자신감, 발표 완수</td>
+                <td>1~4점</td>
+              </tr>
+              <tr>
+                <td colspan=&quot;2&quot;><strong>총점</strong></td>
+                <td><strong>12점</strong></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class=&quot;footer-box&quot;>
+            <h3>최종 한 줄 기준</h3>
+            <p>
+              리얼스피치의 좋은 발표란, 어려운 영어를 많이 말하는 발표가 아니라,
+              자신의 메시지를 영어로 이해 가능하고 자연스럽고 자신 있게 전달하는 발표이다.
+            </p>
+          </div>
+        </section>
+
+        <section class=&quot;section&quot; id=&quot;anchor&quot;>
+          <h2>10. 부록. 심사위원 참고용 학년군별 표현 수준 앵커</h2>
+          <div class=&quot;note&quot;>
+            아래 기준은 <strong>별도 채점항목이 아니라</strong>, “쉬운 영어도 높은 평가가 가능한가”, “전달은 좋지만 표현 수준이 해당 학년 대비 지나치게 낮은가”를 판단할 때 참고하는 운영용 앵커이다.
+            심사에서는 영어 난이도를 따로 점수화하지 않고, <strong>학년군에 맞는 표현 적절성과 전달 완성도</strong>를 함께 본다.
+          </div>
+
+          <h3>초등 저학년군</h3>
+          <ul>
+            <li>짧고 단순한 문장 중심의 발표여도 무방하다.</li>
+            <li>기본 정보 전달, 문장 완결성, 또렷한 발음과 자연스러운 흐름이 중요하다.</li>
+            <li>지나치게 어려운 표현보다, 자기 수준에서 명확하고 안정감 있게 전달하는지가 더 중요하다.</li>
+          </ul>
+
+          <h3>초등 고학년군</h3>
+          <ul>
+            <li>단순 문장만의 반복보다, 이유·경험·설명 연결이 어느 정도 드러나는 발표가 바람직하다.</li>
+            <li>메시지가 분명하고 전달이 자연스러우면서도, 표현과 내용 전개에 일정한 확장이 보이는지를 함께 본다.</li>
+            <li>매우 쉬운 문장만 반복되어 발표의 밀도와 전개가 제한되면 최고 수준 평가는 신중하게 판단한다.</li>
+          </ul>
+
+          <h3>중등군</h3>
+          <ul>
+            <li>학년 수준에 맞는 어휘, 문장 연결, 설명 또는 주장 전개가 어느 정도 드러나는 발표를 더 균형 있게 평가한다.</li>
+            <li>매우 짧고 단순한 초저 수준 문장만으로 발표가 구성될 경우, 유창하더라도 표현의 폭과 내용 전개 측면에서 최고 수준 평가는 어렵다.</li>
+            <li>반대로 중등 수준에 맞는 어휘와 문장을 사용하면서 약간의 비유창성이 있더라도, 전체 메시지가 이해 가능하고 발표 목적에 맞게 전달된다면 긍정적으로 평가할 수 있다.</li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
+"></iframe></div>
+    <div class="pane" data-pane="round1"><iframe title="1차 채점지" srcdoc="<!DOCTYPE html>
+<html lang=&quot;ko&quot;>
+<head>
+<meta charset=&quot;UTF-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+<title>윤선생 리얼스피치 최종 심사지</title>
+<link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;>
+<link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin>
+<link href=&quot;https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap&quot; rel=&quot;stylesheet&quot;>
+<style>
+  :root{
+    --paper:#FAF7F0; --card:#FFFFFF; --ink:#23211C; --ink-soft:#5B574E; --ink-faint:#8A857A;
+    --line:#E2DBCB; --line-soft:#EDE8DC; --accent:#1F6E56; --accent-deep:#0F4F3C;
+    --accent-soft:#E6F0EB; --gold:#A9802F; --gold-soft:#F4EAD3;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'IBM Plex Sans KR',sans-serif; color:var(--ink); background:var(--paper);
+    line-height:1.65; -webkit-font-smoothing:antialiased; padding:32px 16px 80px;
+  }
+  .sheet{max-width:880px;margin:0 auto;background:var(--card);border:1px solid var(--line);
+    border-radius:6px;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.02)}
+
+  /* Sticky running total */
+  .ticker{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
+    gap:12px;padding:10px 26px;background:var(--accent-deep);color:#fff;font-size:13.5px;letter-spacing:.2px}
+  .ticker .legs{display:flex;gap:18px;flex-wrap:wrap}
+  .ticker .leg{opacity:.78}
+  .ticker .leg b{font-weight:600;opacity:1}
+  .ticker .grand{font-family:'Noto Serif KR',serif;font-size:20px;font-weight:600}
+  .ticker .grand small{font-size:12px;font-weight:400;opacity:.7;margin-left:2px}
+
+  /* Header */
+  header{padding:34px 40px 22px;border-bottom:2px solid var(--ink);position:relative}
+  header::after{content:&quot;&quot;;position:absolute;left:40px;right:40px;bottom:-6px;height:1px;background:var(--ink)}
+  .kicker{font-size:12px;letter-spacing:3px;color:var(--accent);font-weight:600;text-transform:uppercase}
+  header h1{font-family:'Noto Serif KR',serif;font-weight:600;font-size:27px;margin-top:6px;letter-spacing:-.5px}
+  header .lead{color:var(--ink-soft);font-size:13.5px;margin-top:8px;max-width:640px}
+  .layers{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .lchip{font-size:11.5px;padding:4px 11px;border-radius:5px;background:var(--accent-soft);color:var(--accent-deep)}
+  .lchip b{font-weight:600}
+
+  /* Meta */
+  .meta{padding:22px 40px;border-bottom:1px solid var(--line);display:grid;
+    grid-template-columns:repeat(2,1fr);gap:16px 34px}
+  .field{display:flex;align-items:baseline;gap:10px}
+  .field label{font-size:12.5px;color:var(--ink-faint);min-width:62px;font-weight:500}
+  .field input{flex:1;border:none;border-bottom:1px solid var(--line);background:transparent;
+    font-family:inherit;font-size:14px;color:var(--ink);padding:4px 2px;outline:none}
+  .field input:focus{border-bottom-color:var(--accent)}
+  .types{grid-column:1/-1;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:2px}
+  .types > span{font-size:12.5px;color:var(--ink-faint);font-weight:500;margin-right:2px}
+  .pill{font-size:13px;padding:5px 14px;border:1px solid var(--line);border-radius:40px;
+    cursor:pointer;color:var(--ink-soft);background:#fff;transition:all .15s;user-select:none}
+  .pill:hover{border-color:var(--accent)}
+  .pill.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .pill.primary-type::after{content:&quot;주&quot;;font-size:9px;font-weight:700;margin-left:5px;
+    background:var(--gold);color:#fff;border-radius:3px;padding:0 4px;vertical-align:middle}
+  .gpill{font-size:13px;padding:5px 14px;border:1px solid var(--line);border-radius:40px;
+    cursor:pointer;color:var(--ink-soft);background:#fff;transition:all .15s;user-select:none}
+  .gpill:hover{border-color:var(--gold)}
+  .gpill.on{background:var(--gold);border-color:var(--gold);color:#fff}
+  .typenote{font-size:11px;color:var(--ink-faint);margin-left:4px}
+  .typehint.grade{border-left:3px solid var(--gold)}
+  .typehint{grid-column:1/-1;font-size:12.5px;color:var(--accent-deep);background:var(--accent-soft);
+    border-radius:5px;padding:8px 12px;display:none}
+  .typehint.show{display:block}
+  .typehint b{font-weight:600}
+
+  /* Area block */
+  .area{padding:26px 40px;border-bottom:1px solid var(--line)}
+  .ahead{display:flex;align-items:flex-start;gap:14px;margin-bottom:4px}
+  .num{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:600;color:#fff;background:var(--ink);
+    width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px}
+  .atitle{font-family:'Noto Serif KR',serif;font-size:19px;font-weight:600;letter-spacing:-.3px}
+  .atitle span{font-family:'IBM Plex Sans KR',sans-serif;font-size:12px;font-weight:500;color:var(--accent);margin-left:8px}
+  .afocus{font-size:12.5px;color:var(--ink-faint);margin-top:2px}
+  .ascore{margin-left:auto;font-family:'Noto Serif KR',serif;font-size:14px;color:var(--ink-faint);
+    border:1px solid var(--line);border-radius:5px;padding:3px 11px;white-space:nowrap;margin-top:1px}
+  .ascore b{font-size:18px;color:var(--ink-faint)}
+  .area.done .ascore{border-color:var(--accent);background:var(--accent-soft)}
+  .area.done .ascore,.area.done .ascore b{color:var(--accent-deep)}
+
+  /* Score rows */
+  .scale{margin:14px 0 6px;border:1px solid var(--line-soft);border-radius:7px;overflow:hidden}
+  .row{display:flex;align-items:stretch;cursor:pointer;border-top:1px solid var(--line-soft);transition:background .12s}
+  .row:first-child{border-top:none}
+  .row:hover{background:#FBF9F4}
+  .row input{position:absolute;opacity:0;pointer-events:none}
+  .chip{flex:0 0 54px;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif KR',serif;
+    font-size:20px;font-weight:600;color:var(--ink-faint);background:#F7F4ED;border-right:1px solid var(--line-soft)}
+  .desc{padding:11px 16px;font-size:13.5px;color:var(--ink-soft)}
+  .row.sel{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
+  .row.sel .chip{background:var(--accent);color:#fff}
+  .row.sel .desc{color:var(--ink)}
+
+  /* 유의사항 / 자막 테스트 */
+  .guide{margin-top:14px;background:#FBF9F3;border:1px solid var(--line-soft);border-radius:7px;padding:13px 16px}
+  .guide h4{font-size:12px;letter-spacing:.5px;color:var(--ink-faint);font-weight:600;text-transform:uppercase;margin-bottom:6px}
+  .gnote{font-size:12px;color:var(--ink-soft);line-height:1.6}
+  .gnote b{color:var(--ink);font-weight:600}
+  .subtitle-test{background:var(--gold-soft);border:1px solid #E8D5A8;border-radius:6px;
+    padding:9px 13px;font-size:12.5px;color:#6B4E16;margin-bottom:12px;line-height:1.55}
+  .subtitle-test b{color:#5A3F0E;font-weight:600}
+  .subtitle-test .sep{display:block;margin-top:5px;padding-top:5px;border-top:1px dashed #DEC68C}
+
+  .memo{margin-top:13px}
+  .memo label{font-size:12px;color:var(--ink-faint);font-weight:500;display:block;margin-bottom:5px}
+  .memo textarea{width:100%;min-height:48px;border:1px solid var(--line);border-radius:6px;
+    font-family:inherit;font-size:13px;color:var(--ink);padding:8px 10px;resize:vertical;outline:none;background:#fff}
+  .memo textarea:focus{border-color:var(--accent)}
+
+  /* Boundary cases */
+  .cases{margin:24px 40px 0;background:#FBF9F3;border:1px solid var(--line-soft);border-radius:7px;padding:15px 18px}
+  .cases h4{font-family:'Noto Serif KR',serif;font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px}
+  .cases .lede{font-size:11.5px;color:var(--ink-faint);margin-bottom:10px}
+  .crow{display:grid;grid-template-columns:1fr;gap:2px;padding:7px 0;border-top:1px solid var(--line-soft);font-size:12.5px}
+  .crow:first-of-type{border-top:none}
+  .crow .sit{color:var(--ink-soft)}
+  .crow .sit b{color:var(--ink);font-weight:600}
+  .crow .ver{color:var(--accent-deep)}
+  .tag{display:inline-block;font-size:11px;font-weight:600;padding:1px 7px;border-radius:4px;margin-right:5px}
+  .tag1{background:#E6EFF7;color:#0C447C} .tag2{background:var(--accent-soft);color:var(--accent-deep)}
+
+  /* Footer total */
+  .total{padding:24px 40px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .total .breakdown{display:flex;gap:24px;flex-wrap:wrap}
+  .total .bd{font-size:13px;color:var(--ink-soft)}
+  .total .bd b{font-family:'Noto Serif KR',serif;font-size:17px;color:var(--ink);font-weight:600;margin-left:4px}
+  .grandbox{font-family:'Noto Serif KR',serif;text-align:right}
+  .grandbox .n{font-size:38px;font-weight:700;color:var(--accent-deep);line-height:1}
+  .grandbox .n small{font-size:17px;color:var(--ink-faint);font-weight:500}
+  .grandbox .lab{font-size:11.5px;letter-spacing:2px;color:var(--ink-faint);text-transform:uppercase}
+
+  .actions{padding:18px 40px 26px;display:flex;gap:10px}
+  .btn{font-family:inherit;font-size:13.5px;font-weight:500;padding:9px 18px;border-radius:6px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink-soft);transition:all .15s}
+  .btn:hover{border-color:var(--accent);color:var(--accent-deep)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn.primary:hover{background:var(--accent-deep)}
+  .note{padding:0 40px 30px;font-size:11.5px;color:var(--ink-faint);line-height:1.6}
+  .note b{color:var(--ink-soft);font-weight:600}
+
+  @media (max-width:620px){
+    .meta{grid-template-columns:1fr}
+    header,.meta,.area,.total,.actions,.note,.cases{padding-left:22px;padding-right:22px}
+    .cases{margin-left:22px;margin-right:22px}
+    .ticker{padding-left:22px;padding-right:22px}
+  }
+
+  @media print{
+    @page{margin:14mm}
+    body{background:#fff;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .sheet{border:none;box-shadow:none;max-width:none}
+    .ticker,.actions{display:none}
+    .area,.meta,header,.total,.cases{break-inside:avoid}
+    .field input,.memo textarea{border-color:#bbb}
+    .row.sel{box-shadow:inset 3px 0 0 var(--accent)}
+  }
+</style>
+</head>
+<body>
+<div class=&quot;sheet&quot;>
+
+  <div class=&quot;ticker&quot;>
+    <div class=&quot;legs&quot;>
+      <span class=&quot;leg&quot;>Ⅰ 언어 <b id=&quot;t1&quot;>–</b></span>
+      <span class=&quot;leg&quot;>Ⅱ 전달 <b id=&quot;t2&quot;>–</b></span>
+      <span class=&quot;leg&quot;>Ⅲ 수행 <b id=&quot;t3&quot;>–</b></span>
+    </div>
+    <span class=&quot;grand&quot;><span id=&quot;tg&quot;>0</span><small> / 12</small></span>
+  </div>
+
+  <header>
+    <div class=&quot;kicker&quot;>RealSpeech · Final Evaluation</div>
+    <h1>윤선생 리얼스피치 최종 심사지</h1>
+    <p class=&quot;lead&quot;>세 영역을 각각 1~4점으로 평가합니다. 좋은 발표란 어려운 영어를 많이 말하는 발표가 아니라, 자신의 메시지를 이해 가능하고 자연스럽게 전달하는 발표입니다.</p>
+    <div class=&quot;layers&quot;>
+      <span class=&quot;lchip&quot;><b>Ⅰ</b> 소리·형식 층 (바닥선)</span>
+      <span class=&quot;lchip&quot;><b>Ⅱ</b> 의미·기능 층 (천장)</span>
+      <span class=&quot;lchip&quot;><b>Ⅲ</b> 태도·시각 층</span>
+    </div>
+  </header>
+
+  <div class=&quot;meta&quot;>
+    <div class=&quot;field&quot;><label>참가자명</label><input type=&quot;text&quot;></div>
+    <div class=&quot;field&quot;><label>참가번호</label><input type=&quot;text&quot;></div>
+    <div class=&quot;field&quot;><label>심사위원</label><input type=&quot;text&quot;></div>
+    <div class=&quot;field&quot;><label>심사일</label><input type=&quot;text&quot; placeholder=&quot;2026. .  .&quot;></div>
+    <div class=&quot;types&quot;>
+      <span>학년군</span>
+      <span class=&quot;gpill&quot; data-grade=&quot;elem_low&quot;>초등 저학년</span>
+      <span class=&quot;gpill&quot; data-grade=&quot;elem_high&quot;>초등 고학년</span>
+      <span class=&quot;gpill&quot; data-grade=&quot;mid&quot;>중등</span>
+    </div>
+    <div class=&quot;typehint grade&quot; id=&quot;gradehint&quot;></div>
+    <div class=&quot;types&quot;>
+      <span>발표 유형</span>
+      <span class=&quot;pill&quot; data-type=&quot;info&quot;>정보 설명형</span>
+      <span class=&quot;pill&quot; data-type=&quot;exp&quot;>경험 공유형</span>
+      <span class=&quot;pill&quot; data-type=&quot;arg&quot;>주장·설득형</span>
+      <span class=&quot;pill&quot; data-type=&quot;story&quot;>창의 스토리형</span>
+      <span class=&quot;typenote&quot;>복수 선택 가능 · 첫 선택이 주 유형</span>
+    </div>
+    <div class=&quot;typehint&quot; id=&quot;typehint&quot;></div>
+  </div>
+
+  <!-- I. 언어 표현력 -->
+  <section class=&quot;area&quot; data-area=&quot;1&quot;>
+    <div class=&quot;ahead&quot;>
+      <div class=&quot;num&quot;>Ⅰ</div>
+      <div>
+        <div class=&quot;atitle&quot;>언어 표현력 <span>소리·형식 층 · 바닥선</span></div>
+        <div class=&quot;afocus&quot;>귀로 들어서 또렷·매끄러운가? · 발음 / 억양의 자연스러움 / 발화 흐름(속도·유창성) / 정확성 / 이해 가능성</div>
+      </div>
+      <div class=&quot;ascore&quot;>점수 <b data-badge=&quot;1&quot;>–</b></div>
+    </div>
+    <div class=&quot;scale&quot;>
+      <label class=&quot;row&quot;><input type=&quot;radio&quot; name=&quot;area1&quot; value=&quot;4&quot;><span class=&quot;chip&quot;>4</span><span class=&quot;desc&quot;>단어 하나하나가 또렷이 들리고 억양도 영어로서 자연스럽다. 막힘이나 머뭇거림 없이 매끄럽게 이어지고, 문법이 조금 틀려도 무슨 말인지 바로 안다. 그래서 귀로만 들어도 내용을 또렷이 따라갈 수 있다.</span></label>
+      <label class=&quot;row&quot;><input type=&quot;radio&quot; name=&quot;area1&quot; value=&quot;3&quot;><span class=&quot;chip&quot;>3</span><span class=&quot;desc&quot;>발음이나 억양이 군데군데 어색하고 가끔 끊기거나 머뭇거린다. 틀린 표현도 일부 보이지만, 전체적으로 알아듣는 데 큰 어려움은 없다.</span></label>
+      <label class=&quot;row&quot;><input type=&quot;radio&quot; name=&quot;area1&quot; value=&quot;2&quot;><span class=&quot;chip&quot;>2</span><span class=&quot;desc&quot;>단어가 자주 뭉개지거나 자꾸 끊기고 머뭇거려 흐름이 불안하다. 틀린 문장이 반복돼 군데군데 무슨 말인지 놓치게 된다.</span></label>
+      <label class=&quot;row&quot;><input type=&quot;radio&quot; name=&quot;area1&quot; value=&quot;1&quot;><span class=&quot;chip&quot;>1</span><span class=&quot;desc&quot;>발음이 뭉개지고, 말이 뚝뚝 끊기거나 너무 빨라 알아듣기 어렵다. 오류도 잦아 핵심이 무엇인지 헷갈린다.</span></label>
+    </div>
+    <div class=&quot;guide&quot;>
+      <h4>유의사항</h4>
+      <div class=&quot;gnote&quot;>원어민 발음을 요구하지 않는다. 영어 난이도로 가점하지 않는다. 의미가 명확하면 사소한 문법 오류는 크게 감점하지 않는다. 여기서 보는 속도·멈춤은 <b>‘안 들릴 정도’까지만</b>이다 — 의미를 살리는 완급·멈춤·강조는 Ⅱ에서 본다.</div>
+    </div>
+    <div class=&quot;memo&quot;><label>메모</label><textarea></textarea></div>
+  </section>
+
+  <!-- II. 전달 완성도 -->
+  <section class=&quot;area&quot; data-area=&quot;2&quot;>
+    <div class=&quot;ahead&quot;>
+      <div class=&quot;num&quot;>Ⅱ</div>
+      <div>
+        <div class=&quot;atitle&quot;>전달 완성도 <span>의미·기능 층 · 천장</span></div>
+        <div class=&quot;afocus&quot;>내용을 소화해 자연스럽게 전달하는가? · 구조·흐름 / 발표 소화도 / 완급·멈춤·강조(전달 조절) / 청중 이해 용이성</div>
+      </div>
+      <div class=&quot;ascore&quot;>점수 <b data-badge=&quot;2&quot;>–</b></div>
+    </div>
+    <div class=&quot;subtitle-test&quot;><b>자막 테스트</b> — 이 영상에 완벽한 영어 자막을 깔았다고 상상한다. 문제가 <b>사라지면</b> 소리 문제이므로 Ⅰ에서, <b>그대로 남으면</b> 내용 문제이므로 여기 Ⅱ에서 본다.<span class=&quot;sep&quot;><b>운율은 예외</b> — 속도·멈춤·강조는 자막에 안 담긴다. 이것만은 “<b>안 들릴 정도면 Ⅰ, 다 들리는데 안 살리면 Ⅱ</b>”로 가른다.</span></div>
+    <div class=&quot;scale&quot;>
+      <label class=&quot;row&quot;><input type=&quot;radio&quot; name=&quot;area2&quot; value=&quot;4&quot;><span class=&quot;chip&quot;>4</span><span class=&quot;desc&quot;>구조·흐름이 명확하고, 내용을 충분히 소화하여 자기 말처럼 전달한다. 발표자 자신의 생각·느낌·관점이 자연스럽게 담겨 자기화되어 있다. 중요한 대목에서 속도를 늦추고, 핵심 앞에서 잠깐 멈추며, 중요한 말에 자연스럽게 힘을 준다. 그래서 청중이 메시지를 쉽게 이해한다.</span></label>
+      <label class=&quot;row&quot;><input type=&quot;radio&quot; name=&quot;area2&quot; value=&quot;3&quot;><span class=&quot;chip&quot;>3</span><span class=&quot;desc&quot;>전체 흐름은 안정적이고 핵심도 대체로 잡힌다. 다만 군데군데 외운 티가 나거나 톤이 밋밋해지고, 멈춤·강조가 한두 곳에서 빠지거나 어긋난다. 그래도 듣는 데 큰 어려움은 없다.</span></label>
+      <label class=&quot;row&quot;><input type=&quot;radio&quot; name=&quot;area2&quot; value=&quot;2&quot;><span class=&quot;chip&quot;>2</span><span class=&quot;desc&quot;>흐름이 군데군데 튀거나, 한 문장씩 끊어 외워 말하는 느낌이 강하다. 가져온 글을 그대로 읽는 인상이 짙어 자기 생각이 거의 드러나지 않는다. 어디가 중요한지 드러나지 않아(속도·멈춤·강조가 거의 없음) 메시지가 부분적으로만 전해진다.</span></label>
+      <label class=&quot;row&quot;><input type=&quot;radio&quot; name=&quot;area2&quot; value=&quot;1&quot;><span class=&quot;chip&quot;>1</span><span class=&quot;desc&quot;>이야기 순서나 핵심이 잡히지 않는다. 다음 문장을 떠올리느라 길게 멈추는 일이 잦고, 의미보다 외운 걸 뱉는 데 집중한 모습이 두드러져 무슨 말인지 잘 전해지지 않는다.</span></label>
+    </div>
+    <div class=&quot;guide&quot;>
+      <h4>유의사항</h4>
+      <div class=&quot;gnote&quot;>원고 난이도·화려함으로 판단하지 않는다. 창의적 소재 자체가 아니라 얼마나 자연스럽게 전달했는지를 본다. 발표 유형(정보·경험·주장·스토리)이 달라도 각 목적에 맞는 전달 완성도를 본다. 발표 길이 자체로 가점·감점하지 않는다. <b>자기화</b> — 잘 정리된 글을 매끄럽게 읽기만 한 발표보다 자기 생각·경험이 담긴 발표를 더 높게 본다. 정보형은 주제 선택 이유·자기 경험과의 연결·느낌으로 판단하며, 형식적으로 끼워 넣은 “나는 ~라고 생각합니다”는 가점 요인이 아니다. <b>소품·PPT</b> — 유무로 가점하지 않는다. 메시지 전달에 실제로 도움이 되면 긍정, 연출이 과해 전달을 가리면 가점 요인이 아니다.</div>
+    </div>
+    <div class=&quot;memo&quot;><label>메모</label><textarea></textarea></div>
+  </section>
+
+  <!-- III. 발표 수행력 -->
+  <section class=&quot;area&quot; data-area=&quot;3&quot;>
+    <div class=&quot;ahead&quot;>
+      <div class=&quot;num&quot;>Ⅲ</div>
+      <div>
+        <div class=&quot;atitle&quot;>발표 수행력 <span>태도·시각 층</span></div>
+        <div class=&quot;afocus&quot;>눈으로 보아서 안정·몰입되는가? · 시선 / 표정 / 제스처 / 자세 / 자신감 / 완수</div>
+      </div>
+      <div class=&quot;ascore&quot;>점수 <b data-badge=&quot;3&quot;>–</b></div>
+    </div>
+    <div class=&quot;scale&quot;>
+      <label class=&quot;row&quot;><input type=&quot;radio&quot; name=&quot;area3&quot; value=&quot;4&quot;><span class=&quot;chip&quot;>4</span><span class=&quot;desc&quot;>카메라(청중)를 향해 시선이 안정적이고, 표정에 여유가 있으며 자세가 흐트러지지 않는다. 목소리와 태도에서 자신감이 느껴지고 끝까지 안정적으로 마무리한다. 그래서 보는 사람이 발표에 자연스럽게 몰입한다.</span></label>
+      <label class=&quot;row&quot;><input type=&quot;radio&quot; name=&quot;area3&quot; value=&quot;3&quot;><span class=&quot;chip&quot;>3</span><span class=&quot;desc&quot;>전반적으로 차분하게 발표하며 끝까지 마친다. 다만 가끔 시선이 흔들리거나 표정·제스처가 조금 어색하다. 그래도 몰입을 크게 깨지는 않는다.</span></label>
+      <label class=&quot;row&quot;><input type=&quot;radio&quot; name=&quot;area3&quot; value=&quot;2&quot;><span class=&quot;chip&quot;>2</span><span class=&quot;desc&quot;>긴장한 기색이 뚜렷해 시선이 자주 아래로 가거나 자세·표정이 굳어 있다. 목소리도 작아지거나 위축돼 발표에 몰입하기가 쉽지 않다.</span></label>
+      <label class=&quot;row&quot;><input type=&quot;radio&quot; name=&quot;area3&quot; value=&quot;1&quot;><span class=&quot;chip&quot;>1</span><span class=&quot;desc&quot;>시선을 거의 맞추지 못하고 몸이 떨리거나 자세가 크게 흐트러진다. 많이 위축돼 발표가 중간중간 멈칫하고, 보는 사람이 몰입하기 어렵다.</span></label>
+    </div>
+    <div class=&quot;guide&quot;>
+      <h4>유의사항</h4>
+      <div class=&quot;gnote&quot;>과장된 제스처를 좋은 발표로 보지 않는다. 제스처가 적어도 시선·자세가 안정적이면 긍정적이다. 영상 환경 한계로 생긴 시선 문제는 과도하게 감점하지 않는다. 경계: 발음 뭉개짐→Ⅰ, 강조가 의미와 안 맞음→Ⅱ, <b>목소리가 작고 자신 없음→Ⅲ</b>. <b>발표 미완수</b> — 발표를 끝까지 마무리하지 못하거나, 제출 영상의 뒷부분이 잘려 발표가 마무리되지 않은 채 끝나면 발표 완수 측면에서 감점 사유가 된다.</div>
+    </div>
+    <div class=&quot;memo&quot;><label>메모</label><textarea></textarea></div>
+  </section>
+
+  <!-- 경계 사례 빠른 판별 -->
+  <div class=&quot;cases&quot;>
+    <h4>경계 사례 빠른 판별</h4>
+    <div class=&quot;lede&quot;>점수 문구가 “Ⅱ 안에서 몇 점인지”를 정한다면, 아래는 “이 현상을 Ⅰ에 넣나 Ⅱ에 넣나”를 정한다.</div>
+    <div class=&quot;crow&quot;><span class=&quot;sit&quot;><b>까먹어서 생긴 긴 멈춤</b></span><span class=&quot;ver&quot;><span class=&quot;tag tag2&quot;>Ⅱ</span>기본은 소화도. 멈춤이 잦아 발화가 끊겨 들리는 수준이면 <span class=&quot;tag tag1&quot;>Ⅰ</span>도 함께.</span></div>
+    <div class=&quot;crow&quot;><span class=&quot;sit&quot;><b>다 들리는데 밋밋한 톤</b></span><span class=&quot;ver&quot;><span class=&quot;tag tag2&quot;>Ⅱ</span>단어가 다 들리면 형식은 통과. 억양을 못 쓴 것이므로 소화도·조절.</span></div>
+    <div class=&quot;crow&quot;><span class=&quot;sit&quot;><b>너무 빠른 속도</b></span><span class=&quot;ver&quot;><span class=&quot;tag tag1&quot;>Ⅰ</span>빨라서 안 들림 · <span class=&quot;tag tag2&quot;>Ⅱ</span>다 들리지만 몰아쳐 메시지가 안 박힘.</span></div>
+    <div class=&quot;crow&quot;><span class=&quot;sit&quot;><b>강세 / 강조</b></span><span class=&quot;ver&quot;><span class=&quot;tag tag1&quot;>Ⅰ</span>단어 강세가 영어로서 틀림 · <span class=&quot;tag tag2&quot;>Ⅱ</span>중요한 말에 힘을 안 줌.</span></div>
+    <div class=&quot;crow&quot;><span class=&quot;sit&quot;><b>억양이 내용과 어긋남</b></span><span class=&quot;ver&quot;><span class=&quot;tag tag2&quot;>Ⅱ</span>슬픈 이야기를 신난 톤으로 — 멜로디는 멀쩡해도 감정 불일치.</span></div>
+  </div>
+
+  <!-- Total -->
+  <div class=&quot;total&quot;>
+    <div class=&quot;breakdown&quot;>
+      <span class=&quot;bd&quot;>Ⅰ 언어 표현력 <b id=&quot;b1&quot;>–</b></span>
+      <span class=&quot;bd&quot;>Ⅱ 전달 완성도 <b id=&quot;b2&quot;>–</b></span>
+      <span class=&quot;bd&quot;>Ⅲ 발표 수행력 <b id=&quot;b3&quot;>–</b></span>
+    </div>
+    <div class=&quot;grandbox&quot;>
+      <div class=&quot;lab&quot;>총점</div>
+      <div class=&quot;n&quot;><span id=&quot;g&quot;>0</span><small> / 12</small></div>
+    </div>
+  </div>
+
+  <div class=&quot;memo&quot; style=&quot;padding:0 40px 4px&quot;>
+    <label>종합 코멘트</label><textarea style=&quot;min-height:64px&quot;></textarea>
+  </div>
+
+  <div class=&quot;actions&quot;>
+    <button class=&quot;btn primary&quot; onclick=&quot;window.print()&quot;>인쇄 / PDF 저장</button>
+    <button class=&quot;btn&quot; onclick=&quot;resetAll()&quot;>초기화</button>
+  </div>
+
+  <div class=&quot;note&quot;><b>채점 원칙</b> 세 영역은 소리·형식(Ⅰ) / 의미·기능(Ⅱ) / 태도(Ⅲ)로 독립 평가합니다. 운율은 ‘안 들릴 정도면 Ⅰ, 다 들리는데 못 살리면 Ⅱ’의 바닥선·천장 기준으로 가릅니다. 같은 현상을 두 영역에서 기계적으로 두 번 깎지 않되, 소리도 못 넘고 내용도 못 살린 진짜 이중 결함은 각 영역에 따로 반영합니다. 발표 시간 길이, 영어 난이도, 원고의 화려함 자체는 가점·감점 사유가 아닙니다.</div>
+
+</div>
+
+<script>
+  var hints = {
+    info:'<b>정보 설명형</b> — 설명 순서·핵심 정보의 명확성, 중요한 부분에서의 속도·강조 조절을 중심으로 본다. 정보가 많다고 좋은 발표는 아니다.',
+    exp:'<b>경험 공유형</b> — 자기 생각·감정의 자연스러운 드러남과 자기화된 전달을 중심으로 본다. 쉬운 문장이라도 메시지가 분명하면 좋다.',
+    arg:'<b>주장·설득형</b> — 주장-근거의 연결, 설득 포인트에 맞는 강조·멈춤, 결론의 분명함을 중심으로 본다.',
+    story:'<b>창의 스토리형</b> — 이야기 전개의 이해 가능성, 표정·억양·멈춤이 분위기와 어울리는지를 본다. 소재의 독특함 자체로 가점하지 않는다. 자기화는 ‘읽는’ 느낌이 아니라 ‘들려주는’ 느낌 — 이야기의 감정을 발표자가 느끼며 전달하는지로 본다.'
+  };
+  var gradeHints = {
+    elem_low:'<b>초등 저학년</b> — 짧고 단순한 문장 중심이어도 무방하다. 기본 정보 전달·문장 완결성·또렷한 발음과 자연스러운 흐름이 중요하다. 어려운 표현보다 자기 수준에서 명확하고 안정감 있게 전달하는지를 본다.',
+    elem_high:'<b>초등 고학년</b> — 단순 문장 반복보다 이유·경험·설명의 연결이 어느 정도 드러나면 바람직하다. 매우 쉬운 문장만 반복되어 발표의 밀도·전개가 제한되면 최고점(4)은 신중하게 판단한다.',
+    mid:'<b>중등</b> — 학년 수준에 맞는 어휘·문장 연결·전개가 드러나는 발표를 균형 있게 평가한다. 매우 짧고 단순한 초저 수준 문장만으로 구성되면 유창해도 표현 폭·전개 측면에서 최고점(4)은 어렵다. 다소 비유창해도 수준에 맞는 표현으로 메시지가 이해 가능하면 긍정적으로 본다.'
+  };
+
+  // 발표 유형: 복수 선택, 첫 선택이 주 유형
+  function renderTypeHint(){
+    var ons = Array.prototype.map.call(document.querySelectorAll('.pill.on'), function(p){return p;});
+    var hint = document.getElementById('typehint');
+    if(!ons.length){ hint.classList.remove('show'); hint.innerHTML=''; return; }
+    hint.innerHTML = ons.map(function(p){ return hints[p.dataset.type]; }).join('<hr style=&quot;border:none;border-top:1px dashed var(--line);margin:8px 0&quot;>');
+    hint.classList.add('show');
+  }
+  document.querySelectorAll('.pill').forEach(function(p){
+    p.addEventListener('click',function(){
+      p.classList.toggle('on');
+      // 주 유형 표시: 켜진 칩 중 DOM상 첫 번째
+      document.querySelectorAll('.pill').forEach(function(x){x.classList.remove('primary-type')});
+      var firstOn = document.querySelector('.pill.on');
+      if(firstOn) firstOn.classList.add('primary-type');
+      renderTypeHint();
+    });
+  });
+
+  // 학년군: 단일 선택
+  document.querySelectorAll('.gpill').forEach(function(p){
+    p.addEventListener('click',function(){
+      var on=p.classList.contains('on');
+      document.querySelectorAll('.gpill').forEach(function(x){x.classList.remove('on')});
+      var hint=document.getElementById('gradehint');
+      if(on){hint.classList.remove('show');hint.innerHTML='';}
+      else{p.classList.add('on');hint.innerHTML=gradeHints[p.dataset.grade];hint.classList.add('show');}
+    });
+  });
+
+  function recompute(){
+    var total=0;
+    for(var a=1;a<=3;a++){
+      var sel=document.querySelector('input[name=&quot;area'+a+'&quot;]:checked');
+      var v=sel?parseInt(sel.value):0;
+      var disp=sel?v:'–';
+      document.querySelector('[data-badge=&quot;'+a+'&quot;]').textContent=disp;
+      document.getElementById('b'+a).textContent=disp;
+      document.getElementById('t'+a).textContent=disp;
+      document.querySelector('.area[data-area=&quot;'+a+'&quot;]').classList.toggle('done',!!sel);
+      // 같은 영역 내 sel 클래스 동기화(엣지 케이스 방지)
+      document.querySelectorAll('input[name=&quot;area'+a+'&quot;]').forEach(function(o){
+        o.closest('.row').classList.toggle('sel',o.checked);
+      });
+      if(sel){total+=v;}
+    }
+    document.getElementById('g').textContent=total;
+    document.getElementById('tg').textContent=total;
+  }
+  document.querySelectorAll('.row input').forEach(function(inp){
+    inp.addEventListener('change',recompute);
+  });
+  function resetAll(){
+    document.querySelectorAll('.row input').forEach(function(i){i.checked=false;i.closest('.row').classList.remove('sel')});
+    document.querySelectorAll('textarea,.meta input').forEach(function(i){i.value=''});
+    document.querySelectorAll('.pill,.gpill').forEach(function(p){p.classList.remove('on');p.classList.remove('primary-type')});
+    document.getElementById('typehint').classList.remove('show');
+    document.getElementById('gradehint').classList.remove('show');
+    recompute();
+  }
+  recompute();
+</script>
+</body>
+</html>
+"></iframe></div>
+    <div class="pane" data-pane="round2"><iframe title="2차 채점지" srcdoc="<!DOCTYPE html>
+<html lang=&quot;ko&quot;>
+<head>
+<meta charset=&quot;UTF-8&quot;>
+<meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;>
+<title>윤선생 리얼스피치 2026 — 2차 최종 심사지 (최상위 수상자 선별)</title>
+<link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;>
+<link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin>
+<link href=&quot;https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap&quot; rel=&quot;stylesheet&quot;>
+<style>
+  :root{
+    --paper:#FAF7F0; --card:#FFFFFF; --ink:#23211C; --ink-soft:#5B574E; --ink-faint:#8A857A;
+    --line:#E2DBCB; --line-soft:#EDE8DC; --accent:#1F6E56; --accent-deep:#0F4F3C;
+    --accent-soft:#E6F0EB; --gold:#A9802F; --gold-soft:#F4EAD3; --gold-deep:#6B4E16;
+    --warn:#B45309; --warn-soft:#FEF0DC; --tie:#9A3412; --tie-soft:#FDE8DC;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'IBM Plex Sans KR',sans-serif;color:var(--ink);background:var(--paper);
+    line-height:1.65;-webkit-font-smoothing:antialiased;padding:30px 16px 90px}
+  .sheet{max-width:960px;margin:0 auto;background:var(--card);border:1px solid var(--line);
+    border-radius:6px;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.02)}
+
+  /* Sticky bar */
+  .ticker{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;
+    gap:12px;padding:11px 26px;background:var(--accent-deep);color:#fff;font-size:13.5px}
+  .ticker .legs{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  .ticker .leg{opacity:.82}
+  .ticker .leg b{font-weight:600;opacity:1}
+  .ticker .grand{font-family:'Noto Serif KR',serif;font-size:21px;font-weight:600}
+  .ticker .grand small{font-size:12px;font-weight:400;opacity:.7;margin-left:2px}
+  .wtoggle{display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer;user-select:none;
+    background:rgba(255,255,255,.1);padding:5px 11px;border-radius:30px}
+  .wtoggle .sw{width:30px;height:17px;border-radius:30px;background:rgba(255,255,255,.28);position:relative;transition:.18s}
+  .wtoggle .sw::after{content:&quot;&quot;;position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:#fff;transition:.18s}
+  .wtoggle.on .sw{background:var(--gold)}
+  .wtoggle.on .sw::after{left:15px}
+
+  /* Header */
+  header{padding:32px 38px 20px;border-bottom:2px solid var(--ink);position:relative}
+  header::after{content:&quot;&quot;;position:absolute;left:38px;right:38px;bottom:-6px;height:1px;background:var(--ink)}
+  .kicker{font-size:12px;letter-spacing:3px;color:var(--accent);font-weight:600;text-transform:uppercase}
+  header h1{font-family:'Noto Serif KR',serif;font-weight:600;font-size:25px;margin-top:6px;letter-spacing:-.5px}
+  header .lead{color:var(--ink-soft);font-size:13.5px;margin-top:8px;max-width:680px}
+  .layers{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+  .lchip{font-size:11.5px;padding:4px 11px;border-radius:5px;background:var(--accent-soft);color:var(--accent-deep)}
+  .lchip.gold{background:var(--gold-soft);color:var(--gold-deep)}
+  .lchip b{font-weight:600}
+
+  /* Meta */
+  .meta{padding:20px 38px;border-bottom:1px solid var(--line);display:grid;
+    grid-template-columns:repeat(3,1fr);gap:14px 30px}
+  .field{display:flex;align-items:baseline;gap:9px}
+  .field label{font-size:12.5px;color:var(--ink-faint);min-width:54px;font-weight:500}
+  .field input{flex:1;border:none;border-bottom:1px solid var(--line);background:transparent;
+    font-family:inherit;font-size:14px;color:var(--ink);padding:4px 2px;outline:none}
+  .field input:focus{border-bottom-color:var(--accent)}
+
+  /* Judges control */
+  .judgebar{padding:16px 38px;border-bottom:1px solid var(--line);background:#FBF9F3;
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .judgebar .lab{font-size:12.5px;color:var(--ink-faint);font-weight:600}
+  .jtabs{display:flex;gap:6px;flex-wrap:wrap}
+  .jtab{font-size:13px;padding:6px 14px;border:1px solid var(--line);border-radius:6px;cursor:pointer;
+    background:#fff;color:var(--ink-soft);transition:.13s;font-family:inherit}
+  .jtab:hover{border-color:var(--accent)}
+  .jtab.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+  .jbtn{font-family:inherit;font-size:12.5px;padding:6px 12px;border:1px dashed var(--line);
+    border-radius:6px;cursor:pointer;background:#fff;color:var(--ink-faint)}
+  .jbtn:hover{border-color:var(--accent);color:var(--accent-deep)}
+
+  /* Area */
+  .area{padding:24px 38px;border-bottom:1px solid var(--line)}
+  .ahead{display:flex;align-items:flex-start;gap:13px;margin-bottom:10px}
+  .num{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:600;color:#fff;background:var(--ink);
+    width:29px;height:29px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:1px}
+  .atitle{font-family:'Noto Serif KR',serif;font-size:18px;font-weight:600;letter-spacing:-.3px}
+  .atitle .w{font-family:'IBM Plex Sans KR',sans-serif;font-size:11px;font-weight:600;color:var(--gold-deep);
+    background:var(--gold-soft);border-radius:4px;padding:1px 7px;margin-left:8px;display:none}
+  .atitle .w.show{display:inline-block}
+  .afocus{font-size:12.5px;color:var(--ink-faint);margin-top:2px}
+  .ascore{margin-left:auto;text-align:right;white-space:nowrap;margin-top:1px}
+  .ascore .v{font-family:'Noto Serif KR',serif;font-size:22px;font-weight:600;color:var(--ink-faint)}
+  .ascore .spread{display:block;font-size:11px;color:var(--ink-faint);margin-top:1px}
+  .ascore .spread.hot{color:var(--tie);font-weight:600}
+  .area.done .ascore .v{color:var(--accent-deep)}
+
+  /* 0.5-step scale buttons */
+  .steps{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px}
+  .step{flex:1;min-width:62px;font-family:'Noto Serif KR',serif;font-size:17px;font-weight:600;
+    padding:11px 4px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink-faint);
+    cursor:pointer;transition:.12s;text-align:center}
+  .step:hover{border-color:var(--accent);background:#FBF9F4}
+  .step.half{color:var(--ink-faint);font-size:14px}
+  .step.sel{background:var(--accent);border-color:var(--accent);color:#fff}
+  .anchor{margin-top:9px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .anchor .a{font-size:12px;color:var(--ink-soft);background:#FBF9F3;border:1px solid var(--line-soft);
+    border-radius:6px;padding:8px 11px;line-height:1.5}
+  .anchor .a b{color:var(--ink);font-weight:600}
+  .scalehint{font-size:11.5px;color:var(--ink-faint);margin-top:7px}
+
+  /* per-area comment */
+
+  .qmemo{margin-top:11px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .qmemo .box label{font-size:11.5px;font-weight:600;display:block;margin-bottom:4px}
+  .qmemo .box.plus label{color:var(--accent-deep)}
+  .qmemo .box.minus label{color:var(--warn)}
+  .qmemo textarea{width:100%;min-height:42px;border:1px solid var(--line);border-radius:6px;
+    font-family:inherit;font-size:12.5px;color:var(--ink);padding:7px 9px;resize:vertical;outline:none;background:#fff}
+  .qmemo textarea:focus{border-color:var(--accent)}
+  .reqflag{font-size:11px;color:var(--warn);margin-left:5px;display:none}
+  .reqflag.show{display:inline}
+
+  /* Aggregate panel */
+  .agg{padding:22px 38px;background:#F7F4ED;border-bottom:1px solid var(--line)}
+  .agg h3{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:600;margin-bottom:4px}
+  .agg .sub{font-size:11.5px;color:var(--ink-faint);margin-bottom:12px}
+  .aggrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .aggcell{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+  .aggcell .k{font-size:11.5px;color:var(--ink-faint);font-weight:500}
+  .aggcell .n{font-family:'Noto Serif KR',serif;font-size:24px;font-weight:700;color:var(--accent-deep);margin-top:2px}
+  .aggcell .n small{font-size:13px;color:var(--ink-faint);font-weight:500}
+  .aggcell.hot{border-color:var(--tie);background:var(--tie-soft)}
+  .aggcell.hot .k{color:var(--tie);font-weight:600}
+  .aggcell .dv{font-size:11px;color:var(--ink-faint);margin-top:3px}
+  .aggcell.hot .dv{color:var(--tie);font-weight:600}
+
+  /* Save to ranking */
+  .ranksave{padding:18px 38px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+  .btn{font-family:inherit;font-size:13.5px;font-weight:500;padding:10px 18px;border-radius:6px;cursor:pointer;
+    border:1px solid var(--line);background:#fff;color:var(--ink-soft);transition:.15s}
+  .btn:hover{border-color:var(--accent);color:var(--accent-deep)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn.primary:hover{background:var(--accent-deep)}
+  .savehint{font-size:11.5px;color:var(--ink-faint)}
+
+  /* Ranking table */
+  .rank{padding:22px 38px 8px}
+  .rank h3{font-family:'Noto Serif KR',serif;font-size:16px;font-weight:600;margin-bottom:3px}
+  .rank .sub{font-size:11.5px;color:var(--ink-faint);margin-bottom:12px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line-soft)}
+  th{font-size:11.5px;color:var(--ink-faint);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+  td.r{font-family:'Noto Serif KR',serif;font-weight:600;color:var(--accent-deep)}
+  td.tot{font-family:'Noto Serif KR',serif;font-weight:600}
+  tr.tie td{background:var(--tie-soft)}
+  .tiebadge{display:inline-block;font-size:10.5px;font-weight:600;background:var(--tie);color:#fff;
+    border-radius:4px;padding:1px 6px;margin-left:6px}
+  .delx{cursor:pointer;color:var(--ink-faint);font-weight:600;border:none;background:none;font-size:14px}
+  .delx:hover{color:var(--tie)}
+  .empty{font-size:12.5px;color:var(--ink-faint);padding:14px 0}
+  .cut{border-bottom:2px dashed var(--gold)!important}
+  .cutrow td{font-size:11px;color:var(--gold-deep);background:var(--gold-soft);text-align:center;font-weight:600}
+
+  .actions{padding:18px 38px 26px;display:flex;gap:10px}
+  .note{padding:0 38px 28px;font-size:11.5px;color:var(--ink-faint);line-height:1.65}
+  .note b{color:var(--ink-soft);font-weight:600}
+
+  @media(max-width:680px){
+    body{padding:18px 8px 70px}
+    header,.meta,.area,.agg,.rank,.actions,.note,.judgebar,.ranksave{padding-left:18px;padding-right:18px}
+    .ticker{padding-left:18px;padding-right:18px}
+    .meta{grid-template-columns:1fr}
+    .aggrid{grid-template-columns:repeat(2,1fr)}
+    .anchor,.qmemo{grid-template-columns:1fr}
+    .step{min-width:44px;font-size:15px;padding:9px 2px}
+  }
+  @media print{
+    body{background:#fff;padding:0}
+    .sheet{border:none;box-shadow:none;max-width:none}
+    .ticker,.actions,.ranksave .btn,.jbtn,.delx{display:none}
+    .area,.meta,header,.agg,.rank{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div class=&quot;sheet&quot;>
+
+  <div class=&quot;ticker&quot;>
+    <div class=&quot;legs&quot;>
+      <span class=&quot;leg&quot;>Ⅰ <b id=&quot;t1&quot;>–</b></span>
+      <span class=&quot;leg&quot;>Ⅱ <b id=&quot;t2&quot;>–</b></span>
+      <span class=&quot;leg&quot;>Ⅲ <b id=&quot;t3&quot;>–</b></span>
+      <span class=&quot;leg&quot; style=&quot;opacity:.5&quot;>|</span>
+      <span class=&quot;leg&quot; id=&quot;tjudge&quot;>심사위원 1</span>
+    </div>
+    <div style=&quot;display:flex;align-items:center;gap:14px&quot;>
+      <div class=&quot;wtoggle&quot; id=&quot;wtoggle&quot;><span class=&quot;sw&quot;></span><span>Ⅱ 가중치 ×1.5</span></div>
+      <span class=&quot;grand&quot;><span id=&quot;tg&quot;>0</span><small> / <span id=&quot;tmax&quot;>12</span></small></span>
+    </div>
+  </div>
+
+  <header>
+    <div class=&quot;kicker&quot;>RealSpeech · Round 2 · Finalist Selection</div>
+    <h1>2차 최종 심사지 — 최상위 수상자 선별</h1>
+    <p class=&quot;lead&quot;>1차를 통과한 상위권 발표를 정밀 변별하기 위한 채점지입니다. 같은 세 영역을 <b>0.5점 단위(1~4)</b>로 더 촘촘히 평가하고, 다수 심사위원의 독립 채점을 합산해 토론 합의의 근거로 사용합니다.</p>
+    <div class=&quot;layers&quot;>
+      <span class=&quot;lchip&quot;><b>0.5 단위</b> 정밀 척도</span>
+      <span class=&quot;lchip&quot;>독립 채점 → 합산 → 토론 합의</span>
+      <span class=&quot;lchip gold&quot;><b>가중치</b> 옵션 (기본 OFF)</span>
+      <span class=&quot;lchip&quot;><b>동점</b> 타이브레이커 Ⅱ→Ⅰ→Ⅲ</span>
+    </div>
+  </header>
+
+  <div class=&quot;meta&quot;>
+    <div class=&quot;field&quot;><label>참가자명</label><input type=&quot;text&quot; id=&quot;pname&quot;></div>
+    <div class=&quot;field&quot;><label>참가번호</label><input type=&quot;text&quot; id=&quot;pno&quot;></div>
+    <div class=&quot;field&quot;><label>심사일</label><input type=&quot;text&quot; placeholder=&quot;2026. .  .&quot;></div>
+  </div>
+
+  <div class=&quot;judgebar&quot;>
+    <span class=&quot;lab&quot;>심사위원</span>
+    <div class=&quot;jtabs&quot; id=&quot;jtabs&quot;></div>
+    <button class=&quot;jbtn&quot; id=&quot;addjudge&quot;>+ 심사위원 추가</button>
+    <span class=&quot;savehint&quot; style=&quot;margin-left:auto&quot;>각 심사위원이 독립적으로 채점합니다. 탭을 전환해 입력하세요.</span>
+  </div>
+
+  <!-- Ⅰ -->
+  <section class=&quot;area&quot; data-area=&quot;1&quot;>
+    <div class=&quot;ahead&quot;>
+      <div class=&quot;num&quot;>Ⅰ</div>
+      <div>
+        <div class=&quot;atitle&quot;>언어 표현력 <span class=&quot;afocus&quot; style=&quot;display:inline&quot;>소리·형식 층</span></div>
+        <div class=&quot;afocus&quot;>발음 / 억양 / 발화 흐름 / 정확성 / 이해 가능성</div>
+      </div>
+      <div class=&quot;ascore&quot;><span class=&quot;v&quot; data-v=&quot;1&quot;>–</span><span class=&quot;spread&quot; data-sp=&quot;1&quot;></span></div>
+    </div>
+    <div class=&quot;steps&quot; data-steps=&quot;1&quot;></div>
+    <div class=&quot;anchor&quot;>
+      <div class=&quot;a&quot;><b>3.5~4</b> 단어가 또렷하고 억양도 자연스러우며 막힘이 없다. 귀로만 들어도 또렷이 따라간다.</div>
+      <div class=&quot;a&quot;><b>2.5~3</b> 일부 어색하거나 끊김·오류가 있으나 이해에 큰 어려움은 없다.</div>
+    </div>
+    <div class=&quot;scalehint&quot;>2차에서는 “1차 4점과 4점 사이”를 0.5로 갈라 상위권을 변별합니다. 같은 4점이라도 흠 없는 4와 아쉬운 3.5를 구분하세요.</div>
+    <div class=&quot;qmemo&quot;>
+      <div class=&quot;box plus&quot;><label>결정적 강점 <span class=&quot;reqflag&quot; data-req=&quot;1p&quot;>· 입력 권장</span></label><textarea data-memo=&quot;1p&quot;></textarea></div>
+      <div class=&quot;box minus&quot;><label>감점 요인</label><textarea data-memo=&quot;1m&quot;></textarea></div>
+    </div>
+  </section>
+
+  <!-- Ⅱ -->
+  <section class=&quot;area&quot; data-area=&quot;2&quot;>
+    <div class=&quot;ahead&quot;>
+      <div class=&quot;num&quot;>Ⅱ</div>
+      <div>
+        <div class=&quot;atitle&quot;>전달 완성도 <span class=&quot;w&quot; id=&quot;w2&quot;>×1.5</span></div>
+        <div class=&quot;afocus&quot;>구조·흐름 / 발표 소화도 / 자기화(나의 생각·관점) / 완급·멈춤·강조 / 청중 이해 용이성</div>
+      </div>
+      <div class=&quot;ascore&quot;><span class=&quot;v&quot; data-v=&quot;2&quot;>–</span><span class=&quot;spread&quot; data-sp=&quot;2&quot;></span></div>
+    </div>
+    <div class=&quot;steps&quot; data-steps=&quot;2&quot;></div>
+    <div class=&quot;anchor&quot;>
+      <div class=&quot;a&quot;><b>3.5~4</b> 내용을 충분히 소화해 자기 말처럼 전달하고, 자기 생각·경험·관점이 자연스럽게 녹아 있다. 완급·멈춤·강조가 살아 메시지가 쉽게 박힌다.</div>
+      <div class=&quot;a&quot;><b>2.5~3</b> 흐름·핵심은 잡히나 가져온 글을 읽는 인상이 일부 남고, 자기 생각이 옅거나 조절이 빠진 곳이 있다.</div>
+    </div>
+    <div class=&quot;scalehint&quot;>상위권 변별의 핵심 영역입니다. 특히 <b>자기화</b>(잘 읽기 vs 자기 생각 담기)와 전달 조절의 차이를 0.5 단위로 섬세하게 가르세요. 정보형은 주제 선택 이유·자기 경험 연결·느낌으로, 창의 스토리형은 이야기를 ‘읽는’지 ‘들려주는’지(감정을 느끼며 전달하는지)로 자기화를 봅니다.</div>
+    <div class=&quot;qmemo&quot;>
+      <div class=&quot;box plus&quot;><label>결정적 강점 <span class=&quot;reqflag&quot; data-req=&quot;2p&quot;>· 입력 권장</span></label><textarea data-memo=&quot;2p&quot;></textarea></div>
+      <div class=&quot;box minus&quot;><label>감점 요인</label><textarea data-memo=&quot;2m&quot;></textarea></div>
+    </div>
+  </section>
+
+  <!-- Ⅲ -->
+  <section class=&quot;area&quot; data-area=&quot;3&quot;>
+    <div class=&quot;ahead&quot;>
+      <div class=&quot;num&quot;>Ⅲ</div>
+      <div>
+        <div class=&quot;atitle&quot;>발표 수행력 <span class=&quot;afocus&quot; style=&quot;display:inline&quot;>태도·시각 층</span></div>
+        <div class=&quot;afocus&quot;>시선 / 표정 / 제스처 / 자세 / 자신감 / 완수</div>
+      </div>
+      <div class=&quot;ascore&quot;><span class=&quot;v&quot; data-v=&quot;3&quot;>–</span><span class=&quot;spread&quot; data-sp=&quot;3&quot;></span></div>
+    </div>
+    <div class=&quot;steps&quot; data-steps=&quot;3&quot;></div>
+    <div class=&quot;anchor&quot;>
+      <div class=&quot;a&quot;><b>3.5~4</b> 시선·자세가 안정적이고 자신감이 느껴지며 끝까지 안정적으로 마무리해 몰입된다.</div>
+      <div class=&quot;a&quot;><b>2.5~3</b> 대체로 차분히 마치나 시선 흔들림·어색함이 일부 있다.</div>
+    </div>
+    <div class=&quot;scalehint&quot;>발표를 끝까지 마치지 못했거나 제출 영상 뒷부분이 잘려 마무리되지 않은 경우 발표 완수에서 감점합니다.</div>
+    <div class=&quot;qmemo&quot;>
+      <div class=&quot;box plus&quot;><label>결정적 강점</label><textarea data-memo=&quot;3p&quot;></textarea></div>
+      <div class=&quot;box minus&quot;><label>감점 요인</label><textarea data-memo=&quot;3m&quot;></textarea></div>
+    </div>
+  </section>
+
+  <!-- Aggregate -->
+  <div class=&quot;agg&quot;>
+    <h3>심사위원 합산 (현재 참가자)</h3>
+    <div class=&quot;sub&quot;>아래는 입력된 모든 심사위원 점수의 평균입니다. 영역 편차가 큰 곳(<b>≥1.0</b>)은 의견이 갈린 지점이므로 토론 우선 안건으로 표시됩니다.</div>
+    <div class=&quot;aggrid&quot;>
+      <div class=&quot;aggcell&quot; data-agg=&quot;1&quot;><div class=&quot;k&quot;>Ⅰ 언어 표현력</div><div class=&quot;n&quot;>–</div><div class=&quot;dv&quot;></div></div>
+      <div class=&quot;aggcell&quot; data-agg=&quot;2&quot;><div class=&quot;k&quot;>Ⅱ 전달 완성도</div><div class=&quot;n&quot;>–</div><div class=&quot;dv&quot;></div></div>
+      <div class=&quot;aggcell&quot; data-agg=&quot;3&quot;><div class=&quot;k&quot;>Ⅲ 발표 수행력</div><div class=&quot;n&quot;>–</div><div class=&quot;dv&quot;></div></div>
+      <div class=&quot;aggcell&quot; data-agg=&quot;g&quot;><div class=&quot;k&quot;>합산 총점</div><div class=&quot;n&quot;>–</div><div class=&quot;dv&quot;></div></div>
+    </div>
+  </div>
+
+  <div class=&quot;ranksave&quot;>
+    <button class=&quot;btn primary&quot; id=&quot;savebtn&quot;>이 참가자 순위표에 저장</button>
+    <button class=&quot;btn&quot; id=&quot;clearbtn&quot;>현재 참가자 입력 초기화</button>
+    <span class=&quot;savehint&quot;>저장하면 아래 순위표에 합산 점수로 자동 정렬됩니다.</span>
+  </div>
+
+  <!-- Ranking -->
+  <div class=&quot;rank&quot;>
+    <h3>최종 순위 (합산 기준 자동 정렬)</h3>
+    <div class=&quot;sub&quot;>동점 시 <b>Ⅱ → Ⅰ → Ⅲ</b> 순으로 자동 정렬하되, 동점은 표시만 하고 최종 결정은 토론 합의로 합니다. 점선은 최상위 수상자 컷(상위 36명)입니다.</div>
+    <table id=&quot;ranktable&quot;>
+      <thead><tr><th>순위</th><th>참가자</th><th>Ⅰ</th><th>Ⅱ</th><th>Ⅲ</th><th>총점</th><th></th></tr></thead>
+      <tbody id=&quot;rankbody&quot;><tr><td colspan=&quot;7&quot; class=&quot;empty&quot;>아직 저장된 참가자가 없습니다.</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class=&quot;actions&quot;>
+    <button class=&quot;btn primary&quot; onclick=&quot;window.print()&quot;>인쇄 / PDF 저장</button>
+    <button class=&quot;btn&quot; id=&quot;resetall&quot;>전체 초기화</button>
+  </div>
+
+  <div class=&quot;note&quot;><b>채점 원칙</b> 2차는 1차를 통과한 상위권을 정밀 변별하는 단계입니다. 척도를 0.5 단위로 넓혀 천장에 몰린 점수를 가르고, 다수 심사위원의 독립 채점을 합산해 토론의 출발점으로 삼습니다. 점수는 순위를 못 박지 않으며 최종 결정은 합의로 이뤄집니다. <b>가중치(Ⅱ×1.5)</b>는 기본 꺼져 있으며, 전달 완성도로 변별하자는 합의가 있을 때만 켜서 참고합니다. <b>정성 코멘트</b>(결정적 강점/감점 요인)는 토론에서 점수 차의 근거를 제시하기 위한 것이므로 가능한 한 채워주세요.</div>
+
+</div>
+
+<script>
+(function(){
+  var SCALE=[1,1.5,2,2.5,3,3.5,4];
+  var weightOn=false;
+  var W={1:1,2:1.5,3:1};               // 가중치 ON일 때 Ⅱ
+  var judges=[{scores:{1:null,2:null,3:null}, memos:{}}];
+  var cur=0;                            // 현재 심사위원 index
+  var players=[];                       // 저장된 참가자
+
+  // ---- 척도 버튼 생성 ----
+  document.querySelectorAll('.steps').forEach(function(box){
+    var area=box.dataset.steps;
+    SCALE.forEach(function(v){
+      var b=document.createElement('button');
+      b.className='step'+(v%1?' half':'');
+      b.textContent=v;
+      b.dataset.val=v; b.dataset.area=area;
+      b.addEventListener('click',function(){
+        judges[cur].scores[area]=v;
+        renderSteps(); recompute();
+      });
+      box.appendChild(b);
+    });
+  });
+  function renderSteps(){
+    document.querySelectorAll('.step').forEach(function(b){
+      var sel=judges[cur].scores[b.dataset.area];
+      b.classList.toggle('sel', sel!==null && parseFloat(b.dataset.val)===sel);
+    });
+  }
+
+  // ---- 가중치 토글 ----
+  var wt=document.getElementById('wtoggle');
+  wt.addEventListener('click',function(){
+    weightOn=!weightOn;
+    wt.classList.toggle('on',weightOn);
+    document.getElementById('w2').classList.toggle('show',weightOn);
+    recompute(); renderRank();
+  });
+  function wOf(area){ return weightOn?W[area]:1; }
+  function maxScore(){ return 4*(wOf(1)+wOf(2)+wOf(3)); }
+
+  // ---- 심사위원 탭 ----
+  function renderJudgeTabs(){
+    var box=document.getElementById('jtabs'); box.innerHTML='';
+    judges.forEach(function(j,i){
+      var t=document.createElement('button');
+      t.className='jtab'+(i===cur?' on':''); t.textContent='심사위원 '+(i+1);
+      t.addEventListener('click',function(){ saveMemos(); cur=i; loadJudge(); });
+      box.appendChild(t);
+    });
+    document.getElementById('tjudge').textContent='심사위원 '+(cur+1);
+  }
+  document.getElementById('addjudge').addEventListener('click',function(){
+    saveMemos(); judges.push({scores:{1:null,2:null,3:null}, memos:{}});
+    cur=judges.length-1; renderJudgeTabs(); loadJudge();
+  });
+  function loadJudge(){
+    renderJudgeTabs(); renderSteps();
+    // 메모 복원
+    document.querySelectorAll('[data-memo]').forEach(function(t){
+      t.value=judges[cur].memos[t.dataset.memo]||'';
+    });
+    recompute();
+  }
+  function saveMemos(){
+    document.querySelectorAll('[data-memo]').forEach(function(t){
+      judges[cur].memos[t.dataset.memo]=t.value;
+    });
+  }
+  document.querySelectorAll('[data-memo]').forEach(function(t){
+    t.addEventListener('input',function(){ judges[cur].memos[t.dataset.memo]=t.value; checkReq(); });
+  });
+
+  // ---- 합산 계산 ----
+  function aggregate(){
+    var sums={1:0,2:0,3:0}, cnts={1:0,2:0,3:0}, mins={1:9,2:9,3:9}, maxs={1:0,2:0,3:0};
+    judges.forEach(function(j){
+      [1,2,3].forEach(function(a){
+        var v=j.scores[a];
+        if(v!==null){ sums[a]+=v; cnts[a]++; mins[a]=Math.min(mins[a],v); maxs[a]=Math.max(maxs[a],v); }
+      });
+    });
+    var avg={}, spread={};
+    [1,2,3].forEach(function(a){
+      avg[a]= cnts[a]? sums[a]/cnts[a] : null;
+      spread[a]= cnts[a]>1 ? maxs[a]-mins[a] : 0;
+    });
+    return {avg:avg, spread:spread};
+  }
+
+  function recompute(){
+    // 현재 심사위원 점수 → 티커
+    var s=judges[cur].scores, total=0, anyNull=false;
+    [1,2,3].forEach(function(a){
+      var v=s[a];
+      document.getElementById('t'+a).textContent = v===null?'–':v;
+      if(v===null) anyNull=true; else total+=v*wOf(a);
+    });
+    document.getElementById('tg').textContent = (Math.round(total*10)/10);
+    document.getElementById('tmax').textContent = maxScore();
+
+    // 합산 패널 + 영역 헤더
+    var ag=aggregate();
+    [1,2,3].forEach(function(a){
+      var av=ag.avg[a], sp=ag.spread[a];
+      var vEl=document.querySelector('[data-v=&quot;'+a+'&quot;]'),
+          spEl=document.querySelector('[data-sp=&quot;'+a+'&quot;]'),
+          cell=document.querySelector('[data-agg=&quot;'+a+'&quot;]');
+      vEl.textContent = av===null?'–':(Math.round(av*100)/100);
+      document.querySelector('.area[data-area=&quot;'+a+'&quot;]').classList.toggle('done', s[a]!==null);
+      if(judges.length>1 && sp>0){
+        spEl.textContent='편차 '+sp; spEl.classList.toggle('hot',sp>=1);
+      } else { spEl.textContent=''; spEl.classList.remove('hot'); }
+      cell.querySelector('.n').innerHTML = av===null?'–':(Math.round(av*100)/100)+(weightOn&&a==2?'<small> ×1.5</small>':'');
+      cell.querySelector('.dv').textContent = (judges.length>1 && sp>0)?('심사위원 편차 '+sp):'';
+      cell.classList.toggle('hot', judges.length>1 && sp>=1);
+    });
+    // 합산 총점
+    var gcell=document.querySelector('[data-agg=&quot;g&quot;]');
+    var allHave=[1,2,3].every(function(a){return ag.avg[a]!==null;});
+    var gtot = allHave ? [1,2,3].reduce(function(t,a){return t+ag.avg[a]*wOf(a);},0):null;
+    gcell.querySelector('.n').innerHTML = gtot===null?'–':(Math.round(gtot*100)/100)+'<small> / '+maxScore()+'</small>';
+    checkReq();
+  }
+
+  // ---- 강점 코멘트 권장 플래그(점수는 줬는데 강점 코멘트 비어있으면 안내) ----
+  function checkReq(){
+    [1,2].forEach(function(a){
+      var scored=judges[cur].scores[a]!==null;
+      var empty=!(judges[cur].memos[a+'p']||'').trim();
+      var f=document.querySelector('[data-req=&quot;'+a+'p&quot;]');
+      if(f) f.classList.toggle('show', scored && empty);
+    });
+  }
+
+  // ---- 저장 → 순위표 ----
+  function curAggTotal(){
+    var ag=aggregate();
+    if(![1,2,3].every(function(a){return ag.avg[a]!==null;})) return null;
+    var total=[1,2,3].reduce(function(t,a){return t+ag.avg[a]*wOf(a);},0);
+    return {avg:ag.avg, total:Math.round(total*100)/100};
+  }
+  document.getElementById('savebtn').addEventListener('click',function(){
+    saveMemos();
+    var name=document.getElementById('pname').value.trim()||('참가자 '+(players.length+1));
+    var no=document.getElementById('pno').value.trim();
+    var r=curAggTotal();
+    if(!r){ alert('모든 영역(Ⅰ·Ⅱ·Ⅲ)에 최소 한 명 이상의 심사위원 점수가 필요합니다.'); return; }
+    players.push({name:name, no:no, avg:r.avg, total:r.total});
+    renderRank();
+    clearCurrent();
+  });
+  document.getElementById('clearbtn').addEventListener('click',clearCurrent);
+  function clearCurrent(){
+    judges=[{scores:{1:null,2:null,3:null}, memos:{}}]; cur=0;
+    document.getElementById('pname').value=''; document.getElementById('pno').value='';
+    document.querySelectorAll('[data-memo]').forEach(function(t){t.value='';});
+    renderJudgeTabs(); renderSteps(); recompute();
+  }
+
+  function cmp(a,b){
+    if(b.total!==a.total) return b.total-a.total;
+    if(b.avg[2]!==a.avg[2]) return b.avg[2]-a.avg[2];   // Ⅱ
+    if(b.avg[1]!==a.avg[1]) return b.avg[1]-a.avg[1];   // Ⅰ
+    return b.avg[3]-a.avg[3];                            // Ⅲ
+  }
+  function renderRank(){
+    // 가중치 변경 시 총점 재계산
+    players.forEach(function(p){
+      p.total=Math.round([1,2,3].reduce(function(t,a){return t+p.avg[a]*wOf(a);},0)*100)/100;
+    });
+    var arr=players.slice().sort(cmp);
+    var body=document.getElementById('rankbody'); body.innerHTML='';
+    if(!arr.length){ body.innerHTML='<tr><td colspan=&quot;7&quot; class=&quot;empty&quot;>아직 저장된 참가자가 없습니다.</td></tr>'; return; }
+    arr.forEach(function(p,i){
+      // 동점 판정: 바로 위/아래와 total 동일
+      var tie=(i>0&&arr[i-1].total===p.total)||(i<arr.length-1&&arr[i+1].total===p.total);
+      var tr=document.createElement('tr'); if(tie) tr.className='tie';
+      tr.innerHTML='<td class=&quot;r&quot;>'+(i+1)+'</td>'+
+        '<td>'+esc(p.name)+(p.no?' <span style=&quot;color:var(--ink-faint);font-size:11px&quot;>'+esc(p.no)+'</span>':'')+(tie?'<span class=&quot;tiebadge&quot;>동점</span>':'')+'</td>'+
+        '<td>'+round2(p.avg[1])+'</td><td>'+round2(p.avg[2])+(weightOn?' <span style=&quot;color:var(--gold-deep);font-size:10px&quot;>×1.5</span>':'')+'</td><td>'+round2(p.avg[3])+'</td>'+
+        '<td class=&quot;tot&quot;>'+p.total+'</td>'+
+        '<td><button class=&quot;delx&quot; data-i=&quot;'+i+'&quot;>×</button></td>';
+      body.appendChild(tr);
+      // 36명 컷 라인
+      if(i===35 && arr.length>36){
+        tr.classList.add('cut');
+        var c=document.createElement('tr'); c.className='cutrow';
+        c.innerHTML='<td colspan=&quot;7&quot;>↑ 최상위 수상자 컷 (상위 36명)</td>'; body.appendChild(c);
+      }
+    });
+    body.querySelectorAll('.delx').forEach(function(b){
+      b.addEventListener('click',function(){
+        var sorted=players.slice().sort(cmp); var target=sorted[+b.dataset.i];
+        players=players.filter(function(p){return p!==target;}); renderRank();
+      });
+    });
+  }
+  function round2(n){return Math.round(n*100)/100;}
+  function esc(s){return (s||'').replace(/[&<>&quot;]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','&quot;':'&quot;'}[c];});}
+
+  document.getElementById('resetall').addEventListener('click',function(){
+    if(!confirm('모든 참가자 순위와 현재 입력을 초기화합니다. 계속할까요?')) return;
+    players=[]; renderRank(); clearCurrent();
+  });
+
+  // init
+  renderJudgeTabs(); renderSteps(); recompute(); renderRank();
+})();
+</script>
+</body>
+</html>
+"></iframe></div>
+  </div>
+<script>
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click',function(){
+      var target=t.dataset.pane;
+      document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('on',x===t)});
+      document.querySelectorAll('.pane').forEach(function(p){p.classList.toggle('on',p.dataset.pane===target)});
+    });
+  });
+</script>
+</body>
+</html>
