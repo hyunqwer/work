@@ -357,16 +357,16 @@
     <div class=&quot;top-grid&quot;>
       <aside class=&quot;toc&quot;>
         <h2>목차</h2>
-        <a href=&quot;#philosophy&quot;>1. 심사 철학</a>
-        <a href=&quot;#criteria&quot;>2. 최종 심사 영역</a>
-        <a href=&quot;#lang&quot;>3. 영어 말하기 실력</a>
-        <a href=&quot;#delivery&quot;>4. 내용 완성도</a>
-        <a href=&quot;#performance&quot;>5. 발표 표현력</a>
-        <a href=&quot;#types&quot;>6. 발표 유형별 평가 가이드</a>
-        <a href=&quot;#principles&quot;>7. 심사위원 공통 판단 원칙</a>
-        <a href=&quot;#faq&quot;>8. FAQ</a>
-        <a href=&quot;#sheet&quot;>9. 최종 심사표 예시</a>
-        <a href=&quot;#anchor&quot;>10. 부록. 학년군별 표현 수준 앵커</a>
+        <a href=&quot;#philosophy&quot; data-target=&quot;philosophy&quot;>1. 심사 철학</a>
+        <a href=&quot;#criteria&quot; data-target=&quot;criteria&quot;>2. 최종 심사 영역</a>
+        <a href=&quot;#lang&quot; data-target=&quot;lang&quot;>3. 영어 말하기 실력</a>
+        <a href=&quot;#delivery&quot; data-target=&quot;delivery&quot;>4. 내용 완성도</a>
+        <a href=&quot;#performance&quot; data-target=&quot;performance&quot;>5. 발표 표현력</a>
+        <a href=&quot;#types&quot; data-target=&quot;types&quot;>6. 발표 유형별 평가 가이드</a>
+        <a href=&quot;#principles&quot; data-target=&quot;principles&quot;>7. 심사위원 공통 판단 원칙</a>
+        <a href=&quot;#faq&quot; data-target=&quot;faq&quot;>8. FAQ</a>
+        <a href=&quot;#sheet&quot; data-target=&quot;sheet&quot;>9. 최종 심사표 예시</a>
+        <a href=&quot;#anchor&quot; data-target=&quot;anchor&quot;>10. 부록. 학년군별 표현 수준 앵커</a>
       </aside>
 
       <main class=&quot;content&quot;>
@@ -936,6 +936,15 @@
       </main>
     </div>
   </div>
+<script>
+  document.querySelectorAll('.toc a[data-target]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      var el=document.getElementById(a.dataset.target);
+      if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+</script>
 </body>
 </html>
 "></iframe></div>
