@@ -1,0 +1,768 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>중등 디지털 상품 기획 회의록 핵심 요약</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --paper: #ffffff;
+      --ink: #1f2937;
+      --muted: #667085;
+      --line: #e4e7ec;
+      --blue: #2563eb;
+      --blue-soft: #eaf1ff;
+      --green: #059669;
+      --green-soft: #e9f8f1;
+      --orange: #f97316;
+      --orange-soft: #fff3e8;
+      --purple: #7c3aed;
+      --purple-soft: #f2ecff;
+      --red: #dc2626;
+      --red-soft: #fff1f2;
+      --gray-soft: #f2f4f7;
+      --shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      line-height: 1.65;
+      letter-spacing: -0.02em;
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 42px 24px 72px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #172554 0%, #1d4ed8 48%, #60a5fa 100%);
+      color: #fff;
+      border-radius: 26px;
+      padding: 42px 44px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      bottom: -120px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.13);
+    }
+
+    .hero .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.25;
+      letter-spacing: -0.04em;
+      word-break: keep-all;
+    }
+
+    .hero p {
+      margin: 14px 0 0;
+      max-width: 760px;
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.88);
+      word-break: keep-all;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .meta-card {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      border-radius: 16px;
+      padding: 14px 16px;
+    }
+
+    .meta-label {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.72);
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .meta-value {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .section {
+      margin-top: 26px;
+      background: var(--paper);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(228, 231, 236, 0.7);
+      overflow: hidden;
+    }
+
+    .section-header {
+      padding: 24px 28px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-kicker {
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -0.035em;
+    }
+
+    .section-desc {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      word-break: keep-all;
+    }
+
+    .section-body {
+      padding: 24px 28px 28px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .summary-card {
+      border-radius: 18px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .summary-card h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      letter-spacing: -0.03em;
+    }
+
+    .summary-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      word-break: keep-all;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .tag.blue { background: var(--blue-soft); color: var(--blue); }
+    .tag.green { background: var(--green-soft); color: var(--green); }
+    .tag.orange { background: var(--orange-soft); color: var(--orange); }
+    .tag.purple { background: var(--purple-soft); color: var(--purple); }
+    .tag.red { background: var(--red-soft); color: var(--red); }
+    .tag.gray { background: var(--gray-soft); color: #475467; }
+
+    .decision-grid, .issue-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+      background: #fff;
+      min-height: 100%;
+    }
+
+    .card h3 {
+      margin: 0 0 12px;
+      font-size: 17px;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    li {
+      margin: 7px 0;
+      word-break: keep-all;
+    }
+
+    .compact li { margin: 5px 0; }
+
+    .checklist {
+      display: grid;
+      gap: 10px;
+    }
+
+    .check-item {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 12px 14px;
+      background: #f9fafb;
+      border-radius: 14px;
+      border: 1px solid #eef2f7;
+    }
+
+    .check-icon {
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--green-soft);
+      color: var(--green);
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .issue-icon {
+      background: var(--orange-soft);
+      color: var(--orange);
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .timeline-card {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: #fff;
+    }
+
+    .timeline-card strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+
+    .timeline-card span {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--blue);
+      background: var(--blue-soft);
+      padding: 3px 9px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .timeline-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      word-break: keep-all;
+    }
+
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #344054;
+      font-size: 13px;
+    }
+
+    .priority {
+      display: inline-flex;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .p1 { background: var(--red-soft); color: var(--red); }
+    .p2 { background: var(--orange-soft); color: var(--orange); }
+    .p3 { background: var(--blue-soft); color: var(--blue); }
+
+    .note {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      color: #475467;
+      font-size: 14px;
+      word-break: keep-all;
+    }
+
+    .opinion-box {
+      background: linear-gradient(135deg, #f8fafc 0%, #eef6ff 100%);
+      border: 1px solid #dbeafe;
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    .opinion-box h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+    }
+
+    .opinion-box ul { padding-left: 20px; }
+
+    .footer {
+      margin-top: 28px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      .meta-grid, .summary-grid, .decision-grid, .issue-grid, .timeline {
+        grid-template-columns: 1fr;
+      }
+      .hero { padding: 32px 26px; }
+      h1 { font-size: 28px; }
+      .section-header, .section-body { padding-left: 22px; padding-right: 22px; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .page { max-width: none; padding: 0; }
+      .hero, .section { box-shadow: none; }
+      .section { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">회의록 핵심 요약</div>
+      <h1>중등 디지털 상품 기획 회의</h1>
+      <p>전체 학제 구상, 1차 개발 우선순위, 리딩 프로토타입, 파일럿 운영 방향을 중심으로 정리한 요약형 회의록입니다.</p>
+      <div class="meta-grid">
+        <div class="meta-card">
+          <div class="meta-label">일시</div>
+          <div class="meta-value">2026.06.02</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-label">주제</div>
+          <div class="meta-value">중등 디지털 학제 / 리딩 프로토타입</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-label">핵심축</div>
+          <div class="meta-value">문법 · 리딩 우선 개발</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-label">정리 방식</div>
+          <div class="meta-value">결정사항 / 추가 논의사항 구분</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div class="section-kicker">01. SUMMARY</div>
+        <h2>회의 핵심 요지</h2>
+        <p class="section-desc">회의 전체를 관통하는 핵심 방향만 압축 정리했습니다.</p>
+      </div>
+      <div class="section-body">
+        <div class="summary-grid">
+          <div class="summary-card">
+            <span class="tag blue">핵심 방향</span>
+            <h3>중등 디지털은 ‘교재 전환’이 아니라 ‘서비스 재설계’</h3>
+            <p>지류 교재를 화면으로 옮기는 수준이 아니라, 학습 프로세스·리포트·교사 관리까지 포함한 중등 학습 서비스로 설계 필요.</p>
+          </div>
+          <div class="summary-card">
+            <span class="tag green">우선 개발</span>
+            <h3>1차 개발축은 문법과 리딩</h3>
+            <p>현장 수요와 개발 가능성을 고려해 문법·리딩을 먼저 구체화하고, 구문·듣기·어휘는 후속 모듈로 확장 검토.</p>
+          </div>
+          <div class="summary-card">
+            <span class="tag orange">검증 방식</span>
+            <h3>프로토타입과 파일럿 중심 접근</h3>
+            <p>올해는 완성 상품보다 프로토타입 제작과 현장 검증에 초점을 두고, 내년 하반기~내년 말 정식 오픈 가능성 검토.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div class="section-kicker">02. DECISIONS</div>
+        <h2>결정사항 및 잠정 합의 방향</h2>
+        <p class="section-desc">회의 중 방향성이 비교적 명확하게 정리된 사항입니다. 세부 실행안은 후속 논의에서 조정 가능합니다.</p>
+      </div>
+      <div class="section-body">
+        <div class="decision-grid">
+          <div class="card">
+            <span class="tag green">결정 1</span>
+            <h3>개발 우선순위</h3>
+            <ul>
+              <li>중등 디지털 1차 개발 영역은 <strong>문법과 리딩</strong> 중심으로 설정</li>
+              <li>전체 라인업을 한 번에 개발하지 않고, 대표 영역부터 프로토타입 제작</li>
+              <li>문법·리딩을 통해 디지털 학습 프로세스의 기본 모델 검증</li>
+              <li>구문·듣기·어휘·쓰기는 2차 확장 영역으로 분류</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <span class="tag green">결정 2</span>
+            <h3>문법 라인</h3>
+            <ul>
+              <li>문법은 현장 수요가 높고 디지털화 효과가 큰 영역으로 판단</li>
+              <li>개념 학습형 문법과 문제 훈련형 문법의 역할 구분 필요</li>
+              <li>디지털에서는 충분한 문제량, 자동 채점, 오답 관리, 반복 훈련 제공 가능</li>
+              <li>학년별 문법 범위를 기준으로 중1·중2·중3 라인 구성 검토</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <span class="tag green">결정 3</span>
+            <h3>리딩 라인</h3>
+            <ul>
+              <li>리딩은 기존 윤선생의 영어 입력 중심 강점을 이어가는 핵심 라인</li>
+              <li>기본 리딩은 ESL 리딩 성격을 유지하되, 중등 독해력·문해력 요소 보강</li>
+              <li>단순 지문+문제풀이가 아니라 디지털 학습 흐름으로 설계</li>
+              <li>프리리딩, 영상, 본문 기반 단어, 구문 설명, 낭독, 리포트까지 포함 검토</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <span class="tag green">결정 4</span>
+            <h3>구문 독해 접근</h3>
+            <ul>
+              <li>구문 독해 니즈는 인정하되, 독립 라인 개발은 즉시 확정하지 않음</li>
+              <li>우선 리딩 본문 안에서 핵심 문장 중심 구문 훈련 모듈로 검증</li>
+              <li>천일문식 독립 구문과 리딩 본문 기반 구문은 성격을 구분</li>
+              <li>현장 반응 확인 후 별도 구문 라인화 여부 판단</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <span class="tag green">결정 5</span>
+            <h3>듣기·어휘 방향</h3>
+            <ul>
+              <li>듣기는 단순 모의고사 교재보다 문제은행형·실전 대비 모듈로 검토</li>
+              <li>어휘는 별도 교재보다 개인화 디지털 어휘장·누적 복습 모듈이 적합</li>
+              <li>수능 빈출 단어, 어원 단어 등은 선택형 부가 콘텐츠로 확장 가능</li>
+              <li>두 영역 모두 1차 핵심 개발보다는 후속 모듈 성격으로 검토</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <span class="tag green">결정 6</span>
+            <h3>워크북·종이 자료</h3>
+            <ul>
+              <li>디지털 중심 전환을 목표로 하되 종이 자료 필요성은 열어둠</li>
+              <li>초기에는 대규모 워크북 제작보다 PDF·출력형 보조 자료 가능성 검토</li>
+              <li>현장 니즈가 확인되면 워크북 상품화 가능</li>
+              <li>중간 단계에서는 디지털+워크북의 하이브리드 운영 가능성 높음</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div class="section-kicker">03. READING PROTOTYPE</div>
+        <h2>리딩 프로토타입 핵심 설계 방향</h2>
+        <p class="section-desc">리딩 파워 콘텐츠를 활용한 디지털 리딩 프로토타입 검토 내용을 구조화했습니다.</p>
+      </div>
+      <div class="section-body">
+        <div class="checklist">
+          <div class="check-item">
+            <div class="check-icon">1</div>
+            <div><strong>도입</strong> — 제목, 프리리딩 질문, 시각 자료 또는 짧은 영상으로 주제 맥락 형성</div>
+          </div>
+          <div class="check-item">
+            <div class="check-icon">2</div>
+            <div><strong>본문 기반 단어 학습</strong> — 단어 리스트 분리 제시보다 본문 안에서 단어를 클릭하고 문맥 속 의미 유추</div>
+          </div>
+          <div class="check-item">
+            <div class="check-icon">3</div>
+            <div><strong>본문 읽기</strong> — 글의 전체 흐름을 먼저 파악한 뒤, 필요한 부분을 정밀 학습</div>
+          </div>
+          <div class="check-item">
+            <div class="check-icon">4</div>
+            <div><strong>구문 설명</strong> — 모든 문장이 아니라 핵심 문장 중심으로 짧은 설명과 이해 확인 활동 제공</div>
+          </div>
+          <div class="check-item">
+            <div class="check-icon">5</div>
+            <div><strong>낭독·발화 활동</strong> — 단락 또는 핵심 문장 낭독을 통해 소리 학습 강점 유지</div>
+          </div>
+          <div class="check-item">
+            <div class="check-icon">6</div>
+            <div><strong>리포트</strong> — 학습 완료율, 이해도, 단어, 구문, 낭독 결과를 교사·학부모 피드백으로 연결</div>
+          </div>
+        </div>
+
+        <div class="note">
+          <strong>설계 포인트:</strong> 기존 SB처럼 긴 강의를 강제로 듣게 하는 방식은 지루함이 반복될 수 있음. 짧은 해설, 클릭형 상호작용, 중간 확인 문제, 낭독 피드백을 조합해 디지털 리딩만의 학습 경험을 만드는 방향이 적합함.
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div class="section-kicker">04. OPEN ISSUES</div>
+        <h2>추가 논의할 사항</h2>
+        <p class="section-desc">아직 결정되지 않았거나, 현장 검증 후 판단해야 할 쟁점입니다.</p>
+      </div>
+      <div class="section-body">
+        <div class="issue-grid">
+          <div class="card">
+            <span class="tag orange">논의 1</span>
+            <h3>전체 학제 구조</h3>
+            <ul>
+              <li>학년별 라인으로 갈지, 수준별 라인으로 갈지 결정 필요</li>
+              <li>기본 리딩, 문제풀이형 독해, 수능형 독해의 포지션 구분 필요</li>
+              <li>중등 라인과 고등·수능 라인의 연결 구조 검토 필요</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <span class="tag orange">논의 2</span>
+            <h3>문법 세부 구성</h3>
+            <ul>
+              <li>개념형과 문제훈련형을 분리할지, 하나의 흐름으로 통합할지 결정 필요</li>
+              <li>한 레벨당 적정 차시 수 확정 필요</li>
+              <li>내신형 문제와 기본 훈련 문제의 비중 설계 필요</li>
+              <li>오답 반복, 누적 복습, 리포트 제공 방식 구체화 필요</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <span class="tag orange">논의 3</span>
+            <h3>리딩 학습 흐름</h3>
+            <ul>
+              <li>한 차시의 적정 학습 시간 설정 필요</li>
+              <li>구문 설명을 필수로 들려줄지, 선택형으로 제공할지 검토 필요</li>
+              <li>낭독 활동을 필수 활동으로 둘지, 선택 활동으로 둘지 검토 필요</li>
+              <li>영상·단어·본문·문제풀이의 최적 순서 검증 필요</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <span class="tag orange">논의 4</span>
+            <h3>구문 라인화 여부</h3>
+            <ul>
+              <li>현장이 원하는 구문이 천일문식 독립 구문인지 확인 필요</li>
+              <li>리딩 지문 기반 구문 훈련으로 충분한지 검증 필요</li>
+              <li>문법 스코프와 구문 스코프를 어떻게 구분할지 정리 필요</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <span class="tag orange">논의 5</span>
+            <h3>파일럿 설계</h3>
+            <ul>
+              <li>1차시 체험형 파일럿과 1개월 사용형 파일럿 중 운영 방식 결정 필요</li>
+              <li>의미 있는 파일럿을 위한 최소 차시 수 검토 필요</li>
+              <li>현장 영향력이 큰 교사·원장 중심의 참여자 선정 필요</li>
+              <li>학습 몰입도, 교사 운영 편의성, 가격 수용성 측정 지표 필요</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <span class="tag orange">논의 6</span>
+            <h3>가격·상품 패키지</h3>
+            <ul>
+              <li>월 구독료 수준과 상품 가치 구성 검토 필요</li>
+              <li>문법·리딩 단독 판매와 중등 디지털 패키지 판매 비교 필요</li>
+              <li>리포트, 교사용 관리 화면, 워크북 포함 범위 결정 필요</li>
+              <li>구독형 BM을 지탱할 회원 수 규모 검토 필요</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div class="section-kicker">05. ACTION ITEMS</div>
+        <h2>후속 과제</h2>
+        <p class="section-desc">다음 회의 또는 실무 진행 전 정리해야 할 항목입니다.</p>
+      </div>
+      <div class="section-body">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 90px;">우선도</th>
+                <th style="width: 190px;">과제</th>
+                <th>주요 내용</th>
+                <th style="width: 150px;">비고</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="priority p1">상</span></td>
+                <td>학제표 재정리</td>
+                <td>문법·리딩 우선 구조를 기준으로 중등 디지털 전체 라인업 재배치</td>
+                <td>다음 논의 전 필수</td>
+              </tr>
+              <tr>
+                <td><span class="priority p1">상</span></td>
+                <td>문법 프로토타입 범위 확정</td>
+                <td>중1 또는 중1~중2 수준에서 개념형·문제형 구조 및 차시 수 설정</td>
+                <td>개발 범위 결정</td>
+              </tr>
+              <tr>
+                <td><span class="priority p1">상</span></td>
+                <td>리딩 프로토타입 개선</td>
+                <td>프리리딩, 영상, 단어, 본문, 구문, 낭독, 리포트 흐름 재설계</td>
+                <td>샘플 차시 제작</td>
+              </tr>
+              <tr>
+                <td><span class="priority p2">중</span></td>
+                <td>구문 FGI 질문 설계</td>
+                <td>독립 구문 교재 니즈와 리딩 기반 구문 훈련 니즈를 구분해 현장 확인</td>
+                <td>현장 검증 필요</td>
+              </tr>
+              <tr>
+                <td><span class="priority p2">중</span></td>
+                <td>파일럿 운영안 수립</td>
+                <td>참여 대상, 기간, 차시 수, 무료·유료 여부, 평가 지표 설계</td>
+                <td>마케팅 연계 고려</td>
+              </tr>
+              <tr>
+                <td><span class="priority p2">중</span></td>
+                <td>리포트 구조 설계</td>
+                <td>교사용 관리 화면과 학부모용 리포트 항목 구분</td>
+                <td>상품 가치 핵심</td>
+              </tr>
+              <tr>
+                <td><span class="priority p3">검토</span></td>
+                <td>워크북·출력물 샘플</td>
+                <td>월말 평가, 오답 보충지, 단어장, 구문 연습지 등 출력형 자료 샘플 검토</td>
+                <td>파일럿 후 판단</td>
+              </tr>
+              <tr>
+                <td><span class="priority p3">검토</span></td>
+                <td>가격·BM 검토</td>
+                <td>월 구독료, 패키지 구성, 기존 회원 추가 과금 방식 비교</td>
+                <td>판매 전략 필요</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div class="section-kicker">06. ROADMAP</div>
+        <h2>잠정 추진 로드맵</h2>
+        <p class="section-desc">회의에서 언급된 현실적 개발 속도를 반영한 단계별 추진안입니다.</p>
+      </div>
+      <div class="section-body">
+        <div class="timeline">
+          <div class="timeline-card">
+            <span>2026년</span>
+            <strong>프로토타입 제작</strong>
+            <p>문법·리딩 중심의 대표 차시 개발 및 학습 흐름 검증</p>
+          </div>
+          <div class="timeline-card">
+            <span>2026년 하반기</span>
+            <strong>현장 파일럿</strong>
+            <p>핵심 센터·교사 대상 사용성, 몰입도, 가격 수용성 확인</p>
+          </div>
+          <div class="timeline-card">
+            <span>2027년</span>
+            <strong>라인 확장 개발</strong>
+            <p>문법·리딩 몇 개월치 분량 우선 개발, 리포트·관리 기능 구체화</p>
+          </div>
+          <div class="timeline-card">
+            <span>2027년 하반기~말</span>
+            <strong>정식 오픈 검토</strong>
+            <p>문법·리딩 일부 라인부터 단계적 오픈, 이후 구문·듣기·어휘 확장</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div class="section-kicker">07. REVIEW</div>
+        <h2>작성자 검토 의견</h2>
+      </div>
+      <div class="section-body">
+        <div class="opinion-box">
+          <h3>핵심 판단</h3>
+          <ul>
+            <li>이번 회의의 핵심 결론은 <strong>문법과 리딩을 중심으로 중등 디지털의 표준 학습 경험을 먼저 만든다</strong>는 점임.</li>
+            <li>구문은 매력적인 영역이지만, 독립 라인으로 즉시 개발하기보다 리딩 안에서 먼저 검증하는 접근이 현실적임.</li>
+            <li>듣기와 어휘는 별도 교재보다 문제은행·개인화 복습·부가 모듈 형태가 디지털 상품에 더 적합함.</li>
+            <li>성공 여부는 콘텐츠 자체뿐 아니라 교사용 관리, 학부모 리포트, 워크북 보완, 가격 수용성까지 함께 설계하는 데 달려 있음.</li>
+            <li>파일럿은 단순 테스트가 아니라 현장 확산의 출발점이므로, 영향력 있는 현장 그룹을 전략적으로 선정할 필요가 있음.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      작성 기준: 2026.06.02 중등 디지털 상품 기획 회의 녹취록 요약 정리
+    </div>
+  </main>
+</body>
+</html>
