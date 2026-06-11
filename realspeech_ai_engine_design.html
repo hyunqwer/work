@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RealSpeech 2026 — AI 심사 엔진 설계</title>
+<style>
+  /* ── 토큰 ── */
+  :root {
+    --bg:        #f0f4fa;
+    --surface:   #ffffff;
+    --surface2:  #f8fafc;
+    --navy:      #0f172a;
+    --navy2:     #1e293b;
+    --slate:     #64748b;
+    --line:      #e2e8f0;
+    --text:      #1e293b;
+
+    /* 엔진 컬러 — 문서 전체 일관성 핵심 */
+    --azure:     #0078d4;
+    --azure-bg:  #e8f4fd;
+    --azure-mid: #bfdbfe;
+    --gpt:       #e67e22;
+    --gpt-bg:    #fef3e2;
+    --gpt-mid:   #fed7aa;
+    --gemini:    #0d9488;
+    --gemini-bg: #e0fdf4;
+    --gemini-mid:#99f6e4;
+
+    --radius: 14px;
+    --shadow: 0 4px 24px rgba(15,23,42,.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: -apple-system, 'Segoe UI', 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.75;
+    font-size: 15px;
+  }
+
+  /* ── 상단 바 ── */
+  .topbar {
+    background: var(--navy);
+    color: #fff;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: 52px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.2);
+  }
+  .topbar-brand {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .5px;
+    color: #94a3b8;
+  }
+  .topbar-brand strong { color: #fff; }
+  .topbar-badge {
+    font-size: 11px;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 20px;
+    padding: 3px 12px;
+    color: #cbd5e1;
+  }
+
+  /* ── 레이아웃 ── */
+  .layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+    align-items: start;
+  }
+
+  /* ── 사이드 내비 ── */
+  .sidenav {
+    position: sticky;
+    top: 72px;
+    padding-right: 24px;
+  }
+  .sidenav-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 12px;
+    padding-left: 10px;
+  }
+  .sidenav a {
+    display: block;
+    font-size: 13px;
+    color: var(--slate);
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border-left: 2px solid transparent;
+    margin-bottom: 2px;
+    transition: all .15s;
+  }
+  .sidenav a:hover {
+    background: var(--surface);
+    color: var(--text);
+    border-left-color: var(--azure);
+  }
+  .sidenav a.azure { border-left-color: var(--azure); color: var(--azure); background: var(--azure-bg); }
+  .sidenav a.gpt   { border-left-color: var(--gpt);   color: var(--gpt);   background: var(--gpt-bg); }
+  .sidenav a.gemini{ border-left-color: var(--gemini);color: var(--gemini);background: var(--gemini-bg); }
+  .sidenav-divider { border: none; border-top: 1px solid var(--line); margin: 10px 0; }
+
+  /* ── 콘텐츠 ── */
+  .content { display: flex; flex-direction: column; gap: 24px; }
+
+  /* ── 카드 ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    box-shadow: var(--shadow);
+  }
+
+  /* ── 히어로 ── */
+  .hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #0c4a6e 100%);
+    color: white;
+    border-radius: 20px;
+    padding: 40px 40px 36px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(0,120,212,.3) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #38bdf8;
+    margin-bottom: 10px;
+  }
+  .hero h1 {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 14px;
+  }
+  .hero p {
+    font-size: 15px;
+    color: rgba(255,255,255,.82);
+    max-width: 640px;
+    margin-bottom: 24px;
+  }
+  .hero-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .hero-tag {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.2);
+    color: rgba(255,255,255,.85);
+  }
+  .hero-tag.azure  { background: rgba(0,120,212,.35); border-color: rgba(0,120,212,.5); }
+  .hero-tag.gpt    { background: rgba(230,126,34,.35); border-color: rgba(230,126,34,.5); }
+  .hero-tag.gemini { background: rgba(13,148,136,.35); border-color: rgba(13,148,136,.5); }
+
+  /* ── 섹션 헤더 ── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy2);
+    margin: 22px 0 10px;
+  }
+  h3:first-of-type { margin-top: 4px; }
+
+  /* ── 엔진 배지 ── */
+  .engine-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .engine-badge.azure  { background: var(--azure-bg);  color: var(--azure);  border: 1px solid var(--azure-mid); }
+  .engine-badge.gpt    { background: var(--gpt-bg);    color: var(--gpt);    border: 1px solid var(--gpt-mid); }
+  .engine-badge.gemini { background: var(--gemini-bg); color: var(--gemini); border: 1px solid var(--gemini-mid); }
+
+  /* ── 역할 정의 박스 ── */
+  .role-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .role-box {
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .role-box.ai   { background: var(--azure-bg); border: 1px solid var(--azure-mid); }
+  .role-box.human{ background: #fdf4ff; border: 1px solid #e9d5ff; }
+  .role-box-title {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .role-box.ai .role-box-title   { color: var(--azure); }
+  .role-box.human .role-box-title{ color: #7c3aed; }
+  .role-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 14px;
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+  .role-item .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+  .role-box.ai .dot   { background: var(--azure); }
+  .role-box.human .dot{ background: #7c3aed; }
+
+  /* ── 파이프라인 다이어그램 ── */
+  .pipeline {
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 28px 24px;
+    margin-top: 16px;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    font-size: 13px;
+    color: #e2e8f0;
+    line-height: 1.9;
+    overflow-x: auto;
+  }
+  .pipeline .c-input   { color: #38bdf8; font-weight: 700; }
+  .pipeline .c-azure   { color: #60a5fa; }
+  .pipeline .c-gpt     { color: #fb923c; }
+  .pipeline .c-gemini  { color: #34d399; }
+  .pipeline .c-muted   { color: #64748b; }
+  .pipeline .c-result  { color: #a78bfa; font-weight: 700; }
+  .pipeline .c-arrow   { color: #475569; }
+
+  /* ── 엔진 섹션 헤더 ── */
+  .engine-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--line);
+  }
+  .engine-num {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 800;
+    flex-shrink: 0;
+  }
+  .engine-num.azure  { background: var(--azure-bg);  color: var(--azure); }
+  .engine-num.gpt    { background: var(--gpt-bg);    color: var(--gpt); }
+  .engine-num.gemini { background: var(--gemini-bg); color: var(--gemini); }
+  .engine-header-text h2 { margin-bottom: 4px; }
+  .engine-header-text p  { font-size: 13px; color: var(--slate); margin: 0; }
+
+  /* ── 위협·대응 카드 ── */
+  .threat-list { display: flex; flex-direction: column; gap: 10px; margin: 14px 0; }
+  .threat-item {
+    background: #fef9f0;
+    border: 1px solid #fde68a;
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13.5px;
+  }
+  .threat-item .threat-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #b45309;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .threat-item .threat-q { font-weight: 600; color: #92400e; margin-bottom: 6px; }
+  .threat-item .threat-a { color: #44403c; }
+  .threat-item .threat-a strong { color: #0f172a; }
+
+  /* ── 항목 테이블 ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 13.5px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  th {
+    background: #eff6ff;
+    color: #1e40af;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .5px;
+    padding: 10px 14px;
+    text-align: left;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+
+  /* ── 체크리스트 ── */
+  .checklist { list-style: none; margin: 10px 0; }
+  .checklist li {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.5;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-id {
+    font-family: monospace;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--surface2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 6px;
+    white-space: nowrap;
+    color: var(--slate);
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── 코드 블록 ── */
+  .code-wrap { margin: 14px 0; }
+  .code-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 8px 8px 0 0;
+    display: inline-block;
+  }
+  .code-label.azure  { background: var(--azure);  color: #fff; }
+  .code-label.gpt    { background: var(--gpt);    color: #fff; }
+  .code-label.gemini { background: var(--gemini); color: #fff; }
+  .code-label.neutral{ background: var(--navy2);  color: #fff; }
+  pre {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-radius: 0 10px 10px 10px;
+    padding: 20px 22px;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    font-size: 12.5px;
+    line-height: 1.85;
+    overflow-x: auto;
+    margin: 0;
+    white-space: pre;
+  }
+  .kw  { color: #c084fc; }   /* keyword */
+  .fn  { color: #60a5fa; }   /* function */
+  .str { color: #86efac; }   /* string */
+  .num { color: #fb923c; }   /* number */
+  .cmt { color: #475569; font-style: italic; } /* comment */
+  .var { color: #f9a8d4; }   /* variable */
+  .op  { color: #94a3b8; }   /* operator */
+
+  /* ── 스키마 박스 ── */
+  .schema-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .schema-item {
+    background: var(--surface2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .schema-item-key {
+    font-family: monospace;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .schema-item-key.azure  { color: var(--azure); }
+  .schema-item-key.gpt    { color: var(--gpt); }
+  .schema-item-key.gemini { color: var(--gemini); }
+  .schema-item-key.neutral{ color: var(--slate); }
+  .schema-item-desc { font-size: 13px; color: var(--slate); line-height: 1.5; }
+
+  /* ── 트리거 박스 ── */
+  .trigger-list { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .trigger-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: var(--surface2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+  .trigger-num {
+    width: 28px; height: 28px;
+    background: var(--navy);
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .trigger-body strong { color: var(--navy); }
+  .trigger-body .trigger-detail { font-size: 12.5px; color: var(--slate); margin-top: 3px; }
+
+  /* ── 요약 카드 ── */
+  .summary-engine-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .summary-engine {
+    border-radius: 12px;
+    padding: 20px;
+    border: 2px solid transparent;
+  }
+  .summary-engine.azure  { background: var(--azure-bg);  border-color: var(--azure-mid); }
+  .summary-engine.gpt    { background: var(--gpt-bg);    border-color: var(--gpt-mid); }
+  .summary-engine.gemini { background: var(--gemini-bg); border-color: var(--gemini-mid); }
+  .summary-engine-title  { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+  .summary-engine.azure  .summary-engine-title { color: var(--azure); }
+  .summary-engine.gpt    .summary-engine-title { color: var(--gpt); }
+  .summary-engine.gemini .summary-engine-title { color: var(--gemini); }
+  .summary-engine-domain { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .summary-engine-points li {
+    font-size: 13px;
+    color: var(--navy2);
+    margin-bottom: 5px;
+    list-style: none;
+    display: flex;
+    gap: 7px;
+  }
+  .summary-engine-points li::before { content: "→"; color: var(--slate); flex-shrink: 0; }
+
+  .final-box {
+    background: var(--navy);
+    color: #fff;
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .final-box h3 { color: #38bdf8; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+  .final-box li {
+    font-size: 13.5px;
+    color: rgba(255,255,255,.85);
+    margin-bottom: 6px;
+    list-style: none;
+    display: flex;
+    gap: 8px;
+  }
+  .final-box li::before { content: "✓"; color: #34d399; flex-shrink: 0; }
+  .final-box li.no::before { content: "✕"; color: #f87171; }
+
+  /* ── 변환 테이블 ── */
+  .convert-table {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 14px 0;
+    font-size: 13px;
+    text-align: center;
+  }
+  .ct-header, .ct-cell {
+    padding: 10px 6px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .ct-header:last-child, .ct-cell:last-child { border-right: none; }
+  .ct-row-last .ct-cell { border-bottom: none; }
+  .ct-header { background: #eff6ff; font-weight: 700; color: #1e40af; font-size: 11px; }
+  .ct-cell { background: #fff; }
+  .ct-cell.score { font-weight: 700; color: var(--navy); font-size: 15px; }
+  .ct-cell.hi  { background: #dcfce7; }
+  .ct-cell.mid { background: #fef9c3; }
+  .ct-cell.lo  { background: #fee2e2; }
+
+  /* ── 노트 ── */
+  .note {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-left: 4px solid #22c55e;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13.5px;
+    color: #14532d;
+    margin-top: 12px;
+    line-height: 1.6;
+  }
+  .note.warn {
+    background: #fffbeb;
+    border-color: #fde68a;
+    border-left-color: #f59e0b;
+    color: #78350f;
+  }
+
+  /* ── 반응형 ── */
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidenav { display: none; }
+    .role-grid, .schema-grid, .summary-engine-grid,
+    .final-box { grid-template-columns: 1fr; }
+    .convert-table { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 상단 바 -->
+<div class="topbar">
+  <div class="topbar-brand">
+    <strong>RealSpeech 2026</strong> &nbsp;·&nbsp; AI 심사 엔진 설계서
+  </div>
+  <div class="topbar-badge">내부 검토용 · 2026.06</div>
+</div>
+
+<div class="layout">
+
+  <!-- 사이드 내비 -->
+  <nav class="sidenav">
+    <div class="sidenav-title">목차</div>
+    <a href="#role">AI 역할 재정의</a>
+    <a href="#pipeline">전체 파이프라인</a>
+    <hr class="sidenav-divider">
+    <a href="#lang" class="azure">Ⅰ. 언어 — Azure</a>
+    <a href="#content" class="gpt">Ⅱ. 내용 — GPT-4o</a>
+    <a href="#delivery" class="gemini">Ⅲ. 전달 — Gemini</a>
+    <hr class="sidenav-divider">
+    <a href="#schema">AI 출력 구조</a>
+    <a href="#trigger">인간 검토 트리거</a>
+    <a href="#summary">핵심 요약</a>
+  </nav>
+
+  <!-- 본문 -->
+  <main class="content">
+
+    <!-- 히어로 -->
+    <div class="hero">
+      <div class="hero-eyebrow">RealSpeech 2026 · AI 심사 엔진</div>
+      <h1>영역별 타당도·신뢰도 확보 설계</h1>
+      <p>
+        Azure Speech · GPT-4o · Gemini 3-Engine 구조로 Ⅰ.언어 / Ⅱ.내용 / Ⅲ.전달 각 영역을
+        독립 채점한다. AI는 점수만 뽑는다. 가중치·수상 판단은 사람이 담당한다.
+      </p>
+      <div class="hero-tags">
+        <span class="hero-tag azure">Azure Pronunciation Assessment</span>
+        <span class="hero-tag gpt">GPT-4o · 내용 분석</span>
+        <span class="hero-tag gemini">Gemini 2.0 Flash · 멀티모달</span>
+      </div>
+    </div>
+
+    <!-- ① AI 역할 재정의 -->
+    <div class="card" id="role">
+      <div class="section-label">Section 01</div>
+      <h2>AI 엔진 역할 재정의</h2>
+      <p style="color:var(--slate);font-size:14px;">가중치·순위·수상 판단은 AI 범위 밖이다. AI는 세 영역 점수를 정확하게 뽑는 데만 집중한다.</p>
+
+      <div class="role-grid">
+        <div class="role-box ai">
+          <div class="role-box-title">🤖 AI가 하는 것</div>
+          <div class="role-item"><span class="dot"></span><span><strong>Ⅰ. 언어</strong> → 4점 척도, 신뢰도 높게</span></div>
+          <div class="role-item"><span class="dot"></span><span><strong>Ⅱ. 내용</strong> → 4점 척도, 신뢰도 높게</span></div>
+          <div class="role-item"><span class="dot"></span><span><strong>Ⅲ. 전달</strong> → 4점 척도, 신뢰도 높게</span></div>
+          <div class="role-item"><span class="dot"></span><span>근거 텍스트 + 피드백 생성</span></div>
+          <div class="role-item"><span class="dot"></span><span>신뢰도 플래그 → 인간 검토 트리거</span></div>
+        </div>
+        <div class="role-box human">
+          <div class="role-box-title">👤 사람이 하는 것</div>
+          <div class="role-item"><span class="dot"></span><span>AI 점수 검토·조정</span></div>
+          <div class="role-item"><span class="dot"></span><span>플래그 케이스 직접 시청</span></div>
+          <div class="role-item"><span class="dot"></span><span><strong>가중치 논의</strong> (내부)</span></div>
+          <div class="role-item"><span class="dot"></span><span><strong>수상자 최종 결정</strong></span></div>
+          <div class="role-item"><span class="dot"></span><span>이의 처리</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ② 파이프라인 -->
+    <div class="card" id="pipeline">
+      <div class="section-label">Section 02</div>
+      <h2>전체 파이프라인</h2>
+      <p style="color:var(--slate);font-size:14px;">영상 1건 처리 흐름. 오디오와 영상을 분리해 각 엔진이 병렬로 분석한다.</p>
+
+      <div class="pipeline">
+<span class="c-input">  영상 입력 (YouTube / Instagram URL)</span>
+        │
+        ▼  <span class="c-muted">yt-dlp 다운로드</span>
+  ┌─────┴─────┐
+  <span class="c-azure">오디오 (WAV)</span>    <span class="c-gemini">영상 (MP4)</span>
+  │               │
+  ▼               ▼
+<span class="c-azure">[ Azure Speech ]</span>   <span class="c-gemini">[ Gemini 2.0 Flash ]</span>
+<span class="c-azure">  발음 정확도          시선·표정·자세</span>
+<span class="c-azure">  억양·강세            제스처·성량</span>
+<span class="c-azure">  유창성               능숙한 전달</span>
+<span class="c-azure">  STT Transcript       발표 완수 여부</span>
+  │               │
+  └───────┬───────┘
+          │ Transcript
+          ▼
+      <span class="c-gpt">[ GPT-4o ]</span>
+<span class="c-gpt">      발표 유형 분류</span>
+<span class="c-gpt">      구성·흐름 분석</span>
+<span class="c-gpt">      자기 생각 포함 여부</span>
+<span class="c-gpt">      메시지 명확성</span>
+<span class="c-gpt">      3회 실행 → 중앙값</span>
+          │
+          ▼
+  <span class="c-result">[ 점수 통합 ]</span>
+<span class="c-result">  Ⅰ 언어 (4점) + Ⅱ 내용 (4점) + Ⅲ 전달 (4점)</span>
+<span class="c-result">  신뢰도 산출 · 플래그 생성 · Firestore 저장</span>
+      </div>
+
+      <div class="note">
+        <strong>병렬 처리:</strong> Azure와 Gemini는 동시에 실행된다. GPT-4o는 Azure STT Transcript를 받아 이후 실행. 총 처리 시간 목표 1건당 90초 이내.
+      </div>
+    </div>
+
+    <!-- ③ Ⅰ. 언어 — Azure -->
+    <div class="card" id="lang">
+      <div class="engine-header">
+        <div class="engine-num azure">Ⅰ</div>
+        <div class="engine-header-text">
+          <h2 style="margin:0 0 4px;">언어 영역</h2>
+          <p>발음 정확도 · 억양·강세 · 유창성 &nbsp;|&nbsp; <span class="engine-badge azure">Azure Pronunciation Assessment</span></p>
+        </div>
+      </div>
+
+      <h3>타당도 위협과 대응</h3>
+      <div class="threat-list">
+        <div class="threat-item">
+          <div class="threat-label">위협 1</div>
+          <div class="threat-q">AccuracyScore가 높아도 의미 전달이 안 되는 경우</div>
+          <div class="threat-a">심사기준: <em>"의미 전달을 방해하지 않는 수준의 정확성"</em><br>
+          대응: <strong>AccuracyScore 단독 사용 금지.</strong> FluencyScore와 복합 산출. 오류 단어 비율로 하향 보정.</div>
+        </div>
+        <div class="threat-item">
+          <div class="threat-label">위협 2</div>
+          <div class="threat-q">배경 소음으로 Azure 점수 왜곡</div>
+          <div class="threat-a">대응: <strong>음질 신뢰도 체크 선행.</strong> SNR 기준치 미달 시 LOW 플래그 → 해당 영역 인간 검토.</div>
+        </div>
+        <div class="threat-item">
+          <div class="threat-label">위협 3</div>
+          <div class="threat-q">느리게 또박또박 읽으면 AccuracyScore 높게 나옴</div>
+          <div class="threat-a">대응: WPM 30 미만 시 FluencyScore 상한 캡. <strong>속도 정상 범위(50-220 WPM)를 벗어나면 자동 보정.</strong></div>
+        </div>
+      </div>
+
+      <h3>Azure 지표 → 점수 매핑</h3>
+      <table>
+        <thead>
+          <tr><th>Azure 지표</th><th>심사기준 항목</th><th>가중치</th><th>비고</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>AccuracyScore</code></td><td>발음 정확도 (음소 단위)</td><td>40%</td><td>오류 단어 비율로 하향 보정</td></tr>
+          <tr><td><code>FluencyScore</code></td><td>유창성</td><td>35%</td><td>WPM 이상 시 상한 캡 적용</td></tr>
+          <tr><td><code>ProsodyScore</code></td><td>억양·강세·리듬</td><td>25%</td><td>rhythm.unexpected_break 참조</td></tr>
+        </tbody>
+      </table>
+
+      <h3>100점 → 4점 척도 변환</h3>
+      <div class="convert-table">
+        <div class="ct-header">Azure</div><div class="ct-header">88+</div><div class="ct-header">76–87</div>
+        <div class="ct-header">64–75</div><div class="ct-header">52–63</div><div class="ct-header">40–51</div><div class="ct-header">~39</div>
+        <div class="ct-cell" style="font-weight:700;font-size:12px;background:#f8fafc;">4점 척도</div>
+        <div class="ct-cell score hi">4.0</div><div class="ct-cell score hi">3.5</div>
+        <div class="ct-cell score mid">3.0</div><div class="ct-cell score mid">2.5</div>
+        <div class="ct-cell score lo">2.0</div><div class="ct-cell score lo">1.5–1.0</div>
+      </div>
+      <p style="font-size:12px;color:var(--slate);margin-top:4px;">구간 기술어: 4.0="정확하고 유창, 자연스러운 억양" / 3.0="대체로 명확, 일부 오류" / 2.0="오류 있으나 이해 가능" / 1.0="이해 어려움"</p>
+
+      <div class="code-wrap">
+        <div class="code-label azure">scoreLang() — 핵심 로직</div>
+        <pre><span class="kw">function</span> <span class="fn">scoreLang</span>(azure) {
+  <span class="cmt">// 1. 이해가능성 보정 — 오류 단어 비율로 AccuracyScore 하향</span>
+  <span class="kw">const</span> <span class="var">errorRate</span> <span class="op">=</span> azure.errorWords
+    .filter(w <span class="op">=></span> w.errorType <span class="op">===</span> <span class="str">'Mispronunciation'</span> <span class="op">&&</span> w.accuracyScore <span class="op">&lt;</span> <span class="num">45</span>).length
+    <span class="op">/</span> Math.max(<span class="num">1</span>, azure.totalWords);
+
+  <span class="kw">const</span> <span class="var">adjustedAccuracy</span> <span class="op">=</span> azure.scores.accuracy <span class="op">*</span> (<span class="num">1</span> <span class="op">-</span> Math.min(<span class="num">0.3</span>, errorRate <span class="op">*</span> <span class="num">2</span>));
+
+  <span class="cmt">// 2. WPM 이상 시 FluencyScore 상한 캡</span>
+  <span class="kw">const</span> <span class="var">wpm</span> <span class="op">=</span> azure.wpm;
+  <span class="kw">const</span> <span class="var">fluencyCap</span> <span class="op">=</span> wpm <span class="op">&lt;</span> <span class="num">50</span>  ? <span class="num">55</span>   <span class="cmt">// 극단적으로 느림</span>
+                    : wpm <span class="op">&lt;</span> <span class="num">80</span>  ? <span class="num">70</span>   <span class="cmt">// 매우 느림</span>
+                    : wpm <span class="op">></span> <span class="num">220</span> ? <span class="num">70</span>   <span class="cmt">// 너무 빠름</span>
+                    : <span class="num">100</span>;               <span class="cmt">// 정상, 캡 없음</span>
+  <span class="kw">const</span> <span class="var">adjustedFluency</span> <span class="op">=</span> Math.min(azure.scores.fluency, fluencyCap);
+
+  <span class="cmt">// 3. 가중 평균 (발음40 · 유창성35 · 억양25)</span>
+  <span class="kw">const</span> <span class="var">raw</span> <span class="op">=</span> adjustedAccuracy  <span class="op">*</span> <span class="num">0.40</span>
+           <span class="op">+</span> adjustedFluency   <span class="op">*</span> <span class="num">0.35</span>
+           <span class="op">+</span> azure.scores.prosody <span class="op">*</span> <span class="num">0.25</span>;
+
+  <span class="cmt">// 4. 100점 → 4점 척도 (0.5 단위)</span>
+  <span class="kw">return</span> <span class="fn">toHalfPoint</span>(raw);
+}</pre>
+      </div>
+    </div>
+
+    <!-- ④ Ⅱ. 내용 — GPT-4o -->
+    <div class="card" id="content">
+      <div class="engine-header">
+        <div class="engine-num gpt">Ⅱ</div>
+        <div class="engine-header-text">
+          <h2 style="margin:0 0 4px;">내용 영역</h2>
+          <p>구성 · 흐름 · 자기 생각 · 메시지 명확성 &nbsp;|&nbsp; <span class="engine-badge gpt">GPT-4o · Transcript 분석</span></p>
+        </div>
+      </div>
+
+      <h3>타당도 위협과 대응</h3>
+      <div class="threat-list">
+        <div class="threat-item">
+          <div class="threat-label">위협 1</div>
+          <div class="threat-q">발표 유형별로 같은 기준 적용 시 불공정</div>
+          <div class="threat-a">심사기준: <em>"정보형은 자기 생각 기준 완충 적용"</em><br>
+          대응: <strong>발표 유형 자동 분류(4종) 후 유형별 체크리스트 분기.</strong> 유형마다 C5·C6 항목이 달라진다.</div>
+        </div>
+        <div class="threat-item">
+          <div class="threat-label">위협 2</div>
+          <div class="threat-q">GPT가 긴 발표에 관대하고 짧은 발표에 박한 경향</div>
+          <div class="threat-a">심사기준: <em>"1분 발표도 메시지 분명하면 좋은 평가"</em><br>
+          대응: <strong>발표 길이를 점수 기준에서 완전히 제거.</strong> 체크리스트 항목별 Yes/No만 판단.</div>
+        </div>
+        <div class="threat-item">
+          <div class="threat-label">위협 3</div>
+          <div class="threat-q">GPT temperature에 따른 점수 편차</div>
+          <div class="threat-a">대응: <strong>temperature=0 고정 + 동일 입력 3회 실행 → 중앙값 채택.</strong> Spread > 1.0이면 confidence: low.</div>
+        </div>
+      </div>
+
+      <h3>발표 유형 분류 (4종)</h3>
+      <table>
+        <thead><tr><th>유형</th><th>예시</th><th>C5·C6 적용 기준</th></tr></thead>
+        <tbody>
+          <tr><td><strong>information</strong> 정보 설명형</td><td>과학 개념, 환경 문제, 요리법</td><td>설명 순서 논리성 / 관심·느낌 (없어도 감점 없음)</td></tr>
+          <tr><td><strong>experience</strong> 경험 공유형</td><td>나의 꿈, 기억나는 여행, 도전 경험</td><td>감정·생각 구체성 / 공감 가능성</td></tr>
+          <tr><td><strong>argument</strong> 주장·설득형</td><td>스마트폰 의견, 환경 보호 이유</td><td>주장 명확성 / 근거 연결성·결론</td></tr>
+          <tr><td><strong>story</strong> 창의 스토리형</td><td>상상 이야기, 미래의 나, 창작 스토리</td><td>이야기 흐름 / 화자 몰입 (텍스트 판단 어려우면 Uncertain)</td></tr>
+        </tbody>
+      </table>
+
+      <h3>공통 체크리스트 (C1–C4)</h3>
+      <ul class="checklist">
+        <li><span class="check-id">C1</span> 시작–중간–끝의 흐름이 있는가? (Yes / No)</li>
+        <li><span class="check-id">C2</span> 핵심 메시지가 분명한가? (Yes / No)</li>
+        <li><span class="check-id">C3</span> 발표가 끝났을 때 무엇을 말했는지 한 문장으로 요약 가능한가? (Yes / No)</li>
+        <li><span class="check-id">C4</span> 내용이 갑자기 튀거나 단절되지 않는가? (Yes / No)</li>
+      </ul>
+
+      <div class="note warn">
+        <strong>핵심 원칙:</strong> 발음·문법 오류는 내용 영역에서 평가하지 않는다. 언어 영역(Ⅰ)에서 별도 채점. GPT 프롬프트에 명시적으로 금지 조항 포함.
+      </div>
+
+      <div class="code-wrap" style="margin-top:18px;">
+        <div class="code-label gpt">신뢰도 확보 — 3회 실행 중앙값</div>
+        <pre><span class="kw">async function</span> <span class="fn">scoreContentReliable</span>(transcript, topic) {
+  <span class="cmt">// 동일 입력 3회 실행 (temperature=0)</span>
+  <span class="kw">const</span> <span class="var">runs</span> <span class="op">=</span> <span class="kw">await</span> Promise.all([
+    <span class="fn">callGPT</span>(transcript, topic),
+    <span class="fn">callGPT</span>(transcript, topic),
+    <span class="fn">callGPT</span>(transcript, topic),
+  ]);
+
+  <span class="kw">const</span> <span class="var">scores</span> <span class="op">=</span> runs.map(r <span class="op">=></span> r.score).sort((a,b) <span class="op">=></span> a<span class="op">-</span>b);
+  <span class="kw">const</span> <span class="var">median</span> <span class="op">=</span> scores[<span class="num">1</span>]; <span class="cmt">// 3개 중 중앙값</span>
+
+  <span class="cmt">// 편차 기반 신뢰도 판정</span>
+  <span class="kw">const</span> <span class="var">spread</span> <span class="op">=</span> scores[<span class="num">2</span>] <span class="op">-</span> scores[<span class="num">0</span>];
+  <span class="kw">const</span> <span class="var">confidence</span> <span class="op">=</span> spread <span class="op">===</span> <span class="num">0</span>   ? <span class="str">'high'</span>
+                    : spread <span class="op">&lt;=</span> <span class="num">0.5</span> ? <span class="str">'medium'</span>
+                    :               <span class="str">'low'</span>;  <span class="cmt">// spread > 1.0 → 인간 검토</span>
+
+  <span class="kw">return</span> { ...runs[<span class="num">1</span>], score: median, spread, confidence };
+}</pre>
+      </div>
+    </div>
+
+    <!-- ⑤ Ⅲ. 전달 — Gemini -->
+    <div class="card" id="delivery">
+      <div class="engine-header">
+        <div class="engine-num gemini">Ⅲ</div>
+        <div class="engine-header-text">
+          <h2 style="margin:0 0 4px;">전달 영역</h2>
+          <p>시선 · 표정·자세 · 제스처 · 목소리 · 능숙한 전달 · 완급 · 발표 완수 &nbsp;|&nbsp; <span class="engine-badge gemini">Gemini 2.0 Flash</span></p>
+        </div>
+      </div>
+
+      <h3>타당도 위협과 대응</h3>
+      <div class="threat-list">
+        <div class="threat-item">
+          <div class="threat-label">위협 1</div>
+          <div class="threat-q">영상 품질(조명·각도)에 따른 시선·표정 감지 오차</div>
+          <div class="threat-a">대응: <strong>영상 품질 사전 체크 필수.</strong> poor 판정 시 해당 항목 제외, 나머지 항목으로 점수 재배분.</div>
+        </div>
+        <div class="threat-item">
+          <div class="threat-label">위협 2</div>
+          <div class="threat-q">제스처 "적정 수준" 판단의 주관성</div>
+          <div class="threat-a">심사기준: <em>"너무 많으면 산만, 없으면 경직"</em><br>
+          대응: <strong>None(없음) / Appropriate(적정) / Excessive(과다) 3단계만.</strong> "적정"과 "없음" 사이 주관 판단 제거.</div>
+        </div>
+        <div class="threat-item">
+          <div class="threat-label">위협 3</div>
+          <div class="threat-q">수줍은 학생의 표정 부족으로 과도한 감점</div>
+          <div class="threat-a">심사기준: <em>"수줍어도 끝까지 안정적이면 좋은 평가"</em><br>
+          대응: <strong>발표 완수(V7)를 독립 항목으로 분리.</strong> 표정 항목 비중 축소, 완수 시 보너스 구조.</div>
+        </div>
+        <div class="threat-item">
+          <div class="threat-label">위협 4 (핵심)</div>
+          <div class="threat-q">"능숙한 전달" — 텍스트만으로 판별 불가</div>
+          <div class="threat-a">대응: <strong>4개 프록시 신호 교차 판단.</strong> Gemini 시선 패턴 + Azure 끊김 패턴 + WPM 편차 + 실수 후 회복률 합산.</div>
+        </div>
+      </div>
+
+      <h3>능숙한 전달 (소화도) 감지 — 4개 신호</h3>
+      <table>
+        <thead><tr><th>신호</th><th>엔진</th><th>감지 방법</th><th>의미</th></tr></thead>
+        <tbody>
+          <tr><td><strong>시선 패턴</strong></td><td><span class="engine-badge gemini" style="font-size:11px;">Gemini</span></td><td>카메라 응시율 % · 시선 아래 이동 빈도</td><td>40% 미만 + 반복 하향 = 대본 읽기</td></tr>
+          <tr><td><strong>발화 끊김</strong></td><td><span class="engine-badge azure" style="font-size:11px;">Azure</span></td><td>unexpected_break 횟수</td><td>의미 단위가 아닌 단어별 끊김 = 암기 낭독</td></tr>
+          <tr><td><strong>속도 편차</strong></td><td><span class="engine-badge azure" style="font-size:11px;">Azure</span></td><td>WPM 표준편차</td><td>갑작스러운 속도 저하 = 암기 안 된 구간</td></tr>
+          <tr><td><strong>회복 패턴</strong></td><td>교차</td><td>멈춤 + 시선 이탈 동시 발생 여부</td><td>멈춤 + 시선이탈 = 내용 망각 신호</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Gemini 평가 항목 (V1–V7)</h3>
+      <ul class="checklist">
+        <li><span class="check-id">V1</span> <strong>시선 처리</strong> — 카메라/청중을 의식하며 시선을 유지하는가? (Yes / Partial / No)</li>
+        <li><span class="check-id">V2</span> <strong>표정·자세</strong> — 내용에 어울리는 자연스러운 표정·안정적 자세인가? (Yes / Partial / No)</li>
+        <li><span class="check-id">V3</span> <strong>제스처</strong> — (None / Appropriate / Excessive)</li>
+        <li><span class="check-id">V4</span> <strong>목소리 성량·또렷함</strong> — 충분히 들리고 또렷한가? (Yes / Partial / No)</li>
+        <li><span class="check-id">V5</span> <strong>능숙한 전달</strong> — 내용을 소화해 말하는가? 대본 읽는 느낌인가? (Yes / Partial / No)</li>
+        <li><span class="check-id">V6</span> <strong>완급(속도·멈춤·강조)</strong> — 핵심에서 속도 조절·강조가 있는가? (Yes / Partial / No)</li>
+        <li><span class="check-id">V7</span> <strong>발표 완수</strong> — 중단 없이 끝까지 마무리했는가? (true / false)</li>
+      </ul>
+
+      <div class="note warn">
+        <strong>V7 발표 완수:</strong> 영상 뒷부분이 잘려 발표가 미완료 상태로 끝난 경우도 미완수 처리. 심사기준에 명시된 감점 사유.
+      </div>
+    </div>
+
+    <!-- ⑥ AI 출력 구조 -->
+    <div class="card" id="schema">
+      <div class="section-label">Section 06</div>
+      <h2>AI 출력 구조 (Firestore 스키마)</h2>
+      <p style="color:var(--slate);font-size:14px;">1건 처리 후 저장되는 데이터. 심사위원 화면에 표시되는 전부다.</p>
+
+      <div class="schema-grid">
+        <div class="schema-item">
+          <div class="schema-item-key azure">scores.lang</div>
+          <div class="schema-item-desc">Ⅰ. 언어 점수 (1.0–4.0, 0.5 단위)<br>Azure 3지표 가중 평균 → 보정 → 4점 척도</div>
+        </div>
+        <div class="schema-item">
+          <div class="schema-item-key gpt">scores.content</div>
+          <div class="schema-item-desc">Ⅱ. 내용 점수 (1.0–4.0, 0.5 단위)<br>GPT 체크리스트 → 기술어 매핑 → 3회 중앙값</div>
+        </div>
+        <div class="schema-item">
+          <div class="schema-item-key gemini">scores.delivery</div>
+          <div class="schema-item-desc">Ⅲ. 전달 점수 (1.0–4.0, 0.5 단위)<br>Gemini V1–V7 항목 → 기술어 매핑</div>
+        </div>
+        <div class="schema-item">
+          <div class="schema-item-key neutral">scores.plain</div>
+          <div class="schema-item-desc">단순 합산 (가중치 없음)<br>lang + content + delivery (최대 12점)</div>
+        </div>
+        <div class="schema-item">
+          <div class="schema-item-key neutral">rationale</div>
+          <div class="schema-item-desc">영역별 점수 근거 텍스트 (한국어, 2문장)<br>심사위원 검토 화면에 표시</div>
+        </div>
+        <div class="schema-item">
+          <div class="schema-item-key neutral">feedback</div>
+          <div class="schema-item-desc">positive + improvement (각 1문장)<br>학부모·교사 리포트용</div>
+        </div>
+        <div class="schema-item">
+          <div class="schema-item-key neutral">confidence.overall</div>
+          <div class="schema-item-desc">high / medium / low<br>3개 엔진 중 가장 낮은 값 기준</div>
+        </div>
+        <div class="schema-item">
+          <div class="schema-item-key neutral">flags [ ]</div>
+          <div class="schema-item-desc">자동 감지된 이슈 목록<br>→ needsHumanReview 트리거 판단에 사용</div>
+        </div>
+      </div>
+
+      <div class="code-wrap" style="margin-top:18px;">
+        <div class="code-label neutral">Firestore 저장 데이터 예시</div>
+        <pre>{
+  <span class="str">"submissionId"</span>: <span class="str">"abc123"</span>,
+  <span class="str">"studentName"</span>: <span class="str">"홍길동"</span>,
+
+  <span class="cmt">// ── 핵심: 영역별 점수 3개 (가중치 없음)</span>
+  <span class="str">"scores"</span>: {
+    <span class="str">"lang"</span>:     <span class="num">3.5</span>,  <span class="cmt">// Ⅰ. 언어</span>
+    <span class="str">"content"</span>:  <span class="num">3.0</span>,  <span class="cmt">// Ⅱ. 내용</span>
+    <span class="str">"delivery"</span>: <span class="num">2.5</span>,  <span class="cmt">// Ⅲ. 전달</span>
+    <span class="str">"plain"</span>:    <span class="num">9.0</span>   <span class="cmt">// 단순 합산 (최대 12)</span>
+  },
+
+  <span class="cmt">// ── 심사위원용 근거</span>
+  <span class="str">"rationale"</span>: {
+    <span class="str">"lang"</span>:     <span class="str">"발음 정확도는 높으나 억양이 다소 단조롭습니다."</span>,
+    <span class="str">"content"</span>:  <span class="str">"흐름은 안정적이나 자기 생각이 일부 부족합니다."</span>,
+    <span class="str">"delivery"</span>: <span class="str">"시선 처리가 불안정하고 원고 읽는 느낌이 있습니다."</span>
+  },
+
+  <span class="cmt">// ── 신뢰도</span>
+  <span class="str">"confidence"</span>: {
+    <span class="str">"lang"</span>: <span class="str">"high"</span>, <span class="str">"content"</span>: <span class="str">"medium"</span>, <span class="str">"delivery"</span>: <span class="str">"medium"</span>,
+    <span class="str">"overall"</span>: <span class="str">"medium"</span>  <span class="cmt">// 가장 낮은 값 기준</span>
+  },
+
+  <span class="str">"flags"</span>: [],
+  <span class="str">"needsHumanReview"</span>: <span class="kw">false</span>,
+  <span class="str">"processedAt"</span>: <span class="str">"2026-06-11T09:00:00Z"</span>
+}</pre>
+      </div>
+    </div>
+
+    <!-- ⑦ 인간 검토 트리거 -->
+    <div class="card" id="trigger">
+      <div class="section-label">Section 07</div>
+      <h2>인간 검토 트리거 기준</h2>
+      <p style="color:var(--slate);font-size:14px;"><code>needsHumanReview = true</code> 가 되는 조건. 아래 중 하나라도 해당하면 심사위원 직접 검토.</p>
+
+      <div class="trigger-list">
+        <div class="trigger-item">
+          <div class="trigger-num">1</div>
+          <div class="trigger-body">
+            <strong>confidence.overall === 'low'</strong>
+            <div class="trigger-detail">3개 엔진 중 하나라도 신뢰도가 낮을 때. GPT spread &gt; 1.0, Azure 음질 불량, Gemini 얼굴 미노출 등.</div>
+          </div>
+        </div>
+        <div class="trigger-item">
+          <div class="trigger-num">2</div>
+          <div class="trigger-body">
+            <strong>주요 플래그 존재</strong>
+            <div class="trigger-detail">얼굴미노출_50%이상 / 음질불량 / 발표미완수 / 주제이탈_가능성 / 다중화자감지 / 대본낭독강_의심</div>
+          </div>
+        </div>
+        <div class="trigger-item">
+          <div class="trigger-num">3</div>
+          <div class="trigger-body">
+            <strong>영역간 점수 극단 괴리 — |lang - delivery| &gt; 2.0점</strong>
+            <div class="trigger-detail">예: 언어 4.0 + 전달 1.5 (유창하게 읽지만 완전히 경직된 경우) — 이상값 가능성 확인 필요.</div>
+          </div>
+        </div>
+        <div class="trigger-item">
+          <div class="trigger-num">4</div>
+          <div class="trigger-body">
+            <strong>GPT 내용 점수 spread &gt; 1.0</strong>
+            <div class="trigger-detail">3회 실행에서 점수 범위가 1점 이상이면 내용 판단이 불안정한 것. 해당 발표 직접 읽기 필요.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:16px;">
+        <strong>예상 인간 검토 비율:</strong> confidence HIGH (약 65%, 1,040명) · MEDIUM (약 25%, 400명) · LOW (약 10%, 160명).
+        HIGH는 클릭 확인 1분, MEDIUM은 영상 일부 시청 3분, LOW는 전체 시청 5~7분.
+        심사위원 3명 × 2일이면 처리 가능한 규모.
+      </div>
+    </div>
+
+    <!-- ⑧ 핵심 요약 -->
+    <div class="card" id="summary">
+      <div class="section-label">Section 08</div>
+      <h2>핵심 요약</h2>
+
+      <div class="summary-engine-grid">
+        <div class="summary-engine azure">
+          <div class="summary-engine-title">Azure Speech</div>
+          <div class="summary-engine-domain">Ⅰ. 언어</div>
+          <ul class="summary-engine-points">
+            <li>AccuracyScore · FluencyScore · ProsodyScore</li>
+            <li>오류 단어 비율로 하향 보정</li>
+            <li>WPM 이상 시 Fluency 상한 캡</li>
+            <li>가중 평균 → 4점 척도 (0.5 단위)</li>
+          </ul>
+        </div>
+        <div class="summary-engine gpt">
+          <div class="summary-engine-title">GPT-4o</div>
+          <div class="summary-engine-domain">Ⅱ. 내용</div>
+          <ul class="summary-engine-points">
+            <li>발표 유형 4종 자동 분류</li>
+            <li>유형별 체크리스트 분기 적용</li>
+            <li>temperature=0 · 3회 실행 중앙값</li>
+            <li>발표 길이 기준 완전 제거</li>
+          </ul>
+        </div>
+        <div class="summary-engine gemini">
+          <div class="summary-engine-title">Gemini 2.0 Flash</div>
+          <div class="summary-engine-domain">Ⅲ. 전달</div>
+          <ul class="summary-engine-points">
+            <li>V1–V7 항목 체크리스트</li>
+            <li>능숙한 전달: 4개 신호 교차 판단</li>
+            <li>영상 품질 사전 체크 필수</li>
+            <li>제스처 3단계만 (주관성 제거)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="final-box">
+        <div>
+          <h3>AI가 하는 것</h3>
+          <ul>
+            <li>Ⅰ 언어 4점 척도 산출</li>
+            <li>Ⅱ 내용 4점 척도 산출</li>
+            <li>Ⅲ 전달 4점 척도 산출</li>
+            <li>점수 근거 텍스트 생성 (한국어)</li>
+            <li>학부모·교사용 피드백 생성</li>
+            <li>신뢰도 플래그 → 검토 트리거</li>
+          </ul>
+        </div>
+        <div>
+          <h3>AI가 하지 않는 것</h3>
+          <ul>
+            <li class="no">가중치 적용</li>
+            <li class="no">순위 산정</li>
+            <li class="no">수상 판단</li>
+            <li class="no">영역간 중요도 비교</li>
+            <li class="no">최종 합산 결정</li>
+          </ul>
+          <div style="margin-top:12px;font-size:12.5px;color:rgba(255,255,255,.6);line-height:1.6;">
+            가중치·수상 판단은 심사위원이<br>내부 논의를 통해 결정한다.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>
