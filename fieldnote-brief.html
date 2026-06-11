@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>필드노트 — 사업부 소개 브리핑</title>
+  <style>
+    :root {
+      --blue: #2563eb;
+      --blue-light: #eff6ff;
+      --gray-900: #111827;
+      --gray-700: #374151;
+      --gray-500: #6b7280;
+      --gray-200: #e5e7eb;
+      --gray-100: #f3f4f6;
+      --green: #059669;
+      --red: #dc2626;
+      --yellow: #d97706;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      color: var(--gray-900);
+      background: #f8fafc;
+      line-height: 1.6;
+    }
+
+    /* ── 헤더 ── */
+    .hero {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+      color: white;
+      padding: 56px 40px 48px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 999px;
+      font-size: 11px;
+      letter-spacing: 1px;
+      padding: 4px 14px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+    .hero h1 { font-size: 36px; font-weight: 800; letter-spacing: -0.5px; }
+    .hero .sub { font-size: 16px; color: rgba(255,255,255,0.75); margin-top: 10px; }
+    .hero .url {
+      display: inline-block;
+      margin-top: 22px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+    }
+    .hero .url a { color: white; text-decoration: none; font-weight: 600; }
+    .hero .url a:hover { text-decoration: underline; }
+
+    /* ── 섹션 공통 ── */
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 48px 0; }
+    section + section { border-top: 1px solid var(--gray-200); }
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 8px;
+    }
+    .section-title { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+    .section-desc { font-size: 14px; color: var(--gray-500); margin-bottom: 28px; }
+
+    /* ── 서비스 개요 카드 ── */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .overview-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+    .overview-card .icon { font-size: 28px; margin-bottom: 10px; }
+    .overview-card .label { font-size: 13px; font-weight: 700; color: var(--gray-700); margin-bottom: 4px; }
+    .overview-card .desc { font-size: 12px; color: var(--gray-500); }
+
+    /* ── 기능 설명 ── */
+    .feature-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 600px) { .feature-list { grid-template-columns: 1fr; } }
+    .feature-item {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .feature-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      background: var(--blue-light);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .feature-item h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .feature-item p { font-size: 12px; color: var(--gray-500); line-height: 1.5; }
+
+    /* ── 역할 정의 ── */
+    .role-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 600px) { .role-grid { grid-template-columns: 1fr; } }
+    .role-card {
+      border-radius: 16px;
+      padding: 24px 20px;
+      border: 1px solid;
+    }
+    .role-card.admin  { background: #eff6ff; border-color: #bfdbfe; }
+    .role-card.manager { background: #f0fdf4; border-color: #bbf7d0; }
+    .role-card.director { background: #fffbeb; border-color: #fde68a; }
+    .role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    .role-card.admin .role-badge    { background: #2563eb; color: white; }
+    .role-card.manager .role-badge  { background: #059669; color: white; }
+    .role-card.director .role-badge { background: #d97706; color: white; }
+    .role-card h3 { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
+    .role-card .role-sub { font-size: 11px; color: var(--gray-500); margin-bottom: 14px; }
+    .role-card ul { list-style: none; space-y: 4px; }
+    .role-card ul li {
+      font-size: 12px;
+      color: var(--gray-700);
+      padding: 3px 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .role-card ul li::before { content: "•"; font-size: 10px; color: var(--gray-500); }
+
+    /* ── 권한 표 ── */
+    .perm-table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--gray-200);
+    }
+    thead tr { background: var(--gray-900); color: white; }
+    thead th { padding: 13px 16px; text-align: left; font-size: 12px; font-weight: 600; white-space: nowrap; }
+    thead th:first-child { border-radius: 0; }
+    tbody tr:nth-child(even) { background: var(--gray-100); }
+    tbody td { padding: 12px 16px; border-top: 1px solid var(--gray-200); vertical-align: top; }
+    tbody td:first-child { font-weight: 600; color: var(--gray-700); }
+    .ok  { color: var(--green); font-weight: 600; }
+    .no  { color: #d1d5db; }
+    .partial { color: var(--yellow); font-weight: 600; font-size: 12px; }
+
+    /* ── 테스트 계정 ── */
+    .account-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+    .account-card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 14px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .account-card .a-role {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-bottom: 2px;
+    }
+    .a-admin    { background: #2563eb; color: white; }
+    .a-manager  { background: #059669; color: white; }
+    .a-director { background: #d97706; color: white; }
+    .account-card .a-name { font-size: 15px; font-weight: 700; }
+    .account-card .a-desc { font-size: 11px; color: var(--gray-500); }
+    .account-card .a-email {
+      font-size: 12px;
+      font-family: monospace;
+      background: var(--gray-100);
+      border-radius: 8px;
+      padding: 6px 10px;
+      color: var(--gray-700);
+      margin-top: 4px;
+    }
+    .pw-box {
+      background: #1e293b;
+      color: #7dd3fc;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-family: monospace;
+      font-size: 16px;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+    .pw-box .pw-label { font-size: 10px; color: #64748b; margin-bottom: 4px; letter-spacing: 1px; text-transform: uppercase; font-weight: 400; font-family: sans-serif; }
+
+    /* ── 플로우 ── */
+    .flow-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .flow-step {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .flow-arrow { color: var(--gray-500); font-size: 14px; }
+
+    /* ── 푸터 ── */
+    footer {
+      background: var(--gray-900);
+      color: var(--gray-500);
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+    }
+    footer strong { color: white; }
+  </style>
+</head>
+<body>
+
+<!-- ─────── 히어로 ─────── -->
+<div class="hero">
+  <div class="hero-badge">Internal Preview</div>
+  <h1>📋 필드노트</h1>
+  <p class="sub">현장관리 이력 시스템 — 개설·해지·후속조치를 한 곳에서</p>
+  <div class="url">
+    서비스 주소: <a href="https://yoons-field-note.web.app" target="_blank">https://yoons-field-note.web.app</a>
+  </div>
+</div>
+
+<!-- ─────── 서비스 개요 ─────── -->
+<section>
+  <div class="container">
+    <div class="section-label">Service Overview</div>
+    <div class="section-title">필드노트란?</div>
+    <p class="section-desc">
+      지역본부장과 본사 매니저가 센터 현장 활동, 개설·해지 진행상황, 후속조치 이행을 실시간으로
+      공유·추적하는 내부 업무 시스템입니다.
+    </p>
+    <div class="overview-grid">
+      <div class="overview-card">
+        <div class="icon">📝</div>
+        <div class="label">이력 등록</div>
+        <div class="desc">상담·민원·면담·해지 등 현장 활동을 바로 기록</div>
+      </div>
+      <div class="overview-card">
+        <div class="icon">🔁</div>
+        <div class="label">후속조치 추적</div>
+        <div class="desc">미처리→진행중→완료 상태로 이슈 진행상황 관리</div>
+      </div>
+      <div class="overview-card">
+        <div class="icon">🏗️</div>
+        <div class="label">개설·해지 현황</div>
+        <div class="desc">개설 8단계 / 해지 8단계 체크리스트로 진행 추적</div>
+      </div>
+      <div class="overview-card">
+        <div class="icon">📊</div>
+        <div class="label">AI 주간 리포트</div>
+        <div class="desc">GPT가 주요 이슈를 요약한 주간·월간 리포트 자동 생성</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────── 주요 기능 ─────── -->
+<section>
+  <div class="container">
+    <div class="section-label">Key Features</div>
+    <div class="section-title">주요 기능</div>
+    <p class="section-desc">현장 → 본사 정보 흐름을 하나의 화면에서 관리합니다.</p>
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-icon">🏢</div>
+        <div>
+          <h3>센터별 활동 타임라인</h3>
+          <p>센터 단위로 모든 이력을 시간순으로 조회. 이슈 유형·상태 필터로 빠르게 탐색.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">👤</div>
+        <div>
+          <h3>지역본부장별 활동 현황</h3>
+          <p>본부장별 담당 센터 전체 이력 확인. 본부장은 로그인 시 본인 활동만 조회.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">✅</div>
+        <div>
+          <h3>후속조치 일괄 관리</h3>
+          <p>후속조치가 있는 이슈만 모아 상태 변경(미처리→완료). 담당자 간 진행상황 공유.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🏗️</div>
+        <div>
+          <h3>개설·해지 파이프라인</h3>
+          <p>단계별 체크리스트 + 소통 스레드. 본사와 현장이 같은 화면에서 진행상황 확인.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🔒</div>
+        <div>
+          <h3>내부메모 권한 분리</h3>
+          <p>본사 전용 내부메모 기능. 지역본부장에게는 자동으로 숨김 처리.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🤖</div>
+        <div>
+          <h3>AI 요약 리포트</h3>
+          <p>GPT-4o-mini가 기간별 이슈를 분석해 주간·월간 리포트 초안 자동 생성.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────── 개설·해지 프로세스 ─────── -->
+<section>
+  <div class="container">
+    <div class="section-label">Workflow</div>
+    <div class="section-title">개설·해지 단계 정의</div>
+    <p class="section-desc">실제 학원 가맹 개설 및 폐원 행정 절차를 기반으로 설계했습니다.</p>
+
+    <div style="margin-bottom: 24px;">
+      <div style="font-size: 13px; font-weight: 700; color: #2563eb; margin-bottom: 10px;">🏗️ 개설 프로세스 (8단계)</div>
+      <div class="flow-row">
+        <div class="flow-step">①&nbsp;가망고객 상담</div><div class="flow-arrow">→</div>
+        <div class="flow-step">②&nbsp;가맹계약 체결</div><div class="flow-arrow">→</div>
+        <div class="flow-step">③&nbsp;상권조사·부지 확정</div><div class="flow-arrow">→</div>
+        <div class="flow-step">④&nbsp;인테리어 계약·착공</div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-step">⑤&nbsp;학원 등록 신청(교육청)</div><div class="flow-arrow">→</div>
+        <div class="flow-step">⑥&nbsp;학원 등록증 수령</div><div class="flow-arrow">→</div>
+        <div class="flow-step">⑦&nbsp;개원 준비</div><div class="flow-arrow">→</div>
+        <div class="flow-step">⑧&nbsp;정식 개원 ✅</div>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size: 13px; font-weight: 700; color: #dc2626; margin-bottom: 10px;">🔴 해지 프로세스 (8단계)</div>
+      <div class="flow-row">
+        <div class="flow-step">①&nbsp;해지 의향 접수</div><div class="flow-arrow">→</div>
+        <div class="flow-step">②&nbsp;해지 방어 상담</div><div class="flow-arrow">→</div>
+        <div class="flow-step">③&nbsp;해지 결정 확정</div><div class="flow-arrow">→</div>
+        <div class="flow-step">④&nbsp;수강료 정산</div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-step">⑤&nbsp;가맹계약 해지 처리</div><div class="flow-arrow">→</div>
+        <div class="flow-step">⑥&nbsp;폐원 신고(교육청)</div><div class="flow-arrow">→</div>
+        <div class="flow-step">⑦&nbsp;원상복구</div><div class="flow-arrow">→</div>
+        <div class="flow-step">⑧&nbsp;폐원 완료 ✅</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────── 역할 정의 ─────── -->
+<section>
+  <div class="container">
+    <div class="section-label">Roles</div>
+    <div class="section-title">사용자 역할 정의</div>
+    <p class="section-desc">3가지 역할로 접근 권한이 구분됩니다.</p>
+    <div class="role-grid">
+
+      <div class="role-card admin">
+        <div class="role-badge a-admin">⚙️ 관리자</div>
+        <h3>Admin</h3>
+        <p class="role-sub">팀장·이사급 / 시스템 전체 관리</p>
+        <ul>
+          <li>모든 페이지 전체 접근</li>
+          <li>사용자 계정·역할 생성 및 관리</li>
+          <li>센터·지역본부장 등록</li>
+          <li>내부메모 작성 및 열람</li>
+          <li>개설·해지 파이프라인 생성</li>
+          <li>AI 리포트 생성</li>
+        </ul>
+      </div>
+
+      <div class="role-card manager">
+        <div class="role-badge a-manager">💼 매니저</div>
+        <h3>Manager</h3>
+        <p class="role-sub">본사 담당 매니저</p>
+        <ul>
+          <li>전체 센터·본부장 이력 조회</li>
+          <li>이력 등록 (내부메모 포함)</li>
+          <li>후속조치 상태 관리</li>
+          <li>개설·해지 파이프라인 생성·관리</li>
+          <li>AI 주간·월간 리포트 조회</li>
+          <li>관리자 설정 접근 불가</li>
+        </ul>
+      </div>
+
+      <div class="role-card director">
+        <div class="role-badge a-director">👤 지역본부장</div>
+        <h3>Director</h3>
+        <p class="role-sub">현장 지역본부장</p>
+        <ul>
+          <li>본인 담당 센터만 조회</li>
+          <li>담당 센터에 이력 등록</li>
+          <li>내부메모 열람 불가</li>
+          <li>본인 후속조치 확인·상태 변경</li>
+          <li>개설·해지 현황 확인 + 소통</li>
+          <li>리포트·관리자 설정 접근 불가</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─────── 접근권한 표 ─────── -->
+<section>
+  <div class="container">
+    <div class="section-label">Access Control</div>
+    <div class="section-title">페이지별 접근권한</div>
+    <p class="section-desc">역할에 따라 조회 범위와 기능이 자동으로 제한됩니다.</p>
+    <div class="perm-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>페이지</th>
+            <th>⚙️ 관리자</th>
+            <th>💼 매니저</th>
+            <th>👤 지역본부장</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>🏠 대시보드</td>
+            <td class="ok">✔ 전체</td>
+            <td class="ok">✔ 전체</td>
+            <td class="partial">▲ 담당 센터만</td>
+          </tr>
+          <tr>
+            <td>✏️ 이력 등록</td>
+            <td class="ok">✔ 전체 + 내부메모</td>
+            <td class="ok">✔ 전체 + 내부메모</td>
+            <td class="partial">▲ 담당 센터만</td>
+          </tr>
+          <tr>
+            <td>🏢 센터별 이력</td>
+            <td class="ok">✔ 전체 센터</td>
+            <td class="ok">✔ 전체 센터</td>
+            <td class="partial">▲ 담당 센터만</td>
+          </tr>
+          <tr>
+            <td>👤 지역본부장별</td>
+            <td class="ok">✔ 전체 본부장</td>
+            <td class="ok">✔ 전체 본부장</td>
+            <td class="partial">▲ 본인 활동만</td>
+          </tr>
+          <tr>
+            <td>✅ 후속조치</td>
+            <td class="ok">✔ 전체</td>
+            <td class="ok">✔ 전체</td>
+            <td class="partial">▲ 본인 건만</td>
+          </tr>
+          <tr>
+            <td>🏗️ 개설·해지 현황</td>
+            <td class="ok">✔ 생성·관리 전체</td>
+            <td class="ok">✔ 생성·관리 전체</td>
+            <td class="partial">▲ 본인 건 확인 + 소통</td>
+          </tr>
+          <tr>
+            <td>📊 주간/월간 리포트</td>
+            <td class="ok">✔</td>
+            <td class="ok">✔</td>
+            <td class="no">✕ 접근 불가</td>
+          </tr>
+          <tr>
+            <td>⚙️ 관리자 설정</td>
+            <td class="ok">✔</td>
+            <td class="no">✕ 접근 불가</td>
+            <td class="no">✕ 접근 불가</td>
+          </tr>
+          <tr>
+            <td>🔒 내부메모</td>
+            <td class="ok">✔ 작성 + 열람</td>
+            <td class="ok">✔ 작성 + 열람</td>
+            <td class="no">✕ 숨김 처리</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ─────── 테스트 계정 ─────── -->
+<section>
+  <div class="container">
+    <div class="section-label">Test Accounts</div>
+    <div class="section-title">테스트 계정 목록</div>
+    <p class="section-desc">아래 계정으로 역할별 화면을 직접 체험해볼 수 있습니다.</p>
+
+    <div class="pw-box">
+      <div class="pw-label">공통 비밀번호</div>
+      fieldnote2024!
+    </div>
+
+    <div class="account-grid">
+      <div class="account-card">
+        <span class="a-role a-admin">관리자</span>
+        <div class="a-name">김관리</div>
+        <div class="a-desc">팀장·이사급 / 시스템 전체 관리</div>
+        <div class="a-email">admin@fieldnote.test</div>
+      </div>
+      <div class="account-card">
+        <span class="a-role a-manager">매니저</span>
+        <div class="a-name">이매니저</div>
+        <div class="a-desc">본사 담당 매니저 1</div>
+        <div class="a-email">manager1@fieldnote.test</div>
+      </div>
+      <div class="account-card">
+        <span class="a-role a-manager">매니저</span>
+        <div class="a-name">박매니저</div>
+        <div class="a-desc">본사 담당 매니저 2</div>
+        <div class="a-email">manager2@fieldnote.test</div>
+      </div>
+      <div class="account-card">
+        <span class="a-role a-director">지역본부장</span>
+        <div class="a-name">홍길동 본부장</div>
+        <div class="a-desc">서울 서북권 담당</div>
+        <div class="a-email">director1@fieldnote.test</div>
+      </div>
+      <div class="account-card">
+        <span class="a-role a-director">지역본부장</span>
+        <div class="a-name">최현장 본부장</div>
+        <div class="a-desc">경기 남부 담당</div>
+        <div class="a-email">director2@fieldnote.test</div>
+      </div>
+      <div class="account-card">
+        <span class="a-role a-director">지역본부장</span>
+        <div class="a-name">강지역 본부장</div>
+        <div class="a-desc">인천·부평 담당</div>
+        <div class="a-email">director3@fieldnote.test</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────── 푸터 ─────── -->
+<footer>
+  <strong>필드노트</strong> — Internal MVP Preview &nbsp;|&nbsp;
+  문의: 상품기획팀 &nbsp;|&nbsp;
+  <a href="https://yoons-field-note.web.app" target="_blank" style="color:#60a5fa;">yoons-field-note.web.app</a>
+</footer>
+
+</body>
+</html>
