@@ -585,6 +585,7 @@
     <div class="sidenav-title">목차</div>
     <a href="#role">AI 역할 재정의</a>
     <a href="#pipeline">전체 파이프라인</a>
+    <a href="#stt-issue">⚠️ STT 보정 Transcript 이슈</a>
     <hr class="sidenav-divider">
     <a href="#lang" class="azure">Ⅰ. 언어 — Azure</a>
     <a href="#content" class="gpt">Ⅱ. 내용 — GPT-4o</a>
@@ -680,6 +681,78 @@
       </div>
     </div>
 
+    <!-- ②-1 STT 보정 Transcript 이슈 -->
+    <div class="card" id="stt-issue">
+      <div class="section-label">Section 02-1 · 핵심 아키텍처 이슈</div>
+      <h2>⚠️ STT 보정 Transcript — 무엇을, 어디서 평가하는가</h2>
+      <p style="color:var(--slate);font-size:14px;">
+        GPT(Ⅱ.내용)에 전달되는 Transcript는 Azure STT의 <strong>언어 모델 보정을 거친 텍스트</strong>다.
+        이 사실이 "문법 오류를 어디서 측정하는가"를 완전히 바꾼다.
+      </p>
+
+      <h3>Azure STT는 2단계로 작동한다</h3>
+      <div class="pipeline" style="font-size:12.5px;">
+<span class="c-input">음성 입력</span>
+   │
+   ▼
+<span class="c-azure">[1단계] 음향 모델 (Acoustic Model)</span>
+<span class="c-azure">   음소 단위로 소리를 감지 → AccuracyScore / ErrorType 산출</span>
+<span class="c-azure">   ※ 보정 이전 원시 데이터 — wordDetails 배열</span>
+   │
+   ▼
+<span class="c-gpt">[2단계] 언어 모델 (Language Model)</span>
+<span class="c-gpt">   문맥 기반으로 "가장 그럴듯한 단어"로 보정</span>
+<span class="c-gpt">   ※ 이 결과가 GPT에 전달되는 Transcript 텍스트</span>
+      </div>
+
+      <h3>오류가 사라지거나 남는 두 가지 케이스</h3>
+      <table>
+        <thead><tr><th>학생이 실제 말한 것</th><th>음향 모델 (AccuracyScore)</th><th>GPT가 받는 Transcript</th><th>결과</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>"I eated the apple"</code></td>
+            <td>"eated" 발음 오류 감지 ✅</td>
+            <td><code>"I ate the apple"</code><br>(언어모델이 "ate"로 보정)</td>
+            <td>Ⅰ.언어에서만 반영, GPT는 오류를 못 봄</td>
+          </tr>
+          <tr>
+            <td><code>"I don't know nothing about it"</code></td>
+            <td>그대로 인식</td>
+            <td><code>"I don't know nothing about it"</code><br>(이중부정은 보정 안 됨)</td>
+            <td>Azure·GPT 모두 감지 가능 → 이중 반영 위험</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note warn">
+        보정 여부가 일관적이지 않다. 어떤 오류는 사라지고 어떤 오류는 남는다 — <strong>예측 불가능한 패턴.</strong>
+        따라서 GPT에게 "Transcript에서 문법 오류를 세라"고 시키면 신뢰도가 보장되지 않는다.
+      </div>
+
+      <h3>설계 원칙 — 영역별 데이터 소스 분리</h3>
+      <div class="role-grid">
+        <div class="role-box ai">
+          <div class="role-box-title">✅ Ⅱ.내용 분석 (GPT)</div>
+          <div class="role-item"><span class="dot"></span><span>입력: <strong>보정된 Transcript</strong> 그대로 사용</span></div>
+          <div class="role-item"><span class="dot"></span><span>이유: 의미가 명확해야 구성·메시지 판단이 정확해짐</span></div>
+          <div class="role-item"><span class="dot"></span><span>"I ate the apple"로 읽혀야 내용 파악이 쉬움</span></div>
+          <div class="role-item"><span class="dot"></span><span>프롬프트에 <strong>문법·발음 채점 금지</strong> 명시</span></div>
+        </div>
+        <div class="role-box human" style="background:var(--azure-bg);border-color:var(--azure-mid);">
+          <div class="role-box-title" style="color:var(--azure);">✅ Ⅰ.언어 문법·발음 점수</div>
+          <div class="role-item" style=""><span class="dot" style="background:var(--azure);"></span><span>입력: <strong>Azure word-level ErrorType</strong> (보정 이전 원시 데이터)</span></div>
+          <div class="role-item"><span class="dot" style="background:var(--azure);"></span><span><code>NBest[0].Words[].PronunciationAssessment.ErrorType</code></span></div>
+          <div class="role-item"><span class="dot" style="background:var(--azure);"></span><span>Omission · Insertion · Mispronunciation 직접 카운트</span></div>
+          <div class="role-item"><span class="dot" style="background:var(--azure);"></span><span>Transcript 텍스트는 절대 참조하지 않음</span></div>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:16px;">
+        <strong>한 줄 요약:</strong> 같은 Transcript라도 "내용을 보려는 GPT"에게는 좋은 입력이고,
+        "문법을 채점하려는 누군가"에게는 신뢰할 수 없는 입력이다. 문법은 Azure 원시 데이터에서, 내용은 보정 Transcript에서 — 영역별로 출처를 분리한다.
+      </div>
+    </div>
+
     <!-- ③ Ⅰ. 언어 — Azure -->
     <div class="card" id="lang">
       <div class="engine-header">
@@ -696,7 +769,7 @@
           <div class="threat-label">위협 1</div>
           <div class="threat-q">AccuracyScore가 높아도 의미 전달이 안 되는 경우</div>
           <div class="threat-a">심사기준: <em>"의미 전달을 방해하지 않는 수준의 정확성"</em><br>
-          대응: <strong>AccuracyScore 단독 사용 금지.</strong> FluencyScore와 복합 산출. 오류 단어 비율로 하향 보정.</div>
+          대응: <strong>AccuracyScore 단독 사용 금지.</strong> FluencyScore와 복합 산출. 의미 전달 방해 오류(Omission·Insertion 등)는 <code>wordDetails</code> 원시 데이터를 별도 항목으로 가중 반영.</div>
         </div>
         <div class="threat-item">
           <div class="threat-label">위협 2</div>
@@ -716,11 +789,17 @@
           <tr><th>Azure 지표</th><th>심사기준 항목</th><th>가중치</th><th>비고</th></tr>
         </thead>
         <tbody>
-          <tr><td><code>AccuracyScore</code></td><td>발음 정확도 (음소 단위)</td><td>40%</td><td>오류 단어 비율로 하향 보정</td></tr>
+          <tr><td><code>AccuracyScore</code></td><td>발음 정확도 (음소 단위)</td><td>35%</td><td>음향 모델 단계 측정값 (보정 이전)</td></tr>
           <tr><td><code>FluencyScore</code></td><td>유창성</td><td>35%</td><td>WPM 이상 시 상한 캡 적용</td></tr>
-          <tr><td><code>ProsodyScore</code></td><td>억양·강세·리듬</td><td>25%</td><td>rhythm.unexpected_break 참조</td></tr>
+          <tr><td><code>ProsodyScore</code></td><td>억양·강세·리듬</td><td>20%</td><td>rhythm.unexpected_break 참조</td></tr>
+          <tr><td><code>wordDetails[].errorType</code></td><td>의미 전달 방해 오류 (Omission·Insertion)</td><td>10%</td><td><strong>Transcript가 아닌 원시 word-level 데이터</strong> — STT 보정 이전</td></tr>
         </tbody>
       </table>
+
+      <div class="note warn" style="margin-top:0;">
+        <strong>왜 Transcript를 쓰면 안 되는가:</strong> Azure 언어 모델이 "I eated"를 "I ate"로 보정하면 Transcript에는 오류가 남지 않는다.
+        문법·발음 오류는 보정 이전의 <code>wordDetails</code> 배열에서만 신뢰할 수 있게 측정된다. 자세한 내용은 <a href="#stt-issue" style="color:var(--azure);">Section 02-1</a> 참조.
+      </div>
 
       <h3>100점 → 4점 척도 변환</h3>
       <div class="convert-table">
@@ -736,14 +815,19 @@
       <div class="code-wrap">
         <div class="code-label azure">scoreLang() — 핵심 로직</div>
         <pre><span class="kw">function</span> <span class="fn">scoreLang</span>(azure) {
-  <span class="cmt">// 1. 이해가능성 보정 — 오류 단어 비율로 AccuracyScore 하향</span>
-  <span class="kw">const</span> <span class="var">errorRate</span> <span class="op">=</span> azure.errorWords
-    .filter(w <span class="op">=></span> w.errorType <span class="op">===</span> <span class="str">'Mispronunciation'</span> <span class="op">&&</span> w.accuracyScore <span class="op">&lt;</span> <span class="num">45</span>).length
-    <span class="op">/</span> Math.max(<span class="num">1</span>, azure.totalWords);
+  <span class="cmt">// 1. 의미 전달 방해 오류 — wordDetails(보정 이전 원시 데이터)에서 직접 추출</span>
+  <span class="cmt">//    ⚠️ Transcript 텍스트는 절대 참조하지 않음 (언어모델 보정으로 오류가 사라질 수 있음)</span>
+  <span class="kw">const</span> <span class="var">meaningBlockErrors</span> <span class="op">=</span> azure.wordDetails.filter(w <span class="op">=></span>
+    w.errorType <span class="op">===</span> <span class="str">'Omission'</span>   <span class="op">||</span>  <span class="cmt">// 단어 누락</span>
+    w.errorType <span class="op">===</span> <span class="str">'Insertion'</span>  <span class="op">||</span>  <span class="cmt">// 없는 단어 삽입</span>
+    (w.errorType <span class="op">===</span> <span class="str">'Mispronunciation'</span> <span class="op">&&</span> w.accuracyScore <span class="op">&lt;</span> <span class="num">45</span>)
+  );
+  <span class="kw">const</span> <span class="var">errorRate</span> <span class="op">=</span> meaningBlockErrors.length <span class="op">/</span> Math.max(<span class="num">1</span>, azure.totalWords);
 
-  <span class="kw">const</span> <span class="var">adjustedAccuracy</span> <span class="op">=</span> azure.scores.accuracy <span class="op">*</span> (<span class="num">1</span> <span class="op">-</span> Math.min(<span class="num">0.3</span>, errorRate <span class="op">*</span> <span class="num">2</span>));
+  <span class="cmt">// 2. AccuracyScore는 음향 모델 단계 측정값 (보정 영향 없음) → 그대로 사용</span>
+  <span class="kw">const</span> <span class="var">accuracy</span> <span class="op">=</span> azure.scores.accuracy;
 
-  <span class="cmt">// 2. WPM 이상 시 FluencyScore 상한 캡</span>
+  <span class="cmt">// 3. WPM 이상 시 FluencyScore 상한 캡</span>
   <span class="kw">const</span> <span class="var">wpm</span> <span class="op">=</span> azure.wpm;
   <span class="kw">const</span> <span class="var">fluencyCap</span> <span class="op">=</span> wpm <span class="op">&lt;</span> <span class="num">50</span>  ? <span class="num">55</span>   <span class="cmt">// 극단적으로 느림</span>
                     : wpm <span class="op">&lt;</span> <span class="num">80</span>  ? <span class="num">70</span>   <span class="cmt">// 매우 느림</span>
@@ -751,12 +835,14 @@
                     : <span class="num">100</span>;               <span class="cmt">// 정상, 캡 없음</span>
   <span class="kw">const</span> <span class="var">adjustedFluency</span> <span class="op">=</span> Math.min(azure.scores.fluency, fluencyCap);
 
-  <span class="cmt">// 3. 가중 평균 (발음40 · 유창성35 · 억양25)</span>
-  <span class="kw">const</span> <span class="var">raw</span> <span class="op">=</span> adjustedAccuracy  <span class="op">*</span> <span class="num">0.40</span>
-           <span class="op">+</span> adjustedFluency   <span class="op">*</span> <span class="num">0.35</span>
-           <span class="op">+</span> azure.scores.prosody <span class="op">*</span> <span class="num">0.25</span>;
+  <span class="cmt">// 4. 가중 평균 (발음35 · 유창성35 · 억양20 · 의미오류10)</span>
+  <span class="kw">const</span> <span class="var">errorScore</span> <span class="op">=</span> (<span class="num">1</span> <span class="op">-</span> Math.min(<span class="num">1</span>, errorRate <span class="op">*</span> <span class="num">5</span>)) <span class="op">*</span> <span class="num">100</span>;
+  <span class="kw">const</span> <span class="var">raw</span> <span class="op">=</span> accuracy             <span class="op">*</span> <span class="num">0.35</span>
+           <span class="op">+</span> adjustedFluency      <span class="op">*</span> <span class="num">0.35</span>
+           <span class="op">+</span> azure.scores.prosody <span class="op">*</span> <span class="num">0.20</span>
+           <span class="op">+</span> errorScore            <span class="op">*</span> <span class="num">0.10</span>;
 
-  <span class="cmt">// 4. 100점 → 4점 척도 (0.5 단위)</span>
+  <span class="cmt">// 5. 100점 → 4점 척도 (0.5 단위)</span>
   <span class="kw">return</span> <span class="fn">toHalfPoint</span>(raw);
 }</pre>
       </div>
@@ -791,6 +877,16 @@
           <div class="threat-q">GPT temperature에 따른 점수 편차</div>
           <div class="threat-a">대응: <strong>temperature=0 고정 + 동일 입력 3회 실행 → 중앙값 채택.</strong> Spread > 1.0이면 confidence: low.</div>
         </div>
+        <div class="threat-item">
+          <div class="threat-label">위협 4</div>
+          <div class="threat-q">입력 Transcript가 Azure 언어모델로 보정된 텍스트라는 것</div>
+          <div class="threat-a">
+            "I eated" → "I ate"처럼 오류가 사라진 텍스트가 GPT에 전달됨.<br>
+            대응: <strong>이건 오히려 내용 분석에 유리하다.</strong> 의미가 명확해야 구성·메시지 판단이 정확해지기 때문.
+            단, <strong>GPT가 이 Transcript로 문법을 채점하지 않도록 프롬프트에 명시</strong> — 문법은 Azure 원시 데이터(Ⅰ.언어)에서 별도 측정.
+            자세한 내용은 <a href="#stt-issue" style="color:var(--gpt);">Section 02-1</a> 참조.
+          </div>
+        </div>
       </div>
 
       <h3>발표 유형 분류 (4종)</h3>
@@ -813,7 +909,8 @@
       </ul>
 
       <div class="note warn">
-        <strong>핵심 원칙:</strong> 발음·문법 오류는 내용 영역에서 평가하지 않는다. 언어 영역(Ⅰ)에서 별도 채점. GPT 프롬프트에 명시적으로 금지 조항 포함.
+        <strong>핵심 원칙:</strong> 문법·발음 오류는 내용 영역에서 평가하지 않는다. 언어 영역(Ⅰ)에서 Azure 원시 데이터로 별도 채점.
+        GPT가 받는 Transcript는 STT 언어모델이 보정한 텍스트이므로 여기서 문법 오류를 세는 것은 신뢰도가 보장되지 않는다. GPT 프롬프트에 명시적 금지 조항 포함.
       </div>
 
       <div class="code-wrap" style="margin-top:18px;">
@@ -1033,7 +1130,7 @@
           <div class="summary-engine-domain">Ⅰ. 언어</div>
           <ul class="summary-engine-points">
             <li>AccuracyScore · FluencyScore · ProsodyScore</li>
-            <li>오류 단어 비율로 하향 보정</li>
+            <li>문법 오류는 wordDetails 원시 데이터로 측정</li>
             <li>WPM 이상 시 Fluency 상한 캡</li>
             <li>가중 평균 → 4점 척도 (0.5 단위)</li>
           </ul>
@@ -1045,7 +1142,7 @@
             <li>발표 유형 4종 자동 분류</li>
             <li>유형별 체크리스트 분기 적용</li>
             <li>temperature=0 · 3회 실행 중앙값</li>
-            <li>발표 길이 기준 완전 제거</li>
+            <li>보정 Transcript 사용, 문법 채점 금지</li>
           </ul>
         </div>
         <div class="summary-engine gemini">
