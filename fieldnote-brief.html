@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -256,7 +257,7 @@
 <div class="hero">
   <div class="hero-badge">Internal Preview</div>
   <h1>📋 필드노트</h1>
-  <p class="sub">현장관리 이력 시스템 — 개설·해지·후속조치를 한 곳에서</p>
+  <p class="sub">현장관리 이력 시스템 — 개설·해지·후속조치부터 본부장 월간보고서 자동화까지</p>
   <div class="url">
     서비스 주소: <a href="https://yoons-field-note.web.app" target="_blank">https://yoons-field-note.web.app</a>
   </div>
@@ -291,6 +292,11 @@
         <div class="icon">📊</div>
         <div class="label">AI 주간 리포트</div>
         <div class="desc">GPT가 주요 이슈를 요약한 주간·월간 리포트 자동 생성</div>
+      </div>
+      <div class="overview-card">
+        <div class="icon">📄</div>
+        <div class="label">본부장 월간보고서</div>
+        <div class="desc">평소 입력 이력을 본사 제출 양식으로 자동 집계 + PDF 출력</div>
       </div>
     </div>
   </div>
@@ -343,6 +349,20 @@
         <div>
           <h3>AI 요약 리포트</h3>
           <p>GPT-4o-mini가 기간별 이슈를 분석해 주간·월간 리포트 초안 자동 생성.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">📄</div>
+        <div>
+          <h3>본부장 월간 공식 보고서</h3>
+          <p>「가맹지역본부 활동 현황 보고」 양식 6개 섹션(정량실적·지역모임·센터면담·영업활동·개설활동·센터특이사항)을 평소 이력으로 <b>자동 1차 작성</b> → 본부장이 검토·보완 → <b>임시저장·최종제출</b>. 정량 실적은 수동 입력, AI 종합요약 + PDF 출력 지원.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🧩</div>
+        <div>
+          <h3>보고서 매핑 입력 필드</h3>
+          <p>이력 등록에 BM 구분(학원/우영)·실적/계획·영업지역·개설 영업구역·모임 참석인원·사진을 추가. 입력 한 번이 월간보고서로 그대로 집계됩니다.</p>
         </div>
       </div>
     </div>
@@ -422,6 +442,7 @@
           <li>후속조치 상태 관리</li>
           <li>개설·해지 파이프라인 생성·관리</li>
           <li>AI 주간·월간 리포트 조회</li>
+          <li>본부장 월간보고서 생성·검토</li>
           <li>관리자 설정 접근 불가</li>
         </ul>
       </div>
@@ -436,7 +457,8 @@
           <li>내부메모 열람 불가</li>
           <li>본인 후속조치 확인·상태 변경</li>
           <li>개설·해지 현황 확인 + 소통</li>
-          <li>리포트·관리자 설정 접근 불가</li>
+          <li>본인 월간보고서 자동생성·출력</li>
+          <li>주간 리포트·관리자 설정 접근 불가</li>
         </ul>
       </div>
 
@@ -502,6 +524,12 @@
             <td class="ok">✔</td>
             <td class="ok">✔</td>
             <td class="no">✕ 접근 불가</td>
+          </tr>
+          <tr>
+            <td>📄 본부장 월간보고서</td>
+            <td class="ok">✔ 전체 본부장</td>
+            <td class="ok">✔ 전체 본부장</td>
+            <td class="partial">▲ 본인 보고서</td>
           </tr>
           <tr>
             <td>⚙️ 관리자 설정</td>
