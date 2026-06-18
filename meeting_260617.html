@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI융화 티미팅 회의록</title>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --accent: #2563eb;
+      --accent-soft: #eff6ff;
+      --good: #065f46;
+      --good-soft: #ecfdf5;
+      --warn: #92400e;
+      --warn-soft: #fffbeb;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    .wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 36px 20px 60px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+      color: #fff;
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 16px 40px rgba(37, 99, 235, 0.18);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: 32px;
+      line-height: 1.25;
+    }
+
+    .hero p {
+      margin: 0;
+      font-size: 15px;
+      opacity: 0.95;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .meta .item {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 16px;
+      padding: 14px 16px;
+    }
+
+    .meta .label {
+      display: block;
+      font-size: 12px;
+      opacity: 0.8;
+      margin-bottom: 4px;
+    }
+
+    .meta .value {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 26px;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+    }
+
+    h2 {
+      font-size: 22px;
+      margin: 0 0 14px;
+    }
+
+    h3 {
+      font-size: 17px;
+      margin: 0 0 10px;
+    }
+
+    .summary {
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .section {
+      margin-top: 24px;
+    }
+
+    .section:first-of-type { margin-top: 0; }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    li + li { margin-top: 8px; }
+
+    .highlight {
+      background: var(--accent-soft);
+      border: 1px solid #dbeafe;
+      border-radius: 18px;
+      padding: 18px 18px 18px 20px;
+    }
+
+    .decision {
+      background: var(--good-soft);
+      border-color: #bbf7d0;
+    }
+
+    .risk {
+      background: var(--warn-soft);
+      border: 1px solid #fde68a;
+    }
+
+    .kpi {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .kpi .box {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      background: #fafafa;
+    }
+
+    .kpi .box strong {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .kpi .box span {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .agenda {
+      display: grid;
+      gap: 14px;
+    }
+
+    .agenda-item {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      background: #fff;
+    }
+
+    .agenda-item .num {
+      display: inline-flex;
+      width: 28px;
+      height: 28px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .agenda-item h4 {
+      margin: 0 0 8px;
+      font-size: 17px;
+    }
+
+    .agenda-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .footer-note {
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .grid, .two-col, .meta, .kpi {
+        grid-template-columns: 1fr;
+      }
+      .hero { padding: 24px; }
+      .card { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>AI융화 티미팅 회의록</h1>
+      <p>AI 자체 논의보다 교실·베이직 사업구조 재설계, 선생님 수익구조 개선, 방문형 모델 실험, AI를 활용한 서비스/R&amp;D 고도화 방향이 중심이 된 회의</p>
+      <div class="meta">
+        <div class="item">
+          <span class="label">일시</span>
+          <span class="value">2026.06.17(수) 10:31</span>
+        </div>
+        <div class="item">
+          <span class="label">참석</span>
+          <span class="value">정현, 윤수(CEO), 김영환, 이교준, 윤주영, 우영숙</span>
+        </div>
+        <div class="item">
+          <span class="label">성격</span>
+          <span class="value">방향 점검 및 구조 전환 논의</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>핵심 요약</h2>
+        <p class="summary">
+          본사업 경쟁력 회복 없이 신규사업으로 우회하는 접근은 한계가 있다는 문제의식이 공유되었고,
+          교실·베이직·B2B를 중심으로 선생님 수익구조, 유통/정산 구조, 직영·위탁직영 가능성을 다시 설계해야 한다는 의견이 강하게 제기되었다.
+          AI는 별도 주제가 아니라 이러한 구조 전환을 빠르게 실행하기 위한 수단으로 활용해야 한다는 방향이 정리되었다.
+        </p>
+        <div class="tag-row">
+          <span class="tag">본사업 정상화 우선</span>
+          <span class="tag">직영·위탁직영 검토</span>
+          <span class="tag">선생님 수익성 개선</span>
+          <span class="tag">방문형 모델 실험</span>
+          <span class="tag">AI 기반 R&amp;D 고도화</span>
+        </div>
+
+        <div class="section highlight">
+          <h3>회의에서 반복된 문제의식</h3>
+          <ul>
+            <li>현재 구조는 본사·센터·선생님 모두에게 충분히 경쟁력 있는 모델이 아님.</li>
+            <li>대리점/센터 중심의 기존 마진 구조가 시장 변화 속도를 따라가지 못하고 있음.</li>
+            <li>선생님 입장에서 메리트가 낮아 인력 확보와 유지가 어려움.</li>
+            <li>본사업 구조를 개선하지 않은 채 다른 사업으로 확장하는 논리는 설득력이 약함.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>이번 회의의 초점</h2>
+        <div class="kpi">
+          <div class="box">
+            <strong>우선 과제</strong>
+            <span>교실·베이직 재설계</span>
+          </div>
+          <div class="box">
+            <strong>핵심 병목</strong>
+            <span>선생님 수익성</span>
+          </div>
+          <div class="box">
+            <strong>실행 원칙</strong>
+            <span>파일럿 검증</span>
+          </div>
+        </div>
+
+        <div class="section risk">
+          <h3>리스크 인식</h3>
+          <ul>
+            <li>기존 마진 구조와 이해관계가 강해 내부 저항 가능성이 큼.</li>
+            <li>직영 전환의 필요성에는 공감이 있으나, 실제 수익성과 시장 반응은 검증이 필요함.</li>
+            <li>방문형 모델은 이동시간·채용난·가격 저항을 함께 고려해야 함.</li>
+            <li>AI 활용도 개인 역량 수준에 머물면 조직 실행력으로 이어지기 어려움.</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <section class="card section">
+      <h2>주요 논의 내용</h2>
+      <div class="agenda">
+        <div class="agenda-item">
+          <div class="num">1</div>
+          <h4>시장 인식과 본사업 우선 전략</h4>
+          <p>선진국에서 사교육이 사라진다는 단순 가정보다 형태 변화에 주목해야 하며, 현재 브랜드와 고객 기반을 가진 본사업을 먼저 정상화하는 것이 우선이라는 의견이 제시됨.</p>
+        </div>
+        <div class="agenda-item">
+          <div class="num">2</div>
+          <h4>교실·베이직 구조 재설계 필요</h4>
+          <p>도매 중심 매출 구조와 분할 정산 방식은 시장 대응력과 외부 인식 모두에 한계가 있으며, 위탁직영·직영화 및 연계매출 관점 정리가 필요하다는 논의가 이루어짐.</p>
+        </div>
+        <div class="agenda-item">
+          <div class="num">3</div>
+          <h4>선생님 수익성 중심의 운영모델 검토</h4>
+          <p>홈스터디와 방문형 서비스의 핵심은 선생님이 체감하는 보상 수준이며, 이동시간과 관리 부담을 반영한 새로운 보상 기준이 필요하다는 의견이 공유됨.</p>
+        </div>
+        <div class="agenda-item">
+          <div class="num">4</div>
+          <h4>홈마스터·무빙 공부방 개념 재정의</h4>
+          <p>방문형 서비스를 단순 방문 수업이 아니라 관리형·연계형 서비스로 재설계하고, 공부방과 방문형을 연결한 새로운 포지셔닝을 테스트할 필요가 있다는 아이디어가 제시됨.</p>
+        </div>
+        <div class="agenda-item">
+          <div class="num">5</div>
+          <h4>문해력 등 부가서비스 묶음 가능성</h4>
+          <p>영어 외에 문해력, 사회·국어 보조관리 등 부모가 체감하는 부가가치를 서비스에 결합하면 이탈을 줄이고 경쟁력을 높일 수 있다는 의견이 나옴.</p>
+        </div>
+        <div class="agenda-item">
+          <div class="num">6</div>
+          <h4>AI 활용 방향</h4>
+          <p>AI는 독립 과제가 아니라 선생님 지원, 자료 제작, 콘텐츠 업그레이드, 서비스 고도화를 빠르게 실행하기 위한 수단으로 활용해야 한다는 방향이 강조됨.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card section decision">
+      <h2>잠정 정리</h2>
+      <ul>
+        <li>신규사업 확대보다 교실·베이직·B2B 구조 재설계가 우선 과제임.</li>
+        <li>핵심 병목은 선생님 수익성, 유통/정산 구조, 센터 중심 운영 관성임.</li>
+        <li>직영·위탁직영 전환은 필요성이 있으나, 전면 도입 전에 파일럿 검증이 선행되어야 함.</li>
+        <li>AI는 별도 주제가 아니라 구조 전환 실행력을 높이는 수단으로 정의하는 것이 적절함.</li>
+      </ul>
+    </section>
+
+    <section class="card section">
+      <h2>후속 검토 과제</h2>
+      <div class="two-col">
+        <div>
+          <h3>사업 구조</h3>
+          <ul>
+            <li>교실/베이직 직영·위탁직영 시나리오 정리</li>
+            <li>연계매출/본매출 커뮤니케이션 프레임 정리</li>
+            <li>센터·현장·본사 마진 구조 재설계안 검토</li>
+            <li>방문형 서비스 가격/보상 가설 수립</li>
+          </ul>
+        </div>
+        <div>
+          <h3>서비스/실행</h3>
+          <ul>
+            <li>홈마스터·무빙 공부방 파일럿 모델 정의</li>
+            <li>베이직 온라인 유입과 방문형 서비스 연계 구조 설계</li>
+            <li>문해력 등 부가서비스 번들안 구체화</li>
+            <li>AI 기반 자료 제작·선생님 지원 체계 초안 마련</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card section">
+      <h2>메모</h2>
+      <ul>
+        <li>이번 회의는 확정 의사결정보다 방향성 점검과 구조 전환 필요성 확인이 중심이었음.</li>
+        <li>이후 논의는 찬반 반복보다, 어떤 모델을 어떤 조건으로 테스트할지에 집중할 필요가 있음.</li>
+        <li>내부 설득을 위해서는 정성 논리보다 데이터, 수익성 시뮬레이션, 파일럿 결과가 중요함.</li>
+      </ul>
+    </section>
+
+    <p class="footer-note">AI융화 티미팅 회의 내용을 바탕으로 정리한 HTML 회의록 시안</p>
+  </div>
+</body>
+</html>
