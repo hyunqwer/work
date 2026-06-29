@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026년 6월 통합 세미나 소감서 분석 보고</title>
+<style>
+  :root {
+    --navy:#172554;
+    --blue:#2563eb;
+    --sky:#eff6ff;
+    --teal:#0f766e;
+    --green:#16a34a;
+    --amber:#d97706;
+    --red:#dc2626;
+    --ink:#111827;
+    --muted:#64748b;
+    --line:#e5e7eb;
+    --soft:#f8fafc;
+    --card:#ffffff;
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0;
+    background:#f1f5f9;
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR","Apple SD Gothic Neo",Arial,sans-serif;
+    line-height:1.58;
+  }
+  .page {
+    max-width:1180px;
+    margin:0 auto;
+    padding:34px 28px 72px;
+  }
+  .hero {
+    background:linear-gradient(135deg,#172554 0%,#1d4ed8 56%,#0f766e 100%);
+    color:#fff;
+    border-radius:28px;
+    padding:34px 38px;
+    box-shadow:0 22px 52px rgba(15,23,42,.20);
+  }
+  .eyebrow {
+    font-size:14px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    opacity:.82;
+    margin-bottom:8px;
+  }
+  h1 {
+    font-size:34px;
+    line-height:1.22;
+    margin:0 0 12px;
+    letter-spacing:-.03em;
+  }
+  .hero p {
+    margin:0;
+    opacity:.92;
+    max-width:920px;
+  }
+  .meta {
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:20px;
+  }
+  .meta span {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    border:1px solid rgba(255,255,255,.28);
+    background:rgba(255,255,255,.12);
+    padding:7px 12px;
+    border-radius:999px;
+    font-size:13px;
+  }
+  .grid {
+    display:grid;
+    gap:18px;
+  }
+  .grid-4 { grid-template-columns:repeat(4,1fr); }
+  .grid-2 { grid-template-columns:repeat(2,1fr); }
+  .section {
+    margin-top:24px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:24px;
+    padding:26px;
+    box-shadow:0 14px 36px rgba(15,23,42,.07);
+  }
+  .section h2 {
+    margin:0 0 16px;
+    font-size:23px;
+    letter-spacing:-.02em;
+    color:#0f172a;
+  }
+  .section h3 {
+    margin:22px 0 10px;
+    font-size:18px;
+    color:#0f172a;
+  }
+  .kpi {
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:20px;
+    min-height:132px;
+  }
+  .kpi .label {
+    color:var(--muted);
+    font-size:14px;
+    margin-bottom:8px;
+  }
+  .kpi .value {
+    font-size:34px;
+    font-weight:800;
+    color:var(--navy);
+    letter-spacing:-.035em;
+  }
+  .kpi .sub {
+    margin-top:8px;
+    color:var(--muted);
+    font-size:13px;
+  }
+  .insight {
+    border-left:5px solid var(--blue);
+    background:#f8fbff;
+    padding:16px 18px;
+    border-radius:16px;
+    margin:14px 0;
+  }
+  .insight strong { color:#1e40af; }
+  .callout {
+    background:#fffbeb;
+    border:1px solid #fde68a;
+    border-left:5px solid var(--amber);
+    border-radius:16px;
+    padding:16px 18px;
+    margin:16px 0 0;
+  }
+  .recommend {
+    display:grid;
+    grid-template-columns:220px 1fr 1fr;
+    gap:0;
+    border:1px solid var(--line);
+    border-radius:18px;
+    overflow:hidden;
+    margin-top:12px;
+  }
+  .recommend > div {
+    padding:15px 16px;
+    border-bottom:1px solid var(--line);
+    background:#fff;
+  }
+  .recommend > div:nth-child(1),
+  .recommend > div:nth-child(2),
+  .recommend > div:nth-child(3) {
+    background:#f8fafc;
+    font-weight:700;
+    color:#334155;
+  }
+  .recommend > div:nth-last-child(-n+3) { border-bottom:0; }
+  .tag {
+    display:inline-block;
+    padding:4px 9px;
+    border-radius:999px;
+    background:#e0f2fe;
+    color:#075985;
+    font-size:12px;
+    font-weight:700;
+  }
+  .bar-row {
+    display:grid;
+    grid-template-columns:minmax(160px, 250px) 1fr 122px;
+    gap:12px;
+    align-items:center;
+    padding:10px 0;
+    border-bottom:1px dashed #e2e8f0;
+  }
+  .bar-row:last-child { border-bottom:0; }
+  .bar-label { font-weight:650; color:#334155; }
+  .bar-wrap {
+    height:14px;
+    background:#e2e8f0;
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .bar {
+    height:100%;
+    border-radius:999px;
+    background:linear-gradient(90deg,#2563eb,#0f766e);
+  }
+  .bar-num {
+    text-align:right;
+    color:#334155;
+    font-size:14px;
+    white-space:nowrap;
+  }
+  .bar-num span { color:var(--muted); }
+  table {
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+    overflow:hidden;
+    border:1px solid var(--line);
+    border-radius:16px;
+    background:#fff;
+  }
+  th, td {
+    padding:12px 13px;
+    border-bottom:1px solid var(--line);
+    text-align:center;
+    font-size:14px;
+    vertical-align:top;
+  }
+  th {
+    background:#f8fafc;
+    color:#334155;
+    font-weight:800;
+  }
+  tr:last-child td { border-bottom:0; }
+  td.left, th.left { text-align:left; }
+  .pill {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:68px;
+    padding:3px 8px;
+    border-radius:999px;
+    font-weight:700;
+    font-size:12px;
+  }
+  .pill.ok { background:#dcfce7; color:#166534; }
+  .pill.warn { background:#fef3c7; color:#92400e; }
+  .quote-grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+  }
+  blockquote {
+    margin:0;
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:18px;
+    padding:16px 17px;
+    color:#334155;
+    min-height:116px;
+  }
+  blockquote:before {
+    content:"“";
+    font-size:32px;
+    line-height:0;
+    color:#93c5fd;
+    vertical-align:-12px;
+    margin-right:4px;
+  }
+  .note {
+    color:var(--muted);
+    font-size:13px;
+  }
+  .two-col {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  .mini {
+    padding:15px;
+    border-radius:16px;
+    background:#f8fafc;
+    border:1px solid var(--line);
+  }
+  .mini h4 {
+    margin:0 0 8px;
+    font-size:16px;
+  }
+  ul.tight {
+    margin:8px 0 0 18px;
+    padding:0;
+  }
+  ul.tight li { margin:5px 0; }
+  details {
+    margin-top:16px;
+    border:1px solid var(--line);
+    border-radius:18px;
+    background:#fff;
+    overflow:hidden;
+  }
+  summary {
+    cursor:pointer;
+    padding:16px 18px;
+    font-weight:800;
+    background:#f8fafc;
+  }
+  .appendix {
+    max-height:520px;
+    overflow:auto;
+  }
+  .appendix table {
+    border-radius:0;
+    border-left:0;
+    border-right:0;
+    border-bottom:0;
+  }
+  .appendix td:nth-child(1) { width:64px; color:#64748b; }
+  .appendix td:nth-child(2) { text-align:left; }
+  .footer {
+    margin-top:20px;
+    text-align:right;
+    color:#64748b;
+    font-size:12px;
+  }
+  @media print {
+    body { background:#fff; }
+    .page { max-width:100%; padding:0; }
+    .section, .hero, .kpi { box-shadow:none; break-inside:avoid; }
+    details { break-inside:avoid; }
+  }
+  @media (max-width:900px) {
+    .grid-4, .grid-2, .two-col, .quote-grid { grid-template-columns:1fr; }
+    .bar-row { grid-template-columns:1fr; gap:6px; }
+    .bar-num { text-align:left; }
+    .recommend { grid-template-columns:1fr; }
+    .recommend > div { border-bottom:1px solid var(--line) !important; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="hero">
+    <div class="eyebrow">Survey Analysis Report</div>
+    <h1>2026년 6월 통합 세미나 소감서 분석 보고</h1>
+    <p>세미나 만족도, BM별 응답 분포, 주관식 의견을 기반으로 다음 세미나 기획 및 현장 지원 과제를 도출했습니다.</p>
+    <div class="meta">
+      <span>응답기간: 2026.06.23 10:51 ~ 2026.06.24 18:08</span>
+      <span>총 응답: 216건</span>
+      <span>소속 BM: 5개</span>
+      <span>주관식 분석: 다중 키워드 분류</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>1. 핵심 요약</h2>
+    <div class="grid grid-4">
+      <div class="kpi">
+        <div class="label">전체 응답 수</div>
+        <div class="value">216건</div>
+        <div class="sub">6월 23~24일 제출 기준</div>
+      </div>
+      <div class="kpi">
+        <div class="label">긍정 응답률</div>
+        <div class="value">96.8%</div>
+        <div class="sub">매우 만족 + 만족</div>
+      </div>
+      <div class="kpi">
+        <div class="label">매우 만족 비중</div>
+        <div class="value">53.7%</div>
+        <div class="sub">116건 / 216건</div>
+      </div>
+      <div class="kpi">
+        <div class="label">평균 만족도</div>
+        <div class="value">2.50/3</div>
+        <div class="sub">보통=1, 만족=2, 매우 만족=3</div>
+      </div>
+    </div>
+
+    <div class="insight">
+      <strong>결론:</strong> 6월 통합 세미나는 전반적으로 매우 긍정적입니다. 특히 리얼스피치의 준비 절차, 심사 기준, 실제 원장 사례가 현장의 막연함을 줄이고 “해볼 수 있겠다”는 참여 동기를 만든 점이 가장 큰 성과입니다.
+    </div>
+    <div class="callout">
+      <strong>주의해서 볼 지점:</strong> 만족도는 높지만, 향후 요청은 단순 정보 제공보다 “현장에서 바로 쓰는 운영법·교재 활용·중등/내신·홍보/상담·AI툴 사례”로 집중됩니다. 다음 세미나는 실무형 후속편으로 설계할 필요가 있습니다.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>2. 만족도 결과</h2>
+    <div class="two-col">
+      <div>
+        <h3>전체 만족도 분포</h3>
+        
+    <div class="bar-row">
+      <div class="bar-label">매우 만족</div>
+      <div class="bar-wrap"><div class="bar" style="width:53.7%"></div></div>
+      <div class="bar-num"><b>116</b>건 <span>53.7%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">만족</div>
+      <div class="bar-wrap"><div class="bar" style="width:43.1%"></div></div>
+      <div class="bar-num"><b>93</b>건 <span>43.1%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">보통</div>
+      <div class="bar-wrap"><div class="bar" style="width:3.2%"></div></div>
+      <div class="bar-num"><b>7</b>건 <span>3.2%</span></div>
+      
+    </div>
+    
+        <p class="note">불만족 계열 응답은 없었으며, 보통 응답은 7건입니다.</p>
+      </div>
+      <div>
+        <h3>해석 포인트</h3>
+        <div class="mini">
+          <h4>강점</h4>
+          <ul class="tight">
+            <li>긍정응답률 96.8%로 세미나 메시지 수용도가 높습니다.</li>
+            <li>리얼스피치가 “중요 이벤트”에서 “실행 가능한 활동”으로 인식 전환된 흔적이 뚜렷합니다.</li>
+            <li>사례 중심 설명이 현장 설득력과 실행 의지를 높였습니다.</li>
+          </ul>
+        </div>
+        <div class="mini" style="margin-top:12px;">
+          <h4>리스크</h4>
+          <ul class="tight">
+            <li>3점 척도라 만족도 변별력은 제한적입니다.</li>
+            <li>응답자는 세미나 참여자 중 자발 응답자이므로 실제 전체 참석자 의견과 차이가 있을 수 있습니다.</li>
+            <li>리얼스피치 접수 방식, 영상 공개 채널, 일정 부담에 대한 우려가 일부 확인됩니다.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h3>BM별 만족도</h3>
+    <table>
+      <thead>
+        <tr>
+          <th class="left">소속 BM</th>
+          <th>응답</th>
+          <th>비중</th>
+          <th>매우 만족</th>
+          <th>만족</th>
+          <th>보통</th>
+          <th>긍정률</th>
+          <th>매우 만족률</th>
+          <th>평균</th>
+        </tr>
+      </thead>
+      <tbody>
+    <tr>
+      <td class="left">우리집앞영어교실</td>
+      <td>91</td>
+      <td>42.1%</td>
+      <td>47</td>
+      <td>41</td>
+      <td>3</td>
+      <td><span class="pill ok">96.7%</span></td>
+      <td>51.6%</td>
+      <td>2.48</td>
+    </tr>
+    <tr>
+      <td class="left">영어교실</td>
+      <td>76</td>
+      <td>35.2%</td>
+      <td>41</td>
+      <td>32</td>
+      <td>3</td>
+      <td><span class="pill ok">96.1%</span></td>
+      <td>53.9%</td>
+      <td>2.50</td>
+    </tr>
+    <tr>
+      <td class="left">영어숲</td>
+      <td>21</td>
+      <td>9.7%</td>
+      <td>9</td>
+      <td>12</td>
+      <td>0</td>
+      <td><span class="pill ok">100.0%</span></td>
+      <td>42.9%</td>
+      <td>2.43</td>
+    </tr>
+    <tr>
+      <td class="left">IGSE아카데미</td>
+      <td>19</td>
+      <td>8.8%</td>
+      <td>14</td>
+      <td>4</td>
+      <td>1</td>
+      <td><span class="pill warn">94.7%</span></td>
+      <td>73.7%</td>
+      <td>2.68</td>
+    </tr>
+    <tr>
+      <td class="left">지역가맹본부장</td>
+      <td>9</td>
+      <td>4.2%</td>
+      <td>5</td>
+      <td>4</td>
+      <td>0</td>
+      <td><span class="pill ok">100.0%</span></td>
+      <td>55.6%</td>
+      <td>2.56</td>
+    </tr></tbody>
+    </table>
+    <p class="note">BM별 표본 수 차이가 크므로, 평균 비교보다 응답 경향 파악용으로 보는 것이 적절합니다.</p>
+  </div>
+
+  <div class="section">
+    <h2>3. 좋았던 내용 분석</h2>
+    <p>주관식 의견 중 실질 내용이 있는 응답은 <b>194건</b>입니다. 하나의 응답이 여러 주제에 해당할 수 있어 중복 집계했습니다.</p>
+    <div class="grid grid-2">
+      <div>
+        <h3>주요 언급 주제</h3>
+        
+    <div class="bar-row">
+      <div class="bar-label">리얼스피치 준비·운영 안내</div>
+      <div class="bar-wrap"><div class="bar" style="width:65.5%"></div></div>
+      <div class="bar-num"><b>127</b>건 <span>65.5%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">단계별·구체적 실행 가이드</div>
+      <div class="bar-wrap"><div class="bar" style="width:18.6%"></div></div>
+      <div class="bar-num"><b>36</b>건 <span>18.6%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">현장 사례·원장 노하우</div>
+      <div class="bar-wrap"><div class="bar" style="width:13.9%"></div></div>
+      <div class="bar-num"><b>27</b>건 <span>13.9%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">참여 동기·자신감 형성</div>
+      <div class="bar-wrap"><div class="bar" style="width:13.9%"></div></div>
+      <div class="bar-num"><b>27</b>건 <span>13.9%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">AI·신규 툴 활용</div>
+      <div class="bar-wrap"><div class="bar" style="width:8.2%"></div></div>
+      <div class="bar-num"><b>16</b>건 <span>8.2%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">이벤트·시상·프로모션</div>
+      <div class="bar-wrap"><div class="bar" style="width:7.7%"></div></div>
+      <div class="bar-num"><b>15</b>건 <span>7.7%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">운영 개선 요청/우려</div>
+      <div class="bar-wrap"><div class="bar" style="width:4.6%"></div></div>
+      <div class="bar-num"><b>9</b>건 <span>4.6%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">퍼펙트케어·신규 서비스 기대</div>
+      <div class="bar-wrap"><div class="bar" style="width:2.1%"></div></div>
+      <div class="bar-num"><b>4</b>건 <span>2.1%</span></div>
+      
+    </div>
+    
+      </div>
+      <div>
+        <h3>핵심 해석</h3>
+        <div class="mini">
+          <h4>가장 강하게 반응한 부분</h4>
+          <p>리얼스피치 관련 언급이 압도적입니다. 단순 안내보다 <b>준비 과정, 심사 기준, 접수/참여 절차, 현장 사례</b>가 결합되면서 현장 실행성이 높아졌다는 반응이 많았습니다.</p>
+        </div>
+        <div class="mini" style="margin-top:12px;">
+          <h4>세미나 설계상 유효했던 포맷</h4>
+          <p>본사 설명만으로 끝나는 방식보다, 실제 원장·교사의 경험담과 운영 프로세스를 함께 보여준 구성이 효과적이었습니다. 이후 세미나도 “정책 안내 + 현장 적용 사례 + 바로 쓰는 자료” 구조가 적합합니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>대표 원문</h3>
+    <div class="quote-grid">
+      <blockquote>막연했던 리얼스피치가 구체적으로 다가왔어요.</blockquote><blockquote>스피치콘테스트 관련 실제 준비사례를 공유해주시는게 좋았습니다. 적용해볼 것이 많았습니다.</blockquote><blockquote>리얼스피치 도전해볼 용기를 주셨어요.</blockquote><blockquote>리얼스피치 준비 전과정 체크리스트가 도움됐음.</blockquote><blockquote>AI 실험실 각종 툴들을 이용한다는 게 시대에 맞게 본사에서 많은 노력을 하고 있다는 점이 느껴졌습니다.</blockquote>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>4. 향후 세미나 희망 주제</h2>
+    <p>향후 주제 요청 중 실질 내용이 있는 응답은 <b>150건</b>입니다. 요청은 “본사 정책 안내”보다 <b>현장 운영에 바로 적용할 수 있는 실무형 콘텐츠</b>에 집중됩니다.</p>
+    <div class="grid grid-2">
+      <div>
+        <h3>희망 주제 상위 영역</h3>
+        
+    <div class="bar-row">
+      <div class="bar-label">회원관리·수업운영·유지</div>
+      <div class="bar-wrap"><div class="bar" style="width:24.7%"></div></div>
+      <div class="bar-num"><b>37</b>건 <span>24.7%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">교재·커리큘럼·신간 활용</div>
+      <div class="bar-wrap"><div class="bar" style="width:23.3%"></div></div>
+      <div class="bar-num"><b>35</b>건 <span>23.3%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">현장 사례·우수 원장 노하우</div>
+      <div class="bar-wrap"><div class="bar" style="width:20.7%"></div></div>
+      <div class="bar-num"><b>31</b>건 <span>20.7%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">홍보·영업·신규유치·이벤트</div>
+      <div class="bar-wrap"><div class="bar" style="width:16.0%"></div></div>
+      <div class="bar-num"><b>24</b>건 <span>16.0%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">중등·내신·입시 대응</div>
+      <div class="bar-wrap"><div class="bar" style="width:14.7%"></div></div>
+      <div class="bar-num"><b>22</b>건 <span>14.7%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">AI·디지털 툴·퍼펙트케어</div>
+      <div class="bar-wrap"><div class="bar" style="width:13.3%"></div></div>
+      <div class="bar-num"><b>20</b>건 <span>13.3%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">학부모 상담·설명회</div>
+      <div class="bar-wrap"><div class="bar" style="width:10.7%"></div></div>
+      <div class="bar-num"><b>16</b>건 <span>10.7%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">학력평가·YSAT</div>
+      <div class="bar-wrap"><div class="bar" style="width:6.7%"></div></div>
+      <div class="bar-num"><b>10</b>건 <span>6.7%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">특강·방학·시즌 운영</div>
+      <div class="bar-wrap"><div class="bar" style="width:4.7%"></div></div>
+      <div class="bar-num"><b>7</b>건 <span>4.7%</span></div>
+      
+    </div>
+    
+    <div class="bar-row">
+      <div class="bar-label">리얼스피치·대회 운영</div>
+      <div class="bar-wrap"><div class="bar" style="width:2.7%"></div></div>
+      <div class="bar-num"><b>4</b>건 <span>2.7%</span></div>
+      
+    </div>
+    
+      </div>
+      <div>
+        <h3>현장 니즈 해석</h3>
+        <div class="mini">
+          <h4>1순위: 운영과 관리의 실제법</h4>
+          <p>회원 수 증가, 1인 운영, 장기 유지, 학습 안 하는 학생 대응, 피드백 방식 등 “매일 부딪히는 운영 문제”에 대한 구체적 해법을 요구합니다.</p>
+        </div>
+        <div class="mini" style="margin-top:12px;">
+          <h4>2순위: 교재·중등·내신의 연결</h4>
+          <p>교재 활용법, 중등 내신, 고학년 로드맵, 신간 안내 요구가 많습니다. 특히 중등부 경쟁력과 교재 라인업에 대한 불안이 반복됩니다.</p>
+        </div>
+        <div class="mini" style="margin-top:12px;">
+          <h4>3순위: 홍보·상담·AI 활용</h4>
+          <p>신규 유치, 소개 유도, 학부모 상담 멘트, AI 실험실·퍼펙트케어의 실제 활용 사례가 다음 액션 주제로 적합합니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>대표 원문</h3>
+    <div class="quote-grid">
+      <blockquote>실질적인 관리방안을 더 듣고 싶습니다.</blockquote><blockquote>실제 원장님들이 사용하고 있는 중등 내신대비 교재 활용 팁을 알고 싶어요.</blockquote><blockquote>회원 수가 늘어나면서 혼자 감당하기 버거울 때 효과적인 수업 운영방법과 노하우를 알려주세요.</blockquote><blockquote>AI 실험실 활용 사례들이 반복해서 나왔을 때 활용도가 높아지지 않을까 생각합니다.</blockquote><blockquote>YSAT 평가가 학교 평가와 달라 부모님들이 이해를 못하는 경우가 있어 난이도 설명과 상담법이 필요합니다.</blockquote>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>5. 개선 요청 및 리스크</h2>
+    <div class="two-col">
+      <div>
+        <h3>확인된 우려</h3>
+        <ul class="tight">
+          <li><b>리얼스피치 영상 공개 채널 부담:</b> 유튜브·인스타 업로드에 대한 거부감이 일부 확인됩니다.</li>
+          <li><b>대회 일정 부담:</b> 시험기간, 휴가, 방학특강과 겹치는 시기 조정 요청이 있습니다.</li>
+          <li><b>접수 문턱:</b> 학부모 접수 방식이 어렵거나 번거롭다는 의견이 있습니다.</li>
+          <li><b>이벤트 피로도:</b> 이벤트가 많아 현장 운영 부담으로 읽히는 의견이 있습니다.</li>
+          <li><b>정보량 과다:</b> 내용이 많아 소화가 어렵다는 반응이 일부 있습니다.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>대표 원문</h3>
+        <div class="quote-grid" style="grid-template-columns:1fr;">
+          <blockquote>스피치영상을 유튜브나 인스타에 올리는 건 안했으면 좋겠습니다.</blockquote><blockquote>사례 발표는 아주 좋았습니다. 그러나 발표 날짜를 내년에는 8월 초나 중순으로 했으면 합니다.</blockquote><blockquote>학부모 접수가 문턱이 너무 높다고 생각합니다.</blockquote><blockquote>이벤트 많아서 힘드네요.</blockquote><blockquote>내용이 너무 많아 잘 모르겠어요.</blockquote>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>6. 다음 세미나 기획 제안</h2>
+    <div class="recommend">
+      <div>추천 주제</div><div>구성안</div><div>고객 설득 포인트</div>
+
+      <div><span class="tag">1순위</span><br><b>리얼스피치 후속 실무편</b></div>
+      <div>아이디어맵 → 원고 작성 → 교사 피드백 → 발표 연습 → 접수/업로드까지 한 명의 학생 사례로 시연. 체크리스트와 학부모 안내문 함께 제공.</div>
+      <div>이번 세미나의 높은 관심을 실제 참여율로 전환할 수 있습니다. 단, 접수 방식과 영상 공개 부담을 함께 해소해야 합니다.</div>
+
+      <div><span class="tag">2순위</span><br><b>회원관리·수업운영 사례편</b></div>
+      <div>원생 0~10명, 10~20명, 30명 이상 규모별 운영 루틴, 피드백 방식, 장기 유지 관리, 학습 안 하는 학생 대응 사례를 인터뷰형으로 구성.</div>
+      <div>현장 체감도가 높고 BM별 차이를 넘어 공통 니즈가 큽니다. 우수 원장 사례를 자료화하면 재사용 가치가 높습니다.</div>
+
+      <div><span class="tag">3순위</span><br><b>중등·내신·교재 활용 로드맵</b></div>
+      <div>초등 고학년에서 중등으로 이어지는 교재 라인업, 내신 대비, 문법·리딩·어휘 활용법을 실제 수업 예시와 상담 멘트로 연결.</div>
+      <div>중등부 이탈 방지와 신규 상담 설득에 직접 연결됩니다. 교재 부족/신간 요구도 함께 정리해 사업부 피드백으로 넘길 수 있습니다.</div>
+
+      <div><span class="tag">보완</span><br><b>AI 실험실·퍼펙트케어 활용 사례</b></div>
+      <div>기능 소개보다 “어떤 학생에게, 어떤 상황에서, 어떤 결과물을 만들었는지” 중심의 전후 사례를 반복 노출.</div>
+      <div>도구 인지도는 생겼지만 실제 활용 장벽이 남아 있습니다. 사용법 교육보다 현장 적용 사례가 더 설득력 있습니다.</div>
+
+      <div><span class="tag">보완</span><br><b>홍보·상담 메시지 패키지</b></div>
+      <div>소개 이벤트 안내 멘트, 학부모 간담회 구성, YSAT 난이도 상담, 리얼스피치 참여 권유 메시지를 바로 복사해 쓸 수 있게 제공.</div>
+      <div>현장이 원하는 것은 방향보다 문장입니다. 실행 문구가 제공되면 활용률이 높아집니다.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>7. 최종 의견</h2>
+    <div class="insight">
+      이번 세미나는 리얼스피치를 중심으로 현장 실행 의지를 끌어올린 성과가 큽니다. 다음 단계는 추가 설명이 아니라 <b>참여율을 실제로 높이는 실행 패키지</b>입니다. 특히 리얼스피치 후속 실무편, 규모별 회원관리 사례, 중등·교재 활용 로드맵을 우선 편성하는 것이 가장 효과적입니다.
+    </div>
+    <div class="callout">
+      <b>사업부/기획 관점의 핵심 과제:</b> 세미나를 일회성 교육으로 끝내지 말고, 현장에서 바로 배포 가능한 체크리스트·상담문구·운영 사례집·AI툴 사용 예시로 전환해야 합니다. 그래야 만족도가 실제 참여, 유지, 신규 유치 성과로 이어질 가능성이 높습니다.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>부록. 분석 기준 및 주관식 원문</h2>
+    <p class="note">주관식 분류는 키워드 기반 다중 분류입니다. 하나의 응답이 여러 주제에 중복 집계될 수 있으며, 단순 감사/무응답성 문구는 실질 의견 집계에서 제외했습니다.</p>
+    <details>
+      <summary>좋았던 내용 원문 보기 (194건)</summary>
+      <div class="appendix">
+        <table><tbody><tr><td>1</td><td>리얼스피치 심사평가 감사합니다</td></tr><tr><td>2</td><td>리얼스피치준비에많은도움이될것같습니다</td></tr><tr><td>3</td><td>리얼스피치 준비</td></tr><tr><td>4</td><td>준비과정이 어려운 리얼스피치 준비경험담은 큰 도움이 되었습니다.</td></tr><tr><td>5</td><td>학생들의 적극참여를 위한 노하우공유</td></tr><tr><td>6</td><td>리얼스피치 사례로 나오신 원장님 덕분에 어떤프로세스로 접근해야할지 잘 이해할수 있었음</td></tr><tr><td>7</td><td>준비과정과 결과를 공유해 주신점.</td></tr><tr><td>8</td><td>학생들 참야할 수 있도록 해 보겠습니다.</td></tr><tr><td>9</td><td>리얼스피치대회의 자세한 설명</td></tr><tr><td>10</td><td>리얼스피치 독려에 좋았습니다!</td></tr><tr><td>11</td><td>마음 툴을 써야겠습니다</td></tr><tr><td>12</td><td>키링을 미리 구입할 수 있게해주심 안될까요?</td></tr><tr><td>13</td><td>유튜브나 인스타그램 영상 올리는 방법도 알려주세요</td></tr><tr><td>14</td><td>스피치 대회 준비를 잘 할 수 있게 도와주셔서 좋았습니다</td></tr><tr><td>15</td><td>리얼스피치 준비과정</td></tr><tr><td>16</td><td>리얼스피치 참여과정에 대한 자세한 안내 감사합니다.</td></tr><tr><td>17</td><td>3의법칙이 마음에 남습니다</td></tr><tr><td>18</td><td>스피치</td></tr><tr><td>19</td><td>프로모션</td></tr><tr><td>20</td><td>리얼스피치 세부 준비 프로세스</td></tr><tr><td>21</td><td>스피치 시상자 확대가 참 반가운 소식입니다. 이번 여름도 열심히 준비해보겠습니다!</td></tr><tr><td>22</td><td>스피치 준비랑 참여효과 정보굿이었음</td></tr><tr><td>23</td><td>리얼스피치준비과정</td></tr><tr><td>24</td><td>궁금했던 점이 말끔히 해결됐습니다. 고심해서 준비하신 것이 느껴집니다</td></tr><tr><td>25</td><td>리얼스피치 경험담 발표하신 서대문원장님 발표가 좋았어요</td></tr><tr><td>26</td><td>3ㆍ3ㆍ3 좋네요</td></tr><tr><td>27</td><td>리얼스피치 준비에 도움이 돨듯 합니다.</td></tr><tr><td>28</td><td>Speakback</td></tr><tr><td>29</td><td>스피치</td></tr><tr><td>30</td><td>리얼스피치에 대한 대비를 하게 되었습니다</td></tr><tr><td>31</td><td>리얼스피치 준비과정</td></tr><tr><td>32</td><td>반성 많이 합니다.</td></tr><tr><td>33</td><td>윤선생 공부방 오픈하고스피치대회 처음인데 많은걸 알게 되어 좋았어요. 감사합니다.^^</td></tr><tr><td>34</td><td>AI활용법이 유익하리라 생각됩니다</td></tr><tr><td>35</td><td>리얼스피치를 낱낱이 파헤쳐주셔서 감사합니다</td></tr><tr><td>36</td><td>촘촘한 리얼스피치 준비과정이 좋아요</td></tr><tr><td>37</td><td>스피치 준비 과정 설명</td></tr><tr><td>38</td><td>다양하게 업그레이드 된 툴과 리얼스피치 내용이 유익했어요</td></tr><tr><td>39</td><td>스피치콘테스트 관련 실제 준비사례를 공유해주시는게 좋았습니다(서대문연가) 인사이트들이 많아 저희 학원에 적용해볼것이 많았습니다! 감사합니다^^</td></tr><tr><td>40</td><td>모든게 완벽합니다</td></tr><tr><td>41</td><td>리얼스피치에 관련 상세한 설명해주셔서 이번에 참여해볼까 합니다 감사합니다</td></tr><tr><td>42</td><td>스피치준비과정이 특히 좋았어요</td></tr><tr><td>43</td><td>신규프로모션</td></tr><tr><td>44</td><td>홍보프로모션과. 리얼스피치</td></tr><tr><td>45</td><td>스피치 준비 과정 경험공유해주신점</td></tr><tr><td>46</td><td>리얼스피치 변화가 된만큼 잘 활용해보겠습니다</td></tr><tr><td>47</td><td>리얼스피치 실제사례</td></tr><tr><td>48</td><td>리얼스피치과정설명</td></tr><tr><td>49</td><td>작년보다 업그레이드된 리얼스피치가 기대되네요.</td></tr><tr><td>50</td><td>스피치 콘테스트 준비과정이 사례 공유가 유익했습니다</td></tr><tr><td>51</td><td>스피치 대본을 어떻게 만들고 수업까지 하면서 어떻게 준비시키나 궁금했는데 저세하게 설명해주셔서 좋았다.</td></tr><tr><td>52</td><td>인터뷰영상</td></tr><tr><td>53</td><td>리얼스피치 준비과정 내용이 좋았어요</td></tr><tr><td>54</td><td>Write Back,Speak Back</td></tr><tr><td>55</td><td>리얼스피치 판정기준을 알려준 것</td></tr><tr><td>56</td><td>리얼스피치 준비 사례 - 서대문연가</td></tr><tr><td>57</td><td>스피킹 대회</td></tr><tr><td>58</td><td>리얼스피치 준비 프로세스를 확인할 수 있어서 만족스러웠습니다.</td></tr><tr><td>59</td><td>신학기대비 많은 이벤트 준비에 감사합니다.</td></tr><tr><td>60</td><td>자세하게 접근법을 알려주시니 감사합니다</td></tr><tr><td>61</td><td>서대문원장님 리얼스피치 진행방식 너무 인상적이고 도움 많이 되었습니다.</td></tr><tr><td>62</td><td>준비방법</td></tr><tr><td>63</td><td>전반적으로 모두 좋았습니다</td></tr><tr><td>64</td><td>리얼 스피치준비과정을 그대로 톡교재나 라이팅 교재 학습시도 적용할수 있을것 같습니다</td></tr><tr><td>65</td><td>리얼스피치 우수 운영사례가 기억에 남습니다 구체적인 프로시저와 운영 노하우가 실제로 적용하는데 많은 도움이 될 것 같습니다</td></tr><tr><td>66</td><td>모두 도움이 많이 되었습니다. 특히 서대문연가 원장님의 내용과 설명이 감사합니다</td></tr><tr><td>67</td><td>스피치와 학력평가 소개잘 들었습니다</td></tr><tr><td>68</td><td>막연했던 리얼스피치가 구체적으로 다가왔어요.</td></tr><tr><td>69</td><td>다 좋았어요^^</td></tr><tr><td>70</td><td>리얼스피치 대회준비에 관한 사례발표가 특히 좋았습니다.</td></tr><tr><td>71</td><td>리얼 스프치 준비 과정이 좋았습니다^^</td></tr><tr><td>72</td><td>Real speech 안내</td></tr><tr><td>73</td><td>리얼스피치 시작부터 발표까지 각 단계별 센터예시가 도움이 많이 됩니다</td></tr><tr><td>74</td><td>리얼 스피치 단계별 준비과정</td></tr><tr><td>75</td><td>자세히 설명해주시어 좋았음</td></tr><tr><td>76</td><td>리얼스피치대회 준비에 도움될것같아요.~^^ 이벤트는 공문만 올려지기보다. 기간내에 우영 카톡방에 접수 링크와 함께 한 번 더 공지 해주시면 안잊어먹고 할 수있을것같아요^^; 오늘 세미나도 알차게 준비해주셔 감사합니다</td></tr><tr><td>77</td><td>다좋았슴</td></tr><tr><td>78</td><td>리얼세미나 관련 유익한 정보 감사합니다</td></tr><tr><td>79</td><td>리얼 스피치 사례, 자세한 평가 기준 및 여러 상금 안내</td></tr><tr><td>80</td><td>처음과 끝에 틀어주신 노래 너무 신나고 좋네요</td></tr><tr><td>81</td><td>실제 사례로 경험담을 말씀하셔서 많은 도움이 됨</td></tr><tr><td>82</td><td>스피치영상을 유투브나 인스타에 올리는건 안했으면 좋겠습니다.</td></tr><tr><td>83</td><td>리얼스피치에대한 자세한 내용</td></tr><tr><td>84</td><td>리얼스피치가 신청 절차가 간편해져서 좋습니다</td></tr><tr><td>85</td><td>3의법칙</td></tr><tr><td>86</td><td>스피치대회 준비 프로세스를 예전보다 더 자세히 알려주셔서 좋았습니다.</td></tr><tr><td>87</td><td>리얼스피치 준비과정을 세밀하게 알려주셔서 도움이 많이 될것 같습니다</td></tr><tr><td>88</td><td>이번 행사가 경쟁적인 행사가 되지 않고 모든 회원들에게 좋은 동기부여를 줄 수 있어서 좋은 것 같습니다</td></tr><tr><td>89</td><td>상장과 사진</td></tr><tr><td>90</td><td>리얼스피치 도전해볼 용기를 주셨어요</td></tr><tr><td>91</td><td>매년 반복하는 중요 이벤트를 잘 실천하자!</td></tr><tr><td>92</td><td>리얼스피지 시상/홍보 이벤트 활용</td></tr><tr><td>93</td><td>AI 활용할 수 있어서 좋습니다.</td></tr><tr><td>94</td><td>구체적인 리얼 스피치 진행 관리방법</td></tr><tr><td>95</td><td>귀인점을 인계받게되어 스피치대회에 대해 궁금했는데 마침 줌으로 알려주셔서 감사합니다.</td></tr><tr><td>96</td><td>리얼스피치 준비과정이 예전보다 좀더 꼼꼼히 다루어져서 좋았어요</td></tr><tr><td>97</td><td>리얼스피치 준비과정</td></tr><tr><td>98</td><td>리얼스피치 수상자가 많아진거는 정말 좋아요~^^</td></tr><tr><td>99</td><td>현장 지도 시 유의사항을 예시를 통해 설명강연해 주심이 도움이 되었습니다~감사합니다^^</td></tr><tr><td>100</td><td>리얼스피치에 관련해 미리 잘 준비할수있도록 많이 도움을 주셔서 감사합니다. Guided Writing으로 조금 더 많은 워크시트 내용이 있으면 활용할 때 훨씬 더 도움이 될 것 같습니다. 학생들이 Writing 교재를 학습해도 아이디어맵을 만드는 과정부터 부담스럽고 어려워하는 친구들이 거의 대부분이라 한명씩 첨삭지도를 하는 시간이 수업시간 학습과 병행해서 리얼스피치 준비를 진행할 때 훨씬 많은도움이 될것 같아서 말씀드려봅니다.</td></tr><tr><td>101</td><td>올해는 처음으로 리얼스피치에 도전해보려는 의욕이 생겼습니다.</td></tr><tr><td>102</td><td>글쓰기에 관한것, 리얼스피치</td></tr><tr><td>103</td><td>리얼스피치 준비과정을 너무 쉽게 할 수 있을거 같아요</td></tr><tr><td>104</td><td>세미나내용 전부좋았어요~</td></tr><tr><td>105</td><td>리얼스피치에 대해 관심이 더 생겼습니다</td></tr><tr><td>106</td><td>사례발표 내용은 아주 좋았습니다. 그러나 스피치 발표날짜를 내년에는 8월 초나 중순으로 했으면합니다 중등부 시험준비 기간과 겹쳐있이서 다소 어려움이 있습니다.</td></tr><tr><td>107</td><td>발표내용이 많이 도움 되었습니다</td></tr><tr><td>108</td><td>리얼 스피치 준비 process</td></tr><tr><td>109</td><td>수고하셨어여! 오늘 영상 및 자료를 빨리 공유 부탁해요</td></tr><tr><td>110</td><td>오늘바로적용해볼수있는유용한강의감사합니다 그좋은실험실을 잘활용못하고있었는데 다시한번익혀잘활용해보겠습니다</td></tr><tr><td>111</td><td>원장님의 노하를 전수해주셔서 좋았고 본사의 프로적트가 학생들 위주로 변화된게 좋았습니다</td></tr><tr><td>112</td><td>아이들의 글쓰기 맵이 있어서 훨씬 도움이 됩니다.</td></tr><tr><td>113</td><td>처음 해보는거라 막막했는데 자세히 알려주셔서 아주 도움이 됨</td></tr><tr><td>114</td><td>새로운 툴에 대한 방식 설명과 실제원장님 경험담</td></tr><tr><td>115</td><td>리얼스피치 현장사례</td></tr><tr><td>116</td><td>리얼스피치에 대한 자세한 설명</td></tr><tr><td>117</td><td>리얼스피치 활용법</td></tr><tr><td>118</td><td>다 좋았습니다</td></tr><tr><td>119</td><td>리얼스피치 명확한 설명</td></tr><tr><td>120</td><td>아이들 연습시키는구체적인실례가 좋았어요</td></tr><tr><td>121</td><td>실제 사례 인터뷰로 노하우 공유 (건의) 인터부에서 단계별과 주제정리되어 있는 지료까지 공유해주시면 처음 스피치대회 준비하는 저와 같은 경우 큰 도움이 될 같습니다,</td></tr><tr><td>122</td><td>스핑킹 대회 좋아요</td></tr><tr><td>123</td><td>우수원장님의 팁을 통해 구체적인 스피킹콘테스트 준비를 들어서 좋았습니다.</td></tr><tr><td>124</td><td>준비 단계부터 심사 포인트까지 잘 들었습니다~^^</td></tr><tr><td>125</td><td>리얼스피치 준비 전과정 &quot;체크리스트&quot; 도움됐음</td></tr><tr><td>126</td><td>리얼스피치를 잘 준비허신 원장님의 사례가 도움이 됩니다</td></tr><tr><td>127</td><td>열심히 강의준비를 하신것 같아서 유익했습니다</td></tr><tr><td>128</td><td>리얼 스피치 writeback/</td></tr><tr><td>129</td><td>스피치 준비에 도움이 되었습니다</td></tr><tr><td>130</td><td>퍼펙트 케어~기대</td></tr><tr><td>131</td><td>스피치 자세한 안내</td></tr><tr><td>132</td><td>반성하고열심히 하자</td></tr><tr><td>133</td><td>리얼스피치</td></tr><tr><td>134</td><td>리얼스피치 준비과정과 팁을 자세히 알려주셔서 많은 도움이 됐습니다</td></tr><tr><td>135</td><td>리얼스피치</td></tr><tr><td>136</td><td>유근필교사의경험담 자신감이생기네요</td></tr><tr><td>137</td><td>자세한 설명</td></tr><tr><td>138</td><td>좋습니다</td></tr><tr><td>139</td><td>아이들에게 어떻게 독려하여 스피치나 학력 평가를 준비 할 수 있는지 현장 소리를 들을 수 있어서 좋았습니다.</td></tr><tr><td>140</td><td>리얼 스피치에 관한 다양한 행동강령과 격려를 받을 수 있어 좋았어요</td></tr><tr><td>141</td><td>내용이 너무 많아 잘 모르겠어요</td></tr><tr><td>142</td><td>리얼스피치</td></tr><tr><td>143</td><td>첫화면에 우리 아들 나와서 감동 받았습니다</td></tr><tr><td>144</td><td>여전하신 유근필쌤 응원합니다</td></tr><tr><td>145</td><td>리얼스피치에 도전해 보고자 하는 마음이 생겼고 아이들에게 도전해 기회를 제공해 줘야겠다는 마음이 생겼습니다.</td></tr><tr><td>146</td><td>도전 이라는 생각 입니다</td></tr><tr><td>147</td><td>리얼스피치접수 간단해져서 좋습니다.</td></tr><tr><td>148</td><td>선생님들의 보상에 대한 이벤트</td></tr><tr><td>149</td><td>리얼스피치 첨삭</td></tr><tr><td>150</td><td>7월1일이 기대되네요</td></tr><tr><td>151</td><td>리얼스피치 준비에 많은 도움이 됩니다</td></tr><tr><td>152</td><td>AI툴로 리얼스피치 도전해보겠습니다</td></tr><tr><td>153</td><td>리얼스피치 평가 기준 설명</td></tr><tr><td>154</td><td>리얼스피치 준비과정이 좋았어요</td></tr><tr><td>155</td><td>선생님 격려차원 내용</td></tr><tr><td>156</td><td>리얼스피치 강화된점</td></tr><tr><td>157</td><td>AI활용 리얼 스피치</td></tr><tr><td>158</td><td>리얼스피치 준비과정</td></tr><tr><td>159</td><td>페펙트 케어</td></tr><tr><td>160</td><td>회원들이 영어에 자신감을 갖게 하는데 좋은것 같네요</td></tr><tr><td>161</td><td>리얼스피치 대회 준비과정 상세한 설명</td></tr><tr><td>162</td><td>리얼스피킹에 참여했을때의 좋은점</td></tr><tr><td>163</td><td>리얼 스파치대회가 더 좋아졌네요.</td></tr><tr><td>164</td><td>리얼 스피치에 대한 설명과 사례를 통해 해 볼 만하다는 생각을 갖게되어 감사하게 생각합니다.</td></tr><tr><td>165</td><td>너무나 오래 힘든 시기를 지내고 있는데, 뭔가 돌파구가 있어야 하는데 라는 생각을 늘 하고 있는데, 오늘 새롭게 소개된 퍼펙트케어 대해 기대감이 듭니다.</td></tr><tr><td>166</td><td>리얼 스피치</td></tr><tr><td>167</td><td>학생들에게 리얼스피치 를 잘해보도록 독려를 해보도록 도움 받았습니다 ㆍ</td></tr><tr><td>168</td><td>리얼스피치대회의중요성</td></tr><tr><td>169</td><td>리얼스피치을 준비해 갈 수 있게 잘 준비해 주셔서 감사합니다 많은 회원들 참여시키겠습니다</td></tr><tr><td>170</td><td>리얼스피치를 잘 준비하도록 다양한 도구와 구체적인 설명이 정말 좋았어요</td></tr><tr><td>171</td><td>Ai를활용한리얼스피치. 퍼팩트관리</td></tr><tr><td>172</td><td>리얼스피치 참가 노력하겠습니다</td></tr><tr><td>173</td><td>리얼스피치</td></tr><tr><td>174</td><td>리얼스피치 소개</td></tr><tr><td>175</td><td>리얼스피치참여할수있도록 동기부여가될수있는 내용 좋았습니다</td></tr><tr><td>176</td><td>리얼스피치 참여 의지를 높여주었습니다</td></tr><tr><td>177</td><td>도구 사용이 편리해져서 좋았다</td></tr><tr><td>178</td><td>리얼스피치 참가의 필요성</td></tr><tr><td>179</td><td>Real Speech 에 꼭 한명이라도 회원참여를 독려할께요</td></tr><tr><td>180</td><td>스피치대회 수상 회원이 늘어난건 바람직합니다. 장기간 참여하고 있는 회원에게도 수상이 되어 동기부여가 되었으면 합니다.</td></tr><tr><td>181</td><td>리얼스피치 상세안내</td></tr><tr><td>182</td><td>더욱 발전하는 학습내용이 좋았습니다.</td></tr><tr><td>183</td><td>리얼 스피치 준비 도구로 윤선생 AI 실험실 각종 툴들을 이용한다는게 시대에 맞게 본사에서 많은 노력을 하고 있다는 점과 현장에서 적극 활용해야겠다고 생각됩니다.</td></tr><tr><td>184</td><td>리얼스피치 참가 방법이 쉬워져서 좋았습니다</td></tr><tr><td>185</td><td>AI실험실</td></tr><tr><td>186</td><td>이벤트 많어서 힘드네요.</td></tr><tr><td>187</td><td>리얼스피치 준비과정을 자세히 설명해주셔서 감사합니다</td></tr><tr><td>188</td><td>리얼스피치대회 참여에 대한 구체적인 방법 제시</td></tr><tr><td>189</td><td>리얼스피치 참가사례등 수고많으셨습니다 그런데 학부모 접수가 문턱이 너무 높다고 생각합니다 준비도 시간이 많이 걸리는데 지난해 보다 블로그등이 빠져서 더 접수에서 턱 막혀버린 거같습니디</td></tr><tr><td>190</td><td>더욱 발전된 리얼스피치 준비해주셔서 감사합니다 저희 상도센터는 그동안 센터블로그에 지사장님이 정성스럽게 올려주셔왔습니다 블로그에 올리는 것도 인정해주시면 더 많이 참여시키고싶습니다 꼭 부탁드립니다</td></tr><tr><td>191</td><td>음악과 함께한 열정.</td></tr><tr><td>192</td><td>리얼스피치에 부모님상담</td></tr><tr><td>193</td><td>리얼스피치에 대한 전반적인 것들이 좋았다</td></tr><tr><td>194</td><td>내심 부담스러웠던 리얼 스피치에 참여할 수 있도록 동기 부여해 주셔서 감사합니다.</td></tr></tbody></table>
+      </div>
+    </details>
+    <details>
+      <summary>향후 희망 주제 원문 보기 (150건)</summary>
+      <div class="appendix">
+        <table><tbody><tr><td>1</td><td>학원운영을 위한 AI활용</td></tr><tr><td>2</td><td>실질적인 관리방안을 더 듣고 싶습니다.</td></tr><tr><td>3</td><td>지역 내 홍보행사 및 교육정보 공유</td></tr><tr><td>4</td><td>단어암기활용법</td></tr><tr><td>5</td><td>오프라인 대회를 살릴 계획은 없는지요?</td></tr><tr><td>6</td><td>YSAT에 대한 평가의 문제점</td></tr><tr><td>7</td><td>학력평가</td></tr><tr><td>8</td><td>상담화법</td></tr><tr><td>9</td><td>교재 활용법</td></tr><tr><td>10</td><td>중고등 로드맵</td></tr><tr><td>11</td><td>변화하는 교육과정과 입시에 대한 내용 부탁드려요.</td></tr><tr><td>12</td><td>스마트학습</td></tr><tr><td>13</td><td>교재 연구요^^</td></tr><tr><td>14</td><td>교재수업노하우</td></tr><tr><td>15</td><td>중등부 내신 노하우</td></tr><tr><td>16</td><td>Lms 학습단계 설명</td></tr><tr><td>17</td><td>회원 학습 관리 노하우</td></tr><tr><td>18</td><td>문법교재신간 필요성</td></tr><tr><td>19</td><td>홍보 상담</td></tr><tr><td>20</td><td>학력평가 준비</td></tr><tr><td>21</td><td>다양한 오프리인 홍보 방법</td></tr><tr><td>22</td><td>특강에 대한내용 다뤄주시면 좋겠습니다</td></tr><tr><td>23</td><td>중등내신</td></tr><tr><td>24</td><td>홍보전략및 신규유치 학부모관리</td></tr><tr><td>25</td><td>아이디어 맵활용을 좀더 자세히 예를 들어 알고 싶어요</td></tr><tr><td>26</td><td>학부모 응대 방법</td></tr><tr><td>27</td><td>상담</td></tr><tr><td>28</td><td>학부모세미나</td></tr><tr><td>29</td><td>어휘관리법 실제사례공유</td></tr><tr><td>30</td><td>개별 진도인 만큼 한두달 휴원을 쉽게 결정하는 부분 어떻게 예방하는가</td></tr><tr><td>31</td><td>변화하는 교육정책</td></tr><tr><td>32</td><td>문법도다뤄주세요</td></tr><tr><td>33</td><td>실제 원장님들이 사용하고 있는 중등 내신대비 교재 활용 팁을 알고 싶어요.</td></tr><tr><td>34</td><td>야외 영업활동 성공사례를 듣고 싶습니다.</td></tr><tr><td>35</td><td>파워스피킹 교재나 라이팅교재를 그냥 교재만 학습 하기 아깝던데 실제 다른 활동으로 연결이 어떻게 가능한지와 실제 활용중인 원장님들 사례 들어보고 싶다.</td></tr><tr><td>36</td><td>기존회원 유지 관리방법</td></tr><tr><td>37</td><td>평가내용의 다양한 활용도 교육해주세요</td></tr><tr><td>38</td><td>기초 문법 지도 방향</td></tr><tr><td>39</td><td>YSAT 자체 시상에 대한 디테일한 다양한 거점 사례</td></tr><tr><td>40</td><td>신규교재</td></tr><tr><td>41</td><td>홍보및 영업 전략</td></tr><tr><td>42</td><td>배본순서에 대한 교육이 필요합니다</td></tr><tr><td>43</td><td>Ai툴 중에서 문법 문제만들었는데, 뭔가 현 중학교교과서 기반하여 내신문제로 나올 문제들이 아니고,문제가 좀 애매하고 이상했어요. 사용했던분들 반응은 어땠는지 좀 수정되어야 현장에서 사용가능할 거 같아요. 잘 사용이 안되더라구요</td></tr><tr><td>44</td><td>Yoon&#x27;s Smart 교재 업그레이드 (특히 워크북)</td></tr><tr><td>45</td><td>리딩 학습</td></tr><tr><td>46</td><td>어린이날 어버이날 크리스마스 등 다양한 이벤트를 잘 하시는 원장님들의 노하우를 배울 수 있는 시간이 있다면 좋겠습니다</td></tr><tr><td>47</td><td>라이팅</td></tr><tr><td>48</td><td>실제 학습부분관련</td></tr><tr><td>49</td><td>학부모 상담 방법</td></tr><tr><td>50</td><td>Ai툴 활용의 실 사례도 있으면 좋겠습니다.</td></tr><tr><td>51</td><td>고학년 커리큘럼 과정 교육이 있었으면 합니다^^</td></tr><tr><td>52</td><td>교재 안내와 사용법</td></tr><tr><td>53</td><td>영어숲 교재 수업시간이 짧아서 학부모가 가끔 불만인데 외부 리딩교재를 구입해서 나머지 시간을 하게 합니다 이런부분을 잘 하는 센터의 실례를 알아보고 싶습니다</td></tr><tr><td>54</td><td>중등 내신 과정</td></tr><tr><td>55</td><td>새책 관련</td></tr><tr><td>56</td><td>수업 교재 활용방법 ,수업 진도 커리큘럼 학습이유</td></tr><tr><td>57</td><td>중등과정</td></tr><tr><td>58</td><td>방학 대비 요령</td></tr><tr><td>59</td><td>파닉스 원서 신간 교재와 중등 내신 교재 출시 기대해봅니다</td></tr><tr><td>60</td><td>처음 영어 배우는 아이들을 위한 수업 사례</td></tr><tr><td>61</td><td>학생의 레벨테스트를 통해 교재선정 순서와 학부모님과 상담플로우</td></tr><tr><td>62</td><td>과정별 필요한 안내문 등</td></tr><tr><td>63</td><td>AI활용</td></tr><tr><td>64</td><td>학습회원 수가 늘어나면서 혼자 감당하기가 살짝 버거워질때 어떻게 운영하면 좋을지 고민입니다. 효과적인 수업 운영방법으로 많은 학생도 혼자 정돈된 환경에서 잘 수업을 이끌어 갈수 있는 방법이나 노하우 알려주세요.</td></tr><tr><td>65</td><td>여름방학 동생 소개 이벤트에 공통적인 선물을 하나 만들어서 홍보를 하면 어떨까요? 동생소개 이벤트에 구매할 수 있는 물품들을 y마켓에서 구매하여 마케팅하면 좋을 듯합니다</td></tr><tr><td>66</td><td>영어수업과 관련된 간단한 게임</td></tr><tr><td>67</td><td>학부모 상담및 간담회개최 방법 교육부탁드립니다</td></tr><tr><td>68</td><td>본사 기준으로 전체 현장 상황을 분석한 내용이나 결과를 다루어 주시면 감사하겠습니다</td></tr><tr><td>69</td><td>회원 순증 사례(소개, 전화 컨택 등)</td></tr><tr><td>70</td><td>건의사항:모든 이벤트홍보 포스터는 본사에서 만들어서 Y마켓에서 판매하는 건 어떨까요?</td></tr><tr><td>71</td><td>현실에 맞는 홍보 방법 제시</td></tr><tr><td>72</td><td>9월에 있는 학력평가</td></tr><tr><td>73</td><td>중고등을 위한 좀더 촘촘한 프로그램이 있었으면 좋겠어요</td></tr><tr><td>74</td><td>AI 활용</td></tr><tr><td>75</td><td>AI활용에 대해 좀 더 이해가 쉽도록 다루어 주시면 열심히 배우겠습니다~감사합니다^^</td></tr><tr><td>76</td><td>YSAT의 평가가 학교에서 보는 평가와 다르니 부모님들 중에서는 불만을 표하고 이해를 못하시는 분들도 계십니다. 난이도에 대한 더 정확한 설명 (예를 들면 단순히 공교육 과정보다 한학년 높다)이 있으면 좋겠는데 제가 상담능력이 뒷받침이 안되니 조금 어려운부분이 있습니다. 항상 안내해주셨듯이 이 부분도 또 다뤄주실것이라고 생각합니다. 매달마다 세미나 준비해주시고 알찬 내용 감사드립니다~</td></tr><tr><td>77</td><td>타 학원 실제 교육방법</td></tr><tr><td>78</td><td>LMS활용을 더 잘 할 수 있는 방법 해 주세요</td></tr><tr><td>79</td><td>스피치컨테스트 8월중순으로 변경해주세요!! 시험기간과휴가날짜와겹치고, 방학특강으로 이어지면 관리편할거같아요ㅜ</td></tr><tr><td>80</td><td>영원한 숙제인 회원모집</td></tr><tr><td>81</td><td>학력고사 준비과정</td></tr><tr><td>82</td><td>실제 수업사례</td></tr><tr><td>83</td><td>학부모님께 상담시 꼭 알려드려야하는 부분</td></tr><tr><td>84</td><td>여름특강 운영방안</td></tr><tr><td>85</td><td>말하기 스피치를 잘하는 모범 영상이나 방법을 자세히 다루어 주었으면 좋겠습니다</td></tr><tr><td>86</td><td>초등 단어장을 현 800단어에서 더 넓게 만들어 주시면 감사.</td></tr><tr><td>87</td><td>다수의 아이들 자유글쓰기 하는 방법과 관리</td></tr><tr><td>88</td><td>타 학원의 다양한 좋은 사례</td></tr><tr><td>89</td><td>현장 사례</td></tr><tr><td>90</td><td>영작을 잘하려면</td></tr><tr><td>91</td><td>피드백관련</td></tr><tr><td>92</td><td>듣기 학습의방향</td></tr><tr><td>93</td><td>원생 0- 10명 원생 10-20명 원생 30 -40명 즉 우수 원장님들이 1:1 피드백을 어떻게 시키는 지와 교재 라인업 그리고 *** 신규생 유치 홍보 벙법 등 인터뷰를 통해 노하우</td></tr><tr><td>94</td><td>내신관리</td></tr><tr><td>95</td><td>최신 교육 정보</td></tr><tr><td>96</td><td>홍보방법</td></tr><tr><td>97</td><td>레벨에 따른 어휘서 이용법</td></tr><tr><td>98</td><td>새로운 교재가 나오면 알려주세요</td></tr><tr><td>99</td><td>시험 기간 중등관리/중등 평가지 강화</td></tr><tr><td>100</td><td>새교재 안내</td></tr><tr><td>101</td><td>스피치</td></tr><tr><td>102</td><td>리딩교재</td></tr><tr><td>103</td><td>소개유도 방법</td></tr><tr><td>104</td><td>문제회원케어방법</td></tr><tr><td>105</td><td>다양한 프로모션</td></tr><tr><td>106</td><td>스마트베플리</td></tr><tr><td>107</td><td>좀 더 문법을 체계적으로 가르칠 수 있는 노하우를 공유 받고 싶습니다.</td></tr><tr><td>108</td><td>중등관련 교재에 개발및 안내 부탁드립니다^^</td></tr><tr><td>109</td><td>오늘내용 구체적으로 알려주세요</td></tr><tr><td>110</td><td>전국에 계신 다양한 선생님들의 살아있는 관리력 듣고 배우고 싶습니다</td></tr><tr><td>111</td><td>아이들 리딩 교재 좀 더 나오면 좋겠습니다 저 학년용</td></tr><tr><td>112</td><td>소개이벤트를 어머니께 전달할 부담스럽지 않은 멘트나 메세지와 같은 것이 있으면 좋겠다 생각합니다.</td></tr><tr><td>113</td><td>Sns영업</td></tr><tr><td>114</td><td>미팅방법</td></tr><tr><td>115</td><td>새로운 프로젝트 기대됩니다^^</td></tr><tr><td>116</td><td>퍼펙트케어에 대한 정보가 기대됩니다</td></tr><tr><td>117</td><td>보다 풍부한 현장의 정보와 자료 공유</td></tr><tr><td>118</td><td>신간교재 활용</td></tr><tr><td>119</td><td>선생님들을 위한 프로모션 다양화</td></tr><tr><td>120</td><td>교사 학습 관리방안</td></tr><tr><td>121</td><td>없어요. 수고하셨습니다. 감사합니다</td></tr><tr><td>122</td><td>회원장기유지 관리법</td></tr><tr><td>123</td><td>학습안하는 아이들 대응법</td></tr><tr><td>124</td><td>관리노하우</td></tr><tr><td>125</td><td>중학교 실행평가와 학력평가</td></tr><tr><td>126</td><td>여름방학 준비, 중학생 시험대비</td></tr><tr><td>127</td><td>윤선생퍼펙트케어 잘하도록 하는것과 문제뒬것을 구체적 으로 알려주세요 ㆍ</td></tr><tr><td>128</td><td>고교5등급제</td></tr><tr><td>129</td><td>AI 실험실 사용법이 아직 먼길 같아요 좀더 자유롭게 사용할 수 있게 도움 주시면 감사하겠습니다</td></tr><tr><td>130</td><td>케어서비스의 활용도로 시험 기간.사용해 본 소감 등이 궁금해요</td></tr><tr><td>131</td><td>체험학습을통한회원가입성공방안</td></tr><tr><td>132</td><td>키즈팝 대체교재 필요합니다</td></tr><tr><td>133</td><td>내신대비 학습방법</td></tr><tr><td>134</td><td>회원들에게 동기부여를 할때 해줄수있는 이야기들</td></tr><tr><td>135</td><td>게임이 파닉스엔 잘 되어있는데 교재 씨리즈별로 게입법도 소개되면 좋겠어요</td></tr><tr><td>136</td><td>초등 고학년과 중등 신교재 출시 또는 기존 교재들의 재 편집이 있었으면 합니다. 퍼펙트케어도 학원과의 경쟁력에 있어서 좋은 발상인거 같은데 추가교재가 아닌 교사가 부족한 점을 케어할 수 있게 하는게 회원들에게도 부담이 적어 많이 할꺼 같습니다.</td></tr><tr><td>137</td><td>잘하고 있는 학생보다는 힘들어하는 학생들을 잘 이끌어낸 사례를 들어보면 힘들어하는 선생님들에게 도움이 될 것 같습니다~</td></tr><tr><td>138</td><td>AI 실험실 활용 사례들이 반복해서 나왔을때 활용도가 높아지지 않을까 생각합니다.</td></tr><tr><td>139</td><td>퍼펙트케어 자세히 알려주세요</td></tr><tr><td>140</td><td>학부모설명회자료</td></tr><tr><td>141</td><td>새교재에 중고등교재</td></tr><tr><td>142</td><td>요즘 인내심이 부족한 회원과 학부모님께서 많은데 학습을 꾸준히 할수있는 방법</td></tr><tr><td>143</td><td>교재연구</td></tr><tr><td>144</td><td>이벤트는 학생스스로 준비 접수가 가능하면 좋겠어요 반짝이는 창의성이 돋보이도록 판을 열어주시도록</td></tr><tr><td>145</td><td>모법관리쌤들의 관리노하우 공유가 너무 도움이 됩니다 감사합니다</td></tr><tr><td>146</td><td>앞으로의 윤선생 중학 교재 동영상 수정개획은 없나요?</td></tr><tr><td>147</td><td>오늘처럼현장에서의 부모님들이 말하는 대처방법</td></tr><tr><td>148</td><td>AI 툴 활용에 대해 좀 더 다루어 주었으면 합니다</td></tr><tr><td>149</td><td>홍보관련방법</td></tr><tr><td>150</td><td>관리시에 사용할 수 있는 구체적인 팁들을 계속해서 알려주시면 좋을 것 같습니다.</td></tr></tbody></table>
+      </div>
+    </details>
+  </div>
+
+  <div class="footer">Generated from uploaded survey file: 26년 6월 통합 세미나 소감서(응답).xlsx</div>
+</div>
+</body>
+</html>
