@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>스마트랜드 녹음활동 평가문구 체계 검토 및 개선안</title>
+  <style>
+    :root{
+      --bg:#f6faf8; --paper:#fff; --ink:#1f2937; --muted:#64748b;
+      --green:#2f8f73; --green-dark:#17624f; --soft:#eef8f3; --line:#d9e7e0;
+      --blue:#2f6f9f; --blue-soft:#eaf4ff; --amber:#f59e0b; --amber-soft:#fff7ed;
+      --red:#dc2626; --red-soft:#fff1f2; --gray:#f8fafc;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",Arial,sans-serif;line-height:1.62;}
+    .wrap{max-width:1180px;margin:0 auto;padding:44px 28px 82px;}
+    .hero{background:linear-gradient(135deg,#ffffff 0%,#edf9f3 55%,#e8f4ff 100%);border:1px solid var(--line);border-radius:28px;padding:36px 38px;box-shadow:0 16px 36px rgba(40,98,84,.08);}
+    .eyebrow{display:inline-flex;align-items:center;background:#fff;border:1px solid var(--line);color:var(--green);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:800;margin-bottom:16px;}
+    h1{font-size:34px;line-height:1.25;margin:0 0 14px;letter-spacing:-.035em;}
+    h2{font-size:24px;margin:42px 0 14px;letter-spacing:-.025em;color:#153f34;}
+    h3{font-size:18px;margin:28px 0 10px;letter-spacing:-.02em;color:#173b32;}
+    p{margin:8px 0 12px;}
+    .lead{font-size:18px;color:#334155;max-width:940px;}
+    .summary{margin-top:22px;background:#fff;border-left:6px solid var(--green);border-radius:18px;padding:18px 20px;font-size:17px;}
+    .toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+    .toc a{text-decoration:none;color:#1f4d3f;background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 13px;font-size:13px;font-weight:700;}
+    .section{background:var(--paper);border:1px solid var(--line);border-radius:24px;margin-top:26px;padding:28px 30px;box-shadow:0 10px 26px rgba(45,88,74,.05);}
+    .grid{display:grid;gap:14px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr));}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr));}
+    .card{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:18px;}
+    .card strong{display:block;margin-bottom:6px;color:#173b32;}
+    .quote{font-size:18px;font-weight:800;color:#174235;padding:18px 20px;border-radius:18px;background:#e8f6ef;border:1px solid #caeadc;margin:18px 0;}
+    .note{background:var(--amber-soft);border:1px solid #fed7aa;border-radius:16px;padding:14px 16px;color:#7c2d12;margin:14px 0;}
+    .ok{background:#ecfdf5;border:1px solid #bbf7d0;border-radius:16px;padding:14px 16px;color:#14532d;margin:14px 0;}
+    .info{background:var(--blue-soft);border:1px solid #bfdbfe;border-radius:16px;padding:14px 16px;color:#1e3a8a;margin:14px 0;}
+    table{width:100%;border-collapse:separate;border-spacing:0;margin:14px 0 22px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;}
+    th,td{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:12px 14px;text-align:left;vertical-align:top;font-size:14px;}
+    th{background:#eef7f3;color:#173b32;font-weight:800;white-space:nowrap;}
+    tr:last-child td{border-bottom:0} th:last-child,td:last-child{border-right:0}
+    .wide th,.wide td{font-size:13.5px;}
+    .tag{display:inline-block;border-radius:999px;padding:3px 9px;font-size:12px;font-weight:800;margin-right:6px;vertical-align:middle;white-space:nowrap;}
+    .tag.green{background:#dcfce7;color:#166534}.tag.blue{background:#dbeafe;color:#1d4ed8}.tag.amber{background:#fef3c7;color:#92400e}.tag.red{background:#fee2e2;color:#991b1b}.tag.gray{background:#f1f5f9;color:#475569}
+    .small{font-size:13px;color:var(--muted);}.muted{color:var(--muted)}
+    .msg{background:#f8fafc;border-radius:12px;padding:10px 12px;margin:6px 0;}
+    .msg b{color:#173b32}.en{color:#334155}.kr{color:#0f513f;font-weight:700}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:12.5px;}
+    ul{margin:8px 0 14px;padding-left:20px} li{margin:6px 0}
+    .footer{margin-top:28px;color:#64748b;font-size:12px;text-align:right;}
+    @media(max-width:880px){.grid.two,.grid.three{grid-template-columns:1fr}.wrap{padding:24px 16px}.hero,.section{padding:24px 20px}h1{font-size:28px} table{display:block;overflow-x:auto;white-space:normal}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">스마트랜드 녹음활동 · 사업부 전달용 최종안</div>
+    <h1>녹음활동 평가문구 체계 검토 및 개선안</h1>
+    <p class="lead">본 문서는 「평가 분석표 및 멘트0612.xlsx」의 Story Actor, Speaking Star, Reading Star 평가문구 체계를 기준으로, 5~9세 아동 대상 서비스에 적합한 녹음활동 피드백 체계와 활동별 문구 개선안을 정리한 자료입니다.</p>
+    <div class="summary"><b>최종 제안:</b> Azure Pronunciation Assessment는 내부 판정과 코칭 근거로 활용하고, 화면 문구는 <b>아이에게는 동기부여와 성장경험</b>, <b>교사에게는 코칭포인트</b>, <b>학부모에게는 학습효과</b>가 보이도록 분리해 제공한다.</div>
+    <nav class="toc">
+      <a href="#summary">1. 종합 의견</a>
+      <a href="#review">2. 기존 체계 검토</a>
+      <a href="#principle">3. 개선 원칙</a>
+      <a href="#azure">4. Azure 반영</a>
+      <a href="#full">5. 활동별 문구 개선안</a>
+      <a href="#target">6. 대상별 제공 정보</a>
+      <a href="#priority">7. 적용 우선순위</a>
+    </nav>
+  </header>
+
+  <section id="summary" class="section">
+    <h2>1. 종합 의견</h2>
+    <p>기존 평가문구는 긍정 피드백과 단계형 보상 구조를 갖추고 있어 기본 방향은 활용 가능하다. 다만 5~9세 아동은 조음기관이 발달 중이고, 음성인식 결과가 마이크 거리·주변 소음·목소리 크기·문장 길이의 영향을 크게 받을 수 있으므로, 엔진 점수를 그대로 평가처럼 보여주는 방식은 적절하지 않다.</p>
+    <div class="quote">녹음활동은 “발음 채점”이 아니라 “말하기 성장 경험”으로 설계하는 것이 적절하다.</div>
+    <div class="grid three">
+      <div class="card"><strong>아이</strong>점수보다 별·배지·짧은 칭찬·재도전 미션으로 “또 해보고 싶은 경험”을 만든다.</div>
+      <div class="card"><strong>교사</strong>어려워한 단어, 누락 단어, 재녹음 패턴, 개선 여부를 코칭포인트로 제공한다.</div>
+      <div class="card"><strong>학부모</strong>말하기 참여, 끝까지 말하기, 반복 후 향상 흐름을 학습효과로 보여준다.</div>
+    </div>
+  </section>
+
+  <section id="review" class="section">
+    <h2>2. 기존 평가문구 체계 검토</h2>
+    <table>
+      <thead><tr><th>활동</th><th>현재 구조</th><th>활용 가능한 점</th><th>보완 필요점</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Story Actor</b></td>
+          <td>Try again / Good / Excellent / Perfect<br><span class="small">정확성 40% + 참여도·유창성 60%</span></td>
+          <td>4단계 구조가 명확하고, 낮은 구간에서도 재도전을 유도한다.</td>
+          <td>최상위 구간의 “Perfect/완벽해” 표현은 엔진 점수의 변동성을 고려하면 다소 강하다. 활동명에 맞게 reader보다 actor/speaking 톤으로 정리하는 것이 좋다.</td>
+        </tr>
+        <tr>
+          <td><b>Speaking Star</b></td>
+          <td>Try again / Rising Star / Shining Star / Superstar<br><span class="small">정확성 40% + 참여도·유창성 60%</span></td>
+          <td>Rising/Shining/Superstar 단계명은 활동명과 잘 맞고 보상감이 있다.</td>
+          <td>일부 문구가 길거나 과장되어 녹음 직후 피드백으로는 부담이 있을 수 있다. 목소리·자신감·재도전을 짧게 강화하는 방향이 적절하다.</td>
+        </tr>
+        <tr>
+          <td><b>Reading Star</b></td>
+          <td>Try again / Reading Star<br><span class="small">참여도·유창성 100%</span></td>
+          <td>문장을 끝까지 읽었는지 확인하려는 의도는 명확하다.</td>
+          <td>1~100점 전체가 Reading Star로 묶이면 읽기 완성도 차이를 반영하기 어렵다. 특히 낮은 점수에도 “완벽한 리딩”류 문구가 적용될 수 있어 단계 세분화 또는 문구 완화가 필요하다.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="ok"><b>유지 권장:</b> 긍정 피드백, 단계형 보상, 재도전 유도, 영어+한글 병기 구조는 유지한다.</div>
+  </section>
+
+  <section id="principle" class="section">
+    <h2>3. 개선 원칙</h2>
+    <div class="grid two">
+      <div class="card"><strong>① 원점수는 내부 판단용</strong>아이 화면에는 49점, 75점처럼 점수를 노출하기보다 단계명과 짧은 칭찬을 제공한다.</div>
+      <div class="card"><strong>② 녹음 실패와 낮은 점수 분리</strong>무음, 너무 짧은 녹음, 소음, 마이크 거리 문제는 발음 실력과 별개로 처리한다.</div>
+      <div class="card"><strong>③ 결과보다 행동 강화</strong>“잘했다/못했다”보다 “끝까지 말했어”, “다시 도전했어”, “더 또렷해졌어”를 강화한다.</div>
+      <div class="card"><strong>④ 단어 피드백은 부담 없이</strong>아이 화면에는 보완 단어를 최대 1~2개만 노출하고, 상세 오류는 교사용으로 분리한다.</div>
+    </div>
+    <div class="note"><b>문구 톤:</b> “부족합니다”, “낮습니다”, “틀렸습니다” 대신 “조금 더 또렷하게”, “한 번 더”, “천천히”처럼 다음 행동을 안내하는 표현을 사용한다.</div>
+  </section>
+
+  <section id="azure" class="section">
+    <h2>4. Azure Pronunciation Assessment 반영 방향</h2>
+    <p>Azure Pronunciation Assessment는 일반 STT와 달리 발음평가용 기능으로, 기준 문장인 <b>ReferenceText</b>를 넣어 평가할 수 있다. Microsoft Learn 문서에 따르면 발음평가는 일반 Speech-to-Text와 다른 특정 버전의 모델을 사용하며, <b>ReferenceText, GradingSystem, Granularity, EnableMiscue, Prosody assessment</b> 등을 설정할 수 있다.</p>
+    <table>
+      <thead><tr><th>Azure 결과값</th><th>의미</th><th>서비스 활용 방향</th></tr></thead>
+      <tbody>
+        <tr><td><b>AccuracyScore</b></td><td>목표 발음과의 유사도</td><td>아이에게 점수로 노출하지 않고, “더 또렷하게 말해보기” 코칭 신호로 활용</td></tr>
+        <tr><td><b>FluencyScore</b></td><td>말 흐름, 끊김 정도</td><td>Reading Star와 Speaking Star의 유창성 참고값으로 활용</td></tr>
+        <tr><td><b>CompletenessScore</b></td><td>기준 문장 대비 발화한 단어 비율</td><td>문장 끝까지 말했는지/읽었는지 판단</td></tr>
+        <tr><td><b>ErrorType</b></td><td>누락, 삽입, 오발음 등 오류 유형</td><td>교사용 코칭포인트 생성</td></tr>
+        <tr><td><b>ProsodyScore</b></td><td>강세, 억양, 속도, 리듬의 자연스러움</td><td>고연령 리딩 활동의 보조 지표로 제한 활용</td></tr>
+      </tbody>
+    </table>
+    <h3>개발 확인 필요 항목</h3>
+    <table>
+      <thead><tr><th>확인 항목</th><th>권장 방향</th></tr></thead>
+      <tbody>
+        <tr><td>평가 방식</td><td>정해진 단어·문장 활동은 ReferenceText 기반 scripted assessment 사용</td></tr>
+        <tr><td>GradingSystem</td><td>0~100 구간 운영을 위해 HundredMark 권장</td></tr>
+        <tr><td>Granularity</td><td>교사용 코칭이 필요하면 Word 또는 Phoneme 단위 결과 확보</td></tr>
+        <tr><td>EnableMiscue</td><td>누락·삽입 단어를 코칭포인트로 쓰려면 활성화 검토</td></tr>
+        <tr><td>녹음 품질 게이트</td><td>무음·짧은 녹음·소음·마이크 문제를 낮은 발음 점수와 분리</td></tr>
+        <tr><td>재녹음 데이터</td><td>최고점만 저장하지 말고 재시도 횟수와 개선 흐름을 함께 저장</td></tr>
+      </tbody>
+    </table>
+    <p class="small">참고: Microsoft Learn, Use pronunciation assessment — https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-pronunciation-assessment</p>
+  </section>
+
+  <section id="full" class="section">
+    <h2>5. 활동별 문구 개선안 풀버전</h2>
+    <p>아래 문구는 기존 단계 구조를 최대한 활용하되, 5~9세 아이에게 평가 부담을 줄이고 재도전을 유도하는 방향으로 정리한 안이다. <span class="mono">{words}</span>는 Azure 단어별 결과 또는 ErrorType을 바탕으로 노출할 보완 단어이며, 아이 화면에는 최대 1~2개까지만 표시하는 것을 권장한다.</p>
+
+    <h3>5-1. Story Actor 개선안</h3>
+    <table class="wide">
+      <thead><tr><th>단계</th><th>기존 조건</th><th>개선 방향</th><th>개선 문구(영어)</th><th>개선 문구(한글)</th><th>교사용 코칭포인트</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="tag gray">Try again</span></td>
+          <td>49 이하<br>녹음 시도 없음 또는 대부분 누락</td>
+          <td>기술적 녹음 실패와 실제 낮은 발화를 분리. 실패감보다 재시도 안내.</td>
+          <td><div class="msg en"><b>Nice try!</b><br>Let’s try one more time.</div><div class="msg en">I couldn’t hear you well.<br>Please try again.</div></td>
+          <td><div class="msg kr">좋아!<br>한 번 더 해보자.</div><div class="msg kr">목소리가 잘 안 들렸어.<br>한 번 더 들려줘.</div></td>
+          <td>무음/짧은 녹음/소음 여부 확인. Omission이 많으면 문장 전체보다 핵심 표현 1개부터 지도.</td>
+        </tr>
+        <tr>
+          <td><span class="tag green">Good</span></td>
+          <td>50~74<br>여러 단어 부정확</td>
+          <td>완료 경험을 인정하고, 보완 단어를 부담 없이 제시.</td>
+          <td><div class="msg en"><b>Good acting!</b><br>Try <span class="mono">{words}</span> one more time.<br>You’re getting better!</div></td>
+          <td><div class="msg kr">잘했어!<br><span class="mono">{words}</span>를 한 번 더 말해볼까?<br>점점 더 잘하고 있어!</div></td>
+          <td>부정확 단어가 3개 이상이면 아이 화면에는 1~2개만 노출. 교사는 전체 오류 단어 확인.</td>
+        </tr>
+        <tr>
+          <td><span class="tag blue">Excellent</span></td>
+          <td>75~89<br>일부 단어만 부정확</td>
+          <td>“거의 완벽”보다 “조금만 더 또렷하게”로 완화.</td>
+          <td><div class="msg en"><b>Excellent acting!</b><br>Try <span class="mono">{words}</span> a little more clearly.<br>Almost there!</div></td>
+          <td><div class="msg kr">훌륭해!<br><span class="mono">{words}</span>만 조금 더 또렷하게 말해보자.<br>거의 다 왔어!</div></td>
+          <td>단어 1~2개 또는 특정 음소에서 반복 오류가 있는지 확인. 다음 수업에서 짧게 반복 코칭.</td>
+        </tr>
+        <tr>
+          <td><span class="tag amber">Perfect</span></td>
+          <td>90~100<br>모든 단어 정확</td>
+          <td>Perfect 단계명은 유지 가능하나, “완벽해/최고”보다 구체 행동 칭찬.</td>
+          <td><div class="msg en"><b>Star Actor!</b><br>You said it clearly.<br>Great job!</div></td>
+          <td><div class="msg kr">스타 액터!<br>또렷하게 잘 말했어.<br>정말 잘했어!</div></td>
+          <td>높은 점수라도 한 번의 결과로 단정하지 않음. 안정적으로 반복되는지 확인.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>5-2. Speaking Star 개선안</h3>
+    <table class="wide">
+      <thead><tr><th>단계</th><th>기존 조건</th><th>개선 방향</th><th>개선 문구(영어)</th><th>개선 문구(한글)</th><th>교사용 코칭포인트</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="tag gray">Try again</span></td>
+          <td>49 이하<br>녹음 시도 없음 또는 대부분 누락</td>
+          <td>“포기하지 마”보다 부드러운 재시도 안내. 녹음 실패는 별도 안내.</td>
+          <td><div class="msg en"><b>Nice try!</b><br>Take a breath.<br>Try again.</div><div class="msg en">I couldn’t hear you well.<br>Please say it again.</div></td>
+          <td><div class="msg kr">좋아!<br>숨 한 번 쉬고 다시 해보자.</div><div class="msg kr">목소리가 잘 안 들렸어.<br>한 번 더 말해줘.</div></td>
+          <td>무음/짧은 녹음이면 환경 안내. 발화는 있으나 누락이 많으면 Completeness 중심으로 확인.</td>
+        </tr>
+        <tr>
+          <td><span class="tag green">Rising Star</span></td>
+          <td>50~74<br>여러 단어 부정확</td>
+          <td>목소리와 재도전 의지를 칭찬. 보완 단어는 최소화.</td>
+          <td><div class="msg en"><b>Rising Star!</b><br>Try <span class="mono">{words}</span> one more time.<br>Your voice is getting stronger!</div></td>
+          <td><div class="msg kr">라이징 스타!<br><span class="mono">{words}</span>를 한 번 더 말해볼까?<br>목소리가 점점 좋아지고 있어!</div></td>
+          <td>반복 오류 단어를 1~2개 추출. 재녹음 후 개선되는지 확인.</td>
+        </tr>
+        <tr>
+          <td><span class="tag blue">Shining Star</span></td>
+          <td>75~89<br>일부 단어만 부정확</td>
+          <td>조금만 더 또렷하게 말하면 된다는 긍정 메시지 제공.</td>
+          <td><div class="msg en"><b>Shining Star!</b><br>Say <span class="mono">{words}</span> a little more clearly.<br>You’re almost there!</div></td>
+          <td><div class="msg kr">샤이닝 스타!<br><span class="mono">{words}</span>를 조금 더 또렷하게 말해보자.<br>거의 다 왔어!</div></td>
+          <td>기능어보다 핵심 단어·목표 음소 중심으로 지도. 작게 말해서 낮게 나온 경우 음량도 확인.</td>
+        </tr>
+        <tr>
+          <td><span class="tag amber">Superstar</span></td>
+          <td>90~100<br>모든 단어 정확</td>
+          <td>과장 표현을 줄이고 자신감·명료성을 칭찬.</td>
+          <td><div class="msg en"><b>Superstar!</b><br>You spoke clearly.<br>Great speaking!</div></td>
+          <td><div class="msg kr">슈퍼스타!<br>또렷하게 말했어.<br>정말 잘했어!</div></td>
+          <td>말하기 자신감이 높게 나타난 결과로 기록. 다음 활동에서는 문장 길이 확장 가능.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>5-3. Reading Star 개선안</h3>
+    <div class="info"><b>권장:</b> Reading Star는 현재 0점 / 1~100점의 2단계 구조인데, 읽기 활동의 학습효과를 보여주려면 최소 3~4단계로 세분화하는 것이 좋다. 개발 범위상 2단계를 유지해야 한다면, “완벽한 리딩”처럼 전체 구간에 적용하기 어려운 문구는 반드시 완화한다.</div>
+    <table class="wide">
+      <thead><tr><th>권장 단계</th><th>판정 방향</th><th>개선 문구(영어)</th><th>개선 문구(한글)</th><th>교사용 코칭포인트</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="tag gray">Try again</span></td>
+          <td>무음, 너무 짧은 녹음, 중도 포기, Completeness 매우 낮음</td>
+          <td><div class="msg en"><b>It’s okay!</b><br>Try again, nice and slow.</div><div class="msg en">I couldn’t hear you well.<br>Please try again.</div></td>
+          <td><div class="msg kr">괜찮아!<br>천천히 다시 해보자.</div><div class="msg kr">목소리가 잘 안 들렸어.<br>한 번 더 들려줘.</div></td>
+          <td>녹음 품질과 중도 포기 여부 분리. 문장 길이가 부담인지 확인.</td>
+        </tr>
+        <tr>
+          <td><span class="tag green">Good Reading</span></td>
+          <td>끝까지 읽었으나 Fluency 또는 Accuracy가 낮음</td>
+          <td><div class="msg en"><b>Good reading!</b><br>You finished it.<br>Try a little more clearly next time.</div></td>
+          <td><div class="msg kr">잘 읽었어!<br>끝까지 해냈구나.<br>다음엔 조금 더 또렷하게 읽어보자.</div></td>
+          <td>끝까지 읽은 점을 먼저 인정. 끊김이 많은 구간 또는 어려운 단어 확인.</td>
+        </tr>
+        <tr>
+          <td><span class="tag blue">Reading Star</span></td>
+          <td>끝까지 읽고 유창성·정확성이 안정적</td>
+          <td><div class="msg en"><b>Reading Star!</b><br>Nice and clear.<br>Great job!</div></td>
+          <td><div class="msg kr">리딩 스타!<br>또렷하게 잘 읽었어.<br>정말 잘했어!</div></td>
+          <td>안정적 읽기 결과. 다음 차시에서 조금 긴 문장 또는 억양 코칭 가능.</td>
+        </tr>
+        <tr>
+          <td><span class="tag amber">Super Reader</span></td>
+          <td>정확성·유창성이 모두 높고 안정적</td>
+          <td><div class="msg en"><b>Super Reader!</b><br>You read with confidence.</div></td>
+          <td><div class="msg kr">슈퍼 리더!<br>자신 있게 읽었어.</div></td>
+          <td>반복 안정성 확인 후 리딩 자신감 메시지로 학부모에게 공유 가능.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>5-4. Reading Star 2단계 유지 시 최소 수정안</h3>
+    <table class="wide">
+      <thead><tr><th>현재 단계</th><th>현재 조건</th><th>최소 수정 문구(영어)</th><th>최소 수정 문구(한글)</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="tag gray">Try again</span></td>
+          <td>0점 / 시도 안함 또는 중도 포기</td>
+          <td><div class="msg en">It’s okay!<br>Try again, nice and slow.</div></td>
+          <td><div class="msg kr">괜찮아!<br>천천히 다시 해보자.</div></td>
+          <td>기술적 녹음 실패인 경우 “목소리가 잘 안 들렸어”를 우선 노출</td>
+        </tr>
+        <tr>
+          <td><span class="tag blue">Reading Star</span></td>
+          <td>1~100점 / 모든 문장 읽음</td>
+          <td><div class="msg en">Reading Star!<br>You read to the end.<br>Great job!</div></td>
+          <td><div class="msg kr">리딩 스타!<br>끝까지 읽었구나.<br>정말 잘했어!</div></td>
+          <td>“완벽한 리딩” 대신 “끝까지 읽음” 중심으로 수정</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>5-5. 공통 예외 상황 문구</h3>
+    <table class="wide">
+      <thead><tr><th>상황</th><th>아이 화면 문구</th><th>교사/운영 참고</th></tr></thead>
+      <tbody>
+        <tr><td>무음 또는 인식 불가</td><td>목소리가 잘 안 들렸어. 한 번 더 들려줘.</td><td>녹음 권한, 마이크 거리, 주변 소음 확인</td></tr>
+        <tr><td>녹음이 너무 짧음</td><td>조금 더 길게 말해볼까?</td><td>기준 문장 대비 Completeness 확인</td></tr>
+        <tr><td>소음 가능성</td><td>조용한 곳에서 한 번 더 해보자.</td><td>소음 환경 안내 필요</td></tr>
+        <tr><td>오류 단어 1~2개</td><td><span class="mono">{words}</span>를 한 번 더 말해볼까?</td><td>아이 화면에는 최대 1~2개만 노출</td></tr>
+        <tr><td>오류 단어 3개 이상</td><td>어려웠던 단어를 천천히 다시 말해볼까?</td><td>교사용 상세에서 전체 오류 단어 제공</td></tr>
+        <tr><td>재녹음 후 개선</td><td>우와, 더 또렷해졌어!</td><td>학부모 리포트에서 “반복 후 개선”으로 표현 가능</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="target" class="section">
+    <h2>6. 대상별 제공 정보</h2>
+    <table>
+      <thead><tr><th>대상</th><th>목적</th><th>제공 정보</th><th>표현 예시</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>아이</b></td>
+          <td>동기부여·성장경험</td>
+          <td>단계명, 별/배지, 짧은 칭찬, 한 번 더 미션</td>
+          <td>“끝까지 말했구나!” “더 또렷해졌어!” “한 번 더 해볼까?”</td>
+        </tr>
+        <tr>
+          <td><b>교사</b></td>
+          <td>코칭포인트</td>
+          <td>어려워한 단어, 누락 단어, 재녹음 횟수, 개선 여부, ErrorType</td>
+          <td>“문장 끝 기능어 누락이 잦아 핵심 문장 1개를 천천히 반복 지도 권장”</td>
+        </tr>
+        <tr>
+          <td><b>학부모</b></td>
+          <td>학습효과 확인</td>
+          <td>참여, 완료, 반복, 향상 흐름</td>
+          <td>“말하기 활동에 꾸준히 참여했고, 다시 녹음하며 더 또렷하게 말해보려는 모습이 보였습니다.”</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="priority" class="section">
+    <h2>7. 적용 우선순위</h2>
+    <table>
+      <thead><tr><th>우선순위</th><th>적용 항목</th><th>이유</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag red">1순위</span></td><td>무음·녹음 실패와 낮은 점수 분리</td><td>발음 문제가 아닌 기술·환경 문제를 실패로 오인하지 않기 위해 필수</td></tr>
+        <tr><td><span class="tag red">1순위</span></td><td>아이 화면 원점수 미노출</td><td>5~9세 대상에서는 점수보다 동기부여와 재도전 경험이 중요</td></tr>
+        <tr><td><span class="tag amber">2순위</span></td><td>Reading Star 단계 세분화 또는 문구 완화</td><td>1~100점 전체에 과도한 칭찬 문구가 적용되는 문제 보완</td></tr>
+        <tr><td><span class="tag amber">2순위</span></td><td>단어별 피드백 노출 규칙</td><td>아이에게 부담을 줄이고, 교사에게는 실제 코칭 정보를 제공</td></tr>
+        <tr><td><span class="tag blue">3순위</span></td><td>학부모용 학습효과 메시지 구성</td><td>말하기 활동의 참여·완료·반복·향상 흐름을 보여주어 서비스 신뢰 강화</td></tr>
+      </tbody>
+    </table>
+    <div class="quote">최종 방향: Azure 엔진 결과는 내부 판정과 코칭 근거로 사용하고, 서비스 화면에서는 아이·교사·학부모 목적에 맞는 성장형 피드백으로 변환한다.</div>
+  </section>
+
+  <section class="section">
+    <h2>최종 정리</h2>
+    <p>기존 평가문구 체계는 긍정적인 단계형 보상 구조를 갖추고 있으므로 전체 방향은 유지할 수 있다. 다만 5~9세 아동의 발화 특성과 음성평가 엔진의 변동성을 고려해, 원점수를 직접 평가처럼 보여주기보다 녹음 참여·끝까지 말하기·재도전·개선 흐름을 중심으로 재구성하는 것이 필요하다.</p>
+    <p>활동별 문구는 Story Actor는 표현/역할 수행, Speaking Star는 말하기 자신감과 재도전, Reading Star는 끝까지 읽기와 유창성을 중심으로 정리하는 것이 적절하다. 특히 Reading Star는 현재 2단계 구조를 유지할 경우에도 “완벽한 리딩” 대신 “끝까지 읽었구나”처럼 실제 행동을 칭찬하는 문구로 조정하는 것을 권장한다.</p>
+  </section>
+
+  <div class="footer">스마트랜드 녹음활동 평가문구 체계 검토 및 개선안 · 사업부 전달용</div>
+</div>
+</body>
+</html>
