@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YSAT 문항 검수 결과 및 오류 조치 기록</title>
+</head>
+<body>
+<style>
+  :root{
+    --bg:#eef1f4; --surface:#ffffff; --surface-2:#f6f8fa;
+    --ink:#151b22; --muted:#5a6672; --faint:#8a95a1;
+    --border:#dbe1e8; --border-strong:#c3ccd6;
+    --accent:#155e75; --accent-soft:#e2edf1;
+    --done:#2f8358; --done-bg:#e2efe8;
+    --crit:#b5372c; --crit-bg:#f7e3e0;
+    --crit2:#c25a2b; --crit2-bg:#f8e8dd;
+    --warn:#a5761a; --warn-bg:#f6ecd6;
+    --hold:#5f6b78; --hold-bg:#e7ebef;
+    --shadow:0 1px 2px rgba(20,30,40,.06),0 8px 24px -12px rgba(20,30,40,.14);
+    --mono:ui-monospace,"SFMono-Regular","Cascadia Code","Consolas",monospace;
+    --sans:system-ui,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#10151a; --surface:#171e26; --surface-2:#1c242d;
+      --ink:#e8edf2; --muted:#9aa6b2; --faint:#6d7986;
+      --border:#28323d; --border-strong:#38444f;
+      --accent:#5ab6d1; --accent-soft:#16323d;
+      --done:#68c194; --done-bg:#173028;
+      --crit:#e88075; --crit-bg:#3a201d;
+      --crit2:#e0966b; --crit2-bg:#382318;
+      --warn:#dcb45f; --warn-bg:#332a15;
+      --hold:#9aa6b2; --hold-bg:#232c35;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -14px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#10151a; --surface:#171e26; --surface-2:#1c242d;
+    --ink:#e8edf2; --muted:#9aa6b2; --faint:#6d7986;
+    --border:#28323d; --border-strong:#38444f;
+    --accent:#5ab6d1; --accent-soft:#16323d;
+    --done:#68c194; --done-bg:#173028;
+    --crit:#e88075; --crit-bg:#3a201d;
+    --crit2:#e0966b; --crit2-bg:#382318;
+    --warn:#dcb45f; --warn-bg:#332a15;
+    --hold:#9aa6b2; --hold-bg:#232c35;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -14px rgba(0,0,0,.6);
+  }
+  :root[data-theme="light"]{
+    --bg:#eef1f4; --surface:#ffffff; --surface-2:#f6f8fa;
+    --ink:#151b22; --muted:#5a6672; --faint:#8a95a1;
+    --border:#dbe1e8; --border-strong:#c3ccd6;
+    --accent:#155e75; --accent-soft:#e2edf1;
+    --done:#2f8358; --done-bg:#e2efe8;
+    --crit:#b5372c; --crit-bg:#f7e3e0;
+    --crit2:#c25a2b; --crit2-bg:#f8e8dd;
+    --warn:#a5761a; --warn-bg:#f6ecd6;
+    --hold:#5f6b78; --hold-bg:#e7ebef;
+    --shadow:0 1px 2px rgba(20,30,40,.06),0 8px 24px -12px rgba(20,30,40,.14);
+  }
+  *{box-sizing:border-box}
+  body{margin:0}
+  .page{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;padding:clamp(20px,5vw,72px) clamp(16px,5vw,40px)}
+  .wrap{max-width:1000px;margin:0 auto}
+  .eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 14px}
+  h1{font-size:clamp(26px,5vw,42px);line-height:1.1;font-weight:800;letter-spacing:-.02em;margin:0;text-wrap:balance}
+  .sub{color:var(--muted);font-size:clamp(15px,2.2vw,18px);margin:14px 0 0;max-width:66ch}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:22px;padding-top:20px;border-top:1px solid var(--border);font-size:13px;color:var(--muted)}
+  .meta b{color:var(--ink);font-weight:600} .meta .mono{font-family:var(--mono)}
+
+  section{margin-top:clamp(38px,7vw,60px)}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin:0 0 20px}
+  .sec-head .n{font-family:var(--mono);font-size:13px;color:var(--faint);font-weight:600}
+  h2{font-size:clamp(19px,3vw,24px);font-weight:700;letter-spacing:-.01em;margin:0}
+  .sec-head .rule{flex:1;height:1px;background:var(--border);align-self:center}
+  .lead{color:var(--muted);font-size:15px;margin:-6px 0 22px;max-width:78ch}
+
+  .kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+  .kpi > div{background:var(--surface);padding:22px}
+  .kpi .fig{font-size:clamp(26px,5.5vw,40px);font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+  .kpi .fig small{font-size:.5em;font-weight:700;color:var(--muted);letter-spacing:0}
+  .kpi .lab{font-size:13px;color:var(--muted);margin-top:8px}
+  .kpi .accent{color:var(--accent)} .kpi .good{color:var(--done)} .kpi .bad{color:var(--crit2)}
+  @media(max-width:620px){.kpi{grid-template-columns:1fr}}
+
+  .dist{margin-top:26px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px 24px;box-shadow:var(--shadow)}
+  .dist h3{margin:0 0 4px;font-size:15px;font-weight:700}
+  .dist .cap{font-size:13px;color:var(--muted);margin:0 0 18px;max-width:76ch}
+  .bar{display:flex;height:30px;border-radius:8px;overflow:hidden;gap:2px}
+  .legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px 18px;margin-top:16px}
+  .legend .it{display:flex;align-items:center;gap:9px;font-size:13px}
+  .legend .sw{width:12px;height:12px;border-radius:3px;flex:none}
+  .legend .ct{margin-left:auto;font-family:var(--mono);font-weight:600;color:var(--ink)}
+  .legend .nm{color:var(--muted)}
+
+  .group{margin-top:26px}
+  .grouphd{display:flex;align-items:center;gap:12px;margin:0 0 13px}
+  .grouphd .dot{width:11px;height:11px;border-radius:50%;flex:none}
+  .grouphd h3{margin:0;font-size:16px;font-weight:700}
+  .grouphd .cnt{font-family:var(--mono);font-size:13px;color:var(--muted);font-weight:600}
+  .grouphd .kicker{font-size:11.5px;color:var(--faint);margin-left:auto;text-transform:uppercase;letter-spacing:.09em}
+
+  .cards{display:flex;flex-direction:column;gap:10px}
+  .card{display:grid;grid-template-columns:auto auto auto 1fr;gap:7px 14px;align-items:center;background:var(--surface);border:1px solid var(--border);border-left-width:4px;border-radius:10px;padding:14px 18px;box-shadow:var(--shadow)}
+  .card .id{font-family:var(--mono);font-weight:700;font-size:15px;letter-spacing:-.01em}
+  .card .chip{font-size:11px;font-weight:700;letter-spacing:.04em;padding:2px 9px;border-radius:999px;background:var(--surface-2);color:var(--muted);border:1px solid var(--border)}
+  .card .tag{font-size:11px;font-weight:700;letter-spacing:.03em;padding:2px 9px;border-radius:999px}
+  .card .note{grid-column:1/-1;font-size:14px;color:var(--muted);margin:0;line-height:1.55}
+  .card .note b{color:var(--ink);font-weight:600}
+  .card .was{color:var(--faint);font-size:12.5px}
+  .card.done{border-left-color:var(--done)} .card.done .id{color:var(--done)} .card.done .tag{background:var(--done-bg);color:var(--done)}
+  .card.hold{border-left-color:var(--hold)} .card.hold .id{color:var(--hold)} .card.hold .tag{background:var(--hold-bg);color:var(--hold)}
+  .card.none{border-left-color:var(--border-strong)} .card.none .id{color:var(--muted)} .card.none .tag{background:var(--surface-2);color:var(--faint);border:1px solid var(--border)}
+  .card.fix{border-left-color:var(--accent)} .card.fix .id{color:var(--accent)} .card.fix .tag{background:var(--accent-soft);color:var(--accent)}
+  .card .new{font-size:10px;font-weight:700;letter-spacing:.04em;padding:1px 7px;border-radius:999px;background:var(--crit2-bg);color:var(--crit2)}
+  @media(max-width:560px){.card{grid-template-columns:auto 1fr}}
+
+  .tablecard{border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);background:var(--surface);margin-top:14px}
+  .scroll{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:640px}
+  th,td{padding:12px 15px;text-align:left;white-space:nowrap}
+  td.num,th.num{text-align:center;font-variant-numeric:tabular-nums}
+  thead th{background:var(--surface-2);color:var(--muted);font-weight:600;font-size:12px;letter-spacing:.04em;text-transform:uppercase;border-bottom:1px solid var(--border)}
+  tbody tr+tr td{border-top:1px solid var(--border)}
+  tbody td:first-child{font-family:var(--mono);font-weight:700}
+  tfoot td{border-top:2px solid var(--border-strong);font-weight:800;background:var(--surface-2);font-variant-numeric:tabular-nums}
+  .arrow{color:var(--faint)} .to{color:var(--done);font-weight:700;font-variant-numeric:tabular-nums} .from{color:var(--crit);text-decoration:line-through;font-variant-numeric:tabular-nums}
+  td.desc{white-space:normal;color:var(--muted);min-width:230px}
+  .z{color:var(--faint)} .hlc{color:var(--crit);font-weight:700} .hh{color:var(--hold);font-weight:700} .hd{color:var(--done);font-weight:700}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px}
+  @media(max-width:680px){.cols{grid-template-columns:1fr}}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px 24px;box-shadow:var(--shadow)}
+  .panel h3{margin:0 0 14px;font-size:15px;font-weight:700}
+  .panel ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px}
+  .panel li{position:relative;padding-left:20px;font-size:14px;color:var(--muted)}
+  .panel li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+  .panel li b{color:var(--ink);font-weight:600}
+  .callout{margin-top:14px;background:var(--accent-soft);border:1px solid var(--border);border-radius:12px;padding:16px 20px;font-size:13.5px;color:var(--ink);line-height:1.6}
+  .callout b{font-weight:700}
+
+  footer{margin-top:54px;padding-top:22px;border-top:1px solid var(--border);font-size:12.5px;color:var(--faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+</style>
+
+<div class="page">
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">품질 검수 · 오류 조치 기록 &nbsp;·&nbsp; 1차 정답 대조 + 2차 이미지 육안</p>
+    <h1>YSAT 영어 레벨테스트 문항 검수 결과 및 오류 조치</h1>
+    <p class="sub">RW·LS·PV 전 문항을 직접 재풀이로 대조한 1차 검수와, 그림·도표·파닉스 등 이미지가 포함된 문항 전건을 실제 이미지로 육안 확인한 2차 검수의 결과, 그리고 각 지적 항목의 실제 조치 내역을 정리했습니다.</p>
+    <div class="meta">
+      <span>검수 대상 <b class="mono">Leveltest_20260807.xlsx</b></span>
+      <span>1차 전수 <b>2,580</b>문항</span>
+      <span>2차 이미지 육안 <b>658</b>문항</span>
+      <span>기준일 <b>2026-08-11</b></span>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-head"><span class="n">01</span><h2>총평</h2><span class="rule"></span></div>
+    <div class="kpi">
+      <div><div class="fig accent">2,580<small> / 658</small></div><div class="lab">1차 전수 정답 대조 · 2차 이미지 육안 검증</div></div>
+      <div><div class="fig good">5</div><div class="lab">문제은행 실제 수정</div></div>
+      <div><div class="fig bad">6</div><div class="lab">운영 반영 정답 오기 정정 (원본은 정상)</div></div>
+    </div>
+
+    <div class="dist">
+      <h3>검수 지적 13건의 조치 결과</h3>
+      <p class="cap">1차 12건 + 2차 1건(33371). 이 중 4건은 문제은행에서 실제 수정, 4건은 미사용(숨김) 처리, 5건은 데이터 추출 과정의 아티팩트(병합·2중저장·이미지명)로 실제 문제은행 이슈가 아니었습니다. 별도로 추가 발견한 해설 오류 1건(32953)과 운영 중 보고된 정답 정정 6건이 있습니다.</p>
+      <div class="bar" role="img" aria-label="수정 완료 4, 실제 이슈 없음 5, 미사용 숨김 4">
+        <span style="flex:4;background:var(--done)"></span>
+        <span style="flex:5;background:var(--border-strong)"></span>
+        <span style="flex:4;background:var(--hold)"></span>
+      </div>
+      <div class="legend">
+        <div class="it"><span class="sw" style="background:var(--done)"></span><span class="nm">수정 완료</span><span class="ct">4</span></div>
+        <div class="it"><span class="sw" style="background:var(--border-strong)"></span><span class="nm">실제 이슈 없음(데이터 아티팩트)</span><span class="ct">5</span></div>
+        <div class="it"><span class="sw" style="background:var(--hold)"></span><span class="nm">미사용 · 숨김 처리</span><span class="ct">4</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="n">02</span><h2>검수 지적 항목 조치 현황</h2><span class="rule"></span></div>
+
+    <div class="group">
+      <div class="grouphd"><span class="dot" style="background:var(--done)"></span><h3>수정 완료</h3><span class="cnt">4건</span><span class="kicker">문제은행 반영</span></div>
+      <div class="cards">
+        <div class="card done">
+          <span class="id">53635</span><span class="chip">RW</span><span class="tag">수정 완료</span><span class="was">원 판정 · 해설오류</span>
+          <p class="note">해설 우리말 풀이에서 원문에 없던 <b>‘매주’ 삭제</b>. 정답은 그대로 유지.</p>
+        </div>
+        <div class="card done">
+          <span class="id">33322</span><span class="chip">LS</span><span class="tag">수정 완료</span><span class="was">원 판정 · 정답오류의심</span>
+          <p class="note">음성은 <b>소년이 묻고 소녀가 대답</b>하는 구조. 해설의 소녀↔소년 <b>화자 정보를 정정</b>. 정답(그림 ③)은 정상.</p>
+        </div>
+        <div class="card done">
+          <span class="id">33259</span><span class="chip">LS</span><span class="tag">수정 완료</span><span class="was">원 판정 · 판단보류</span>
+          <p class="note">제시문 이미지 <b>undefined 오류</b>. 음성 파일명과 대응하는 <b class="mono">/resource/pe3_LS_5-1.jpg</b>(아침 식사 그림)를 입력 → 정답 ②(morning/breakfast) 성립. <b>2차에서 이미지 열람으로 수정 확인.</b></p>
+        </div>
+        <div class="card done">
+          <span class="id">19116</span><span class="chip">LS</span><span class="tag">수정 완료</span><span class="was">원 판정 · 판단보류</span>
+          <p class="note">지시문 <b>‘대화를’→‘다음을’</b> 정정. 정답이 애매하여 정답 보기를 <b>‘인터뷰 요청’→‘회의 관련 논의’</b>로 수정. ※ 22개 문항 병합 현상은 데이터 추출 아티팩트로 실제 이슈 아님.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="grouphd"><span class="dot" style="background:var(--hold)"></span><h3>미사용 · 숨김 처리</h3><span class="cnt">4건</span><span class="kicker">기 조치</span></div>
+      <div class="cards">
+        <div class="card hold">
+          <span class="id">33371</span><span class="chip">LS</span><span class="tag">미사용(숨김)</span><span class="new">2차 발견</span>
+          <p class="note"><b>원 오류 —</b> 지시문은 ‘설명으로 <b>언급되지 않은</b> 것’을 묻는데, 저장정답 ③(여러 색상 그림)은 방송문에 <b>명시적으로 언급된</b> 항목이라 오답. 언급 안 된 것은 ①(무게 20/15/18kg 비교) → 정답은 ①이어야 함. <b>보기 이미지 내용을 봐야 판정되는 유형</b>이라 2차 이미지 육안에서 발견. &nbsp;→&nbsp; 이미 <b>미사용으로 숨김 처리</b>됨.</p>
+        </div>
+        <div class="card hold">
+          <span class="id">53598</span><span class="chip">RW</span><span class="tag">미사용(숨김)</span><span class="was">원 판정 · 정답오류의심</span>
+          <p class="note"><b>원 오류 —</b> 지시문은 ‘일치하지 <b>않는</b> 것’을 묻는데 저장정답 ⑤가 유일하게 지문과 <b>일치하는</b> 문장. 지시문이 ‘일치하는 것’의 오기로 추정. &nbsp;→&nbsp; 이미 <b>미사용으로 숨김 처리</b>됨.</p>
+        </div>
+        <div class="card hold">
+          <span class="id">33530</span><span class="chip">RW</span><span class="tag">미사용(숨김)</span><span class="was">원 판정 · 복수정답의심</span>
+          <p class="note"><b>원 오류 —</b> ‘일치하는 것’ 1개 선택 문항이나 <b>①②③ 모두 지문과 일치</b>(①·②는 첫 두 문장 직접 재진술). 저장정답 ②가 유일하지 않음. &nbsp;→&nbsp; 이미 <b>미사용으로 숨김 처리</b>됨.</p>
+        </div>
+        <div class="card hold">
+          <span class="id">33118</span><span class="chip">PV</span><span class="tag">미사용(숨김)</span><span class="was">원 판정 · 복수정답의심</span>
+          <p class="note"><b>원 오류 —</b> ‘마지막 모음소리가 같은 단어(candy /i/)’ 문항. 정답 ③ dirty 외 <b>② cookie도 마지막 모음이 /i/</b>로 동일 → 복수정답. &nbsp;→&nbsp; 이미 <b>미사용으로 숨김 처리</b>됨.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="grouphd"><span class="dot" style="background:var(--border-strong)"></span><h3>실제 이슈 없음</h3><span class="cnt">5건</span><span class="kicker">데이터 추출 아티팩트</span></div>
+      <div class="cards">
+        <div class="card none">
+          <span class="id">30403</span><span class="chip">LS</span><span class="tag">조치 불필요</span><span class="was">원 판정 · 정답오류의심</span>
+          <p class="note">보기 ② 이미지 파일명이 ‘I like to draw’이나 <b>실제로는 여자아이</b>를 묘사 → ①엄마·③아빠 대비 ‘여자 형제’로 구분 가능. <b>문제 풀이에는 이슈 없음</b>(2차 이미지 열람으로 재확인).</p>
+        </div>
+        <div class="card none">
+          <span class="id">32691</span><span class="chip">LS</span><span class="tag">조치 불필요</span><span class="was">원 판정 · 판단보류</span>
+          <p class="note">2중 저장 현상은 데이터 추출 아티팩트로 <b>실제 문제은행에서는 이슈 없음</b>.</p>
+        </div>
+        <div class="card none">
+          <span class="id">32490</span><span class="chip">PV</span><span class="tag">조치 불필요</span><span class="was">원 판정 · 판단보류</span>
+          <p class="note">문항 병합 현상은 데이터 추출 아티팩트로 <b>실제 이슈 없음</b>.</p>
+        </div>
+        <div class="card none">
+          <span class="id">30020</span><span class="chip">PV</span><span class="tag">조치 불필요</span><span class="was">원 판정 · 판단보류</span>
+          <p class="note">문항 병합 현상은 데이터 추출 아티팩트로 <b>실제 이슈 없음</b>.</p>
+        </div>
+        <div class="card none">
+          <span class="id">30029</span><span class="chip">PV</span><span class="tag">조치 불필요</span><span class="was">원 판정 · 판단보류</span>
+          <p class="note">문항 병합 현상은 데이터 추출 아티팩트로 <b>실제 이슈 없음</b>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="n">03</span><h2>2차 이미지 육안 검수</h2><span class="rule"></span></div>
+    <p class="lead">1차는 텍스트·파일명·해설 기반이라 보기 이미지의 <b>실제 내용</b>은 확인할 수 없었습니다. 2차에서는 이미지가 포함된 문항 전건(658)을 문항별 몽타주로 합쳐 정답·오답 이미지를 육안 대조했습니다.</p>
+    <div class="tablecard"><div class="scroll">
+      <table>
+        <thead><tr><th>유형</th><th class="num">문항</th><th class="num">정상</th><th class="num">신규 지적</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td>LS 이미지-보기</td><td class="num">287</td><td class="num">286</td><td class="num hlc">1</td><td class="desc">단어→그림, 대화·설명 일치/불일치 — 33371 발견</td></tr>
+          <tr><td>LS 제시-이미지</td><td class="num">72</td><td class="num">72</td><td class="num z">—</td><td class="desc">지도·도표·(A)(B)(C)(D) 위치 라벨 문항 전건 확인</td></tr>
+          <tr><td>PV 이미지-보기</td><td class="num">101</td><td class="num">101</td><td class="num z">—</td><td class="desc">알파벳 짝/이름, 파닉스 모음소리</td></tr>
+          <tr><td>PV 제시-이미지</td><td class="num">198</td><td class="num">198</td><td class="num z">—</td><td class="desc">철자·첫소리·끝소리 삽화</td></tr>
+        </tbody>
+        <tfoot><tr><td>합계</td><td class="num">658</td><td class="num">657</td><td class="num">1</td><td></td></tr></tfoot>
+      </table>
+    </div></div>
+    <div class="callout">
+      <b>성과 —</b> 텍스트 기반 1차가 구조적으로 볼 수 없던 <b>이미지 의존형 정답오류(33371)</b>를 육안 검증으로 발견했습니다. 아울러 파닉스 3개 이미지 뱅크(pe·pe2·pe3)·지도/도표·A·B·C·D 라벨 문항까지 <b>오배치 없이 정합</b>함을 확인했고, 33259의 이미지 보완과 30403의 무이슈 판정을 실제 이미지로 재확인했습니다.
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="n">04</span><h2>추가 확인 및 정정</h2><span class="rule"></span></div>
+    <p class="lead">검수 지적 항목 외에 추가로 확인·정정된 항목입니다.</p>
+
+    <div class="group">
+      <div class="grouphd"><span class="dot" style="background:var(--accent)"></span><h3>해설 오류 수정</h3><span class="cnt">1건</span></div>
+      <div class="cards">
+        <div class="card fix">
+          <span class="id">32953</span><span class="chip">RW</span><span class="tag">수정 완료</span><span class="was">해설 산술 오류</span>
+          <p class="note">소계 300달러 + 세금 15달러 = <b>315달러</b>인데 해설 총액이 310으로 오기 → 해설 <b>‘310달러’→‘315달러’</b> 정정. 정답 ④(‘총 300달러’가 안내표와 불일치)는 그대로 유지.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="grouphd"><span class="dot" style="background:var(--accent)"></span><h3>10회차 운영 중 보고된 정답 오류 정정</h3><span class="cnt">6건</span><span class="kicker">어드민 정정</span></div>
+      <div class="tablecard"><div class="scroll">
+        <table>
+          <thead><tr><th>문항</th><th class="num">영역</th><th class="num">스케일</th><th class="num">정정</th><th>내용</th></tr></thead>
+          <tbody>
+            <tr><td>17594</td><td class="num">RW</td><td class="num">23</td><td class="num"><span class="from">3(C)</span> <span class="arrow">→</span> <span class="to">4(D)</span></td><td class="desc">문장 삽입 위치 문항. 정답 4번(D)을 3번으로 오기 → 4번으로 정정.</td></tr>
+            <tr><td>32956</td><td class="num">RW</td><td class="num">23</td><td class="num"><span class="from">4(D)</span> <span class="arrow">→</span> <span class="to">3(C)</span></td><td class="desc">문장 삽입 위치 문항. 정답 3번(C)을 4번으로 오기 → 3번으로 정정.</td></tr>
+            <tr><td>33577</td><td class="num">RW</td><td class="num">40</td><td class="num"><span class="from">4</span> <span class="arrow">→</span> <span class="to">3</span></td><td class="desc">주제 고르기 문항. 정답 3번을 4번으로 오기 → 3번으로 정정.</td></tr>
+            <tr><td>17615</td><td class="num">RW</td><td class="num">28</td><td class="num"><span class="from">4</span> <span class="arrow">→</span> <span class="to">3</span></td><td class="desc">내용 불일치 고르기 문항. 정답 3번을 4번으로 오기 → 3번으로 정정.</td></tr>
+            <tr><td>33276</td><td class="num">LS</td><td class="num">9</td><td class="num"><span class="to">1</span></td><td class="desc">그림 고르기(대화). 정답 1번으로 정정.</td></tr>
+            <tr><td>33361</td><td class="num">LS</td><td class="num">30</td><td class="num"><span class="to">3</span></td><td class="desc">여자아이가 할 일(영화 관람). 정답 3번으로 정정.</td></tr>
+          </tbody>
+        </table>
+      </div></div>
+      <div class="callout">
+        <b>확인 결과 —</b> 위 6개 문항 모두 검수 원본(<span class="mono">items.json</span>)에는 정답이 <b>올바르게</b> 저장되어 있었습니다(각각 4·3·3·3·1·3). 즉 원본 데이터는 정상이었고, <b>운영 어드민에 반영하는 과정에서 오기</b>된 것을 정정한 것으로, 원본 대조 방식의 검수로는 포착되지 않는 배포 단계 오류입니다.
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="n">05</span><h2>검수 방법 · 산출물</h2><span class="rule"></span></div>
+    <div class="cols">
+      <div class="panel">
+        <h3>검수 방법</h3>
+        <ul>
+          <li><b>1차 · 직접 재풀이 대조</b> — 저장 정답을 가정하지 않고 스스로 풀어 정답 유일성·복수정답·오답을 판정(전 2,580문항).</li>
+          <li><b>2차 · 이미지 육안 검증</b> — 이미지 포함 문항 658건을 문항별 몽타주로 합쳐 정답·오답 이미지를 직접 대조.</li>
+          <li><b>매체별 판정</b> — 사운드는 해설 스크립트, 텍스트·클릭형은 재풀이, 이미지는 육안으로 대조.</li>
+          <li><b>자동 구조 스캔</b> — 병합·중복·이미지 누락 전수 탐지(데이터 추출 아티팩트 포함 전건 포착).</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>산출물</h3>
+        <ul>
+          <li><b>리포트 15종(.xlsx)</b> — 샘플200 + RW·LS·PV 각 5개 배치. 문항별 판정·근거·지시/제시/보기/해설 수록.</li>
+          <li><b>findings(.json)</b> — 1차 영역별 + 2차(<span class="mono">findings_2nd_LS.json</span>) + 최종 마스터 요약.</li>
+          <li><b>본 조치 기록(.html)</b> — 1차·2차 지적 항목별 조치·정정 내역.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>YSAT English Level Test · 문항 검수 및 오류 조치</span>
+    <span>1차 2,580 · 2차 이미지 658 · 문제은행 수정 5 · 미사용 4 · 운영 정정 6</span>
+  </footer>
+
+</div>
+</div>
+
+</body>
+</html>
