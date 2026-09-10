@@ -1,0 +1,109 @@
+<title>제11회 학력평가 현황표</title>
+<style>
+  :root {
+    --navy:#1e3a5f; --navy-2:#2c4f7c; --head:#34588a;
+    --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb;
+    --bg:#ffffff; --zebra:#f8fafc; --band-m:#f4f7fb; --band-h:#fdf6ec;
+    --accent:#f0a830; --green:#7fd4a8;
+  }
+  :root { color-scheme: light; }
+  body { background:#eef1f5; color:var(--ink); font-family:"Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif; padding:24px 16px; }
+  .wrap { max-width:1040px; margin:0 auto; background:var(--bg); border-radius:10px; overflow:hidden; box-shadow:0 2px 16px rgba(30,58,95,.12); }
+  header { background:var(--navy); color:#fff; padding:22px 26px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+  h1 { font-size:24px; margin:0 0 4px; font-weight:700; letter-spacing:-.4px; }
+  .sub { font-size:12.5px; color:#b9c8dc; margin:0; }
+  .kpis { display:flex; gap:10px; flex-wrap:wrap; }
+  .kpi { background:var(--navy-2); border-radius:7px; padding:9px 18px; text-align:center; min-width:104px; }
+  .kpi .lab { font-size:11px; color:#c3d2e6; display:block; margin-bottom:3px; }
+  .kpi .val { font-size:21px; font-weight:700; }
+  .kpi.b .val { color:var(--accent); }
+  .kpi.c .val { color:var(--green); }
+  h2 { font-size:15px; margin:0; padding:16px 26px 12px; color:var(--navy); font-weight:700; letter-spacing:-.2px;
+       display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+  h2 .cap { font-size:11.5px; font-weight:500; color:var(--muted); letter-spacing:0; }
+  section + section { border-top:8px solid #eef1f5; }
+  .scroll { overflow-x:auto; }
+  table { border-collapse:collapse; width:100%; min-width:660px; font-size:13.5px; }
+  thead th { background:var(--head); color:#fff; font-weight:600; font-size:12.5px; padding:9px 8px; text-align:center; white-space:nowrap; line-height:1.35; }
+  thead th small { display:block; font-size:10.5px; font-weight:500; color:#c3d2e6; }
+  tbody th { font-weight:600; color:var(--navy); text-align:center; padding:10px 8px; white-space:nowrap; border-bottom:1px solid var(--line); }
+  tbody td { padding:10px 12px; text-align:right; border-bottom:1px solid var(--line); color:#374151; }
+  tbody tr:nth-child(even) td, tbody tr:nth-child(even) th { background:var(--zebra); }
+  tbody tr.grp-m td, tbody tr.grp-m th { background:var(--band-m); }
+  tbody tr.grp-h td, tbody tr.grp-h th { background:var(--band-h); }
+  tbody tr.sep td, tbody tr.sep th { border-top:2px solid var(--navy); }
+  .num.strong { font-weight:700; color:var(--ink); }
+  .num.avg, .num.top { font-weight:700; color:var(--navy); }
+  .num.g1 { font-weight:700; color:#b26a00; }
+  @media (max-width:520px) { h1 { font-size:20px; } .kpi { min-width:88px; padding:8px 12px; } .kpi .val { font-size:18px; } }
+</style>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>제11회 윤선생 학력평가</h1>
+      <p class="sub">응시 현황 및 학년별 인증등급 기준</p>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><span class="lab">총 접수자</span><span class="val">15,984</span></div>
+      <div class="kpi b"><span class="lab">총 응시자</span><span class="val">13,934</span></div>
+      <div class="kpi c"><span class="lab">전체 응시율</span><span class="val">87.2%</span></div>
+    </div>
+  </header>
+
+  <section>
+    <h2>1. 응시자 수 및 영역별 평균 점수</h2>
+    <div class="scroll">
+    <table>
+      <thead><tr>
+        <th>학년</th><th>응시자 수</th><th>전체 평균</th><th>파닉스/어휘</th><th>듣기/말하기</th><th>읽기/쓰기</th>
+      </tr></thead>
+      <tbody>
+      <tr class=""><th scope="row">초등 1</th><td class="num strong">598</td><td class="num avg">387</td><td class="num">137</td><td class="num">138</td><td class="num">111</td></tr>
+      <tr class=""><th scope="row">초등 2</th><td class="num strong">1,225</td><td class="num avg">411</td><td class="num">146</td><td class="num">146</td><td class="num">117</td></tr>
+      <tr class=""><th scope="row">초등 3</th><td class="num strong">1,965</td><td class="num avg">450</td><td class="num">155</td><td class="num">160</td><td class="num">133</td></tr>
+      <tr class=""><th scope="row">초등 4</th><td class="num strong">2,541</td><td class="num avg">501</td><td class="num">173</td><td class="num">178</td><td class="num">149</td></tr>
+      <tr class=""><th scope="row">초등 5</th><td class="num strong">2,778</td><td class="num avg">559</td><td class="num">192</td><td class="num">199</td><td class="num">167</td></tr>
+      <tr class=""><th scope="row">초등 6</th><td class="num strong">2,415</td><td class="num avg">619</td><td class="num">210</td><td class="num">222</td><td class="num">186</td></tr>
+      <tr class="grp-m sep"><th scope="row">중등 1</th><td class="num strong">1,130</td><td class="num avg">698</td><td class="num">233</td><td class="num">248</td><td class="num">216</td></tr>
+      <tr class="grp-m"><th scope="row">중등 2</th><td class="num strong">707</td><td class="num avg">766</td><td class="num">252</td><td class="num">268</td><td class="num">245</td></tr>
+      <tr class="grp-m"><th scope="row">중등 3</th><td class="num strong">414</td><td class="num avg">822</td><td class="num">270</td><td class="num">283</td><td class="num">268</td></tr>
+      <tr class="grp-h sep"><th scope="row">고등 1</th><td class="num strong">82</td><td class="num avg">868</td><td class="num">286</td><td class="num">293</td><td class="num">289</td></tr>
+      <tr class="grp-h"><th scope="row">고등 2</th><td class="num strong">32</td><td class="num avg">877</td><td class="num">292</td><td class="num">295</td><td class="num">288</td></tr>
+      <tr class="grp-h"><th scope="row">고등 3</th><td class="num strong">22</td><td class="num avg">923</td><td class="num">317</td><td class="num">301</td><td class="num">304</td></tr>
+      <tr class="grp-h sep"><th scope="row">성인</th><td class="num strong">25</td><td class="num avg">773</td><td class="num">278</td><td class="num">256</td><td class="num">238</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>2. 학년별 최고점 및 인증등급 커트라인 <span class="cap">각 등급을 받기 위한 최소 총점 (5점 단위)</span></h2>
+    <div class="scroll">
+    <table>
+      <thead><tr>
+        <th>학년</th><th>최고점</th>
+        <th>1등급<small>상위 10%</small></th>
+        <th>2등급<small>상위 30%</small></th>
+        <th>3등급<small>상위 50%</small></th>
+        <th>4등급<small>상위 70%</small></th>
+        <th>5등급<small>상위 80%</small></th>
+      </tr></thead>
+      <tbody>
+      <tr class=""><th scope="row">초등 1</th><td class="num top">495</td><td class="num g1">460</td><td class="num">410</td><td class="num">365</td><td class="num">300</td><td class="num">225</td></tr>
+      <tr class=""><th scope="row">초등 2</th><td class="num top">520</td><td class="num g1">480</td><td class="num">430</td><td class="num">385</td><td class="num">315</td><td class="num">225</td></tr>
+      <tr class=""><th scope="row">초등 3</th><td class="num top">575</td><td class="num g1">520</td><td class="num">460</td><td class="num">425</td><td class="num">350</td><td class="num">225</td></tr>
+      <tr class=""><th scope="row">초등 4</th><td class="num top">630</td><td class="num g1">565</td><td class="num">510</td><td class="num">470</td><td class="num">400</td><td class="num">260</td></tr>
+      <tr class=""><th scope="row">초등 5</th><td class="num top">690</td><td class="num g1">620</td><td class="num">565</td><td class="num">520</td><td class="num">465</td><td class="num">305</td></tr>
+      <tr class=""><th scope="row">초등 6</th><td class="num top">765</td><td class="num g1">690</td><td class="num">625</td><td class="num">580</td><td class="num">500</td><td class="num">380</td></tr>
+      <tr class="grp-m sep"><th scope="row">중등 1</th><td class="num top">835</td><td class="num g1">775</td><td class="num">715</td><td class="num">660</td><td class="num">555</td><td class="num">450</td></tr>
+      <tr class="grp-m"><th scope="row">중등 2</th><td class="num top">900</td><td class="num g1">835</td><td class="num">780</td><td class="num">730</td><td class="num">625</td><td class="num">515</td></tr>
+      <tr class="grp-m"><th scope="row">중등 3</th><td class="num top">950</td><td class="num g1">905</td><td class="num">845</td><td class="num">795</td><td class="num">700</td><td class="num">580</td></tr>
+      <tr class="grp-h sep"><th scope="row">고등 1</th><td class="num top">990</td><td class="num g1">930</td><td class="num">885</td><td class="num">855</td><td class="num">700</td><td class="num">620</td></tr>
+      <tr class="grp-h"><th scope="row">고등 2</th><td class="num top">990</td><td class="num g1">930</td><td class="num">895</td><td class="num">860</td><td class="num">720</td><td class="num">635</td></tr>
+      <tr class="grp-h"><th scope="row">고등 3</th><td class="num top">990</td><td class="num g1">945</td><td class="num">915</td><td class="num">885</td><td class="num">710</td><td class="num">650</td></tr>
+      <tr class="grp-h sep"><th scope="row">성인</th><td class="num top">900</td><td class="num g1">835</td><td class="num">780</td><td class="num">730</td><td class="num">625</td><td class="num">515</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+</div>
