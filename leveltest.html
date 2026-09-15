@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>미취학 첫 교재 선택 가이드 및 보호자 사전동의서</title>
+<style>
+  :root{
+    --bg:#f6f7f9;
+    --card:#ffffff;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --line:#e5e7eb;
+    --accent:#1d4ed8;
+    --accent-soft:#eff6ff;
+    --ok:#0f766e;
+    --warn:#92400e;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.65;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:28px 18px 60px}
+  .hero{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:28px;
+    margin-bottom:18px;
+  }
+  h1{font-size:28px;margin:0 0 8px}
+  .sub{color:var(--muted);margin:0}
+  .tabs{
+    display:flex;
+    gap:8px;
+    margin:18px 0;
+    flex-wrap:wrap;
+  }
+  .tab-btn{
+    border:1px solid var(--line);
+    background:#fff;
+    padding:11px 16px;
+    border-radius:999px;
+    cursor:pointer;
+    font-weight:700;
+  }
+  .tab-btn.active{
+    background:var(--accent);
+    color:#fff;
+    border-color:var(--accent);
+  }
+  .panel{
+    display:none;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:28px;
+  }
+  .panel.active{display:block}
+  h2{font-size:23px;margin:0 0 14px}
+  h3{font-size:18px;margin:0 0 8px}
+  .lead{
+    background:var(--accent-soft);
+    border-left:4px solid var(--accent);
+    padding:16px 18px;
+    border-radius:10px;
+    margin:18px 0 22px;
+  }
+  .choice{
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:18px;
+    margin:14px 0;
+  }
+  .choice ul{margin:8px 0 10px;padding-left:20px}
+  .choice .result{
+    font-weight:800;
+    color:var(--accent);
+    margin-top:10px;
+  }
+  .note{
+    color:var(--muted);
+    font-size:14px;
+    margin-top:14px;
+  }
+  .section{
+    padding:18px 0;
+    border-top:1px solid var(--line);
+  }
+  .section:first-of-type{border-top:0;padding-top:0}
+  .label{font-weight:800;margin-bottom:8px}
+  .box{
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:14px 16px;
+    background:#fafafa;
+  }
+  .check{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    margin:10px 0;
+  }
+  input[type="checkbox"]{
+    width:18px;height:18px;margin-top:3px;
+  }
+  .signature{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:18px;
+  }
+  .field{
+    border-bottom:1px solid #9ca3af;
+    padding:12px 4px 6px;
+    min-height:42px;
+  }
+  .legal{
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    color:var(--warn);
+    padding:14px 16px;
+    border-radius:12px;
+    margin-top:18px;
+    font-size:14px;
+  }
+  .footer-note{
+    margin-top:20px;
+    font-size:13px;
+    color:var(--muted);
+  }
+  @media (max-width:640px){
+    .hero,.panel{padding:20px}
+    h1{font-size:23px}
+    .signature{grid-template-columns:1fr}
+  }
+  @media print{
+    body{background:#fff}
+    .tabs,.hero{display:none}
+    .panel{display:block!important;border:0;padding:0}
+    .panel + .panel{page-break-before:always}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <h1>미취학 첫 교재 선택 가이드</h1>
+    <p class="sub">학부모용 시작점 안내와 등록 후 관찰·면담을 위한 보호자 사전동의서 초안</p>
+  </section>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" data-tab="guide">첫 교재 선택 가이드</button>
+    <button class="tab-btn" data-tab="consent">보호자 사전동의서</button>
+  </div>
+
+  <section id="guide" class="panel active">
+    <h2>우리 아이, 어디서부터 시작하면 좋을까요?</h2>
+    <div class="lead">
+      미취학 아이들은 영어를 접한 경험이 서로 다릅니다.
+      아래 내용을 보시고 <strong>우리 아이가 지금까지 어떤 학습을 해왔는지</strong>에 가장 가까운 항목을 골라 주세요.
+      선택한 내용은 첫 교재를 안내할 때 참고자료로 활용됩니다.
+    </div>
+
+    <div class="choice">
+      <h3>1. 파닉스를 처음 시작해요</h3>
+      <ul>
+        <li>알파벳 이름을 조금 알고 있거나 아직 익숙하지 않아요.</li>
+        <li>영어 글자와 소리의 관계를 체계적으로 배운 적은 없어요.</li>
+        <li>파닉스 교재를 따로 공부한 경험이 없어요.</li>
+      </ul>
+      <div class="result">→ 파닉스 기초부터 시작하고 싶어요.</div>
+    </div>
+
+    <div class="choice">
+      <h3>2. 알파벳과 기본 음가를 배운 경험이 있어요</h3>
+      <ul>
+        <li>알파벳 대·소문자를 어느 정도 알고 있어요.</li>
+        <li>자음이나 단모음의 기본 소리를 배운 적이 있어요.</li>
+        <li>간단한 파닉스 활동이나 교재를 경험했어요.</li>
+      </ul>
+      <div class="result">→ 기본 음가 이후 단계부터 시작하고 싶어요.</div>
+    </div>
+
+    <div class="choice">
+      <h3>3. 짧은 단어 읽기까지 공부했어요</h3>
+      <ul>
+        <li>cat, dog, pig처럼 짧은 단어를 읽는 학습을 해봤어요.</li>
+        <li>자음과 단모음을 결합해 단어를 읽는 경험이 있어요.</li>
+        <li>파닉스 교재를 일정 기간 학습했어요.</li>
+      </ul>
+      <div class="result">→ 단어 읽기 중심의 파닉스 단계부터 시작하고 싶어요.</div>
+    </div>
+
+    <div class="choice">
+      <h3>4. 파닉스를 상당 부분 학습했어요</h3>
+      <ul>
+        <li>장모음, 이중자음 등 다양한 파닉스 규칙을 배운 경험이 있어요.</li>
+        <li>익숙한 단어와 짧은 문장을 어느 정도 읽어본 적이 있어요.</li>
+        <li>이전에 파닉스 과정을 상당 부분 학습했어요.</li>
+      </ul>
+      <div class="result">→ 파닉스 후반 또는 기초 읽기 단계부터 시작하고 싶어요.</div>
+    </div>
+
+    <div class="section">
+      <h3>선택하기 어려우신가요?</h3>
+      <p>
+        정확히 기억나지 않아도 괜찮습니다. 이전에 사용했던 교재나 학습 프로그램,
+        학습 기간 등을 선생님께 말씀해 주세요.
+      </p>
+      <p>
+        선생님이 학부모님이 알려주신 학습경험을 참고하여 첫 교재를 안내해 드립니다.
+        첫 교재로 학습을 시작한 뒤에는 실제 학습 상황을 확인하면서
+        아이에게 어렵거나 쉬운 경우 다음 교재를 조정할 수 있습니다.
+      </p>
+    </div>
+
+    <p class="note">
+      ※ 이 자료는 자녀에게 문제를 풀게 하거나 점수·등급을 산출하는 진단평가가 아니라,
+      기존 학습경험을 바탕으로 첫 학습 시작점을 선택하기 위한 안내자료입니다.
+    </p>
+  </section>
+
+  <section id="consent" class="panel">
+    <h2>등록 후 학습상태 확인을 위한 보호자 사전동의서</h2>
+
+    <div class="lead">
+      본 동의서는 등록 이후 회원에게 보다 적절한 학습을 지원하기 위해
+      교사가 관찰·면담 방식으로 학습상태를 확인하고 그 결과를 후속 학습에 활용하기 위한 초안입니다.
+    </div>
+
+    <div class="section">
+      <div class="label">1. 목적</div>
+      <div class="box">
+        등록 회원의 실제 학습 반응과 학습 경험을 확인하여,
+        원활한 학습 진행 및 이후 교재 선정·학습 지원에 참고하기 위함입니다.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="label">2. 확인 방법</div>
+      <div class="box">
+        교사는 회원과의 대화, 학습활동 참여 모습, 교재 및 앱 학습 과정에서의 반응 등을
+        관찰·면담 방식으로 확인합니다.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="label">3. 결과 기록 및 표현</div>
+      <div class="box">
+        확인 결과는 점수·등급·순위·합격/불합격의 형태로 산출하지 않으며,
+        필요한 경우 학습지원에 필요한 내용을 서술형으로 기록합니다.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="label">4. 결과 활용 범위</div>
+      <div class="box">
+        확인된 내용은 등록 회원의 학습 지원, 교사의 코칭,
+        이후 학습량 조정 및 후속 교재 선정에 참고할 수 있습니다.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="label">5. 동의 및 철회</div>
+      <div class="box">
+        보호자는 본 확인 절차에 동의하지 않거나 추후 동의를 철회할 수 있습니다.
+        철회 이후에는 해당 방식의 추가 관찰·면담 진단을 진행하지 않습니다.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="check">
+        <input type="checkbox" id="agree1" />
+        <label for="agree1">
+          위 내용을 확인하였으며, 등록 후 교육활동 지원을 위한 관찰·면담 방식의 학습상태 확인에 동의합니다.
+        </label>
+      </div>
+      <div class="check">
+        <input type="checkbox" id="agree2" />
+        <label for="agree2">
+          확인 결과가 회원의 학습 지원 및 후속 교재 선정에 참고될 수 있음을 확인했습니다.
+        </label>
+      </div>
+    </div>
+
+    <div class="signature">
+      <div>
+        <div class="label">회원명</div>
+        <div class="field"></div>
+      </div>
+      <div>
+        <div class="label">보호자명</div>
+        <div class="field"></div>
+      </div>
+      <div>
+        <div class="label">동의일</div>
+        <div class="field">20&nbsp;&nbsp;&nbsp;&nbsp;년&nbsp;&nbsp;&nbsp;&nbsp;월&nbsp;&nbsp;&nbsp;&nbsp;일</div>
+      </div>
+      <div>
+        <div class="label">서명 / 전자 동의</div>
+        <div class="field"></div>
+      </div>
+    </div>
+
+    <div class="legal">
+      <strong>법무 검토 필요</strong><br>
+      본 동의서는 운영 검토용 초안입니다. 실제 사용 전에는 개정 학원법 및 최종 시행령에 따라
+      동의 필수항목, 전자동의 방식, 결과 활용 범위, 기록·보관 및 철회 절차를 법무 검토 후 확정하는 것이 필요합니다.
+    </div>
+
+    <p class="footer-note">
+      특히 “후속 교재 선정에 활용”하는 부분이 개정 학원법상 허용되는 교육활동 지원의 범위에 포함되는지에 대해서는
+      법무팀의 최종 확인을 권장합니다.
+    </p>
+  </section>
+</div>
+
+<script>
+  const buttons = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.panel');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
