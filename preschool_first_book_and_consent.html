@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>미취학 첫 교재 선택 가이드 및 보호자 사전동의서</title>
+<style>
+  :root{
+    --bg:#f6f7f9;
+    --card:#ffffff;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --line:#e5e7eb;
+    --accent:#1d4ed8;
+    --accent-soft:#eff6ff;
+    --ok:#0f766e;
+    --ok-soft:#f0fdfa;
+    --warn:#92400e;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.65;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:28px 18px 60px}
+  .hero{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:28px;
+    margin-bottom:18px;
+  }
+  h1{font-size:28px;margin:0 0 8px}
+  .sub{color:var(--muted);margin:0}
+  .tabs{
+    display:flex;
+    gap:8px;
+    margin:18px 0;
+    flex-wrap:wrap;
+  }
+  .tab-btn{
+    border:1px solid var(--line);
+    background:#fff;
+    padding:11px 16px;
+    border-radius:999px;
+    cursor:pointer;
+    font-weight:700;
+  }
+  .tab-btn.active{
+    background:var(--accent);
+    color:#fff;
+    border-color:var(--accent);
+  }
+  .panel{
+    display:none;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:28px;
+  }
+  .panel.active{display:block}
+  h2{font-size:23px;margin:0 0 14px}
+  h3{font-size:18px;margin:0 0 8px}
+  .lead{
+    background:var(--accent-soft);
+    border-left:4px solid var(--accent);
+    padding:16px 18px;
+    border-radius:10px;
+    margin:18px 0 22px;
+  }
+  .choices{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin:14px 0;
+  }
+  .choice{
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:18px;
+  }
+  .choice ul{margin:8px 0 10px;padding-left:20px}
+  .choice .result{
+    font-weight:800;
+    color:var(--accent);
+    margin-top:10px;
+  }
+  .note{
+    color:var(--muted);
+    font-size:14px;
+    margin-top:14px;
+  }
+  .section{
+    padding:18px 0;
+    border-top:1px solid var(--line);
+  }
+  .section:first-of-type{border-top:0;padding-top:0}
+  .label{font-weight:800;margin-bottom:8px}
+  .box{
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:14px 16px;
+    background:#fafafa;
+  }
+  .box p{margin:0 0 8px}
+  .box p:last-child{margin-bottom:0}
+  .check{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    margin:10px 0;
+  }
+  input[type="checkbox"]{
+    width:18px;height:18px;margin-top:3px;
+  }
+  .signature{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:18px;
+  }
+  .field{
+    border-bottom:1px solid #9ca3af;
+    padding:12px 4px 6px;
+    min-height:42px;
+  }
+  .legal{
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    color:var(--warn);
+    padding:14px 16px;
+    border-radius:12px;
+    margin-top:18px;
+    font-size:14px;
+  }
+  .legal ul{margin:8px 0 0;padding-left:20px}
+  .footer-note{
+    margin-top:20px;
+    font-size:13px;
+    color:var(--muted);
+  }
+  /* 교사 안내 */
+  .flow{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin:12px 0 4px;
+  }
+  .flow .step{
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px 18px;
+    background:#fafafa;
+  }
+  .flow .step h4{margin:0 0 8px;font-size:16px}
+  .flow .step ol{margin:0;padding-left:20px}
+  .flow .step li{margin:4px 0}
+  .dodont{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-top:12px;
+  }
+  .do,.dont{
+    border-radius:14px;
+    padding:16px 18px;
+  }
+  .do{background:var(--ok-soft);border:1px solid #99f6e4}
+  .dont{background:#fef2f2;border:1px solid #fecaca}
+  .do h4{color:var(--ok);margin:0 0 8px;font-size:16px}
+  .dont h4{color:#b91c1c;margin:0 0 8px;font-size:16px}
+  .do ul,.dont ul{margin:0;padding-left:20px}
+  .do li,.dont li{margin:5px 0}
+  .qa{margin-top:12px}
+  .qa .q{font-weight:800;margin:14px 0 4px}
+  .qa .q::before{content:"Q. ";color:var(--accent)}
+  .qa .a{margin:0;padding-left:2px}
+  .qa .a::before{content:"→ ";color:var(--muted)}
+  .kv{
+    display:grid;
+    grid-template-columns:120px 1fr;
+    gap:6px 14px;
+    font-size:15px;
+  }
+  .kv dt{font-weight:800;color:var(--muted)}
+  .kv dd{margin:0}
+  @media (max-width:640px){
+    .flow,.dodont{grid-template-columns:1fr}
+    .kv{grid-template-columns:1fr}
+  }
+  @media (max-width:640px){
+    .hero,.panel{padding:20px}
+    h1{font-size:23px}
+    .signature,.choices{grid-template-columns:1fr}
+  }
+  @media print{
+    body{background:#fff}
+    .tabs,.hero{display:none}
+    .panel{display:block!important;border:0;padding:0}
+    .panel + .panel{page-break-before:always}
+    .choices{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <h1>미취학 첫 교재 선택 가이드</h1>
+    <p class="sub">학부모용 시작점 안내와 등록 후 관찰·면담을 위한 보호자 사전동의서 초안 · 교사 안내 (v2.2)</p>
+  </section>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" data-tab="guide">첫 교재 선택 가이드</button>
+    <button class="tab-btn" data-tab="consent">보호자 사전동의서</button>
+    <button class="tab-btn" data-tab="teacher">교사 안내</button>
+  </div>
+
+  <!-- ===================== 가이드 ===================== -->
+  <section id="guide" class="panel active">
+    <h2>우리 아이, 어디서부터 시작하면 좋을까요?</h2>
+    <div class="lead">
+      미취학 아이들은 영어를 접한 경험이 서로 다릅니다.
+      아래 내용을 보시고 <strong>우리 아이가 지금까지 어떤 학습을 해왔는지</strong>에 가장 가까운 항목을 골라 주세요.
+      학부모님이 알려주신 학습경험을 바탕으로 선생님이 상담을 통해 첫 교재를 안내해 드립니다.
+    </div>
+
+    <div class="choices">
+      <div class="choice">
+        <h3>파닉스를 처음 시작해요</h3>
+        <ul>
+          <li>알파벳 이름과 모양을 아직 익히지 않았거나 조금 접해본 정도예요.</li>
+          <li>영어 글자와 소리의 관계를 체계적으로 배운 적은 없어요.</li>
+          <li>파닉스 교재를 따로 공부한 경험이 없어요.</li>
+        </ul>
+        <div class="result">→ 파닉스 기초부터 시작하고 싶어요.</div>
+      </div>
+
+      <div class="choice">
+        <h3>알파벳과 기본 소리를 배운 경험이 있어요</h3>
+        <ul>
+          <li>알파벳 대·소문자 이름과 모양을 익힌 경험이 있어요.</li>
+          <li>자음이나 단모음의 기본 소리를 배운 적이 있어요.</li>
+          <li>간단한 파닉스 활동이나 교재를 경험했어요.</li>
+        </ul>
+        <div class="result">→ 기본 소리 이후부터 시작하고 싶어요.</div>
+      </div>
+
+      <div class="choice">
+        <h3>짧은 단어 읽기까지 공부했어요</h3>
+        <ul>
+          <li>cat, dog, pig처럼 짧은 단어를 읽는 학습을 해봤어요.</li>
+          <li>자음과 단모음을 결합해 단어를 읽는 연습을 해본 경험이 있어요.</li>
+          <li>파닉스 교재를 일정 기간 학습했어요.</li>
+        </ul>
+        <div class="result">→ 단어 읽기 중심의 파닉스부터 시작하고 싶어요.</div>
+      </div>
+
+      <div class="choice">
+        <h3>파닉스를 상당 부분 학습했어요</h3>
+        <ul>
+          <li>장모음, 이중자음 등 다양한 파닉스 규칙을 배운 경험이 있어요.</li>
+          <li>익숙한 단어와 짧은 문장을 읽어본 경험이 있어요.</li>
+          <li>이전에 파닉스 과정을 상당 부분 학습했어요.</li>
+        </ul>
+        <div class="result">→ 파닉스 후반 또는 기초 읽기부터 시작하고 싶어요.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>선택하기 어려우신가요?</h3>
+      <p>
+        정확히 기억나지 않아도 괜찮습니다.
+        두 항목 사이에서 고민되시면 앞의 항목을 선택하셔도 되고,
+        이전에 사용했던 교재나 학습 프로그램, 학습 기간을 상담 때 알려주시면 선생님이 함께 정해 드립니다.
+      </p>
+      <p>
+        첫 교재로 학습을 시작한 뒤에는 선생님이 아이의 학습 모습을 보면서
+        어렵거나 쉬운 경우 <strong>다음 교재</strong>를 맞춰 드립니다.
+      </p>
+    </div>
+
+    <p class="note">
+      ※ 이 자료는 아이에게 무언가를 시켜보거나 점수를 매기는 자료가 아니라,
+      기존 학습경험을 바탕으로 첫 학습 시작점을 상담하기 위한 안내자료입니다.
+    </p>
+  </section>
+
+  <!-- ===================== 동의서 ===================== -->
+  <section id="consent" class="panel">
+    <h2>등록 후 학습상태 확인을 위한 보호자 사전동의서</h2>
+
+    <div class="lead">
+      본 동의서는 등록(또는 첫 교습 시작) 이후 회원에게 보다 적절한 학습을 지원하기 위해
+      교사가 관찰·면담 방식으로 학습상태를 확인하고 그 내용을 후속 학습에 활용하기 위한 것입니다.
+      등록 서류와 함께 작성하며, 확인 활동은 동의 이후에만 진행합니다.
+    </div>
+
+    <div class="section">
+      <div class="label">1. 목적</div>
+      <div class="box">
+        <p>
+          <strong>교육활동 지원을 목적으로</strong>, 등록 회원의 실제 학습 반응과 학습 경험을 확인하여
+          원활한 학습 진행 및 이후 교재 선정·학습 지원에 참고하기 위함입니다.
+        </p>
+        <p>회원을 선발하거나 다른 회원과 비교·서열화하기 위한 목적으로는 사용하지 않습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="label">2. 확인 내용 및 방법</div>
+      <div class="box">
+        <p>
+          교사는 회원과의 대화, 놀이·학습활동 참여 모습, 교재 및 앱 학습 중 보이는 참여 모습 등을
+          <strong>관찰·면담 방식</strong>으로 확인합니다.
+        </p>
+        <p>회원에게 문제를 풀게 하거나 시험 형태의 활동을 요구하지 않습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="label">3. 절차</div>
+      <div class="box">
+        <p>
+          <strong>담당 교사</strong>가 <strong>등록(또는 첫 교습 시작) 이후</strong> 정규 학습 시간 안에 실시합니다.
+          별도의 시험 시간이나 평가 일정을 두지 않습니다.
+        </p>
+        <p>첫 교재 학습 기간 중 교사가 방문·지도하는 시간에 자연스럽게 이루어지며, 보호자 동의 이후에만 진행합니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="label">4. 결과 기록 및 제공 방식</div>
+      <div class="box">
+        <p>
+          확인 내용은 <strong>점수·등급·순위·합격/불합격 또는 이에 준하는 형태로 산출하거나 표시하지 않으며</strong>,
+          정답률·단계 숫자 형태로도 기록하거나 안내하지 않습니다.
+        </p>
+        <p>
+          학습지원에 필요한 내용은 <strong>서술형</strong>으로 기록하고,
+          담당 교사가 보호자에게 <strong>구두 또는 문자·앱 메시지</strong>로 안내합니다.
+        </p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="label">5. 결과 활용 범위</div>
+      <div class="box">
+        확인된 내용은 등록 회원의 학습 지원, 교사의 코칭,
+        이후 학습량 조정 및 <strong>후속 교재 선정</strong>에 참고할 수 있습니다.
+        그 외의 목적으로는 활용하지 않습니다.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="label">6. 동의의 자발성 및 철회</div>
+      <div class="box">
+        <p>
+          보호자는 본 확인 절차에 동의하지 않거나 추후 동의를 철회할 수 있습니다.
+          <strong>동의하지 않으셔도 등록과 학습에 불이익이 없으며</strong>,
+          이 경우 후속 교재는 보호자 선택으로 안내합니다.
+        </p>
+        <p>철회 이후에는 해당 방식의 추가 관찰·면담을 진행하지 않습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="check">
+        <input type="checkbox" id="agree1" />
+        <label for="agree1">
+          <strong>담당 교사로부터 위 내용에 대한 설명을 듣고 확인하였으며</strong>,
+          등록(또는 첫 교습 시작) 후 교육활동 지원을 위한 관찰·면담 방식의 학습상태 확인에 동의합니다.
+        </label>
+      </div>
+      <div class="check">
+        <input type="checkbox" id="agree2" />
+        <label for="agree2">
+          확인 내용이 점수·등급 형태로 산출되지 않고 서술형으로 안내되며,
+          회원의 학습 지원 및 후속 교재 선정에 참고될 수 있음을 확인했습니다.
+        </label>
+      </div>
+    </div>
+
+    <div class="signature">
+      <div>
+        <div class="label">회원명</div>
+        <div class="field"></div>
+      </div>
+      <div>
+        <div class="label">보호자명 (회원과의 관계)</div>
+        <div class="field"></div>
+      </div>
+      <div>
+        <div class="label">동의일</div>
+        <div class="field">20&nbsp;&nbsp;&nbsp;&nbsp;년&nbsp;&nbsp;&nbsp;&nbsp;월&nbsp;&nbsp;&nbsp;&nbsp;일</div>
+      </div>
+      <div>
+        <div class="label">서명 / 전자 동의</div>
+        <div class="field"></div>
+      </div>
+      <div>
+        <div class="label">설명 교사</div>
+        <div class="field"></div>
+      </div>
+      <div>
+        <div class="label">설명일</div>
+        <div class="field">20&nbsp;&nbsp;&nbsp;&nbsp;년&nbsp;&nbsp;&nbsp;&nbsp;월&nbsp;&nbsp;&nbsp;&nbsp;일</div>
+      </div>
+    </div>
+
+    <div class="legal">
+      <strong>법무 검토 필요</strong><br>
+      본 동의서는 운영 검토용 초안입니다. 실제 사용 전 확정이 필요한 항목:
+      <ul>
+        <li>시행령 공포 후 제11조 ③ 필수 설명항목(목적·내용·절차·결과 제공 방식·결과 활용)과의 문구 대조</li>
+        <li>전자 동의 방식과 동의 기록의 보존 방법</li>
+        <li>관찰 기록(아동 개인정보)의 보관 기간·파기 절차, 개인정보 처리 근거</li>
+        <li>방문 교사 모델에서 '첫 교습 시작' 시점의 정의</li>
+        <li>미취학 계정의 앱 점수·정답률 산출 여부 시스템 점검 결과 반영</li>
+      </ul>
+    </div>
+
+    <p class="footer-note">
+      "후속 교재 선정에 참고"가 개정 학원법 제12조의2 단서의 교육활동 지원 범위에 포함되는지에 대해서는
+      법무팀의 최종 확인을 권장합니다.
+    </p>
+  </section>
+
+  <!-- ===================== 교사 안내 ===================== -->
+  <section id="teacher" class="panel">
+    <h2>미취학 회원 첫 교재 안내, 이렇게 바뀝니다</h2>
+
+    <div class="lead">
+      <strong>2026년 10월 1일부터</strong> 미취학 아동에게는 진단평가를 실시하지 않습니다.
+      첫 교재는 <strong>학부모 상담</strong>으로 정하고, 아이의 학습 상태는 <strong>등록 후 첫 교습 시간</strong>에 관찰합니다.
+    </div>
+
+    <div class="section">
+      <h3>1. 왜 바뀌나요 — 법의 취지</h3>
+      <p>
+        개정 학원법(제12조의2)은 학원·교습소·개인과외교습자가 <strong>유아(만 3세~초등 입학 전)</strong>를 대상으로
+        모집이나 수준별 배정을 목적으로 <strong>시험·평가를 실시하는 것</strong>을 금지합니다.
+        '4세 고시', '7세 고시'라 불리던 영어유치원 입학시험처럼, 아이를 앉혀 놓고 실력을 재서 뽑거나 반을 나누는 행위를 막는 것이 목적입니다.
+      </p>
+      <p>
+        시험의 형태를 바꿔도 마찬가지입니다. 필기·구술·면접뿐 아니라 문제풀이, 과제, 발표 같은 활동도 실력을 확인해 배정하는 용도로 쓰면 금지 대상이고,
+        다른 기관의 성적표를 받아 활용하는 것도 안 됩니다.
+      </p>
+      <dl class="kv">
+        <dt>시행</dt><dd>2026. 10. 1. (법률 확정, 시행령은 공포 예정)</dd>
+        <dt>위반 시</dt><dd>과태료 1회 100만 원 / 2회 200만 원 / 3회 300만 원, 교습정지 등 행정처분 가능. 신고 포상금 제도 있음</dd>
+        <dt>예외</dt><dd>등록(교습 시작) 이후, 보호자 사전 동의를 받아, 교육활동 지원 목적으로 하는 관찰·면담 방식의 확인</dd>
+      </dl>
+    </div>
+
+    <div class="section">
+      <h3>2. 우리에게 무엇이 달라지나요</h3>
+      <p>
+        우리 진단평가는 선발이 아니라 "어느 책부터 시작할지"를 정하는 도구였지만,
+        모집 단계에서 아이에게 문제를 풀게 하는 형태이기 때문에 법의 금지 범위에 들어갑니다.
+        그래서 본사는 미취학 진단평가를 중단했고, 진단평가 시스템에서도 미취학 선택이 되지 않습니다.
+      </p>
+      <p>
+        대신 첫 교재를 정하는 근거를 <strong>아이의 시험 결과</strong>에서 <strong>학부모가 알려주는 학습 경험</strong>으로 바꿉니다.
+        아이를 직접 확인하는 것은 등록 후 첫 교습 시간에, 보호자 동의를 받고, 놀이와 대화 속에서 합니다.
+      </p>
+
+      <div class="flow">
+        <div class="step">
+          <h4>등록 전 — 학부모 상담으로 첫 교재 정하기</h4>
+          <ol>
+            <li>학부모에게 <strong>첫 교재 선택 가이드</strong>를 안내하고, 아이의 학습 경험에 가까운 항목을 고르게 합니다.</li>
+            <li>이전 교재·학습 기간·희망을 들으며 상담합니다.</li>
+            <li>학부모 말씀만을 근거로 <strong>첫 교재를 정해 안내</strong>합니다. 두 항목 사이면 기초 쪽을 권합니다.</li>
+            <li>결과는 교재명으로만 말합니다. 점수·레벨·단계 숫자는 쓰지 않습니다.</li>
+          </ol>
+        </div>
+        <div class="step">
+          <h4>등록 후 — 첫 교습 시간에 아이 살펴보기</h4>
+          <ol>
+            <li>등록 서류와 함께 <strong>보호자 사전동의서</strong>를 설명하고 받습니다. (동의 전에는 관찰하지 않습니다)</li>
+            <li>첫 교습 시간 안에 파닉스 활동 게임으로 아이의 반응을 <strong>관찰</strong>합니다. 별도 시험 시간을 두지 않습니다.</li>
+            <li>기록은 <strong>서술형</strong>으로만 남깁니다. 정답 개수·정답률·단계 숫자를 적지 않습니다.</li>
+            <li>관찰 내용과 학습 모습을 바탕으로 <strong>두 번째 교재부터</strong> 맞춰 갑니다.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>3. 유의사항</h3>
+      <div class="dodont">
+        <div class="do">
+          <h4>이렇게 합니다</h4>
+          <ul>
+            <li>첫 교재는 학부모 말씀을 듣고 상담으로 정합니다.</li>
+            <li>학부모에게 "첫 책은 어머님 말씀을 듣고 정해드리고, 시작한 뒤 아이를 보고 다음 책을 맞춰드립니다"라고 안내합니다.</li>
+            <li>동의서는 등록 시 함께, 관찰 전에 받습니다. 내용을 직접 설명하고 설명 교사란에 이름을 적습니다.</li>
+            <li>관찰 기록은 문장으로 씁니다. ("단모음 단어를 소리 내어 읽으려 시도함, 장모음은 아직 낯설어함")</li>
+            <li>미취학 안내 자료에는 '진단', '레벨', '테스트'라는 말을 쓰지 않습니다.</li>
+          </ul>
+        </div>
+        <div class="dont">
+          <h4>이렇게 하지 않습니다</h4>
+          <ul>
+            <li>등록 전에 아이에게 읽어보게 하거나, 문제를 풀게 하거나, 체험교재 퀴즈를 시켜 보고 교재를 정하지 않습니다.</li>
+            <li>학부모가 "아이 한번 봐주세요"라고 해도 등록 전에는 보지 않습니다. 등록 후 첫 시간에 본다고 안내합니다.</li>
+            <li>미취학 아이를 초등으로 설정해 진단평가에 응시시키지 않습니다. 학부모가 그렇게 응시했더라도 그 결과는 참고하지 않습니다.</li>
+            <li>다른 학원의 성적표나 수료증도 교재 근거로 쓰지 않습니다.</li>
+            <li>학부모 가이드 응답을 점수나 레벨로 바꾸지 않습니다.</li>
+            <li>관찰 결과를 "몇 개 맞았다", "상위 몇 %", "2단계"처럼 숫자로 산출하거나 학부모에게 전달하지 않습니다.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>4. 학부모가 이렇게 물으면</h3>
+      <div class="qa">
+        <p class="q">"우리 아이 수준을 먼저 봐주셔야 책을 정하지 않나요?"</p>
+        <p class="a">"10월부터 미취학 아이는 등록 전에 시험이나 확인을 할 수 없게 법이 바뀌었어요. 대신 어머님이 알려주시는 학습 경험으로 첫 책을 정해드리고, 시작한 뒤 제가 아이를 직접 보면서 다음 책을 맞춰드립니다."</p>
+
+        <p class="q">"집에서 초1로 해서 진단평가를 봤는데, 이 결과로 정해주시면 안 되나요?"</p>
+        <p class="a">"마음은 감사하지만 그 결과는 저희가 받아서 쓸 수 없어요. 아이가 어떤 공부를 해왔는지만 말씀해 주시면 충분합니다."</p>
+
+        <p class="q">"체험교재 퀴즈를 풀어봤는데 몇 개 맞았어요."</p>
+        <p class="a">"아이가 재미있어했는지, 어떤 부분을 어려워하는 것 같았는지만 알려주세요. 맞은 개수는 저희가 참고하지 않습니다."</p>
+
+        <p class="q">"동의서에는 왜 서명해야 하나요?"</p>
+        <p class="a">"등록 후에 제가 아이의 학습 모습을 살펴보고 다음 교재에 참고하려면 법에서 보호자 동의를 먼저 받도록 하고 있어요. 점수나 등급을 매기는 게 아니라 아이를 살펴본 내용을 말씀드리는 거예요."</p>
+      </div>
+    </div>
+
+    <div class="legal">
+      <strong>참고</strong><br>
+      이 안내는 개정 학원법(2026.10.1. 시행)과 교육부 시행령 입법예고안(2026.7.)을 기준으로 정리한 운영 안내입니다.
+      시행령이 공포되거나 본사 법무 검토 결과에 따라 내용이 조정될 수 있으며, 현장에서 판단이 어려운 상황은 임의로 진행하지 말고 본사에 문의해 주세요.
+    </div>
+  </section>
+</div>
+
+<script>
+  const buttons = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.panel');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
